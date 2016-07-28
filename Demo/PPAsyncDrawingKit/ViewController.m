@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "PPAsyncDrawingView.h"
 
 @interface ViewController ()
 
@@ -17,6 +18,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    PPAsyncDrawingView *view = [[PPAsyncDrawingView alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
+    view.backgroundColor = [UIColor redColor];
+    [self.view addSubview:view];
 }
 
 - (void)didReceiveMemoryWarning {

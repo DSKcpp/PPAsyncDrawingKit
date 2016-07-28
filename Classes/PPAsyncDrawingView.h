@@ -10,6 +10,10 @@
 
 @class PPAsyncDrawingViewLayer;
 
+struct flags {
+    NSUInteger tiledDrawingEnabled: 1;
+};
+
 @interface PPAsyncDrawingView : UIView 
 @property (nonatomic, weak) PPAsyncDrawingViewLayer *drawingLayer;
 @property (nonatomic, assign, readonly) BOOL padingRedraw;

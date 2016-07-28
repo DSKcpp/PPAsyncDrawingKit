@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		863952A11D3F5B0D00904204 /* PPAsyncDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8639529C1D3F5B0D00904204 /* PPAsyncDrawingView.m */; };
-		863952A21D3F5B0D00904204 /* PPAsyncDrawingViewLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8639529E1D3F5B0D00904204 /* PPAsyncDrawingViewLayer.m */; };
-		863952A31D3F5B0D00904204 /* PPUIControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 863952A01D3F5B0D00904204 /* PPUIControl.m */; };
+		863952AE1D3FBA1400904204 /* PPAsyncDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 863952A91D3FBA1400904204 /* PPAsyncDrawingView.m */; };
+		863952AF1D3FBA1400904204 /* PPAsyncDrawingViewLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 863952AB1D3FBA1400904204 /* PPAsyncDrawingViewLayer.m */; };
+		867F51211D470F14005FFC1E /* PPAsyncDrawingViewTileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 867F51201D470F14005FFC1E /* PPAsyncDrawingViewTileController.m */; };
+		867F51241D472124005FFC1E /* PPAsyncDrawingViewTileLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 867F51231D472124005FFC1E /* PPAsyncDrawingViewTileLayer.m */; };
 		86EB758F1D2393CC005F14A1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EB758E1D2393CC005F14A1 /* main.m */; };
 		86EB75921D2393CC005F14A1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EB75911D2393CC005F14A1 /* AppDelegate.m */; };
 		86EB75951D2393CC005F14A1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EB75941D2393CC005F14A1 /* ViewController.m */; };
@@ -19,12 +20,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8639529B1D3F5B0D00904204 /* PPAsyncDrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAsyncDrawingView.h; sourceTree = "<group>"; };
-		8639529C1D3F5B0D00904204 /* PPAsyncDrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAsyncDrawingView.m; sourceTree = "<group>"; };
-		8639529D1D3F5B0D00904204 /* PPAsyncDrawingViewLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAsyncDrawingViewLayer.h; sourceTree = "<group>"; };
-		8639529E1D3F5B0D00904204 /* PPAsyncDrawingViewLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAsyncDrawingViewLayer.m; sourceTree = "<group>"; };
-		8639529F1D3F5B0D00904204 /* PPUIControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPUIControl.h; sourceTree = "<group>"; };
-		863952A01D3F5B0D00904204 /* PPUIControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPUIControl.m; sourceTree = "<group>"; };
+		863952A81D3FBA1400904204 /* PPAsyncDrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAsyncDrawingView.h; sourceTree = "<group>"; };
+		863952A91D3FBA1400904204 /* PPAsyncDrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAsyncDrawingView.m; sourceTree = "<group>"; };
+		863952AA1D3FBA1400904204 /* PPAsyncDrawingViewLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAsyncDrawingViewLayer.h; sourceTree = "<group>"; };
+		863952AB1D3FBA1400904204 /* PPAsyncDrawingViewLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAsyncDrawingViewLayer.m; sourceTree = "<group>"; };
+		867F511F1D470F14005FFC1E /* PPAsyncDrawingViewTileController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAsyncDrawingViewTileController.h; sourceTree = "<group>"; };
+		867F51201D470F14005FFC1E /* PPAsyncDrawingViewTileController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAsyncDrawingViewTileController.m; sourceTree = "<group>"; };
+		867F51221D472124005FFC1E /* PPAsyncDrawingViewTileLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAsyncDrawingViewTileLayer.h; sourceTree = "<group>"; };
+		867F51231D472124005FFC1E /* PPAsyncDrawingViewTileLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAsyncDrawingViewTileLayer.m; sourceTree = "<group>"; };
 		86EB758A1D2393CC005F14A1 /* PPAsyncDrawingKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PPAsyncDrawingKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86EB758E1D2393CC005F14A1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		86EB75901D2393CC005F14A1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -48,15 +51,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8639529A1D3F5B0D00904204 /* Classes */ = {
+		863952A71D3FBA1400904204 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				8639529B1D3F5B0D00904204 /* PPAsyncDrawingView.h */,
-				8639529C1D3F5B0D00904204 /* PPAsyncDrawingView.m */,
-				8639529D1D3F5B0D00904204 /* PPAsyncDrawingViewLayer.h */,
-				8639529E1D3F5B0D00904204 /* PPAsyncDrawingViewLayer.m */,
-				8639529F1D3F5B0D00904204 /* PPUIControl.h */,
-				863952A01D3F5B0D00904204 /* PPUIControl.m */,
+				863952A81D3FBA1400904204 /* PPAsyncDrawingView.h */,
+				863952A91D3FBA1400904204 /* PPAsyncDrawingView.m */,
+				863952AA1D3FBA1400904204 /* PPAsyncDrawingViewLayer.h */,
+				863952AB1D3FBA1400904204 /* PPAsyncDrawingViewLayer.m */,
+				867F511F1D470F14005FFC1E /* PPAsyncDrawingViewTileController.h */,
+				867F51201D470F14005FFC1E /* PPAsyncDrawingViewTileController.m */,
+				867F51221D472124005FFC1E /* PPAsyncDrawingViewTileLayer.h */,
+				867F51231D472124005FFC1E /* PPAsyncDrawingViewTileLayer.m */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -65,7 +70,7 @@
 		86EB75811D2393CC005F14A1 = {
 			isa = PBXGroup;
 			children = (
-				8639529A1D3F5B0D00904204 /* Classes */,
+				863952A71D3FBA1400904204 /* Classes */,
 				86EB758C1D2393CC005F14A1 /* PPAsyncDrawingKit */,
 				86EB758B1D2393CC005F14A1 /* Products */,
 			);
@@ -173,9 +178,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				863952A11D3F5B0D00904204 /* PPAsyncDrawingView.m in Sources */,
-				863952A31D3F5B0D00904204 /* PPUIControl.m in Sources */,
-				863952A21D3F5B0D00904204 /* PPAsyncDrawingViewLayer.m in Sources */,
+				867F51241D472124005FFC1E /* PPAsyncDrawingViewTileLayer.m in Sources */,
+				863952AE1D3FBA1400904204 /* PPAsyncDrawingView.m in Sources */,
+				863952AF1D3FBA1400904204 /* PPAsyncDrawingViewLayer.m in Sources */,
+				867F51211D470F14005FFC1E /* PPAsyncDrawingViewTileController.m in Sources */,
 				86EB75951D2393CC005F14A1 /* ViewController.m in Sources */,
 				86EB75921D2393CC005F14A1 /* AppDelegate.m in Sources */,
 				86EB758F1D2393CC005F14A1 /* main.m in Sources */,

@@ -19,7 +19,7 @@
         self.opaque = NO;
         self.layer.contentsScale = [UIScreen mainScreen].scale;
         if ([self.layer isKindOfClass:[PPAsyncDrawingViewLayer class]]) {
-            
+            self.drawingLayer = (PPAsyncDrawingViewLayer *)self.layer;
         }
     }
     return self;
@@ -116,6 +116,13 @@
         }
     } else {
         return [super respondsToSelector:aSelector];
+    }
+}
+
+- (void)dealloc
+{
+    if (_dispatchDrawQueue) {
+        _dispatchDrawQueue = nil;
     }
 }
 
