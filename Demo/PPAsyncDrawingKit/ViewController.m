@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "PPAsyncDrawingView.h"
+#import "PPRoundedImageView.h"
 
 @interface ViewController ()
 
@@ -19,12 +19,9 @@
 {
     [super viewDidLoad];
     
-    PPAsyncDrawingView *view = [[PPAsyncDrawingView alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
-    view.backgroundColor = [UIColor redColor];
-    [self.view addSubview:view];
-    
-    UIButton *btn = [[UIButton alloc] init];
-    [btn addTarget:nil action:nil forControlEvents:0];
+    PPRoundedImageView *imageView = [[PPRoundedImageView alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
+    imageView.image = [UIImage imageNamed:@"avatar"];
+    [self.view addSubview:imageView];
 }
 
 @end
