@@ -10,11 +10,10 @@
 
 @class PPAsyncDrawingViewLayer;
 
-struct flags {
-    NSUInteger tiledDrawingEnabled: 1;
-};
+typedef NSInteger(^PPAsyncDrawingCompleted)(NSInteger success);
 
-@interface PPAsyncDrawingView : UIView 
+@interface PPAsyncDrawingView : UIView
+
 @property (nonatomic, weak) PPAsyncDrawingViewLayer *drawingLayer;
 @property (nonatomic, assign, readonly) BOOL padingRedraw;
 @property (nonatomic, assign) BOOL serializesDrawingOperations;
@@ -28,10 +27,8 @@ struct flags {
 @property (nonatomic, assign, readonly) BOOL alwaysUsesOffscreenRendering;
 
 - (void)interruptDrawingWhenPossible;
-- (void)_setDispatchDrawQueue:(dispatch_queue_t)dispatchDrawQueue;
 - (dispatch_queue_t)drawQueue;
 - (void)redraw;
-- (void)_displayLayer:(PPAsyncDrawingViewLayer *)layer rect:(CGRect)rect drawingStarted:(id)arg3 drawingFinished:(id)arg4 drawingInterrupted:(id)arg5;
 + (BOOL)asyncDrawingDisabledGlobally;
 + (void)setDisablesAsyncDrawingGlobally:(BOOL)asyncDrawingDisabledGlobally;
 - (CGContextRef)newCGContextForLayer:(CALayer *)layer;

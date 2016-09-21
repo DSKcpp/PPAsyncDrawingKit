@@ -9,7 +9,28 @@
 #import "PPAsyncDrawingView.h"
 #import "PPAsyncDrawingViewLayer.h"
 
+static BOOL asyncDrawingDisabled = NO;
+
+@interface PPAsyncDrawingView ()
+
+@end
+
 @implementation PPAsyncDrawingView
+
++ (BOOL)asyncDrawingDisabledGlobally
+{
+    return asyncDrawingDisabled;
+}
+
++ (void)setDisablesAsyncDrawingGlobally:(BOOL)asyncDrawingDisabledGlobally
+{
+    asyncDrawingDisabled = asyncDrawingDisabledGlobally;
+}
+
++ (Class)layerClass
+{
+    return [PPAsyncDrawingViewLayer class];
+}
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -30,21 +51,6 @@
     return nil;
 }
 
-+ (BOOL)asyncDrawingDisabledGlobally
-{
-    return YES;
-}
-
-+ (void)setDisablesAsyncDrawingGlobally:(BOOL)asyncDrawingDisabledGlobally
-{
-    
-}
-
-+ (Class)layerClass
-{
-    return [PPAsyncDrawingViewLayer class];
-}
-
 - (void)setNeedsDisplayAsync
 {
     [self setContentsChangedAfterLastAsyncDrawing:YES];
@@ -61,7 +67,15 @@
 - (void)displayLayer:(CALayer *)layer
 {
     if (layer) {
-        
+        if (self.layer == layer) {
+            [self _displayLayer:(PPAsyncDrawingViewLayer *)layer rect:layer.bounds drawingStarted:^NSInteger(NSInteger success) {
+                return 1;
+            } drawingFinished:^NSInteger(NSInteger success) {
+                return 1;
+            } drawingInterrupted:^NSInteger(NSInteger success) {
+                return 1;
+            }];
+        }
     }
 }
 
@@ -69,12 +83,27 @@
 
 - (void)drawingDidFinishAsynchronously:(BOOL)async success:(BOOL)success { }
 
-- (void)_displayLayer:(PPAsyncDrawingViewLayer *)layer rect:(CGRect)rect drawingStarted:(id)arg3 drawingFinished:(id)arg4 drawingInterrupted:(id)arg5
+- (void)_displayLayer:(PPAsyncDrawingViewLayer *)layer rect:(CGRect)rect drawingStarted:(PPAsyncDrawingCompleted)drawingStarted drawingFinished:(PPAsyncDrawingCompleted)drawingFinished drawingInterrupted:(PPAsyncDrawingCompleted)drawingInterrupted
 {
+    BOOL asynchronously = NO;
     if ([layer drawsCurrentContentAsynchronously]) {
         if (![self.class asyncDrawingDisabledGlobally]) {
-            
+            asynchronously = YES;
         }
+    }
+    if (asynchronously) {
+        if (!layer.reserveContentsBeforeNextDrawingComplete) {
+            [layer setContents:nil];
+        }
+        dispatch_async(self.drawQueue, ^{
+            
+        });
+    } else if ([NSThread isMainThread]) {
+        NSLog(@"is main ququq");
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"main queue");
+        });
     }
 }
 
@@ -162,6 +191,11 @@
     return self.drawingLayer.drawingPolicy;
 }
 
+- (void)setDrawingPolicy:(NSInteger)drawingPolicy
+{
+    [self.drawingLayer setDrawingPolicy:drawingPolicy];
+}
+
 - (void)setDrawingCount:(NSUInteger)drawingCount
 {
     [self.drawingLayer setDrawingPolicy:drawingCount];
@@ -172,19 +206,19 @@
     return self.drawingLayer.drawingCount;
 }
 
+- (void)setDispatchDrawQueue:(dispatch_queue_t)dispatchDrawQueue
+{
+    if (!self.serializesDrawingOperations) {
+        [self _setDispatchDrawQueue:dispatchDrawQueue];
+    }
+}
+
 - (void)_setDispatchDrawQueue:(dispatch_queue_t)dispatchDrawQueue
 {
     if (self.dispatchDrawQueue) {
         self.dispatchDrawQueue = nil;
     }
     self.dispatchDrawQueue = dispatchDrawQueue;
-}
-
-- (void)setDispatchDrawQueue:(dispatch_queue_t)dispatchDrawQueue
-{
-    if (!self.serializesDrawingOperations) {
-        [self _setDispatchDrawQueue:dispatchDrawQueue];
-    }
 }
 
 - (void)setSerializesDrawingOperations:(BOOL)serializesDrawingOperations

@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		863952AE1D3FBA1400904204 /* PPAsyncDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 863952A91D3FBA1400904204 /* PPAsyncDrawingView.m */; };
 		863952AF1D3FBA1400904204 /* PPAsyncDrawingViewLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 863952AB1D3FBA1400904204 /* PPAsyncDrawingViewLayer.m */; };
-		867F51211D470F14005FFC1E /* PPAsyncDrawingViewTileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 867F51201D470F14005FFC1E /* PPAsyncDrawingViewTileController.m */; };
-		867F51241D472124005FFC1E /* PPAsyncDrawingViewTileLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 867F51231D472124005FFC1E /* PPAsyncDrawingViewTileLayer.m */; };
+		86A98D2C1D92E446008F0A7E /* PPUIControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A98D2B1D92E446008F0A7E /* PPUIControl.m */; };
+		86A98D2F1D92E870008F0A7E /* PPUIControlTargetAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A98D2E1D92E870008F0A7E /* PPUIControlTargetAction.m */; };
 		86EB758F1D2393CC005F14A1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EB758E1D2393CC005F14A1 /* main.m */; };
 		86EB75921D2393CC005F14A1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EB75911D2393CC005F14A1 /* AppDelegate.m */; };
 		86EB75951D2393CC005F14A1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EB75941D2393CC005F14A1 /* ViewController.m */; };
@@ -24,10 +24,10 @@
 		863952A91D3FBA1400904204 /* PPAsyncDrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAsyncDrawingView.m; sourceTree = "<group>"; };
 		863952AA1D3FBA1400904204 /* PPAsyncDrawingViewLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAsyncDrawingViewLayer.h; sourceTree = "<group>"; };
 		863952AB1D3FBA1400904204 /* PPAsyncDrawingViewLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAsyncDrawingViewLayer.m; sourceTree = "<group>"; };
-		867F511F1D470F14005FFC1E /* PPAsyncDrawingViewTileController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAsyncDrawingViewTileController.h; sourceTree = "<group>"; };
-		867F51201D470F14005FFC1E /* PPAsyncDrawingViewTileController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAsyncDrawingViewTileController.m; sourceTree = "<group>"; };
-		867F51221D472124005FFC1E /* PPAsyncDrawingViewTileLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAsyncDrawingViewTileLayer.h; sourceTree = "<group>"; };
-		867F51231D472124005FFC1E /* PPAsyncDrawingViewTileLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAsyncDrawingViewTileLayer.m; sourceTree = "<group>"; };
+		86A98D2A1D92E446008F0A7E /* PPUIControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPUIControl.h; sourceTree = "<group>"; };
+		86A98D2B1D92E446008F0A7E /* PPUIControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPUIControl.m; sourceTree = "<group>"; };
+		86A98D2D1D92E870008F0A7E /* PPUIControlTargetAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPUIControlTargetAction.h; sourceTree = "<group>"; };
+		86A98D2E1D92E870008F0A7E /* PPUIControlTargetAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPUIControlTargetAction.m; sourceTree = "<group>"; };
 		86EB758A1D2393CC005F14A1 /* PPAsyncDrawingKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PPAsyncDrawingKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86EB758E1D2393CC005F14A1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		86EB75901D2393CC005F14A1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -54,17 +54,41 @@
 		863952A71D3FBA1400904204 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				86A98D301D92F495008F0A7E /* Core */,
+				86A98D321D92F4BC008F0A7E /* Text */,
+				86A98D311D92F4AD008F0A7E /* ImageView */,
+			);
+			name = Classes;
+			path = ../Classes;
+			sourceTree = "<group>";
+		};
+		86A98D301D92F495008F0A7E /* Core */ = {
+			isa = PBXGroup;
+			children = (
 				863952A81D3FBA1400904204 /* PPAsyncDrawingView.h */,
 				863952A91D3FBA1400904204 /* PPAsyncDrawingView.m */,
 				863952AA1D3FBA1400904204 /* PPAsyncDrawingViewLayer.h */,
 				863952AB1D3FBA1400904204 /* PPAsyncDrawingViewLayer.m */,
-				867F511F1D470F14005FFC1E /* PPAsyncDrawingViewTileController.h */,
-				867F51201D470F14005FFC1E /* PPAsyncDrawingViewTileController.m */,
-				867F51221D472124005FFC1E /* PPAsyncDrawingViewTileLayer.h */,
-				867F51231D472124005FFC1E /* PPAsyncDrawingViewTileLayer.m */,
+				86A98D2A1D92E446008F0A7E /* PPUIControl.h */,
+				86A98D2B1D92E446008F0A7E /* PPUIControl.m */,
+				86A98D2D1D92E870008F0A7E /* PPUIControlTargetAction.h */,
+				86A98D2E1D92E870008F0A7E /* PPUIControlTargetAction.m */,
 			);
-			name = Classes;
-			path = ../Classes;
+			name = Core;
+			sourceTree = "<group>";
+		};
+		86A98D311D92F4AD008F0A7E /* ImageView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ImageView;
+			sourceTree = "<group>";
+		};
+		86A98D321D92F4BC008F0A7E /* Text */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Text;
 			sourceTree = "<group>";
 		};
 		86EB75811D2393CC005F14A1 = {
@@ -178,12 +202,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				867F51241D472124005FFC1E /* PPAsyncDrawingViewTileLayer.m in Sources */,
 				863952AE1D3FBA1400904204 /* PPAsyncDrawingView.m in Sources */,
+				86A98D2C1D92E446008F0A7E /* PPUIControl.m in Sources */,
 				863952AF1D3FBA1400904204 /* PPAsyncDrawingViewLayer.m in Sources */,
-				867F51211D470F14005FFC1E /* PPAsyncDrawingViewTileController.m in Sources */,
 				86EB75951D2393CC005F14A1 /* ViewController.m in Sources */,
 				86EB75921D2393CC005F14A1 /* AppDelegate.m in Sources */,
+				86A98D2F1D92E870008F0A7E /* PPUIControlTargetAction.m in Sources */,
 				86EB758F1D2393CC005F14A1 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -247,7 +271,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -286,7 +310,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

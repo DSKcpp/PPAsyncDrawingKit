@@ -15,18 +15,16 @@
 
 @implementation ViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
     
     PPAsyncDrawingView *view = [[PPAsyncDrawingView alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
     view.backgroundColor = [UIColor redColor];
     [self.view addSubview:view];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
+    UIButton *btn = [[UIButton alloc] init];
+    [btn addTarget:nil action:nil forControlEvents:0];
 }
 
 @end

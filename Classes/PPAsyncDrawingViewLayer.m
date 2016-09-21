@@ -21,16 +21,16 @@
     [super setNeedsDisplay];
 }
 
-- (void)setNeedsDisplayInRect:(CGRect)r
+- (void)setNeedsDisplayInRect:(CGRect)rect
 {
     [self increaseDrawingCount];
-    [super setNeedsDisplayInRect:r];
+    [super setNeedsDisplayInRect:rect];
 }
 
 - (BOOL)drawsCurrentContentAsynchronously
 {
-    if (_drawingPolicy != 2) {
-        if (_drawingPolicy == 0) {
+    if (_drawingPolicy != DISPATCH_QUEUE_PRIORITY_HIGH) {
+        if (_drawingPolicy == DISPATCH_QUEUE_PRIORITY_DEFAULT) {
             return _contentsChangedAfterLastAsyncDrawing;
         } else {
             return NO;
