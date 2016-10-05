@@ -15,14 +15,10 @@
     if (object != self) {
         if ([object isKindOfClass:[self class]]) {
             PPUIControlTargetAction *obj = (PPUIControlTargetAction *)object;
-            if (obj.target != self.target) {
-                return NO;
+            if (obj.target == self.target && obj.action == self.action && obj.controlEvents == self.controlEvents) {
+                return YES;
             } else {
-                if (obj.action == self.action && obj.controlEvents == self.controlEvents) {
-                    return YES;
-                } else {
-                    return NO;
-                }
+                return NO;
             }
         } else {
             return NO;

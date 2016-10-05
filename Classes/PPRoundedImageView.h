@@ -25,4 +25,9 @@
 @property (nonatomic, assign) NSUInteger roundedCorners;
 @property (nonatomic, assign) BOOL showsCornerRadius;
 @property (nonatomic, strong) CALayer *imageLayer;
+
+- (instancetype)initWithFrame:(CGRect)frame;
+- (instancetype)initWithCornerRadius:(CGFloat)cornerRadius;
+- (instancetype)initWithCornerRadius:(CGFloat)cornerRadius byRoundingCorenrs:(NSUInteger)roundingCorenrs;
+- (instancetype)initWithCachedRoundPath:(CGPathRef)roundPath borderPath:(CGPathRef)borderPath;
 @end

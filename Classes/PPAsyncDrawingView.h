@@ -34,4 +34,7 @@ typedef NSInteger(^PPAsyncDrawingCompleted)(NSInteger success);
 - (CGContextRef)newCGContextForLayer:(CALayer *)layer;
 - (void)drawingWillStartAsynchronously:(BOOL)async;
 - (void)drawingDidFinishAsynchronously:(BOOL)async success:(BOOL)success;
+- (void)_displayLayer:(PPAsyncDrawingViewLayer *)layer rect:(CGRect)rect drawingStarted:(PPAsyncDrawingCompleted)drawingStarted drawingFinished:(PPAsyncDrawingCompleted)drawingFinished drawingInterrupted:(PPAsyncDrawingCompleted)drawingInterrupted;
+- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(id)userInfo;
+- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async;
 @end

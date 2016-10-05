@@ -20,8 +20,16 @@
     [super viewDidLoad];
     
     PPRoundedImageView *imageView = [[PPRoundedImageView alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
+    imageView.backgroundColor = [UIColor redColor];
     imageView.image = [UIImage imageNamed:@"avatar"];
+    imageView.userInteractionEnabled = YES;
+    [imageView addTarget:self action:@selector(tapImageView:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:imageView];
+}
+
+- (void)tapImageView:(PPRoundedImageView *)imageView
+{
+    NSLog(@"%@", imageView);
 }
 
 @end

@@ -85,18 +85,34 @@ static BOOL asyncDrawingDisabled = NO;
 
 - (void)_displayLayer:(PPAsyncDrawingViewLayer *)layer rect:(CGRect)rect drawingStarted:(PPAsyncDrawingCompleted)drawingStarted drawingFinished:(PPAsyncDrawingCompleted)drawingFinished drawingInterrupted:(PPAsyncDrawingCompleted)drawingInterrupted
 {
-    BOOL asynchronously = NO;
-    if ([layer drawsCurrentContentAsynchronously]) {
-        if (![self.class asyncDrawingDisabledGlobally]) {
-            asynchronously = YES;
-        }
-    }
+    BOOL asynchronously = YES;
+//    if ([layer drawsCurrentContentAsynchronously]) {
+//        if (![self.class asyncDrawingDisabledGlobally]) {
+//            asynchronously = YES;
+//        }
+//    }
     if (asynchronously) {
         if (!layer.reserveContentsBeforeNextDrawingComplete) {
             [layer setContents:nil];
         }
         dispatch_async(self.drawQueue, ^{
-            
+            CGSize size = layer.bounds.size;
+            CGFloat scale = layer.contentsScale;
+            UIGraphicsBeginImageContextWithOptions(size, layer.isOpaque, scale);
+            CGContextRef context = UIGraphicsGetCurrentContext();
+            CGContextSaveGState(context);
+            UIColor *backgroundColor = self.backgroundColor;
+            if (backgroundColor) {
+                CGContextSetFillColorWithColor(context, backgroundColor.CGColor);
+                CGContextFillRect(context, CGRectMake(0, 0, size.width * scale, size.height * scale));
+            }
+            [self drawInRect:CGRectMake(0, 0, size.width * scale, size.height * scale) withContext:context asynchronously:asynchronously userInfo:nil];
+            CGContextRestoreGState(context);
+            UIImage *image = [UIImage imageWithCGImage:CGBitmapContextCreateImage(context)];
+            UIGraphicsEndImageContext();
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.layer.contents = (__bridge id _Nullable)(image.CGImage);
+            });
         });
     } else if ([NSThread isMainThread]) {
         NSLog(@"is main ququq");

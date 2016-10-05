@@ -45,6 +45,11 @@
     
 }
 
+- (NSArray<NSString *> *)actionsForTarget:(id)target forControlEvent:(UIControlEvents)controlEvent
+{
+    return nil;
+}
+
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
     return YES;
@@ -78,6 +83,21 @@
     }
 }
 
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    
+}
+
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    
+}
+
 - (void)sendAction:(SEL)action to:(id)to forEvent:(UIEvent *)event
 {
     [[UIApplication sharedApplication] sendAction:action to:to from:self forEvent:event];
@@ -92,6 +112,11 @@
 {
     NSArray<id> *targets = [self.targetActions valueForKey:@"target"];
     return [NSSet setWithArray:targets];
+}
+
+- (UIControlEvents)allControllEvents
+{
+    return 0;
 }
 
 - (void)_stateWillChange

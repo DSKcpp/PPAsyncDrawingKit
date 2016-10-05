@@ -15,8 +15,8 @@
 @property (nonatomic, assign, getter=isHighlighted) BOOL highlighted;
 @property (nonatomic, assign, getter=isTracking) BOOL tracking;
 @property (nonatomic, assign, getter=isTouchInside) BOOL touchInside;
-@property (nonatomic, assign) NSInteger contentHorizontalAlignment;
-@property (nonatomic, assign) NSInteger contentVerticalAlignment;
+@property (nonatomic, assign) UIControlContentHorizontalAlignment contentHorizontalAlignment;
+@property (nonatomic, assign) UIControlContentVerticalAlignment contentVerticalAlignment;
 @property (nonatomic, assign) CGPoint touchStartPoint;
 @property (nonatomic, assign, readonly) UIControlState state;
 @property (nonatomic, assign, readonly) BOOL redrawsAutomaticallyWhenStateChange;
@@ -32,7 +32,7 @@
 - (void)sendAction:(SEL)action to:(id)to forEvent:(UIEvent *)event;
 - (void)sendActionsForControlEvents:(UIControlEvents)controlEvents;
 
-- (id)actionsForTarget:(id)target forControlEvent:(UIControlEvents)controlEvent;
+- (NSArray<NSString *> *)actionsForTarget:(id)target forControlEvent:(UIControlEvents)controlEvent;
 
 - (NSSet<id> *)allTargets;
 - (UIControlEvents)allControllEvents;
