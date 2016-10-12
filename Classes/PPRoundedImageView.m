@@ -29,26 +29,64 @@
     return self;
 }
 
+- (instancetype)initWithCornerRadius:(CGFloat)cornerRadius
+{
+    return [self initWithCornerRadius:cornerRadius byRoundingCorners:UIRectCornerAllCorners];
+}
+
+- (instancetype)initWithCornerRadius:(CGFloat)cornerRadius byRoundingCorners:(UIRectCorner)roundingCorners
+{
+    if (self = [self init]) {
+        self.cornerRadius = cornerRadius;
+        self.roundedCorners = roundingCorners;
+    }
+    return self;
+}
+
+- (void)setCornerRadius:(CGFloat)cornerRadius
+{
+    self.layer.cornerRadius = cornerRadius;
+}
+
 - (void)setImage:(UIImage *)image
 {
-    _useUIImageView = YES;
+    self.useUIImageView = YES;
     if (_image == image) {
 
     } else {
         [self setContentsChangedAfterLastAsyncDrawing:YES];
-        if ([image isKindOfClass:[NSData class]]) {
-            UIImage *dataImage = [UIImage imageWithData:(NSData *)image];
-        } else {
-            
-        }
         _image = image;
         [self setNeedsDisplay];
+    }
+}
+
+- (void)setUseUIImageView:(BOOL)useUIImageView
+{
+    if (_useUIImageView != useUIImageView) {
+        _useUIImageView = useUIImageView;
+        [self setNeedsDisplay];
+        if (useUIImageView) {
+            self.imageLayer.frame = _imageContentFrame;
+        }
+    }
+}
+
+- (void)setImageContentFrame:(CGRect)imageContentFrame
+{
+    if (!CGRectEqualToRect(_imageContentFrame, imageContentFrame)) {
+        _imageContentFrame = imageContentFrame;
+        if (self.useUIImageView) {
+//            [CATransaction begin];
+//            [CATransaction setDisableActions:YES];
+            _imageLayer.frame = imageContentFrame;
+        }
     }
 }
 
 - (void)setFrame:(CGRect)frame
 {
     [super setFrame:frame];
+    self.imageContentFrame = CGRectMake(0, 0, frame.size.width, frame.size.height);
 }
 
 - (void)displayLayer:(CALayer *)layer

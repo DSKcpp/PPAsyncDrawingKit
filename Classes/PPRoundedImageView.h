@@ -28,6 +28,6 @@
 
 - (instancetype)initWithFrame:(CGRect)frame;
 - (instancetype)initWithCornerRadius:(CGFloat)cornerRadius;
-- (instancetype)initWithCornerRadius:(CGFloat)cornerRadius byRoundingCorenrs:(NSUInteger)roundingCorenrs;
+- (instancetype)initWithCornerRadius:(CGFloat)cornerRadius byRoundingCorners:(UIRectCorner)roundingCorners;
 - (instancetype)initWithCachedRoundPath:(CGPathRef)roundPath borderPath:(CGPathRef)borderPath;
 @end
