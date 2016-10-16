@@ -8,6 +8,9 @@
 
 #import "PPUIControl.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
+
 @interface PPRoundedImageView : PPUIControl
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, assign) CGRect imageContentFrame;
@@ -31,3 +34,5 @@
 - (instancetype)initWithCornerRadius:(CGFloat)cornerRadius byRoundingCorners:(UIRectCorner)roundingCorners;
 - (instancetype)initWithCachedRoundPath:(CGPathRef)roundPath borderPath:(CGPathRef)borderPath;
 @end
+
+NS_ASSUME_NONNULL_END

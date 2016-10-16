@@ -8,6 +8,8 @@
 
 #import <QuartzCore/QuartzCore.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface PPAsyncDrawingViewLayer : CALayer
 @property (nonatomic, assign) BOOL reserveContentsBeforeNextDrawingComplete;
 @property (nonatomic, assign) BOOL contentsChangedAfterLastAsyncDrawing;
@@ -18,3 +20,5 @@
 - (BOOL)drawsCurrentContentAsynchronously;
 - (void)increaseDrawingCount;
 @end
+
+NS_ASSUME_NONNULL_END

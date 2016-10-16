@@ -76,8 +76,8 @@
     if (!CGRectEqualToRect(_imageContentFrame, imageContentFrame)) {
         _imageContentFrame = imageContentFrame;
         if (self.useUIImageView) {
-//            [CATransaction begin];
-//            [CATransaction setDisableActions:YES];
+            [CATransaction begin];
+            [CATransaction setDisableActions:YES];
             _imageLayer.frame = imageContentFrame;
         }
     }

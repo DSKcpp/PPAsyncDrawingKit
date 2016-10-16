@@ -7,7 +7,34 @@
 //
 
 #import "PPUIControl.h"
-#import "PPUIControlTargetAction.h"
+
+@interface PPUIControlTargetAction : NSObject
+@property (nonatomic, assign) SEL action;
+@property (nonatomic, weak) id target;
+@property (nonatomic, assign) UIControlEvents controlEvents;
+@end
+
+@implementation PPUIControlTargetAction
+
+- (BOOL)isEqual:(id)object
+{
+    if (object != self) {
+        if ([object isKindOfClass:[self class]]) {
+            PPUIControlTargetAction *obj = (PPUIControlTargetAction *)object;
+            if (obj.target == self.target && obj.action == self.action && obj.controlEvents == self.controlEvents) {
+                return YES;
+            } else {
+                return NO;
+            }
+        } else {
+            return NO;
+        }
+    } else {
+        return YES;
+    }
+}
+@end
+
 
 @interface PPUIControl ()
 @property (nonatomic, strong) NSMutableArray<PPUIControlTargetAction *> *targetActions;

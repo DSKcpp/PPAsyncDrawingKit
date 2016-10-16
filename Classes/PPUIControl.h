@@ -8,6 +8,8 @@
 
 #import "PPAsyncDrawingView.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface PPUIControl : PPAsyncDrawingView
 
 @property (nonatomic, assign, getter=isEnabled) BOOL enabled;
@@ -37,3 +39,5 @@
 - (NSSet<id> *)allTargets;
 - (UIControlEvents)allControllEvents;
 @end
+
+NS_ASSUME_NONNULL_END

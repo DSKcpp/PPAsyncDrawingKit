@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class PPAsyncDrawingViewLayer;
 
 typedef NSInteger(^PPAsyncDrawingCompleted)(NSInteger success);
@@ -26,11 +28,12 @@ typedef NSInteger(^PPAsyncDrawingCompleted)(NSInteger success);
 @property (nonatomic, assign) NSUInteger drawingCount;
 @property (nonatomic, assign, readonly) BOOL alwaysUsesOffscreenRendering;
 
++ (BOOL)asyncDrawingDisabledGlobally;
++ (void)setDisablesAsyncDrawingGlobally:(BOOL)asyncDrawingDisabledGlobally;
+
 - (void)interruptDrawingWhenPossible;
 - (dispatch_queue_t)drawQueue;
 - (void)redraw;
-+ (BOOL)asyncDrawingDisabledGlobally;
-+ (void)setDisablesAsyncDrawingGlobally:(BOOL)asyncDrawingDisabledGlobally;
 - (CGContextRef)newCGContextForLayer:(CALayer *)layer;
 - (void)drawingWillStartAsynchronously:(BOOL)async;
 - (void)drawingDidFinishAsynchronously:(BOOL)async success:(BOOL)success;
@@ -38,3 +41,5 @@ typedef NSInteger(^PPAsyncDrawingCompleted)(NSInteger success);
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(id)userInfo;
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async;
 @end
+
+NS_ASSUME_NONNULL_END
