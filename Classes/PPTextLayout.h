@@ -15,15 +15,15 @@
 @end
 
 @interface PPTextLayout : NSObject
-@property(nonatomic, assign) BOOL retriveFontMetricsAutomatically;
-@property(nonatomic, weak) id <PPTextLayoutDelegate> delegate;
-@property(nonatomic, assign) PPTFontMetrics baselineFontMetrics;
-@property(nonatomic, strong) NSAttributedString *truncationString;
-@property(nonatomic, assign) NSUInteger maximumNumberOfLines;
-@property(nonatomic, strong) NSArray *exclusionPaths;
-@property(nonatomic, assign) CGSize size;
-@property(nonatomic, strong) NSAttributedString *attributedString;
-@property(nonatomic, strong) PPTextLayoutFrame *layoutFrame;
+@property (nonatomic, assign) BOOL retriveFontMetricsAutomatically;
+@property (nonatomic, weak) id <PPTextLayoutDelegate> delegate;
+@property (nonatomic, assign) PPTFontMetrics baselineFontMetrics;
+@property (nonatomic, strong) NSAttributedString *truncationString;
+@property (nonatomic, assign) NSUInteger maximumNumberOfLines;
+@property (nonatomic, strong) NSArray *exclusionPaths;
+@property (nonatomic, assign) CGSize size;
+@property (nonatomic, strong) NSAttributedString *attributedString;
+@property (nonatomic, strong) PPTextLayoutFrame *layoutFrame;
 
 - (instancetype)initWithAttributedString:(NSAttributedString *)attributedString;
 - (id)createLayoutFrame;
@@ -43,11 +43,11 @@
 @end
 
 @interface PPTextLayout (LayoutResult)
-@property(readonly, nonatomic) CGFloat layoutHeight;
-@property(readonly, nonatomic) CGSize layoutSize;
-@property(readonly, nonatomic) NSUInteger containingLineCount;
-@property(readonly, nonatomic) NSRange containingStringRange;
-@property(readonly, nonatomic) BOOL layoutUpToDate;
+@property (readonly, nonatomic) CGFloat layoutHeight;
+@property (readonly, nonatomic) CGSize layoutSize;
+@property (readonly, nonatomic) NSUInteger containingLineCount;
+@property (readonly, nonatomic) NSRange containingStringRange;
+@property (readonly, nonatomic) BOOL layoutUpToDate;
 - (CGRect)boundingRectForCharacterRange:(NSRange)range;
 - (CGPoint)locationForCharacterAtIndex:(NSUInteger)index;
 - (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(id)block;

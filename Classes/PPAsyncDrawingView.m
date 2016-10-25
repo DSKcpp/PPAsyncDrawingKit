@@ -51,6 +51,11 @@ static BOOL asyncDrawingDisabled = NO;
     return nil;
 }
 
+- (NSDictionary *)currentDrawingUserInfo
+{
+    return nil;
+}
+
 - (void)setNeedsDisplayAsync
 {
     [self setContentsChangedAfterLastAsyncDrawing:YES];
@@ -67,15 +72,13 @@ static BOOL asyncDrawingDisabled = NO;
 - (void)displayLayer:(CALayer *)layer
 {
     if (layer) {
-        if (self.layer == layer) {
-            [self _displayLayer:(PPAsyncDrawingViewLayer *)layer rect:layer.bounds drawingStarted:^NSInteger(NSInteger success) {
-                return 1;
-            } drawingFinished:^NSInteger(NSInteger success) {
-                return 1;
-            } drawingInterrupted:^NSInteger(NSInteger success) {
-                return 1;
-            }];
-        }
+        [self _displayLayer:(PPAsyncDrawingViewLayer *)layer rect:layer.bounds drawingStarted:^(BOOL async) {
+            [self drawingWillStartAsynchronously:async];
+        } drawingFinished:^(BOOL async, BOOL success) {
+            [self drawingDidFinishAsynchronously:async success:success];
+        } drawingInterrupted:^(BOOL async, BOOL success) {
+            [self drawingDidFinishAsynchronously:async success:success];
+        }];
     }
 }
 
@@ -83,7 +86,7 @@ static BOOL asyncDrawingDisabled = NO;
 
 - (void)drawingDidFinishAsynchronously:(BOOL)async success:(BOOL)success { }
 
-- (void)_displayLayer:(PPAsyncDrawingViewLayer *)layer rect:(CGRect)rect drawingStarted:(PPAsyncDrawingCompleted)drawingStarted drawingFinished:(PPAsyncDrawingCompleted)drawingFinished drawingInterrupted:(PPAsyncDrawingCompleted)drawingInterrupted
+- (void)_displayLayer:(PPAsyncDrawingViewLayer *)layer rect:(CGRect)rect drawingStarted:(void (^)(BOOL))drawingStarted drawingFinished:(void (^)(BOOL, BOOL))drawingFinished drawingInterrupted:(void (^)(BOOL, BOOL))drawingInterrupted
 {
     BOOL asynchronously = YES;
 //    if ([layer drawsCurrentContentAsynchronously]) {
@@ -106,7 +109,7 @@ static BOOL asyncDrawingDisabled = NO;
                 CGContextSetFillColorWithColor(context, backgroundColor.CGColor);
                 CGContextFillRect(context, CGRectMake(0, 0, size.width * scale, size.height * scale));
             }
-            [self drawInRect:CGRectMake(0, 0, size.width * scale, size.height * scale) withContext:context asynchronously:asynchronously userInfo:nil];
+            [self drawInRect:CGRectMake(0, 0, size.width * scale, size.height * scale) withContext:context asynchronously:asynchronously userInfo:[self currentDrawingUserInfo]];
             CGContextRestoreGState(context);
             UIImage *image = [UIImage imageWithCGImage:CGBitmapContextCreateImage(context)];
             UIGraphicsEndImageContext();
@@ -123,7 +126,7 @@ static BOOL asyncDrawingDisabled = NO;
     }
 }
 
-- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(id)userInfo
+- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(NSDictionary *)userInfo
 {
     return [self drawInRect:rect withContext:context asynchronously:async];
 }
@@ -131,11 +134,6 @@ static BOOL asyncDrawingDisabled = NO;
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async
 {
     return YES;
-}
-
-- (id)currentDrawingUserInfo
-{
-    return [[NSObject alloc] init];
 }
 
 - (void)interruptDrawingWhenPossible

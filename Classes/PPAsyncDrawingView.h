@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class PPAsyncDrawingViewLayer;
 
-typedef NSInteger(^PPAsyncDrawingCompleted)(NSInteger success);
+typedef void(^PPAsyncDrawingCompleted)(NSInteger success);
 
 @interface PPAsyncDrawingView : UIView
 
@@ -37,9 +37,14 @@ typedef NSInteger(^PPAsyncDrawingCompleted)(NSInteger success);
 - (CGContextRef)newCGContextForLayer:(CALayer *)layer;
 - (void)drawingWillStartAsynchronously:(BOOL)async;
 - (void)drawingDidFinishAsynchronously:(BOOL)async success:(BOOL)success;
-- (void)_displayLayer:(PPAsyncDrawingViewLayer *)layer rect:(CGRect)rect drawingStarted:(PPAsyncDrawingCompleted)drawingStarted drawingFinished:(PPAsyncDrawingCompleted)drawingFinished drawingInterrupted:(PPAsyncDrawingCompleted)drawingInterrupted;
-- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(id)userInfo;
+- (void)_displayLayer:(PPAsyncDrawingViewLayer *)layer
+                 rect:(CGRect)rect
+       drawingStarted:(void(^)(BOOL async))drawingStarted
+      drawingFinished:(void(^)(BOOL async, BOOL success))drawingFinished
+   drawingInterrupted:(void(^)(BOOL async, BOOL success))drawingInterrupted;
+- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(NSDictionary *)userInfo;
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async;
+- (NSDictionary *)currentDrawingUserInfo;
 @end
 
 NS_ASSUME_NONNULL_END

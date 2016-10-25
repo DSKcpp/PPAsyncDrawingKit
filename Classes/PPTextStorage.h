@@ -16,6 +16,6 @@
 @end
 
 @interface PPTextStorage : NSMutableAttributedString
-@property(nonatomic, weak) id <PPTextStorageDelegate> delegate;
+@property (nonatomic, weak) id <PPTextStorageDelegate> delegate;
 - (NSString *)string;
 @end

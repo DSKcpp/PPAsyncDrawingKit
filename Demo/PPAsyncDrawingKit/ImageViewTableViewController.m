@@ -9,25 +9,22 @@
 #import "ImageViewTableViewController.h"
 #import "PPRoundedImageView.h"
 
-@interface AvatarImageCell : UITableViewCell @end
+@interface AvatarImageCell : UITableViewCell
+@property (nonatomic, strong) PPRoundedImageView *roundedImageView;
+@end
 
 @implementation AvatarImageCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        for (NSInteger i = 0; i < 8; i++) {
-            //            UIImageView *avatarImageView = [[UIImageView alloc] init];
-            //            avatarImageView.frame = CGRectMake(i * 45, 5, 40, 40);
-            //            avatarImageView.contentMode = UIViewContentModeScaleAspectFill;
-            //            avatarImageView.clipsToBounds = YES;
-            //            avatarImageView.layer.cornerRadius = 20.0f;
-            //            avatarImageView.image = [UIImage imageNamed:@"avatar"];
-            //            [self.contentView addSubview:avatarImageView];
-            PPRoundedImageView *avatarImageView = [[PPRoundedImageView alloc] initWithCornerRadius:20.0f];
-            avatarImageView.frame = CGRectMake(i * 45, 5, 40, 40);
-            avatarImageView.image = [UIImage imageNamed:@"avatar"];
-            [self.contentView addSubview:avatarImageView];
+        for (NSInteger i = 0; i < 7; i++) {
+            self.roundedImageView = [[PPRoundedImageView alloc] initWithCachedRoundPath:nil borderPath:nil];
+            self.roundedImageView.cornerRadius = 20;
+            self.roundedImageView.roundedCorners = UIRectCornerAllCorners;
+            self.roundedImageView.frame = CGRectMake(i * 45, 5, 40, 40);
+            self.roundedImageView.image = [UIImage imageNamed:@"avatar"];
+            [self.contentView addSubview:self.roundedImageView];
         }
     }
     return self;

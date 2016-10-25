@@ -14,6 +14,16 @@
 
 @implementation ViewController
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    hex16ToFloat(0x7f800000);
+    CGFloat i = 1;
+    CABasicAnimation *a = [CABasicAnimation animationWithKeyPath:@""];
+    a.repeatCount = 1;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
