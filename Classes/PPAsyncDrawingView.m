@@ -109,7 +109,7 @@ static BOOL asyncDrawingDisabled = NO;
                 CGContextSetFillColorWithColor(context, backgroundColor.CGColor);
                 CGContextFillRect(context, CGRectMake(0, 0, size.width * scale, size.height * scale));
             }
-            [self drawInRect:CGRectMake(0, 0, size.width * scale, size.height * scale) withContext:context asynchronously:asynchronously userInfo:[self currentDrawingUserInfo]];
+            [self drawInRect:CGRectMake(0, 0, size.width, size.height) withContext:context asynchronously:asynchronously userInfo:[self currentDrawingUserInfo]];
             CGContextRestoreGState(context);
             UIImage *image = [UIImage imageWithCGImage:CGBitmapContextCreateImage(context)];
             UIGraphicsEndImageContext();

@@ -30,7 +30,7 @@ static inline CGPathRef CreateCGPath(CGRect rect, CGFloat cornerRadius, UIRectCo
 }
 
 @interface NSMutableDictionary (Safe)
-- (void)setSafeObject:(nullable id)object forKey:(nonnull NSString *)key;
+- (void)pp_setSafeObject:(nullable id)object forKey:(nonnull NSString *)key;
 @end
 
 @interface UIImage (Util)

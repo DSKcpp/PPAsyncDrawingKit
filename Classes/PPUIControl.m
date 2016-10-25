@@ -99,25 +99,40 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    _touchInside = YES;
+    self.touchInside = YES;
     UITouch *touch = [touches anyObject];
-    _tracking = [self beginTrackingWithTouch:touch withEvent:event];
-    _highlighted = YES;
+    self.tracking = [self beginTrackingWithTouch:touch withEvent:event];
+    self.highlighted = YES;
     if (_tracking) {
         if ([touch tapCount] > 1) {
-            
+            [self _sendActionsForControlEvents:UIControlEventTouchDown withEvent:event];
         }
     }
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
+    UITouch *touch = [touches anyObject];
+    CGPoint point;
+    if (touch) {
+        point = [touch locationInView:self];
+    } else {
+        
+    }
+    self.touchInside = [self pointInside:point withEvent:event];
+    self.highlighted = YES;
+    if (self.tracking) {
+        self.tracking = [self continueTrackingWithTouch:touch withEvent:event];
+        if (self.tracking) {
+            [self _sendActionsForControlEvents:UIControlEventTouchDown withEvent:event];
+        }
+    }
     
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    
+    [self _sendActionsForControlEvents:UIControlEventTouchUpInside withEvent:event];
 }
 
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -161,7 +176,9 @@
 
 - (void)_sendActionsForControlEvents:(UIControlEvents)controlEvents withEvent:(UIEvent *)event
 {
-    
+    [self.targetActions enumerateObjectsUsingBlock:^(PPUIControlTargetAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self sendAction:obj.action to:obj.target forEvent:event];
+    }];
 }
 
 - (NSMutableArray<PPUIControlTargetAction *> *)targetActions

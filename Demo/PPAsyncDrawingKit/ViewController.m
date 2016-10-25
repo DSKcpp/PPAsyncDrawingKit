@@ -11,6 +11,7 @@
 #import "WBTimeLineViewController.h"
 #import "TextViewController.h"
 #import "PPAsyncDrawingKitUtilities.h"
+#import "YYFPSLabel.h"
 
 @implementation ViewController
 
@@ -18,10 +19,8 @@
 {
     [super viewDidLoad];
     
-    hex16ToFloat(0x7f800000);
-    CGFloat i = 1;
-    CABasicAnimation *a = [CABasicAnimation animationWithKeyPath:@""];
-    a.repeatCount = 1;
+    YYFPSLabel *fpsLabel = [[YYFPSLabel alloc] initWithFrame:CGRectMake(0, 44, 80, 30)];
+    [self.navigationController.navigationBar addSubview:fpsLabel];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

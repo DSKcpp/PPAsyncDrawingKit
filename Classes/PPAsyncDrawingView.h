@@ -37,13 +37,8 @@ typedef void(^PPAsyncDrawingCompleted)(NSInteger success);
 - (CGContextRef)newCGContextForLayer:(CALayer *)layer;
 - (void)drawingWillStartAsynchronously:(BOOL)async;
 - (void)drawingDidFinishAsynchronously:(BOOL)async success:(BOOL)success;
-- (void)_displayLayer:(PPAsyncDrawingViewLayer *)layer
-                 rect:(CGRect)rect
-       drawingStarted:(void(^)(BOOL async))drawingStarted
-      drawingFinished:(void(^)(BOOL async, BOOL success))drawingFinished
-   drawingInterrupted:(void(^)(BOOL async, BOOL success))drawingInterrupted;
-- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(NSDictionary *)userInfo;
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async;
+- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(NSDictionary *)userInfo;
 - (NSDictionary *)currentDrawingUserInfo;
 @end
 

@@ -249,20 +249,6 @@
     } else {
         [super displayLayer:layer];
     }
-//    if (_useUIImageView) {
-//        if (_isNeedChangeContentModel) {
-//            if (_imageLayer.contents != (id)_image.CGImage) {
-//                _imageLayer.contents = (__bridge id _Nullable)(_image.CGImage);
-//            }
-//        } else {
-//            _imageLayer.contents = nil;
-//            if (self.layer.contents != (id)_image.CGImage) {
-//                self.layer.contents = (__bridge id _Nullable)_image.CGImage;
-//            }
-//        }
-//    } else {
-//        [super displayLayer:layer];
-//    }
 }
 
 - (NSDictionary *)currentDrawingUserInfo
@@ -273,20 +259,20 @@
 - (NSDictionary *)drawingComponentDictionary
 {
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    [userInfo setSafeObject:self.image forKey:@"image"];
-    [userInfo setSafeObject:self.fillColor forKey:@"fillColor"];
-    [userInfo setSafeObject:self.gradientColors forKey:@"gradientColors"];
-    [userInfo setSafeObject:self.maskColor forKey:@"maskColor"];
+    [userInfo pp_setSafeObject:self.image forKey:@"image"];
+    [userInfo pp_setSafeObject:self.fillColor forKey:@"fillColor"];
+    [userInfo pp_setSafeObject:self.gradientColors forKey:@"gradientColors"];
+    [userInfo pp_setSafeObject:self.maskColor forKey:@"maskColor"];
     if (!CGRectEqualToRect(CGRectZero, self.gradientColorRect)) {
-        [userInfo setSafeObject:[NSValue valueWithCGRect:self.gradientColorRect] forKey:@"gradientColorRect"];
+        [userInfo pp_setSafeObject:[NSValue valueWithCGRect:self.gradientColorRect] forKey:@"gradientColorRect"];
     }
     if (self.showsCornerRadius) {
         CGPathRef path = CreateCGPath(self.bounds, self.cornerRadius, self.roundedCorners);
         roundPathRef = path;
-        [userInfo setSafeObject:(__bridge id _Nonnull)(path) forKey:@"roundPath"];
+        [userInfo pp_setSafeObject:(__bridge id _Nonnull)(path) forKey:@"roundPath"];
     }
     if (!CGRectIsEmpty(self.imageContentFrame)) {
-        [userInfo setSafeObject:[NSValue valueWithCGRect:self.imageContentFrame] forKey:@"imageFrame"];
+        [userInfo pp_setSafeObject:[NSValue valueWithCGRect:self.imageContentFrame] forKey:@"imageFrame"];
     }
     return userInfo;
 }
@@ -324,4 +310,5 @@
 }
 
 - (void)imageDrawingFinished { }
+
 @end

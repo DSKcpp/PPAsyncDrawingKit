@@ -37,6 +37,7 @@
 		86EF6AC31DB36EA2006464CE /* PPTextParagraphStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6AC21DB36EA2006464CE /* PPTextParagraphStyle.m */; };
 		86EF6AD91DB390F8006464CE /* PPAsyncDrawingKitUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6AD81DB390F8006464CE /* PPAsyncDrawingKitUtilities.m */; };
 		86EF6ADC1DB3B873006464CE /* WBTimelineItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6ADB1DB3B873006464CE /* WBTimelineItem.m */; };
+		86EFEF261DBF9D800003E078 /* YYFPSLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EFEF251DBF9D800003E078 /* YYFPSLabel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -98,6 +99,8 @@
 		86EF6AD81DB390F8006464CE /* PPAsyncDrawingKitUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAsyncDrawingKitUtilities.m; sourceTree = "<group>"; };
 		86EF6ADA1DB3B873006464CE /* WBTimelineItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTimelineItem.h; sourceTree = "<group>"; };
 		86EF6ADB1DB3B873006464CE /* WBTimelineItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTimelineItem.m; sourceTree = "<group>"; };
+		86EFEF241DBF9D800003E078 /* YYFPSLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYFPSLabel.h; sourceTree = "<group>"; };
+		86EFEF251DBF9D800003E078 /* YYFPSLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYFPSLabel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -246,6 +249,7 @@
 		86EB758C1D2393CC005F14A1 /* PPAsyncDrawingKit */ = {
 			isa = PBXGroup;
 			children = (
+				86EFEF231DBF9D760003E078 /* Other */,
 				86EF6AAB1DB132C5006464CE /* Text */,
 				861EB1E41DB11F3B005C07C7 /* WBTimeLine */,
 				861EB1CA1DB10EE3005C07C7 /* Image */,
@@ -278,6 +282,15 @@
 				86EF6AAD1DB132F9006464CE /* TextViewController.m */,
 			);
 			name = Text;
+			sourceTree = "<group>";
+		};
+		86EFEF231DBF9D760003E078 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				86EFEF241DBF9D800003E078 /* YYFPSLabel.h */,
+				86EFEF251DBF9D800003E078 /* YYFPSLabel.m */,
+			);
+			name = Other;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -352,6 +365,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86EFEF261DBF9D800003E078 /* YYFPSLabel.m in Sources */,
 				86EF6ADC1DB3B873006464CE /* WBTimelineItem.m in Sources */,
 				863952AE1D3FBA1400904204 /* PPAsyncDrawingView.m in Sources */,
 				86A98D2C1D92E446008F0A7E /* PPUIControl.m in Sources */,

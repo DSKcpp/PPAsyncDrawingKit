@@ -36,12 +36,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithCornerRadius:(CGFloat)cornerRadius byRoundingCorners:(UIRectCorner)roundingCorners;
 - (instancetype)initWithCachedRoundPath:(nullable CGPathRef)roundPath borderPath:(nullable CGPathRef)borderPath;
 
-- (void)displayLayer:(id)arg1;
-- (CGSize)sizeThatFits:(struct CGSize)arg1;
-- (void)imageDrawingFinished;
-- (void)drawingDidFinishAsynchronously:(BOOL)async success:(BOOL)success;
-- (NSDictionary *)drawingComponentDictionary;
 - (id)maskView;
+- (void)imageDrawingFinished;
+- (NSDictionary *)drawingComponentDictionary;
 - (void)drawWithContext:(CGContextRef)context inRect:(CGRect)rect withComponents:(NSDictionary *)components;
 @end
 

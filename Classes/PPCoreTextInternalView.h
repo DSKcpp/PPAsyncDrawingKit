@@ -27,8 +27,6 @@
 - (void)textRenderer:(PPTextRenderer *)textRenderer didPressActiveRange:(id)arg2;
 - (id)activeRangesForTextRenderer:(PPTextRenderer *)textRenderer;
 - (id)contextViewForTextRenderer:(PPTextRenderer *)textRenderer;
-- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously userInfo:(id)userInfo;
-- (id)currentDrawingUserInfo;
 
 - (NSInteger)lineIndexForPoint:(CGPoint)point;
 - (NSInteger)textIndexForPoint:(CGPoint)point;

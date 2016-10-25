@@ -9,7 +9,7 @@
 #import "PPAsyncDrawingKitUtilities.h"
 
 @implementation NSMutableDictionary (Safe)
-- (void)setSafeObject:(id)object forKey:(NSString *)key
+- (void)pp_setSafeObject:(id)object forKey:(NSString *)key
 {
     if (object) {
         [self setObject:object forKey:key];
