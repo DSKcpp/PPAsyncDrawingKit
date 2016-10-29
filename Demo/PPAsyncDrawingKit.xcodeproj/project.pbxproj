@@ -17,9 +17,12 @@
 		861F1C541DB126650002BE2E /* WBTimeLineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 861F1C531DB126650002BE2E /* WBTimeLineViewController.m */; };
 		863952AE1D3FBA1400904204 /* PPAsyncDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 863952A91D3FBA1400904204 /* PPAsyncDrawingView.m */; };
 		863952AF1D3FBA1400904204 /* PPAsyncDrawingViewLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 863952AB1D3FBA1400904204 /* PPAsyncDrawingViewLayer.m */; };
-		867F77A21DB77C7C004FCEBA /* PPContentImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 867F77A11DB77C7C004FCEBA /* PPContentImageView.m */; };
+		863ADA8F1DC47F1300AC582D /* PPTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 863ADA8E1DC47F1300AC582D /* PPTextAttachment.m */; };
+		8651C4FE1DC1FD3F0092569A /* PPButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8651C4FD1DC1FD3F0092569A /* PPButton.m */; };
+		865BC5AC1DC36C57003AF1AF /* PPFlavoredRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 865BC5AB1DC36C57003AF1AF /* PPFlavoredRange.m */; };
+		867F77A21DB77C7C004FCEBA /* PPWebImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 867F77A11DB77C7C004FCEBA /* PPWebImageView.m */; };
 		86A98D2C1D92E446008F0A7E /* PPUIControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A98D2B1D92E446008F0A7E /* PPUIControl.m */; };
-		86A98D351D92F582008F0A7E /* PPRoundedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A98D341D92F582008F0A7E /* PPRoundedImageView.m */; };
+		86A98D351D92F582008F0A7E /* PPImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A98D341D92F582008F0A7E /* PPImageView.m */; };
 		86EB758F1D2393CC005F14A1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EB758E1D2393CC005F14A1 /* main.m */; };
 		86EB75921D2393CC005F14A1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EB75911D2393CC005F14A1 /* AppDelegate.m */; };
 		86EB75951D2393CC005F14A1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EB75941D2393CC005F14A1 /* ViewController.m */; };
@@ -38,6 +41,7 @@
 		86EF6AD91DB390F8006464CE /* PPAsyncDrawingKitUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6AD81DB390F8006464CE /* PPAsyncDrawingKitUtilities.m */; };
 		86EF6ADC1DB3B873006464CE /* WBTimelineItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6ADB1DB3B873006464CE /* WBTimelineItem.m */; };
 		86EFEF261DBF9D800003E078 /* YYFPSLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EFEF251DBF9D800003E078 /* YYFPSLabel.m */; };
+		86EFEF291DC100030003E078 /* PPTextLayoutLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EFEF281DC100030003E078 /* PPTextLayoutLine.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,12 +65,18 @@
 		863952A91D3FBA1400904204 /* PPAsyncDrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAsyncDrawingView.m; sourceTree = "<group>"; };
 		863952AA1D3FBA1400904204 /* PPAsyncDrawingViewLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAsyncDrawingViewLayer.h; sourceTree = "<group>"; };
 		863952AB1D3FBA1400904204 /* PPAsyncDrawingViewLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAsyncDrawingViewLayer.m; sourceTree = "<group>"; };
-		867F77A01DB77C7C004FCEBA /* PPContentImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPContentImageView.h; sourceTree = "<group>"; };
-		867F77A11DB77C7C004FCEBA /* PPContentImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPContentImageView.m; sourceTree = "<group>"; };
+		863ADA8D1DC47F1300AC582D /* PPTextAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextAttachment.h; sourceTree = "<group>"; };
+		863ADA8E1DC47F1300AC582D /* PPTextAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextAttachment.m; sourceTree = "<group>"; };
+		8651C4FC1DC1FD3F0092569A /* PPButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPButton.h; sourceTree = "<group>"; };
+		8651C4FD1DC1FD3F0092569A /* PPButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPButton.m; sourceTree = "<group>"; };
+		865BC5AA1DC36C57003AF1AF /* PPFlavoredRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPFlavoredRange.h; sourceTree = "<group>"; };
+		865BC5AB1DC36C57003AF1AF /* PPFlavoredRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPFlavoredRange.m; sourceTree = "<group>"; };
+		867F77A01DB77C7C004FCEBA /* PPWebImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPWebImageView.h; sourceTree = "<group>"; };
+		867F77A11DB77C7C004FCEBA /* PPWebImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPWebImageView.m; sourceTree = "<group>"; };
 		86A98D2A1D92E446008F0A7E /* PPUIControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPUIControl.h; sourceTree = "<group>"; };
 		86A98D2B1D92E446008F0A7E /* PPUIControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPUIControl.m; sourceTree = "<group>"; };
-		86A98D331D92F582008F0A7E /* PPRoundedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPRoundedImageView.h; sourceTree = "<group>"; };
-		86A98D341D92F582008F0A7E /* PPRoundedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPRoundedImageView.m; sourceTree = "<group>"; };
+		86A98D331D92F582008F0A7E /* PPImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPImageView.h; sourceTree = "<group>"; };
+		86A98D341D92F582008F0A7E /* PPImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPImageView.m; sourceTree = "<group>"; };
 		86EB758A1D2393CC005F14A1 /* PPAsyncDrawingKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PPAsyncDrawingKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86EB758E1D2393CC005F14A1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		86EB75901D2393CC005F14A1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -101,6 +111,8 @@
 		86EF6ADB1DB3B873006464CE /* WBTimelineItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTimelineItem.m; sourceTree = "<group>"; };
 		86EFEF241DBF9D800003E078 /* YYFPSLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYFPSLabel.h; sourceTree = "<group>"; };
 		86EFEF251DBF9D800003E078 /* YYFPSLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYFPSLabel.m; sourceTree = "<group>"; };
+		86EFEF271DC100030003E078 /* PPTextLayoutLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextLayoutLine.h; sourceTree = "<group>"; };
+		86EFEF281DC100030003E078 /* PPTextLayoutLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextLayoutLine.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,9 +185,19 @@
 				86A98D301D92F495008F0A7E /* Core */,
 				86A98D321D92F4BC008F0A7E /* Text */,
 				86A98D311D92F4AD008F0A7E /* ImageView */,
+				8651C4FB1DC1FD120092569A /* Button */,
 			);
 			name = Classes;
 			path = ../Classes;
+			sourceTree = "<group>";
+		};
+		8651C4FB1DC1FD120092569A /* Button */ = {
+			isa = PBXGroup;
+			children = (
+				8651C4FC1DC1FD3F0092569A /* PPButton.h */,
+				8651C4FD1DC1FD3F0092569A /* PPButton.m */,
+			);
+			name = Button;
 			sourceTree = "<group>";
 		};
 		86A98D301D92F495008F0A7E /* Core */ = {
@@ -196,10 +218,10 @@
 		86A98D311D92F4AD008F0A7E /* ImageView */ = {
 			isa = PBXGroup;
 			children = (
-				86A98D331D92F582008F0A7E /* PPRoundedImageView.h */,
-				86A98D341D92F582008F0A7E /* PPRoundedImageView.m */,
-				867F77A01DB77C7C004FCEBA /* PPContentImageView.h */,
-				867F77A11DB77C7C004FCEBA /* PPContentImageView.m */,
+				86A98D331D92F582008F0A7E /* PPImageView.h */,
+				86A98D341D92F582008F0A7E /* PPImageView.m */,
+				867F77A01DB77C7C004FCEBA /* PPWebImageView.h */,
+				867F77A11DB77C7C004FCEBA /* PPWebImageView.m */,
 			);
 			name = ImageView;
 			sourceTree = "<group>";
@@ -225,6 +247,12 @@
 				86EF6ABF1DB36E78006464CE /* PPTextStorage.m */,
 				86EF6AC11DB36EA2006464CE /* PPTextParagraphStyle.h */,
 				86EF6AC21DB36EA2006464CE /* PPTextParagraphStyle.m */,
+				86EFEF271DC100030003E078 /* PPTextLayoutLine.h */,
+				86EFEF281DC100030003E078 /* PPTextLayoutLine.m */,
+				865BC5AA1DC36C57003AF1AF /* PPFlavoredRange.h */,
+				865BC5AB1DC36C57003AF1AF /* PPFlavoredRange.m */,
+				863ADA8D1DC47F1300AC582D /* PPTextAttachment.h */,
+				863ADA8E1DC47F1300AC582D /* PPTextAttachment.m */,
 			);
 			name = Text;
 			sourceTree = "<group>";
@@ -373,14 +401,18 @@
 				86EF6AAE1DB132F9006464CE /* TextViewController.m in Sources */,
 				861EB1E21DB11EBD005C07C7 /* NSObject+YYModel.m in Sources */,
 				86EF6ABA1DB36CB7006464CE /* PPAttributedTextView.m in Sources */,
+				865BC5AC1DC36C57003AF1AF /* PPFlavoredRange.m in Sources */,
+				86EFEF291DC100030003E078 /* PPTextLayoutLine.m in Sources */,
 				861F1C541DB126650002BE2E /* WBTimeLineViewController.m in Sources */,
 				861EB1D01DB11419005C07C7 /* PPTextContentView.m in Sources */,
 				863952AF1D3FBA1400904204 /* PPAsyncDrawingViewLayer.m in Sources */,
 				86EF6AB71DB215F7006464CE /* PPCoreTextInternalView.m in Sources */,
 				86EB75951D2393CC005F14A1 /* ViewController.m in Sources */,
 				86EB75921D2393CC005F14A1 /* AppDelegate.m in Sources */,
-				86A98D351D92F582008F0A7E /* PPRoundedImageView.m in Sources */,
+				86A98D351D92F582008F0A7E /* PPImageView.m in Sources */,
 				861EB1E31DB11EBD005C07C7 /* YYClassInfo.m in Sources */,
+				8651C4FE1DC1FD3F0092569A /* PPButton.m in Sources */,
+				863ADA8F1DC47F1300AC582D /* PPTextAttachment.m in Sources */,
 				861EB1CD1DB10F0B005C07C7 /* ImageViewTableViewController.m in Sources */,
 				86EF6ABD1DB36CCD006464CE /* PPAttributedText.m in Sources */,
 				86EB758F1D2393CC005F14A1 /* main.m in Sources */,
@@ -390,7 +422,7 @@
 				861EB1D61DB11563005C07C7 /* PPTextRenderer.m in Sources */,
 				86EF6AD91DB390F8006464CE /* PPAsyncDrawingKitUtilities.m in Sources */,
 				86EF6AB41DB136B8006464CE /* PPTextLayoutFrame.m in Sources */,
-				867F77A21DB77C7C004FCEBA /* PPContentImageView.m in Sources */,
+				867F77A21DB77C7C004FCEBA /* PPWebImageView.m in Sources */,
 				86EF6AAA1DB12F1A006464CE /* WBCardCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,5 +1,5 @@
 //
-//  PPRoundedImageView.h
+//  PPImageView.h
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 16/9/22.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PPRoundedImageView : PPUIControl
+@interface PPImageView : PPUIControl
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, assign) CGRect imageContentFrame;
 @property (nonatomic, assign) BOOL isNeedChangeContentModel;

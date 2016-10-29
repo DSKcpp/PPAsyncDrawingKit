@@ -14,10 +14,10 @@
 
 @interface PPCoreTextInternalView : PPAsyncDrawingView <PPTextRendererDelegate, PPTextRendererEventDelegate>
 @property (nonatomic, assign) BOOL pendingAttachmentUpdates;
+@property (nonatomic, strong) PPTextLayout *textLayout;
 @property (nonatomic, strong) PPTextRenderer *textRenderer;
 @property (nonatomic, strong) NSAttributedString *attributedString;
-@property (nonatomic, strong) PPTextLayout *textLayout;
-@property (nonatomic, assign) NSRange *visibleStringRange;
+@property (nonatomic, assign) NSRange visibleStringRange;
 @property (nonatomic, assign) NSInteger numberOfLines;
 
 - (instancetype)initWithFrame:(CGRect)frame;

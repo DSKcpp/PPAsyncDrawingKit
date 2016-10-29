@@ -24,8 +24,25 @@
 
 - (void)setupWithCTFrame:(CTFrameRef)frame
 {
+    NSInteger maxLines = self.layout.maximumNumberOfLines;
+    CFArrayRef lines = CTFrameGetLines(frame);
+    CFIndex lineCount = CFArrayGetCount(lines);
+    CGPoint origins[lineCount];
+    CTFrameGetLineOrigins(frame, CFRangeMake(0, 0), origins);
+    self.lineFragments = @[].mutableCopy;
     
 }
+
+- (void)updateLayoutSize
+{
+    
+}
+
+- (id)textLayout:(PPTextLayout *)layout truncateLine:(CTLineRef)truncateLine atIndex:(NSUInteger)index truncated:(BOOL)truncated
+{
+    return nil;
+}
+
 
 - (CGFloat)textLayout:(PPTextLayout *)layout maximumWidthForTruncatedLine:(CTLineRef)maximumWidthForTruncatedLine atIndex:(NSUInteger)index
 {

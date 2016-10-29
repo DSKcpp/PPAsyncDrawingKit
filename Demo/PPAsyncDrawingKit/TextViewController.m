@@ -12,8 +12,7 @@
 #import "PPTextParagraphStyle.h"
 
 @interface TextViewController ()
-@property (nonatomic, strong) PPTextContentView * textContentView;
-@property (nonatomic, strong) PPCoreTextInternalView *coreTextView;
+
 @end
 
 @implementation TextViewController
@@ -24,13 +23,9 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-//    _textContentView = [[PPTextContentView alloc] init];
-//    _textContentView.frame = self.view.bounds;
-//    [self.view addSubview:_textContentView];
-    _coreTextView = [[PPCoreTextInternalView alloc] initWithFrame:self.view.bounds];
-    [self.view addSubview:_coreTextView];
-    
-    NSLog(@"%@", [PPTextParagraphStyle defaultParagraphStyle]);
+    PPCoreTextInternalView *coreTextView = [[PPCoreTextInternalView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 44)];
+    coreTextView.attributedString = [[NSAttributedString alloc] initWithString:@"A you ok?"];
+    [self.view addSubview:coreTextView];
 }
 
 

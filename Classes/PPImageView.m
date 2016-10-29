@@ -1,15 +1,15 @@
 //
-//  PPRoundedImageView.m
+//  PPImageView.m
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 16/9/22.
 //  Copyright © 2016年 DSKcpp. All rights reserved.
 //
 
-#import "PPRoundedImageView.h"
+#import "PPImageView.h"
 #import "PPAsyncDrawingKitUtilities.h"
 
-@implementation PPRoundedImageView
+@implementation PPImageView
 {
     CGPathRef roundPathRef;
     CGPathRef borderPathRef;

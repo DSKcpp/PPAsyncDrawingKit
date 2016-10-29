@@ -1,14 +1,14 @@
 //
-//  PPContentImageView.h
+//  PPWebImageView.h
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 2016/10/19.
 //  Copyright © 2016年 DSKcpp. All rights reserved.
 //
 
-#import "PPRoundedImageView.h"
+#import "PPImageView.h"
 
-@interface PPContentImageView : PPRoundedImageView
+@interface PPWebImageView : PPImageView
 @property (nonatomic, strong) UIImageView *livePhotoImageView;
 @property (nonatomic, copy) NSString *currentReadingTaskKey;
 @property (nonatomic, assign) int loadState;
@@ -30,7 +30,7 @@
 @property (copy, nonatomic) id imageDidFinishDownloadBlock;
 @property (copy, nonatomic) id buildAlternativeImageUrlsBlock;
 @property (nonatomic, assign) BOOL ignoreImageMask;
-@property (readonly, nonatomic, copy) NSString *imageUrl;
+@property (nonatomic, copy) NSString *imageUrl;
 @property (nonatomic, assign, readonly) BOOL imageLoaded;
 @property (nonatomic, strong) NSMutableArray *photoTagViews;
 - (void)viewWillAppear:(BOOL)animated;
@@ -48,16 +48,17 @@
 - (void)setPhotoTags:(id)arg1;
 - (void)tagClicked:(id)arg1;
 - (void)setGifImage:(id)arg1;
-- (void)loadImageWithPath:(id)arg1 localCacheFileAsyncFirst:(_Bool)arg2;
 - (void)setFrame:(CGRect)frame;
 - (void)reloadUIElements;
 - (void)setFlagTitle:(id)arg1 font:(id)arg2 textColor:(id)arg3;
 - (void)setFlagUrl:(id)arg1;
-- (void)setImageUrl:(NSURL *)url flagImageUrl:(id)arg2 placeholderImage:(id)arg3 localCacheFileAsyncFirst:(_Bool)arg4;
-- (void)setImageUrl:(NSURL *)url flagImageUrl:(id)arg2 placeholderImage:(id)arg3;
-- (void)setImageUrl:(NSURL *)url flagImageUrl:(id)arg2;
-- (void)setImageUrl:(NSURL *)url placeholderImage:(id)arg2;
-- (void)setImageUrl:(NSURL *)url;
+
+- (void)loadImageWithPath:(NSString *)path localCacheFileAsyncFirst:(BOOL)arg2;
+- (void)setImageUrl:(NSString *)url placeholderImage:(UIImage *)placeholderImage;
+- (void)setImageUrl:(NSString *)url flagImageUrl:(id)arg2;
+- (void)setImageUrl:(NSString *)url flagImageUrl:(id)arg2 placeholderImage:(UIImage *)placeholderImage;
+- (void)setImageUrl:(NSString *)url flagImageUrl:(id)arg2 placeholderImage:(UIImage *)placeholderImage localCacheFileAsyncFirst:(BOOL)arg4;
+
 - (void)offsetFlagImageViewPos:(CGSize)arg1;
 - (void)resetMaskColor;
 - (void)setBorderWidth:(CGFloat)borderWidth;
@@ -68,10 +69,10 @@
 - (void)setHighlighted:(BOOL)highlighted;
 @end
 
-@interface PPContentImageView (LoadImage)
+@interface PPWebImageView (LoadImage)
 - (void)loadImageWithImageUrl:(NSURL *)url placeholderImage:(UIImage *)placeholderImage;
 @end
 
-@interface PPContentImageView (PPRoundRectImage)
+@interface PPWebImageView (PPRoundRectImage)
 - (void)pp_setRoundRectImageWithURL:(NSURL *)url placeholder:(UIImage *)placeholder cropSize:(CGSize)cropSize;
 @end

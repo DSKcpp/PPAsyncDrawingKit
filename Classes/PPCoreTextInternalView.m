@@ -30,11 +30,53 @@
         textRenderer.eventDelegate = self;
         textRenderer.renderDelegate = self;
         self.drawingPolicy = 1;
-        self.backgroundColor = [UIColor clearColor];
+        [self setBackgroundColor:[UIColor clearColor]];
         self.clearsContextBeforeDrawing = NO;
         self.contentMode = UIViewContentModeRedraw;
     }
     return self;
+}
+
+- (NSDictionary *)currentDrawingUserInfo
+{
+    if (self.attributedString) {
+        return @{@"attributedString" : self.attributedString};
+    } else {
+        return nil;
+    }
+}
+
+- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(NSDictionary *)userInfo
+{
+    NSAttributedString *attributedString = userInfo[@"attributedString"];
+    if (attributedString) {
+        [self _updateTextRendererWithAttributedString:attributedString];
+//        self.pendingAttachmentUpdates
+        [self.textRenderer drawInContext:context visibleRect:rect placeAttachments:YES shouldInterruptBlock:^{
+            
+        }];
+    }
+    return YES;
+}
+
+- (BOOL)pendingAttachmentUpdates
+{
+    return YES;
+}
+
+- (PPTextLayout *)textLayout
+{
+    return self.textRenderer.textLayout;
+}
+
+- (NSInteger)numberOfLines
+{
+    return self.textRenderer.textLayout.maximumNumberOfLines;
+}
+
+- (void)setNumberOfLines:(NSInteger)numberOfLines
+{
+    self.textRenderer.textLayout.maximumNumberOfLines = numberOfLines;
 }
 
 - (void)setAttributedString:(NSAttributedString *)attributedString
@@ -73,13 +115,17 @@
 
 - (CGSize)sizeThatFits:(CGSize)size
 {
-    return [super sizeThatFits:size];
+    if (self.attributedString) {
+        return [self.attributedString pp_sizeConstrainedToSize:size numberOfLines:self.numberOfLines];
+    } else {
+        return CGSizeZero;
+    }
 }
 
-- (void)setFrame:(CGRect)frame
-{
-    [super setFrame:frame];
-}
+//- (void)setFrame:(CGRect)frame
+//{
+//    [super setFrame:frame];
+//}
 
 - (void)dealloc
 {

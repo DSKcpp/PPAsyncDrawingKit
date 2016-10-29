@@ -17,7 +17,7 @@
 @interface PPTextLayout : NSObject
 @property (nonatomic, assign) BOOL retriveFontMetricsAutomatically;
 @property (nonatomic, weak) id <PPTextLayoutDelegate> delegate;
-@property (nonatomic, assign) PPTFontMetrics baselineFontMetrics;
+@property (nonatomic, assign) PPFontMetrics baselineFontMetrics;
 @property (nonatomic, strong) NSAttributedString *truncationString;
 @property (nonatomic, assign) NSUInteger maximumNumberOfLines;
 @property (nonatomic, strong) NSArray *exclusionPaths;
@@ -54,7 +54,7 @@
 - (void)enumerateEnclosingRectsForCharacterRange:(NSRange)arg1 usingBlock:(id)block;
 - (void)enumerateLineFragmentsForCharacterRange:(NSRange)arg1 usingBlock:(id)block;
 - (CGRect)firstSelectionRectForCharacterRange:(NSRange)arg1;
-- (PPTFontMetrics)lineFragmentMetricsForLineAtIndex:(NSUInteger)index effectiveRange:(NSRange)range;
+- (PPFontMetrics)lineFragmentMetricsForLineAtIndex:(NSUInteger)index effectiveRange:(NSRange)range;
 - (CGRect)lineFragmentRectForCharacterAtIndex:(NSUInteger)arg1 effectiveRange:(NSRange)range;
 - (CGRect)lineFragmentRectForLineAtIndex:(NSUInteger)arg1 effectiveRange:(NSRange)range;
 - (NSUInteger)lineFragmentIndexForCharacterAtIndex:(NSUInteger)index;

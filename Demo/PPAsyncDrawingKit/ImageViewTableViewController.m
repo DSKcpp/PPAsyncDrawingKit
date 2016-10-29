@@ -7,11 +7,9 @@
 //
 
 #import "ImageViewTableViewController.h"
-#import "PPRoundedImageView.h"
+#import "PPImageView.h"
 
-@interface AvatarImageCell : UITableViewCell
-@property (nonatomic, strong) PPRoundedImageView *roundedImageView;
-@end
+@interface AvatarImageCell : UITableViewCell @end
 
 @implementation AvatarImageCell
 
@@ -19,19 +17,19 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         for (NSInteger i = 0; i < 7; i++) {
-            self.roundedImageView = [[PPRoundedImageView alloc] initWithFrame:CGRectMake(i * 45, 5, 40, 40)];
-            self.roundedImageView.cornerRadius = 20;
-            self.roundedImageView.userInteractionEnabled = YES;
-            self.roundedImageView.roundedCorners = UIRectCornerAllCorners;
-            self.roundedImageView.image = [UIImage imageNamed:@"avatar"];
-            [self.roundedImageView addTarget:self action:@selector(tapImageView:) forControlEvents:UIControlEventTouchUpInside];
-            [self.contentView addSubview:self.roundedImageView];
+            PPImageView *roundedImageView = [[PPImageView alloc] initWithFrame:CGRectMake(i * 45, 5, 40, 40)];
+            roundedImageView.cornerRadius = 20;
+            roundedImageView.userInteractionEnabled = YES;
+            roundedImageView.roundedCorners = UIRectCornerAllCorners;
+            roundedImageView.image = [UIImage imageNamed:@"avatar"];
+            [roundedImageView addTarget:self action:@selector(tapImageView:) forControlEvents:UIControlEventTouchUpInside];
+            [self.contentView addSubview:roundedImageView];
         }
     }
     return self;
 }
 
-- (void)tapImageView:(PPRoundedImageView *)imageView
+- (void)tapImageView:(PPImageView *)imageView
 {
     NSLog(@"%@", imageView);
 }

@@ -8,20 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreText/CoreText.h>
+#import "PPAsyncDrawingKitUtilities.h"
 
 @class PPTextLayout;
-
-typedef struct {
-    CGFloat ascent;
-    CGFloat descent;
-    CGFloat leading;
-} PPTFontMetrics;
+@class PPTextLayoutLine;
 
 @interface PPTextLayoutFrame : NSObject
 @property (nonatomic, weak) PPTextLayout *layout;
 @property (nonatomic, assign) CGSize layoutSize;
-@property (nonatomic, assign) PPTFontMetrics baselineMetrics;
-@property (nonatomic, strong) NSArray *lineFragments;
+@property (nonatomic, assign) PPFontMetrics baselineMetrics;
+@property (nonatomic, strong) NSArray<PPTextLayoutLine *> *lineFragments;
 
 - (instancetype)initWithCTFrame:(CTFrameRef)frame layout:(PPTextLayout *)layout;
 - (void)setupWithCTFrame:(CTFrameRef)frame;

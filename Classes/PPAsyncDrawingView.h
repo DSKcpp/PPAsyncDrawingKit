@@ -8,11 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @class PPAsyncDrawingViewLayer;
 
-typedef void(^PPAsyncDrawingCompleted)(NSInteger success);
+NS_ASSUME_NONNULL_BEGIN
 
 @interface PPAsyncDrawingView : UIView
 

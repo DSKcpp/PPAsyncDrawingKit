@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "PPTextLayout.h"
+#import "PPFlavoredRange.h"
+
+@class PPTextLayoutFrame;
 
 @protocol PPTextRendererDelegate <NSObject>
 
@@ -22,20 +25,74 @@
 @property (nonatomic, strong) NSAttributedString *attributedString;
 @property (nonatomic, assign) BOOL heightSensitiveLayout;
 @property (nonatomic, weak) id <PPTextRendererDelegate> renderDelegate;
-@property (nonatomic, weak) id <PPTextRendererEventDelegate> eventDelegate;
 @property (nonatomic, weak) id <PPTextLayoutDelegate> layoutDelegate;
-//@property (nonatomic, strong) id <WBTextActiveRange> savedPressingActiveRange;
-//@property (retain, nonatomic) id <WBTextActiveRange> pressingActiveRange;
-@property (nonatomic) struct CGPoint drawingOrigin;
+@property (nonatomic, strong) id <PPTextActiveRange> savedPressingActiveRange;
+@property (nonatomic, strong) id <PPTextActiveRange> pressingActiveRange;
+@property (nonatomic, assign) CGPoint drawingOrigin;
 @property (nonatomic, assign) CGFloat shadowBlur;
 @property (nonatomic, assign) UIOffset shadowOffset;
 @property (retain, nonatomic) UIColor *shadowColor;
 @property (nonatomic, strong) PPTextLayout *textLayout;
-- (UIOffset)drawingOffsetWithTextLayout:(PPTextLayout *)textLayout layoutFrame:(id)arg2;
-- (void)drawHighlightedBackgroundForActiveRange:(id)arg1 rect:(struct CGRect)arg2 context:(struct CGContext *)arg3;
-- (void)drawAttachmentsWithAttributedString:(id)arg1 layoutFrame:(id)arg2 context:(struct CGContext *)arg3 shouldInterrupt:(id)arg4;
-- (void)drawInContext:(struct CGContext *)arg1 visibleRect:(struct CGRect)arg2 placeAttachments:(_Bool)arg3 shouldInterruptBlock:(id)arg4;
-- (void)drawInContext:(struct CGContext *)arg1 shouldInterruptBlock:(id)arg2;
-- (void)drawInContext:(struct CGContext *)arg1;
+- (UIOffset)drawingOffsetWithTextLayout:(PPTextLayout *)textLayout layoutFrame:(PPTextLayoutFrame *)layoutFrame;
+- (void)drawHighlightedBackgroundForActiveRange:(id)arg1 rect:(CGRect)rect context:(CGContextRef)context;
+- (void)drawAttachmentsWithAttributedString:(NSAttributedString *)attributedString
+                                layoutFrame:(PPTextLayoutFrame *)layoutFrame
+                                    context:(CGContextRef)context
+                            shouldInterrupt:(void(^)(void))shouldInterruptBlock;
+- (void)drawInContext:(CGContextRef)context
+          visibleRect:(CGRect)visibleRect
+     placeAttachments:(BOOL)placeAttachments
+ shouldInterruptBlock:(void(^)(void))shouldInterruptBlock;
+- (void)drawInContext:(CGContextRef)context shouldInterruptBlock:(void(^)(void))shouldInterruptBlock;
+- (void)drawInContext:(CGContextRef)context;
 - (void)draw;
+
+
+#pragma mark - LayoutResult
+- (NSUInteger)characterIndexForPoint:(CGPoint)point;
+- (NSRange)characterRangeForBoundingRect:(CGRect)rect;
+- (CGRect)boundingRectForCharacterRange:(NSRange)range;
+- (CGPoint)locationForCharacterAtIndex:(NSUInteger)index;
+- (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)arg1 usingBlock:(id)arg2;
+- (void)enumerateEnclosingRectsForCharacterRange:(NSRange)arg1 usingBlock:(id)arg2;
+- (void)enumerateLineFragmentsForCharacterRange:(NSRange)arg1 usingBlock:(id)arg2;
+- (CGRect)firstSelectionRectForCharacterRange:(NSRange)arg1;
+- (CGRect)lineFragmentRectForCharacterAtIndex:(NSUInteger)index effectiveRange:(NSRange)effectiveRange;
+- (CGRect)lineFragmentRectForLineAtIndex:(NSUInteger)index effectiveRange:(NSRange)effectiveRange;
+- (NSUInteger)lineFragmentIndexForCharacterAtIndex:(NSUInteger)index;
+
+@property (readonly, nonatomic, assign) CGFloat layoutHeight;
+@property (readonly, nonatomic, assign) CGSize layoutSize;
+@property (readonly, nonatomic, assign) NSUInteger layoutLineCount;
+@property (readonly, nonatomic, assign) NSRange layoutStringRange;
+@property (readonly, nonatomic, assign) BOOL layoutUpToDate;
+
+#pragma mark - Events
+@property (nonatomic, weak) id <PPTextRendererEventDelegate> eventDelegate;
+- (id)rangeInRanges:(id)arg1 forLayoutLocation:(CGPoint)location;
+- (void)eventDelegateDidPressActiveRange:(id)arg1;
+- (NSArray *)eventDelegateActiveRanges;
+- (id)eventDelegateContextView;
+@end
+
+@interface PPTextRenderer (Previewing)
+- (id)activeRangeAtLocation:(struct CGPoint)arg1;
+@end
+
+
+@interface PPTextRenderer (Coordinates)
+- (CGRect)convertRectToLayout:(CGRect)rect;
+- (CGRect)convertRectFromLayout:(CGRect)rect;
+- (CGPoint)convertPointToLayout:(CGPoint)point;
+- (CGPoint)convertPointFromLayout:(CGPoint)point;
+@end
+
+@interface PPTextRenderer (Debug)
++ (void)disableDebugMode;
++ (void)enableDebugMode;
++ (void)setDebugModeEnabled:(BOOL)enabled;
++ (BOOL)debugModeEnabled;
++ (void)debugModeSetEverythingNeedsDisplay;
++ (void)debugModeSetEverythingNeedsDisplayForView:(id)arg1;
+- (void)debugModeDrawLineFramesWithLayoutFrame:(id)arg1 context:(CGContextRef)context offset:(UIOffset)offset;
 @end

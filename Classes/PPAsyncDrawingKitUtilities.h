@@ -8,6 +8,17 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <objc/runtime.h>
+
+@class PPTextRenderer;
+
+NS_ASSUME_NONNULL_BEGIN
+
+typedef struct {
+    CGFloat ascent;
+    CGFloat descent;
+    CGFloat leading;
+} PPFontMetrics;
 
 static inline CFRange CFRangeFromNSRange(NSRange range) {
     return CFRangeMake(range.location, range.length);
@@ -23,17 +34,39 @@ static inline void hex16ToFloat(int hex) {
     printf("%f\n",*f);
 }
 
-static inline CGPathRef CreateCGPath(CGRect rect, CGFloat cornerRadius, UIRectCorner roundedCorners) {
+static inline _Nullable CGPathRef CreateCGPath(CGRect rect, CGFloat cornerRadius, UIRectCorner roundedCorners) {
     CGSize cornerRadii = CGSizeMake(cornerRadius, cornerRadius);
     UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:roundedCorners cornerRadii:cornerRadii];
     return CGPathCreateCopy(bezierPath.CGPath);
 }
 
-@interface NSMutableDictionary (Safe)
-- (void)pp_setSafeObject:(nullable id)object forKey:(nonnull NSString *)key;
+@interface NSObject (PPAsyncDrawingKit)
+- (nullable id)pp_objectWithAssociatedKey:(void * _Nonnull)key;
+- (void)pp_setObject:(id)object forAssociatedKey:( void *)key retained:(BOOL)retained;
+- (void)pp_setObject:(id)object forAssociatedKey:( void *)key associationPolicy:(objc_AssociationPolicy)policy;
 @end
 
-@interface UIImage (Util)
-- (CGRect)pp_convertRect:(CGRect)rect withContentMode:(UIViewContentMode)contentMode;
-- (void)pp_drawInRect:(CGRect)rect contentMode:(UIViewContentMode)contentMode withContext:(CGContextRef)context;
+@interface NSMutableDictionary (PPAsyncDrawingKit)
+- (void)pp_setSafeObject:(nullable id)object forKey:(NSString *)key;
 @end
+
+@interface UIImage (PPAsyncDrawingKit)
+- (CGRect)pp_convertRect:(CGRect)rect withContentMode:(UIViewContentMode)contentMode;
+- (void)pp_drawInRect:(CGRect)rect contentMode:(UIViewContentMode)contentMode withContext:(nullable CGContextRef)context;
+@end
+
+@interface NSAttributedString (PPAsyncDrawingKit)
++ (nullable PPTextRenderer *)rendererForCurrentThread;
++ (nullable PPTextRenderer *)pp_sharedTextRenderer;
+- (nullable PPTextRenderer *)pp_sharedTextRenderer;
+- (CGSize)pp_sizeConstrainedToSize:(CGSize)size;
+- (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines;
+- (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines derivedLineCount:(NSInteger)derivedLineCount;
+- (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines derivedLineCount:(NSInteger)derivedLineCount baselineMetrics:(PPFontMetrics)baselineMetrics;
+@end
+
+@interface NSCoder (PPAsyncDrawingKit)
+- (void)pp_encodeFontMetrics:(PPFontMetrics)fontMetrics forKey:(NSString *)key;
+- (PPFontMetrics)pp_decodeFontMetricsForKey:(NSString *)key;
+@end
+NS_ASSUME_NONNULL_END
