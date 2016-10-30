@@ -31,7 +31,7 @@
 @property (nonatomic, assign) CGPoint drawingOrigin;
 @property (nonatomic, assign) CGFloat shadowBlur;
 @property (nonatomic, assign) UIOffset shadowOffset;
-@property (retain, nonatomic) UIColor *shadowColor;
+@property (nonatomic, strong) UIColor *shadowColor;
 @property (nonatomic, strong) PPTextLayout *textLayout;
 - (UIOffset)drawingOffsetWithTextLayout:(PPTextLayout *)textLayout layoutFrame:(PPTextLayoutFrame *)layoutFrame;
 - (void)drawHighlightedBackgroundForActiveRange:(id)arg1 rect:(CGRect)rect context:(CGContextRef)context;
@@ -61,11 +61,11 @@
 - (CGRect)lineFragmentRectForLineAtIndex:(NSUInteger)index effectiveRange:(NSRange)effectiveRange;
 - (NSUInteger)lineFragmentIndexForCharacterAtIndex:(NSUInteger)index;
 
-@property (readonly, nonatomic, assign) CGFloat layoutHeight;
-@property (readonly, nonatomic, assign) CGSize layoutSize;
-@property (readonly, nonatomic, assign) NSUInteger layoutLineCount;
-@property (readonly, nonatomic, assign) NSRange layoutStringRange;
-@property (readonly, nonatomic, assign) BOOL layoutUpToDate;
+@property (nonatomic, assign, readonly) CGFloat layoutHeight;
+@property (nonatomic, assign, readonly) CGSize layoutSize;
+@property (nonatomic, assign, readonly) NSUInteger layoutLineCount;
+@property (nonatomic, assign, readonly) NSRange layoutStringRange;
+@property (nonatomic, assign, readonly) BOOL layoutUpToDate;
 
 #pragma mark - Events
 @property (nonatomic, weak) id <PPTextRendererEventDelegate> eventDelegate;

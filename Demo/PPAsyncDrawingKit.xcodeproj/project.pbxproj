@@ -16,7 +16,6 @@
 		861EB1E31DB11EBD005C07C7 /* YYClassInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 861EB1E01DB11EBD005C07C7 /* YYClassInfo.m */; };
 		861F1C541DB126650002BE2E /* WBTimeLineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 861F1C531DB126650002BE2E /* WBTimeLineViewController.m */; };
 		863952AE1D3FBA1400904204 /* PPAsyncDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 863952A91D3FBA1400904204 /* PPAsyncDrawingView.m */; };
-		863952AF1D3FBA1400904204 /* PPAsyncDrawingViewLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 863952AB1D3FBA1400904204 /* PPAsyncDrawingViewLayer.m */; };
 		863ADA8F1DC47F1300AC582D /* PPTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 863ADA8E1DC47F1300AC582D /* PPTextAttachment.m */; };
 		8651C4FE1DC1FD3F0092569A /* PPButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8651C4FD1DC1FD3F0092569A /* PPButton.m */; };
 		865BC5AC1DC36C57003AF1AF /* PPFlavoredRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 865BC5AB1DC36C57003AF1AF /* PPFlavoredRange.m */; };
@@ -33,8 +32,7 @@
 		86EF6AAE1DB132F9006464CE /* TextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6AAD1DB132F9006464CE /* TextViewController.m */; };
 		86EF6AB11DB13677006464CE /* PPTextLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6AB01DB13677006464CE /* PPTextLayout.m */; };
 		86EF6AB41DB136B8006464CE /* PPTextLayoutFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6AB31DB136B8006464CE /* PPTextLayoutFrame.m */; };
-		86EF6AB71DB215F7006464CE /* PPCoreTextInternalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6AB61DB215F7006464CE /* PPCoreTextInternalView.m */; };
-		86EF6ABA1DB36CB7006464CE /* PPAttributedTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6AB91DB36CB7006464CE /* PPAttributedTextView.m */; };
+		86EF6AB71DB215F7006464CE /* PPLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6AB61DB215F7006464CE /* PPLabel.m */; };
 		86EF6ABD1DB36CCD006464CE /* PPAttributedText.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6ABC1DB36CCD006464CE /* PPAttributedText.m */; };
 		86EF6AC01DB36E78006464CE /* PPTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6ABF1DB36E78006464CE /* PPTextStorage.m */; };
 		86EF6AC31DB36EA2006464CE /* PPTextParagraphStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6AC21DB36EA2006464CE /* PPTextParagraphStyle.m */; };
@@ -63,8 +61,6 @@
 		861F1C531DB126650002BE2E /* WBTimeLineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTimeLineViewController.m; sourceTree = "<group>"; };
 		863952A81D3FBA1400904204 /* PPAsyncDrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAsyncDrawingView.h; sourceTree = "<group>"; };
 		863952A91D3FBA1400904204 /* PPAsyncDrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAsyncDrawingView.m; sourceTree = "<group>"; };
-		863952AA1D3FBA1400904204 /* PPAsyncDrawingViewLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAsyncDrawingViewLayer.h; sourceTree = "<group>"; };
-		863952AB1D3FBA1400904204 /* PPAsyncDrawingViewLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAsyncDrawingViewLayer.m; sourceTree = "<group>"; };
 		863ADA8D1DC47F1300AC582D /* PPTextAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextAttachment.h; sourceTree = "<group>"; };
 		863ADA8E1DC47F1300AC582D /* PPTextAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextAttachment.m; sourceTree = "<group>"; };
 		8651C4FC1DC1FD3F0092569A /* PPButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPButton.h; sourceTree = "<group>"; };
@@ -95,10 +91,8 @@
 		86EF6AB01DB13677006464CE /* PPTextLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextLayout.m; sourceTree = "<group>"; };
 		86EF6AB21DB136B8006464CE /* PPTextLayoutFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextLayoutFrame.h; sourceTree = "<group>"; };
 		86EF6AB31DB136B8006464CE /* PPTextLayoutFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextLayoutFrame.m; sourceTree = "<group>"; };
-		86EF6AB51DB215F7006464CE /* PPCoreTextInternalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPCoreTextInternalView.h; sourceTree = "<group>"; };
-		86EF6AB61DB215F7006464CE /* PPCoreTextInternalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPCoreTextInternalView.m; sourceTree = "<group>"; };
-		86EF6AB81DB36CB7006464CE /* PPAttributedTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAttributedTextView.h; sourceTree = "<group>"; };
-		86EF6AB91DB36CB7006464CE /* PPAttributedTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAttributedTextView.m; sourceTree = "<group>"; };
+		86EF6AB51DB215F7006464CE /* PPLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPLabel.h; sourceTree = "<group>"; };
+		86EF6AB61DB215F7006464CE /* PPLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPLabel.m; sourceTree = "<group>"; };
 		86EF6ABB1DB36CCD006464CE /* PPAttributedText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAttributedText.h; sourceTree = "<group>"; };
 		86EF6ABC1DB36CCD006464CE /* PPAttributedText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAttributedText.m; sourceTree = "<group>"; };
 		86EF6ABE1DB36E78006464CE /* PPTextStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextStorage.h; sourceTree = "<group>"; };
@@ -179,7 +173,7 @@
 			name = Controller;
 			sourceTree = "<group>";
 		};
-		863952A71D3FBA1400904204 /* Classes */ = {
+		863952A71D3FBA1400904204 /* PPAsyncDrawingKit */ = {
 			isa = PBXGroup;
 			children = (
 				86A98D301D92F495008F0A7E /* Core */,
@@ -187,8 +181,8 @@
 				86A98D311D92F4AD008F0A7E /* ImageView */,
 				8651C4FB1DC1FD120092569A /* Button */,
 			);
-			name = Classes;
-			path = ../Classes;
+			name = PPAsyncDrawingKit;
+			path = ../PPAsyncDrawingKit;
 			sourceTree = "<group>";
 		};
 		8651C4FB1DC1FD120092569A /* Button */ = {
@@ -205,8 +199,6 @@
 			children = (
 				863952A81D3FBA1400904204 /* PPAsyncDrawingView.h */,
 				863952A91D3FBA1400904204 /* PPAsyncDrawingView.m */,
-				863952AA1D3FBA1400904204 /* PPAsyncDrawingViewLayer.h */,
-				863952AB1D3FBA1400904204 /* PPAsyncDrawingViewLayer.m */,
 				86A98D2A1D92E446008F0A7E /* PPUIControl.h */,
 				86A98D2B1D92E446008F0A7E /* PPUIControl.m */,
 				86EF6AD71DB390F8006464CE /* PPAsyncDrawingKitUtilities.h */,
@@ -237,10 +229,8 @@
 				86EF6AB01DB13677006464CE /* PPTextLayout.m */,
 				86EF6AB21DB136B8006464CE /* PPTextLayoutFrame.h */,
 				86EF6AB31DB136B8006464CE /* PPTextLayoutFrame.m */,
-				86EF6AB51DB215F7006464CE /* PPCoreTextInternalView.h */,
-				86EF6AB61DB215F7006464CE /* PPCoreTextInternalView.m */,
-				86EF6AB81DB36CB7006464CE /* PPAttributedTextView.h */,
-				86EF6AB91DB36CB7006464CE /* PPAttributedTextView.m */,
+				86EF6AB51DB215F7006464CE /* PPLabel.h */,
+				86EF6AB61DB215F7006464CE /* PPLabel.m */,
 				86EF6ABB1DB36CCD006464CE /* PPAttributedText.h */,
 				86EF6ABC1DB36CCD006464CE /* PPAttributedText.m */,
 				86EF6ABE1DB36E78006464CE /* PPTextStorage.h */,
@@ -260,8 +250,8 @@
 		86EB75811D2393CC005F14A1 = {
 			isa = PBXGroup;
 			children = (
-				863952A71D3FBA1400904204 /* Classes */,
-				86EB758C1D2393CC005F14A1 /* PPAsyncDrawingKit */,
+				863952A71D3FBA1400904204 /* PPAsyncDrawingKit */,
+				86EB758C1D2393CC005F14A1 /* PPAsyncDrawingKit-Demo */,
 				86EB758B1D2393CC005F14A1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -274,7 +264,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		86EB758C1D2393CC005F14A1 /* PPAsyncDrawingKit */ = {
+		86EB758C1D2393CC005F14A1 /* PPAsyncDrawingKit-Demo */ = {
 			isa = PBXGroup;
 			children = (
 				86EFEF231DBF9D760003E078 /* Other */,
@@ -292,6 +282,7 @@
 				86EB758D1D2393CC005F14A1 /* Supporting Files */,
 				861EB1D71DB11DA5005C07C7 /* WBTimeLineJSON.json */,
 			);
+			name = "PPAsyncDrawingKit-Demo";
 			path = PPAsyncDrawingKit;
 			sourceTree = "<group>";
 		};
@@ -400,13 +391,11 @@
 				861EB1DB1DB11E28005C07C7 /* WBCardsModel.m in Sources */,
 				86EF6AAE1DB132F9006464CE /* TextViewController.m in Sources */,
 				861EB1E21DB11EBD005C07C7 /* NSObject+YYModel.m in Sources */,
-				86EF6ABA1DB36CB7006464CE /* PPAttributedTextView.m in Sources */,
 				865BC5AC1DC36C57003AF1AF /* PPFlavoredRange.m in Sources */,
 				86EFEF291DC100030003E078 /* PPTextLayoutLine.m in Sources */,
 				861F1C541DB126650002BE2E /* WBTimeLineViewController.m in Sources */,
 				861EB1D01DB11419005C07C7 /* PPTextContentView.m in Sources */,
-				863952AF1D3FBA1400904204 /* PPAsyncDrawingViewLayer.m in Sources */,
-				86EF6AB71DB215F7006464CE /* PPCoreTextInternalView.m in Sources */,
+				86EF6AB71DB215F7006464CE /* PPLabel.m in Sources */,
 				86EB75951D2393CC005F14A1 /* ViewController.m in Sources */,
 				86EB75921D2393CC005F14A1 /* AppDelegate.m in Sources */,
 				86A98D351D92F582008F0A7E /* PPImageView.m in Sources */,

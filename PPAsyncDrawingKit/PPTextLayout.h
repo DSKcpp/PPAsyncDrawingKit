@@ -43,11 +43,11 @@
 @end
 
 @interface PPTextLayout (LayoutResult)
-@property (readonly, nonatomic) CGFloat layoutHeight;
-@property (readonly, nonatomic) CGSize layoutSize;
-@property (readonly, nonatomic) NSUInteger containingLineCount;
-@property (readonly, nonatomic) NSRange containingStringRange;
-@property (readonly, nonatomic) BOOL layoutUpToDate;
+@property (nonatomic, assign, readonly) CGFloat layoutHeight;
+@property (nonatomic, assign, readonly) CGSize layoutSize;
+@property (nonatomic, assign, readonly) NSUInteger containingLineCount;
+@property (nonatomic, assign, readonly) NSRange containingStringRange;
+@property (nonatomic, assign, readonly) BOOL layoutUpToDate;
 - (CGRect)boundingRectForCharacterRange:(NSRange)range;
 - (CGPoint)locationForCharacterAtIndex:(NSUInteger)index;
 - (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(id)block;

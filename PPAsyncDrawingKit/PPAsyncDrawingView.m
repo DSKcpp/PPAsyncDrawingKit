@@ -7,7 +7,6 @@
 //
 
 #import "PPAsyncDrawingView.h"
-#import "PPAsyncDrawingViewLayer.h"
 
 static BOOL asyncDrawingDisabled = NO;
 
@@ -94,6 +93,11 @@ static BOOL asyncDrawingDisabled = NO;
 //            asynchronously = YES;
 //        }
 //    }
+    _padingRedraw = NO;
+    [layer increaseDrawingCount];
+    NSInteger drawCount = [layer drawingCount];
+    NSDictionary *userInfo = [self currentDrawingUserInfo];
+    
     if (asynchronously) {
         if (!layer.reserveContentsBeforeNextDrawingComplete) {
             [layer setContents:nil];
@@ -258,3 +262,38 @@ static BOOL asyncDrawingDisabled = NO;
 }
 
 @end
+
+@implementation PPAsyncDrawingViewLayer
+
+- (void)increaseDrawingCount
+{
+    _drawingCount += 1;
+}
+
+- (void)setNeedsDisplay
+{
+    [self increaseDrawingCount];
+    [super setNeedsDisplay];
+}
+
+- (void)setNeedsDisplayInRect:(CGRect)rect
+{
+    [self increaseDrawingCount];
+    [super setNeedsDisplayInRect:rect];
+}
+
+- (BOOL)drawsCurrentContentAsynchronously
+{
+    if (_drawingPolicy != DISPATCH_QUEUE_PRIORITY_HIGH) {
+        if (_drawingPolicy == DISPATCH_QUEUE_PRIORITY_DEFAULT) {
+            return _contentsChangedAfterLastAsyncDrawing;
+        } else {
+            return NO;
+        }
+    } else {
+        return YES;
+    }
+}
+
+@end
+

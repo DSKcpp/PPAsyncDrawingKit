@@ -1,31 +1,36 @@
 //
-//  PPCoreTextInternalView.m
+//  PPLabel.m
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 2016/10/15.
 //  Copyright © 2016年 DSKcpp. All rights reserved.
 //
 
-#import "PPCoreTextInternalView.h"
+#import "PPLabel.h"
 #import "PPTextRenderer.h"
 #import <objc/runtime.h>
 
-@implementation PPCoreTextInternalView
+@implementation PPLabel
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     return [self initWithFrame:frame textRendererClass:[PPTextRenderer class]];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame textRendererClass:(Class)class
+- (instancetype)initWithWidth:(CGFloat)width
 {
-    if ([class isSubclassOfClass:[PPTextRenderer class]]) {
+    return [self initWithFrame:CGRectMake(0, 0, width, 0)];
+}
+
+- (instancetype)initWithFrame:(CGRect)frame textRendererClass:(Class)textRendererClass
+{
+    if ([textRendererClass isSubclassOfClass:[PPTextRenderer class]]) {
         
     } else {
         
     }
     if (self = [super initWithFrame:frame]) {
-        PPTextRenderer * textRenderer = [[class alloc] init];
+        PPTextRenderer * textRenderer = [[textRendererClass alloc] init];
         self.textRenderer = textRenderer;
         textRenderer.eventDelegate = self;
         textRenderer.renderDelegate = self;

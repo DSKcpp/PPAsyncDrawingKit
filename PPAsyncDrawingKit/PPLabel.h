@@ -1,5 +1,5 @@
 //
-//  PPCoreTextInternalView.h
+//  PPLabel.h
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 2016/10/15.
@@ -12,7 +12,7 @@
 
 @class PPTextLayout;
 
-@interface PPCoreTextInternalView : PPAsyncDrawingView <PPTextRendererDelegate, PPTextRendererEventDelegate>
+@interface PPLabel : PPAsyncDrawingView <PPTextRendererDelegate, PPTextRendererEventDelegate>
 @property (nonatomic, assign) BOOL pendingAttachmentUpdates;
 @property (nonatomic, strong) PPTextLayout *textLayout;
 @property (nonatomic, strong) PPTextRenderer *textRenderer;
@@ -20,8 +20,9 @@
 @property (nonatomic, assign) NSRange visibleStringRange;
 @property (nonatomic, assign) NSInteger numberOfLines;
 
+- (instancetype)initWithWidth:(CGFloat)width;
 - (instancetype)initWithFrame:(CGRect)frame;
-- (instancetype)initWithFrame:(CGRect)frame textRendererClass:(Class)class;
+- (instancetype)initWithFrame:(CGRect)frame textRendererClass:(Class)textRendererClass;
 
 - (void)textRenderer:(PPTextRenderer *)textRenderer placeAttachment:(id)arg2 frame:(CGRect)frame context:(CGContextRef)context;
 - (void)textRenderer:(PPTextRenderer *)textRenderer didPressActiveRange:(id)arg2;

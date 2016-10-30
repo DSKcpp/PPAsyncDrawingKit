@@ -14,19 +14,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PPButton : PPUIControl
 
-@property(nonatomic, strong) PPButtonInfo *buttonInfo;
-@property(nonatomic, assign) CGRect backgroundFrame;
-@property(nonatomic, assign) CGRect imageFrame;
-@property(nonatomic, assign) CGRect titleFrame;
-@property(nonatomic, strong) NSMutableDictionary<NSString *, UIImage *> *backgroundImages;
-@property(nonatomic, strong) NSMutableDictionary<NSString *, UIImage *> *images;
-@property(nonatomic, strong) NSMutableDictionary<NSString *, UIColor *> *titleColors;
-@property(nonatomic, strong) NSMutableDictionary<NSString *, NSString *> *titles;
-@property(nonatomic, assign) BOOL shouldDelayHighlighted;
-@property(nonatomic, assign) UIEdgeInsets imageEdgeInsets;
-@property(nonatomic, assign) UIEdgeInsets contentEdgeInsets;
-@property(nonatomic, assign) UIEdgeInsets titleEdgeInsets;
-@property(nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) PPButtonInfo *buttonInfo;
+@property (nonatomic, assign) CGRect backgroundFrame;
+@property (nonatomic, assign) CGRect imageFrame;
+@property (nonatomic, assign) CGRect titleFrame;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, UIImage *> *backgroundImages;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, UIImage *> *images;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, UIColor *> *titleColors;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, NSString *> *titles;
+@property (nonatomic, assign) BOOL shouldDelayHighlighted;
+@property (nonatomic, assign) UIEdgeInsets imageEdgeInsets;
+@property (nonatomic, assign) UIEdgeInsets contentEdgeInsets;
+@property (nonatomic, assign) UIEdgeInsets titleEdgeInsets;
+@property (nonatomic, strong) UILabel *titleLabel;
 
 - (void)updateButtonInfo;
 - (NSString *)stringOfState:(UIControlState)state;

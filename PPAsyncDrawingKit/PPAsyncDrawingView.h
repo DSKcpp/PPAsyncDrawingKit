@@ -40,4 +40,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)currentDrawingUserInfo;
 @end
 
+@interface PPAsyncDrawingViewLayer : CALayer
+@property (nonatomic, assign) BOOL reserveContentsBeforeNextDrawingComplete;
+@property (nonatomic, assign) BOOL contentsChangedAfterLastAsyncDrawing;
+@property (nonatomic, assign) NSInteger drawingPolicy;
+@property (nonatomic, assign) NSTimeInterval fadeDuration;
+@property (nonatomic, assign, readonly) NSInteger drawingCount;
+
+- (BOOL)drawsCurrentContentAsynchronously;
+- (void)increaseDrawingCount;
+@end
+
 NS_ASSUME_NONNULL_END

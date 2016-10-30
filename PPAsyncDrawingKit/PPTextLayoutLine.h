@@ -13,12 +13,12 @@
 @interface PPTextLayoutLine : NSObject
 @property (nonatomic, assign) CTLineRef lineRef;
 @property (nonatomic, assign) CGFloat width;
-@property (readonly, nonatomic, assign) BOOL truncated;
-@property (readonly, nonatomic, assign) PPFontMetrics lineMetrics;
-@property (readonly, nonatomic, assign) PPFontMetrics originalLineMetrics;
-@property (readonly, nonatomic, assign) NSRange stringRange;
-@property (readonly, nonatomic, assign) CGPoint baselineOrigin;
-@property (readonly, nonatomic, assign) CGPoint originalBaselineOrigin;
+@property (nonatomic, assign, readonly) BOOL truncated;
+@property (nonatomic, assign, readonly) PPFontMetrics lineMetrics;
+@property (nonatomic, assign, readonly) PPFontMetrics originalLineMetrics;
+@property (nonatomic, assign, readonly) NSRange stringRange;
+@property (nonatomic, assign, readonly) CGPoint baselineOrigin;
+@property (nonatomic, assign, readonly) CGPoint originalBaselineOrigin;
 @property (nonatomic, weak) PPTextLayout *layout;
 
 @property (nonatomic, assign, readonly) CGRect fragmentRect;

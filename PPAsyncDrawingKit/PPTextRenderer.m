@@ -18,6 +18,17 @@
     return self;
 }
 
+
+- (NSAttributedString *)attributedString
+{
+    return self.textLayout.attributedString;
+}
+
+- (void)setAttributedString:(NSAttributedString *)attributedString
+{
+    self.textLayout.attributedString = attributedString;
+}
+
 - (void)draw
 {
     [self drawInContext:UIGraphicsGetCurrentContext()];
@@ -35,12 +46,36 @@
 
 - (void)drawInContext:(CGContextRef)context visibleRect:(CGRect)visibleRect placeAttachments:(BOOL)placeAttachments shouldInterruptBlock:(void (^)(void))shouldInterruptBlock
 {
+    NSLog(@"%@", self.textLayout.layoutFrame);
     if (context) {
         NSAttributedString *attributedString = self.attributedString;
-        if (!CGRectIsNull(visibleRect)) {
+        if (CGRectIsNull(visibleRect)) {
             
         } else {
-            self.textLayout.layoutFrame;
+            
+        }
+
+        if (attributedString) {
+//            CGContextSetTextMatrix(context, CGAffineTransformIdentity);
+//            CGContextTranslateCTM(context, 0, visibleRect.size.height);
+//            CGContextScaleCTM(context, 1.0, -1.0);
+//            CGMutablePathRef path = CGPathCreateMutable();
+//            CGPathAddRect(path, NULL, visibleRect);
+//            CTFramesetterRef framesetterRef = CTFramesetterCreateWithAttributedString((CFAttributedStringRef)attributedString);
+//            CTFrameRef frameRef = CTFramesetterCreateFrame(framesetterRef, CFRangeMake(0, attributedString.length), path, NULL);
+//            CTFrameDraw(frameRef, context);
+        } else {
+            
+        }
+
+        
+//        CGContextSetShadowWithColor(context, visibleRect.size, 1.0, (CGColorRef)[UIColor clearColor]);
+//        CGContextSetTextMatrix(context, <#CGAffineTransform t#>)
+//        CTLineDraw(<#CTLineRef  _Nonnull line#>, context);
+        if (!CGRectIsNull(visibleRect)) {
+//            self
+        } else {
+//            self.textLayout.layoutFrame;
         }
     } else {
         
