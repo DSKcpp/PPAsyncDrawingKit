@@ -8,6 +8,7 @@
 
 #import "PPTextLayoutFrame.h"
 #import "PPTextLayout.h"
+#import "PPTextLayoutLine.h"
 
 @implementation PPTextLayoutFrame
 
@@ -25,12 +26,18 @@
 - (void)setupWithCTFrame:(CTFrameRef)frame
 {
     NSInteger maxLines = self.layout.maximumNumberOfLines;
-    CFArrayRef lines = CTFrameGetLines(frame);
-    CFIndex lineCount = CFArrayGetCount(lines);
+    CFArrayRef lineRefs = CTFrameGetLines(frame);
+    CFIndex lineCount = CFArrayGetCount(lineRefs);
     CGPoint origins[lineCount];
     CTFrameGetLineOrigins(frame, CFRangeMake(0, 0), origins);
-    self.lineFragments = @[].mutableCopy;
+    NSMutableArray *lines = [NSMutableArray array];
     
+    for (NSInteger i = 0; i < lineCount; i++) {
+        CTLineRef lineRef = CFArrayGetValueAtIndex(lineRefs, i);
+        PPTextLayoutLine *line = [[PPTextLayoutLine alloc] initWithCTLine:lineRef origin:origins[i] layout:self.layout];
+        [lines addObject:line];
+    }
+    self.lineFragments = lines;
 }
 
 - (void)updateLayoutSize
@@ -55,5 +62,40 @@
 @end
 
 @implementation PPTextLayoutFrame (LayoutResult)
+//- (CGRect)firstSelectionRectForCharacterRange:(NSRange)range
+//{
+//    [self enumerateSelectionRectsForCharacterRange:range usingBlock:^{
+//        
+//    }];
+//}
+
+//- (NSUInteger)lineFragmentIndexForCharacterAtIndex:(NSUInteger)index
+//{
+//    [self.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        
+//    }];
+//}
+
+- (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(void (^)(void))block
+{
+    [self.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
+        line.fragmentRect;
+        line.stringRange;
+    }];
+}
+
+- (void)enumerateEnclosingRectsForCharacterRange:(NSRange)arg1 usingBlock:(void (^)(void))block
+{
+    [self.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+    }];
+}
+
+//- (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(void (^)(void))block
+//{
+//    [self enumerateEnclosingRectsForCharacterRange:range usingBlock:^{
+//        
+//    }];
+//}
 
 @end

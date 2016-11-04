@@ -27,17 +27,17 @@
         if (lineRef) {
             _lineRef = lineRef;
             CFRange range = CTLineGetStringRange(lineRef);
-            _stringRange = NSRangeFromCFRange(range);
-            lineRefRange = NSRangeFromCFRange(range);
+            _stringRange = PPNSRangeFromCFRange(range);
+            lineRefRange = PPNSRangeFromCFRange(range);
             [self setupWithCTLine];
         }
-        
     }
     return self;
 }
 
 - (void)setupWithCTLine
 {
+    
 //    CTLineGetTypographicBounds(_lineRef, <#CGFloat * _Nullable ascent#>, <#CGFloat * _Nullable descent#>, <#CGFloat * _Nullable leading#>)
 }
 
@@ -53,7 +53,6 @@
     return CGRectIntegral((CGRect){self.baselineOrigin, (CGSize){self.width, ceilf(height)}});
 }
 
-
 - (void)dealloc
 {
     if (_lineRef) {
@@ -61,9 +60,22 @@
         _lineRef = nil;
     }
 }
-@end
 
-@implementation PPTextLayoutLine (LayoutResult)
+- (void)enumerateLayoutRunsUsingBlock:(void (^)(NSDictionary *, NSRange))block
+{
+    if (block && _lineRef) {
+        CFArrayRef runs = CTLineGetGlyphRuns(_lineRef);
+        CFIndex count = CFArrayGetCount(runs);
+        for (NSInteger i = 0; i < count; i++) {
+            CTRunRef run = CFArrayGetValueAtIndex(runs, i);
+            NSDictionary *attributes = (NSDictionary *)CTRunGetAttributes(run);
+            NSRange range = PPNSRangeFromCFRange(CTRunGetStringRange(run));
+            block(attributes, range);
+        }
+    }
+    //    [self locationDeltaFromRealRangeToLineRefRange];
+}
+
 - (CGFloat)offsetXForCharacterAtIndex:(NSUInteger)index
 {
     if (_lineRef) {

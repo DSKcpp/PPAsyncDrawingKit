@@ -49,7 +49,7 @@
 {
     if (self.attributedString) {
         if (self.length >= location) {
-            CFRange _range = CFRangeFromNSRange(*range);
+            CFRange _range = PPCFRangeFromNSRange(*range);
             return (__bridge NSDictionary *)CFAttributedStringGetAttributes(self.attributedString, location, &_range);
         }
     }
@@ -58,7 +58,7 @@
 
 - (void)setAttributes:(NSDictionary<NSString *,id> *)attrs range:(NSRange)range
 {
-    CFAttributedStringSetAttributes(self.attributedString, CFRangeFromNSRange(range), (__bridge CFDictionaryRef)attrs, NO);
+    CFAttributedStringSetAttributes(self.attributedString, PPCFRangeFromNSRange(range), (__bridge CFDictionaryRef)attrs, NO);
     if (delegateHas.didProcessEditing != 0) {
         [self.delegate pp_textStorage:self didProcessEditing:1 range:range changeInLength:0];
     }
@@ -69,7 +69,7 @@
     if (str == nil && range.length == self.length) {
         str = nil;
     }
-    CFAttributedStringReplaceString(self.attributedString, CFRangeFromNSRange(range), (__bridge CFStringRef)str);
+    CFAttributedStringReplaceString(self.attributedString, PPCFRangeFromNSRange(range), (__bridge CFStringRef)str);
     if (delegateHas.didProcessEditing != 0) {
         [self.delegate pp_textStorage:self didProcessEditing:1 range:range changeInLength:0];
     }

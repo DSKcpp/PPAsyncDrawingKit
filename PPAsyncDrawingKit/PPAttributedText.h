@@ -74,6 +74,12 @@
 - (instancetype)initWithPlainText:(NSString *)plainText;
 - (instancetype)init;
 
+@property(nonatomic) unsigned char textAlignment;
+@property(nonatomic) unsigned char lineBreakMode;
+@property(nonatomic) double maximunLineHeight;
+@property(nonatomic) double lineSpacing;
+@property(nonatomic) _Bool allowsDynamicLineSpacing;
+
 @end
 
 @interface PPAttributedText (TextDrawing)

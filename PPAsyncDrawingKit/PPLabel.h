@@ -9,8 +9,9 @@
 #import "PPAsyncDrawingView.h"
 #import "PPTextRenderer.h"
 
-
 @class PPTextLayout;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface PPLabel : PPAsyncDrawingView <PPTextRendererDelegate, PPTextRendererEventDelegate>
 @property (nonatomic, assign) BOOL pendingAttachmentUpdates;
@@ -32,3 +33,5 @@
 - (NSInteger)lineIndexForPoint:(CGPoint)point;
 - (NSInteger)textIndexForPoint:(CGPoint)point;
 @end
+
+NS_ASSUME_NONNULL_END

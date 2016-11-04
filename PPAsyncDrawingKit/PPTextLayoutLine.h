@@ -26,10 +26,8 @@
 - (instancetype)initWithCTLine:(CTLineRef)lineRef origin:(CGPoint)origin layout:(PPTextLayout *)layout;
 - (instancetype)initWithCTLine:(CTLineRef)lineRef origin:(CGPoint)origin layout:(PPTextLayout *)layout truncatedLine:(CTLineRef)truncatedLine;
 - (void)setupWithCTLine;
-@end
 
-@interface PPTextLayoutLine (LayoutResult)
-//- (void)enumerateLayoutRunsUsingBlock:(CDUnknownBlockType)arg1;
+- (void)enumerateLayoutRunsUsingBlock:(void(^)(NSDictionary *attributes, NSRange range))block;
 - (NSUInteger)characterIndexForBoundingPosition:(CGPoint)position;
 - (CGPoint)baselineOriginForCharacterAtIndex:(NSUInteger)index;
 - (NSInteger)locationDeltaFromRealRangeToLineRefRange;

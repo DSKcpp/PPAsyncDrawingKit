@@ -47,7 +47,6 @@
 - (void)drawInContext:(CGContextRef)context;
 - (void)draw;
 
-
 #pragma mark - LayoutResult
 - (NSUInteger)characterIndexForPoint:(CGPoint)point;
 - (NSRange)characterRangeForBoundingRect:(CGRect)rect;
@@ -76,7 +75,7 @@
 @end
 
 @interface PPTextRenderer (Previewing)
-- (id)activeRangeAtLocation:(struct CGPoint)arg1;
+- (id)activeRangeAtLocation:(CGPoint)location;
 @end
 
 
@@ -93,6 +92,6 @@
 + (void)setDebugModeEnabled:(BOOL)enabled;
 + (BOOL)debugModeEnabled;
 + (void)debugModeSetEverythingNeedsDisplay;
-+ (void)debugModeSetEverythingNeedsDisplayForView:(id)arg1;
-- (void)debugModeDrawLineFramesWithLayoutFrame:(id)arg1 context:(CGContextRef)context offset:(UIOffset)offset;
++ (void)debugModeSetEverythingNeedsDisplayForView:(id)view;
+- (void)debugModeDrawLineFramesWithLayoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context offset:(UIOffset)offset;
 @end

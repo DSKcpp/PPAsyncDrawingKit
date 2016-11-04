@@ -32,27 +32,65 @@
     return self;
 }
 
-- (id)createLayoutFrame
+- (PPTextLayoutFrame *)layoutFrame
+{
+    if (_layoutFrame == nil || flags.needsLayout != 0) {
+        @synchronized (self) {
+            _layoutFrame = [self createLayoutFrame];
+        }
+        flags.needsLayout = 0;
+    }
+    return _layoutFrame;
+}
+
+- (PPTextLayoutFrame *)createLayoutFrame
 {
     if (self.attributedString) {
+        UIBezierPath *path = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, self.size.width, self.size.height)];
+        CGAffineTransform transform = CGAffineTransformMakeTranslation(0, 0);
+        CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((CFAttributedStringRef)self.attributedString);
         if (self.exclusionPaths.count != 0) {
-            CGAffineTransform transform = CGAffineTransformMakeTranslation(0, 0);
-            UIBezierPath *path = [UIBezierPath bezierPathWithRect:CGRectZero];
-            [self.exclusionPaths enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                
+            [self.exclusionPaths enumerateObjectsUsingBlock:^(UIBezierPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [path appendPath:obj.copy];
+                [path applyTransform:transform];
             }];
+            path.usesEvenOddFillRule = YES;
+        } else {
+            CGMutablePathRef path = CGPathCreateMutable();
+            CGPathAddRect(path, &transform, CGRectZero);
         }
+        CTFrameRef frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, self.attributedString.length), path.CGPath, NULL);
+        CFRelease(framesetter);
+        if (frame) {
+            PPTextLayoutFrame *textLayoutFrame = [[PPTextLayoutFrame alloc] initWithCTFrame:frame layout:self];
+//            CFRelease(frame);
+            return textLayoutFrame;
+        }
+        return nil;
     } else {
         return nil;
     }
 }
 
+- (void)setNeedsLayout
+{
+    flags.needsLayout = 1;
+}
+
 - (void)setAttributedString:(NSAttributedString *)attributedString
 {
     if (_attributedString != attributedString) {
-        objc_sync_enter(self);
-        _attributedString = attributedString;
-        objc_sync_exit(self);
+        @synchronized (self) {
+            _attributedString = attributedString;
+        }
+        flags.needsLayout = 1;
+    }
+}
+
+- (void)setExclusionPaths:(NSArray<UIBezierPath *> *)exclusionPaths
+{
+    if (_exclusionPaths != exclusionPaths) {
+        _exclusionPaths = exclusionPaths;
         flags.needsLayout = 1;
     }
 }

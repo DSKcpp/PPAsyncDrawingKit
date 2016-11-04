@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "PPTextLayoutFrame.h"
 
+
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol PPTextLayoutDelegate <NSObject>
 @optional
 - (CGFloat)textLayout:(PPTextLayout *)layout maximumWidthForLineTruncationAtIndex:(NSUInteger)index;
@@ -20,13 +23,14 @@
 @property (nonatomic, assign) PPFontMetrics baselineFontMetrics;
 @property (nonatomic, strong) NSAttributedString *truncationString;
 @property (nonatomic, assign) NSUInteger maximumNumberOfLines;
-@property (nonatomic, strong) NSArray *exclusionPaths;
+@property (nonatomic, strong) NSArray<UIBezierPath *> *exclusionPaths;
 @property (nonatomic, assign) CGSize size;
 @property (nonatomic, strong) NSAttributedString *attributedString;
 @property (nonatomic, strong) PPTextLayoutFrame *layoutFrame;
 
 - (instancetype)initWithAttributedString:(NSAttributedString *)attributedString;
-- (id)createLayoutFrame;
+- (nullable PPTextLayoutFrame *)createLayoutFrame;
+- (void)setNeedsLayout;
 @end
 
 
@@ -60,3 +64,5 @@
 - (NSUInteger)lineFragmentIndexForCharacterAtIndex:(NSUInteger)index;
 - (NSRange)containingStringRangeWithLineLimited:(NSUInteger)lineLimited;
 @end
+
+NS_ASSUME_NONNULL_END

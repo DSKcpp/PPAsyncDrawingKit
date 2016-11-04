@@ -177,7 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				86A98D301D92F495008F0A7E /* Core */,
-				86A98D321D92F4BC008F0A7E /* Text */,
+				86A98D321D92F4BC008F0A7E /* Label */,
 				86A98D311D92F4AD008F0A7E /* ImageView */,
 				8651C4FB1DC1FD120092569A /* Button */,
 			);
@@ -218,7 +218,7 @@
 			name = ImageView;
 			sourceTree = "<group>";
 		};
-		86A98D321D92F4BC008F0A7E /* Text */ = {
+		86A98D321D92F4BC008F0A7E /* Label */ = {
 			isa = PBXGroup;
 			children = (
 				861EB1CE1DB11419005C07C7 /* PPTextContentView.h */,
@@ -244,7 +244,7 @@
 				863ADA8D1DC47F1300AC582D /* PPTextAttachment.h */,
 				863ADA8E1DC47F1300AC582D /* PPTextAttachment.m */,
 			);
-			name = Text;
+			name = Label;
 			sourceTree = "<group>";
 		};
 		86EB75811D2393CC005F14A1 = {

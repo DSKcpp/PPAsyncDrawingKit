@@ -8,6 +8,8 @@
 //
 
 #import "PPTextRenderer.h"
+#import "PPTextLayoutLine.h"
+#import "PPTextAttachment.h"
 
 @implementation PPTextRenderer
 - (instancetype)init
@@ -18,6 +20,13 @@
     return self;
 }
 
+- (PPTextLayout *)textLayout
+{
+    if (!_textLayout) {
+        _textLayout = [[PPTextLayout alloc] init];
+    }
+    return _textLayout;
+}
 
 - (NSAttributedString *)attributedString
 {
@@ -41,41 +50,30 @@
 
 - (void)drawInContext:(CGContextRef)context shouldInterruptBlock:(void (^)(void))shouldInterruptBlock
 {
-    [self drawInContext:context visibleRect:CGRectNull placeAttachments:NO shouldInterruptBlock:shouldInterruptBlock];
+    [self drawInContext:context visibleRect:CGRectNull placeAttachments:YES shouldInterruptBlock:shouldInterruptBlock];
 }
 
 - (void)drawInContext:(CGContextRef)context visibleRect:(CGRect)visibleRect placeAttachments:(BOOL)placeAttachments shouldInterruptBlock:(void (^)(void))shouldInterruptBlock
 {
-    NSLog(@"%@", self.textLayout.layoutFrame);
     if (context) {
         NSAttributedString *attributedString = self.attributedString;
+        CGContextSetTextMatrix(context, CGAffineTransformIdentity);
+        CGContextTranslateCTM(context, 0, visibleRect.size.height);
+        CGContextScaleCTM(context, 1.0, -1.0);
         if (CGRectIsNull(visibleRect)) {
             
         } else {
             
         }
-
-        if (attributedString) {
-//            CGContextSetTextMatrix(context, CGAffineTransformIdentity);
-//            CGContextTranslateCTM(context, 0, visibleRect.size.height);
-//            CGContextScaleCTM(context, 1.0, -1.0);
-//            CGMutablePathRef path = CGPathCreateMutable();
-//            CGPathAddRect(path, NULL, visibleRect);
-//            CTFramesetterRef framesetterRef = CTFramesetterCreateWithAttributedString((CFAttributedStringRef)attributedString);
-//            CTFrameRef frameRef = CTFramesetterCreateFrame(framesetterRef, CFRangeMake(0, attributedString.length), path, NULL);
-//            CTFrameDraw(frameRef, context);
-        } else {
-            
+        self.textLayout.size = visibleRect.size;
+        for (NSInteger i = 0; i < self.textLayout.layoutFrame.lineFragments.count; i++) {
+            PPTextLayoutLine *line = self.textLayout.layoutFrame.lineFragments[i];
+            CGPoint position = line.originalBaselineOrigin;
+            CGContextSetTextPosition(context, position.x, position.y);
+            CTLineDraw(line.lineRef, context);
         }
-
-        
-//        CGContextSetShadowWithColor(context, visibleRect.size, 1.0, (CGColorRef)[UIColor clearColor]);
-//        CGContextSetTextMatrix(context, <#CGAffineTransform t#>)
-//        CTLineDraw(<#CTLineRef  _Nonnull line#>, context);
-        if (!CGRectIsNull(visibleRect)) {
-//            self
-        } else {
-//            self.textLayout.layoutFrame;
+        if (placeAttachments) {
+            [self drawAttachmentsWithAttributedString:attributedString layoutFrame:self.textLayout.layoutFrame context:context shouldInterrupt:shouldInterruptBlock];
         }
     } else {
         
@@ -84,7 +82,18 @@
 
 - (void)drawAttachmentsWithAttributedString:(NSAttributedString *)attributedString layoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context shouldInterrupt:(void (^)(void))shouldInterruptBlock
 {
-    
+    CGFloat scale = [UIScreen mainScreen].scale;
+    [layoutFrame.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
+        [line enumerateLayoutRunsUsingBlock:^(NSDictionary *attributes, NSRange range) {
+            PPTextAttachment *textAttachment = [attributes objectForKey:@"PPTextAttachmentAttributeName"];
+            if ([textAttachment isKindOfClass:[PPTextAttachment class]]) {
+                
+            } else {
+                
+            }
+        }];
+    }];
+//    shouldInterruptBlock();
 }
 
 - (void)drawHighlightedBackgroundForActiveRange:(id)arg1 rect:(CGRect)rect context:(CGContextRef)context
@@ -149,4 +158,48 @@
     }
 }
 
+@end
+
+@implementation PPTextRenderer (Debug)
+static BOOL textRendererDebugModeEnabled = NO;
++ (BOOL)debugModeEnabled
+{
+    return textRendererDebugModeEnabled;
+}
+
++ (void)enableDebugMode
+{
+    [self setDebugModeEnabled:YES];
+}
+
++ (void)disableDebugMode
+{
+    [self setDebugModeEnabled:NO];
+}
+
++ (void)setDebugModeEnabled:(BOOL)enabled
+{
+    textRendererDebugModeEnabled = enabled;
+    [self debugModeSetEverythingNeedsDisplay];
+    [CATransaction flush];
+}
+
++ (void)debugModeSetEverythingNeedsDisplay
+{
+    
+}
+
++ (void)debugModeSetEverythingNeedsDisplayForView:(id)view
+{
+    
+}
+
+- (void)debugModeDrawLineFramesWithLayoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context offset:(UIOffset)offset
+{
+    if (self.textLayout) {
+        
+    } else {
+        
+    }
+}
 @end

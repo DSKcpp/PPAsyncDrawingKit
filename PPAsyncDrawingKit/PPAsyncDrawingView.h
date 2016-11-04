@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)drawingDidFinishAsynchronously:(BOOL)async success:(BOOL)success;
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async;
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(NSDictionary *)userInfo;
-- (NSDictionary *)currentDrawingUserInfo;
+- (nullable NSDictionary *)currentDrawingUserInfo;
 @end
 
 @interface PPAsyncDrawingViewLayer : CALayer
@@ -47,8 +47,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSTimeInterval fadeDuration;
 @property (nonatomic, assign, readonly) NSInteger drawingCount;
 
-- (BOOL)drawsCurrentContentAsynchronously;
 - (void)increaseDrawingCount;
+- (BOOL)drawsCurrentContentAsynchronously;
 @end
 
 NS_ASSUME_NONNULL_END

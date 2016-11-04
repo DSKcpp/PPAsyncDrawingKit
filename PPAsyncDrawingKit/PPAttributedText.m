@@ -38,8 +38,11 @@
 
 - (void)resetTextStorageWithPlainText:(NSString *)plainText
 {
+    if (plainText == nil) {
+        plainText = @"";
+    }
     NSAttributedString *string = [[NSAttributedString alloc] initWithString:plainText];
-    self.attributedString = string.mutableCopy;
+    [self.textStorage setAttributedString:string];
 }
 
 - (void)setNeedsRebuild
