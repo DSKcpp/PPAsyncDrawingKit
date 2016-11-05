@@ -15,6 +15,7 @@
 		861EB1E21DB11EBD005C07C7 /* NSObject+YYModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 861EB1DE1DB11EBD005C07C7 /* NSObject+YYModel.m */; };
 		861EB1E31DB11EBD005C07C7 /* YYClassInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 861EB1E01DB11EBD005C07C7 /* YYClassInfo.m */; };
 		861F1C541DB126650002BE2E /* WBTimeLineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 861F1C531DB126650002BE2E /* WBTimeLineViewController.m */; };
+		86394B971DCC919B00BF0DE6 /* PPAttributedTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 86394B961DCC919B00BF0DE6 /* PPAttributedTextParser.m */; };
 		863952AE1D3FBA1400904204 /* PPAsyncDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 863952A91D3FBA1400904204 /* PPAsyncDrawingView.m */; };
 		863ADA8F1DC47F1300AC582D /* PPTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 863ADA8E1DC47F1300AC582D /* PPTextAttachment.m */; };
 		8651C4FE1DC1FD3F0092569A /* PPButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8651C4FD1DC1FD3F0092569A /* PPButton.m */; };
@@ -59,6 +60,8 @@
 		861EB1E11DB11EBD005C07C7 /* YYModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYModel.h; sourceTree = "<group>"; };
 		861F1C521DB126650002BE2E /* WBTimeLineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTimeLineViewController.h; sourceTree = "<group>"; };
 		861F1C531DB126650002BE2E /* WBTimeLineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTimeLineViewController.m; sourceTree = "<group>"; };
+		86394B951DCC919B00BF0DE6 /* PPAttributedTextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAttributedTextParser.h; sourceTree = "<group>"; };
+		86394B961DCC919B00BF0DE6 /* PPAttributedTextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAttributedTextParser.m; sourceTree = "<group>"; };
 		863952A81D3FBA1400904204 /* PPAsyncDrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAsyncDrawingView.h; sourceTree = "<group>"; };
 		863952A91D3FBA1400904204 /* PPAsyncDrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAsyncDrawingView.m; sourceTree = "<group>"; };
 		863ADA8D1DC47F1300AC582D /* PPTextAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextAttachment.h; sourceTree = "<group>"; };
@@ -243,6 +246,8 @@
 				865BC5AB1DC36C57003AF1AF /* PPFlavoredRange.m */,
 				863ADA8D1DC47F1300AC582D /* PPTextAttachment.h */,
 				863ADA8E1DC47F1300AC582D /* PPTextAttachment.m */,
+				86394B951DCC919B00BF0DE6 /* PPAttributedTextParser.h */,
+				86394B961DCC919B00BF0DE6 /* PPAttributedTextParser.m */,
 			);
 			name = Label;
 			sourceTree = "<group>";
@@ -407,6 +412,7 @@
 				86EB758F1D2393CC005F14A1 /* main.m in Sources */,
 				86EF6AB11DB13677006464CE /* PPTextLayout.m in Sources */,
 				86EF6AC31DB36EA2006464CE /* PPTextParagraphStyle.m in Sources */,
+				86394B971DCC919B00BF0DE6 /* PPAttributedTextParser.m in Sources */,
 				86EF6AC01DB36E78006464CE /* PPTextStorage.m in Sources */,
 				861EB1D61DB11563005C07C7 /* PPTextRenderer.m in Sources */,
 				86EF6AD91DB390F8006464CE /* PPAsyncDrawingKitUtilities.m in Sources */,

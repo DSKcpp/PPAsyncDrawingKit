@@ -42,7 +42,7 @@
 - (id)characterCountingPlainTextForTimelineURL:(id)arg1;
 - (void)updatePlainTextForCharacterCountingWithAttributedString:(id)arg1;
 - (void)updateParagraphStyleForAttributedString:(id)arg1;
-- (id)parseActiveRangesFromString:(id)arg1;
+- (id)parseActiveRangesFromString:(NSString *)string;
 - (id)extractAttachmentsAndMergeToAttributedString:(id)arg1;
 - (NSInteger)mergeAttachment:(id)arg1 toAttributedString:(id)arg2 withTextRange:(NSRange)textRange merged:(BOOL)merged;
 - (void)insertFlavoredRange:(id)arg1 toMiniCardRange:(id)arg2;

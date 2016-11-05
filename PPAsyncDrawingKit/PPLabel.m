@@ -9,6 +9,7 @@
 #import "PPLabel.h"
 #import "PPTextRenderer.h"
 #import <objc/runtime.h>
+#import "PPAttributedText.h"
 
 @implementation PPLabel
 
@@ -40,6 +41,11 @@
         self.contentMode = UIViewContentModeRedraw;
     }
     return self;
+}
+
+- (NSAttributedString *)attributedString
+{
+    return self.text.attributedString;
 }
 
 - (NSDictionary *)currentDrawingUserInfo
@@ -84,11 +90,11 @@
     self.textRenderer.textLayout.maximumNumberOfLines = numberOfLines;
 }
 
-- (void)setAttributedString:(NSAttributedString *)attributedString
+- (void)setText:(PPAttributedText *)text
 {
-    if (_attributedString != attributedString) {
-        _attributedString = attributedString;
-        [self _updateTextRendererWithAttributedString:attributedString];
+    if (_text != text) {
+        _text = text;
+        [self _updateTextRendererWithAttributedString:text.attributedString];
         self.contentsChangedAfterLastAsyncDrawing = YES;
         [self setNeedsDisplay];
         self.pendingAttachmentUpdates = YES;
@@ -105,7 +111,7 @@
 
 - (void)_updateTextRendererWithCurrentAttributedString
 {
-    [self _updateTextRendererWithAttributedString:self.attributedString];
+    [self _updateTextRendererWithAttributedString:self.text.attributedString];
 }
 
 - (NSInteger)lineIndexForPoint:(CGPoint)point
@@ -120,11 +126,12 @@
 
 - (CGSize)sizeThatFits:(CGSize)size
 {
-    if (self.attributedString) {
-        return [self.attributedString pp_sizeConstrainedToSize:size numberOfLines:self.numberOfLines];
-    } else {
-        return CGSizeZero;
-    }
+//    if (self.attributedString) {
+//        return [self.attributedString pp_sizeConstrainedToSize:size numberOfLines:self.numberOfLines];
+//    } else {
+//        return CGSizeZero;
+//    }
+    return size;
 }
 
 //- (void)setFrame:(CGRect)frame
@@ -135,6 +142,6 @@
 - (void)dealloc
 {
     self.textRenderer = nil;
-    self.attributedString = nil;
+    self.text = nil;
 }
 @end

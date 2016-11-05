@@ -10,6 +10,7 @@
 #import "PPTextRenderer.h"
 
 @class PPTextLayout;
+@class PPAttributedText;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,9 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL pendingAttachmentUpdates;
 @property (nonatomic, strong) PPTextLayout *textLayout;
 @property (nonatomic, strong) PPTextRenderer *textRenderer;
-@property (nonatomic, strong) NSAttributedString *attributedString;
 @property (nonatomic, assign) NSRange visibleStringRange;
 @property (nonatomic, assign) NSInteger numberOfLines;
+@property (nonatomic, strong, readonly) NSAttributedString *attributedString;
+@property (nonatomic, strong) PPAttributedText *text;
 
 - (instancetype)initWithWidth:(CGFloat)width;
 - (instancetype)initWithFrame:(CGRect)frame;

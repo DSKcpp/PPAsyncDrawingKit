@@ -200,6 +200,45 @@
 
 @end
 
+@implementation NSMutableAttributedString (PPAsyncDrawingKit)
+- (void)pp_setColor:(UIColor *)color inRange:(NSRange)range
+{
+    range = [self pp_effectiveRangeWithRange:range];
+    if (!color) {
+        [self removeAttribute:(NSString *)kCTForegroundColorAttributeName range:range];
+    } else {
+        // WBTextDefaultForegroundColorAttributeName
+        [self addAttribute:(NSString *)kCTForegroundColorAttributeName value:color range:range];
+    }
+}
+
+- (void)pp_setBackgroundColor:(UIColor *)backgroundColor inRange:(NSRange)range
+{
+    range = [self pp_effectiveRangeWithRange:range];
+    if (backgroundColor) {
+        [self addAttribute:@"PPTextBackgroundColorAttributeName" value:backgroundColor range:range];
+    } else {
+        [self removeAttribute:@"PPTextBackgroundColorAttributeName" range:range];
+    }
+}
+
+- (NSRange)pp_stringRange
+{
+    return NSMakeRange(0, self.length);
+}
+
+- (NSRange)pp_effectiveRangeWithRange:(NSRange)range
+{
+    NSUInteger max = range.location + range.location;
+    if (max > self.length) {
+        return NSMakeRange(0, 0);
+    } else if (max == self.length) {
+        return range;
+    }
+    return range;
+}
+@end
+
 @implementation NSCoder (PPAsyncDrawingKit)
 - (void)pp_encodeFontMetrics:(PPFontMetrics)fontMetrics forKey:(nonnull NSString *)key
 {
@@ -214,5 +253,20 @@
     fontMetrics.descent = rect.origin.y;
     fontMetrics.leading = rect.size.width;
     return fontMetrics;
+}
+@end
+
+@implementation NSString (PPAsyncDrawingKit)
+- (void)enumerateStringsMatchedByRegex:(NSString *)regex usingBlock:(void (^)(NSString * _Nonnull, NSRange, BOOL * _Nonnull))block
+{
+    NSError *error;
+    NSRegularExpression *httpRegex = [[NSRegularExpression alloc] initWithPattern:regex options:kNilOptions error:&error];
+    if (error) {
+        NSLog(@"Regex Error: %@", error);
+    }
+    [httpRegex enumerateMatchesInString:self options:kNilOptions range:NSMakeRange(0, self.length) usingBlock:^(NSTextCheckingResult * _Nullable result, NSMatchingFlags flags, BOOL * _Nonnull stop) {
+        NSString *subText = [self substringWithRange:result.range];
+        block(subText, result.range, stop);
+    }];
 }
 @end

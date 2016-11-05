@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
+#import <CoreText/CoreText.h>
 
 @class PPTextRenderer;
 
@@ -65,9 +66,27 @@ static inline __nullable CGPathRef CreateCGPath(CGRect rect, CGFloat cornerRadiu
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines derivedLineCount:(NSInteger)derivedLineCount baselineMetrics:(PPFontMetrics)baselineMetrics;
 @end
 
+@interface NSMutableAttributedString (PPAsyncDrawingKit)
+- (void)pp_setAlignment:(NSTextAlignment)alignment lineBreakMode:(NSLineBreakMode)lineBreakMode lineHeight:(CGFloat)lineHeight;
+- (void)pp_setAlignment:(NSTextAlignment)alignment lineBreakMode:(NSLineBreakMode)lineBreakMode;
+- (void)pp_setLineHeight:(CGFloat)lineHeight inRange:(NSRange)range;
+- (void)pp_setCTFont:(CTFontRef)CTFont;
+- (void)pp_setKerning:(CGFloat)kerning inRange:(NSRange)range;
+- (void)pp_setBackgroundColor:(UIColor *)backgroundColor inRange:(NSRange)range;
+- (void)pp_setColor:(UIColor *)color inRange:(NSRange)range;
+- (void)pp_setCTFont:(CTFontRef)CTFont inRange:(NSRange)range;
+- (void)pp_setFont:(UIFont *)font inRange:(NSRange)range;
+- (NSRange)pp_effectiveRangeWithRange:(NSRange)range;
+- (NSRange)pp_stringRange;
+@end
+
 @interface NSCoder (PPAsyncDrawingKit)
 - (void)pp_encodeFontMetrics:(PPFontMetrics)fontMetrics forKey:(NSString *)key;
 - (PPFontMetrics)pp_decodeFontMetricsForKey:(NSString *)key;
 @end
 
+@interface NSString (PPAsyncDrawingKit)
+- (void)enumerateStringsMatchedByRegex:(NSString *)regex usingBlock:(void (^)(NSString *capturedString, NSRange capturedRange, BOOL *stop))block;
+
+@end
 NS_ASSUME_NONNULL_END
