@@ -31,7 +31,6 @@
 - (id)beginNewRangeWithMode:(NSUInteger)mode atIndex:(NSUInteger)index;
 - (void)finishParseRange:(id)arg1 atIndex:(NSUInteger)index;
 - (void)finishParseCurrentRangeAtIndex:(NSUInteger)index;
-- (void)dealloc;
 - (instancetype)initWithPlainText:(NSString *)text andMiniCardUrl:(NSArray *)arg2;
 - (instancetype)initWithPlainText:(NSString *)text;
 @end

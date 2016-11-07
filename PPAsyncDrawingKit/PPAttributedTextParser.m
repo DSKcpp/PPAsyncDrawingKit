@@ -24,6 +24,15 @@
     return self;
 }
 
+- (id)parseWithLinkMiniCard:(BOOL)arg1
+{
+    if (self.parsedRanges) {
+        for ( in <#collection#>) {
+            <#statements#>
+        }
+    }
+}
+
 //- (NSUInteger)parseAtIndex:(NSUInteger)index
 //{
 //    

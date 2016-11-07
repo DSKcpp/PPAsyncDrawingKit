@@ -67,17 +67,35 @@ static inline __nullable CGPathRef CreateCGPath(CGRect rect, CGFloat cornerRadiu
 @end
 
 @interface NSMutableAttributedString (PPAsyncDrawingKit)
+@property (nonatomic, strong) UIFont *pp_font;
+@property (nonatomic, assign) CGFloat pp_lineHeight;
+@property (nonatomic, assign) CGFloat pp_kerning;
+@property (nonatomic, assign) NSTextAlignment pp_alignment;
++ (instancetype)stringWithString:(NSString *)string;
 - (void)pp_setAlignment:(NSTextAlignment)alignment lineBreakMode:(NSLineBreakMode)lineBreakMode lineHeight:(CGFloat)lineHeight;
 - (void)pp_setAlignment:(NSTextAlignment)alignment lineBreakMode:(NSLineBreakMode)lineBreakMode;
 - (void)pp_setLineHeight:(CGFloat)lineHeight inRange:(NSRange)range;
 - (void)pp_setCTFont:(CTFontRef)CTFont;
 - (void)pp_setKerning:(CGFloat)kerning inRange:(NSRange)range;
 - (void)pp_setBackgroundColor:(UIColor *)backgroundColor inRange:(NSRange)range;
+- (void)pp_setColor:(UIColor *)color;
 - (void)pp_setColor:(UIColor *)color inRange:(NSRange)range;
 - (void)pp_setCTFont:(CTFontRef)CTFont inRange:(NSRange)range;
 - (void)pp_setFont:(UIFont *)font inRange:(NSRange)range;
 - (NSRange)pp_effectiveRangeWithRange:(NSRange)range;
 - (NSRange)pp_stringRange;
+@end
+
+@interface UIFont (PPAsyncDrawingKit)
++ (void)pp_createFontDescriptors;
++ (instancetype)pp_fontWithCTFont:(CTFontRef)CTFont;
++ (CTFontDescriptorRef)pp_newFontDescriptorForName:(NSString *)name;
++ (CTFontRef)pp_newCTFontWithName:(NSString *)name size:(CGFloat)size;
++ (CTFontRef)pp_newCTFontWithCTFont:(CTFontRef)CTFont symbolicTraits:(NSUInteger)symbolicTraits;
++ (CTFontRef)pp_newItalicCTFontForCTFont:(CTFontRef)CTFont;
++ (CTFontRef)pp_newBoldCTFontForCTFont:(CTFontRef)CTFont;
++ (CTFontRef)pp_newBoldSystemCTFontOfSize:(CGFloat)size;
++ (CTFontRef)pp_newSystemCTFontOfSize:(CGFloat)size;
 @end
 
 @interface NSCoder (PPAsyncDrawingKit)

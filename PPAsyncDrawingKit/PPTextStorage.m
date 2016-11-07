@@ -9,10 +9,6 @@
 #import "PPTextStorage.h"
 #import "PPAsyncDrawingKitUtilities.h"
 
-@interface PPTextStorage ()
-
-@end
-
 @implementation PPTextStorage
 {
     CFMutableAttributedStringRef attributedString;
@@ -40,8 +36,7 @@
 - (NSString *)string
 {
     if (attributedString) {
-        CFStringRef string =  CFAttributedStringGetString(attributedString);
-        return (__bridge NSString *)string;
+        return (NSString *)CFAttributedStringGetString(attributedString);
     }
     return @"";
 }
@@ -52,7 +47,7 @@
     if (attributedString) {
         if (self.length >= location) {
             CFRange _range = PPCFRangeFromNSRange(*range);
-            return (__bridge NSDictionary *)CFAttributedStringGetAttributes(attributedString, location, &_range);
+            return (NSDictionary *)CFAttributedStringGetAttributes(attributedString, location, &_range);
         }
     }
     return nil;

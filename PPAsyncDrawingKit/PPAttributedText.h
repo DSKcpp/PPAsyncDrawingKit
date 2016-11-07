@@ -11,6 +11,20 @@
 #import "PPTextStorage.h"
 #import "PPTextParagraphStyle.h"
 
+@class PPAttributedTextRange;
+
+typedef NS_OPTIONS(NSUInteger, PPParseOptions) {
+    PPParseOptionsNormal = 1 << 0,
+    PPParseOptionsMention = 1 << 1,
+    PPParseOptionsLink = 1 << 2,
+    PPParseOptionsHashtag = 1 << 3,
+    PPParseOptionsDollartag = 1 << 4,
+    PPParseOptionsEmoticon = 1 << 5,
+    PPParseOptionsDictation = 1 << 6,
+    PPParseOptionsMiniCard = 1 << 7,
+    PPParseOptionsEmailAdress = 1 << 8
+};
+
 @interface PPAttributedText : NSObject
 + (id)defaultSchemeForTopicName:(id)arg1;
 @property (nonatomic, copy) NSString *plainTextForCharacterCounting;
@@ -38,7 +52,6 @@
 @property (nonatomic, strong) UIColor *activeRangeColor;
 @property (nonatomic, strong) UIColor *textColor;
 
-- (id)_parseString:(id)arg1 withKeyword:(id)arg2 andCurrentParsingResult:(id)arg3;
 - (id)characterCountingPlainTextForTimelineURL:(id)arg1;
 - (void)updatePlainTextForCharacterCountingWithAttributedString:(id)arg1;
 - (void)updateParagraphStyleForAttributedString:(id)arg1;
@@ -46,10 +59,10 @@
 - (id)extractAttachmentsAndMergeToAttributedString:(id)arg1;
 - (NSInteger)mergeAttachment:(id)arg1 toAttributedString:(id)arg2 withTextRange:(NSRange)textRange merged:(BOOL)merged;
 - (void)insertFlavoredRange:(id)arg1 toMiniCardRange:(id)arg2;
-- (id)filterParsingResult:(id)arg1;
+- (NSArray<PPAttributedTextRange *> *)filterParsingResult:(NSArray<PPAttributedTextRange *> *)result;
 - (void)extractAttachmentsAndParseActiveRangesFromParseResult:(id)arg1 toAttributedString:(id)arg2;
 - (id)substringOfPageTitle:(id)arg1 withWordCount:(unsigned long long)arg2 trancates:(_Bool *)arg3;
-- (id)mutableAttributedString;
+- (NSMutableAttributedString *)mutableAttributedString;
 - (void)rebuild;
 - (void)setColorWithActiveRange:(id)arg1 forAttributedString:(id)arg2;
 - (id)attributedStringWithTextColor:(id)arg1;
