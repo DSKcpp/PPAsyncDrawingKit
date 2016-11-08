@@ -9,7 +9,7 @@
 #import "PPAttributedTextRange.h"
 
 @implementation PPAttributedTextRange
-+ (instancetype)rangeWithMode:(PPAttributedTextRangeModel)mode andLocation:(NSUInteger)locaiton
++ (instancetype)rangeWithMode:(PPAttributedTextRangeMode)mode andLocation:(NSUInteger)locaiton
 {
     PPAttributedTextRange *range = [[PPAttributedTextRange alloc] init];
     range.mode = mode;
@@ -23,24 +23,24 @@
     NSMutableString *string = [NSMutableString string];
     if (self.mode < 9) {
         switch (self.mode) {
-            case PPAttributedTextRangeModelNormal:
+            case PPAttributedTextRangeModeNormal:
                 [string appendString:@"Normal"];
                 break;
-            case PPAttributedTextRangeModelMention:
+            case PPAttributedTextRangeModeMention:
                 [string appendString:@"Mention"];
-            case PPAttributedTextRangeModelLink:
+            case PPAttributedTextRangeModeLink:
                 [string appendString:@"Link"];
-            case PPAttributedTextRangeModelHashtag:
+            case PPAttributedTextRangeModeHashtag:
                 [string appendString:@"Hashtag"];
-            case PPAttributedTextRangeModelDollartag:
+            case PPAttributedTextRangeModeDollartag:
                 [string appendString:@"Dollartag"];
-            case PPAttributedTextRangeModelEmoticon:
+            case PPAttributedTextRangeModeEmoticon:
                 [string appendString:@"Emoticon"];
-            case PPAttributedTextRangeModelDictation:
+            case PPAttributedTextRangeModeDictation:
                 [string appendString:@"Dictation"];
-            case PPAttributedTextRangeModelMiniCard:
+            case PPAttributedTextRangeModeMiniCard:
                 [string appendString:@"MiniCard"];
-            case PPAttributedTextRangeModelEmailAdress:
+            case PPAttributedTextRangeModeEmailAdress:
                 [string appendString:@"EmailAdress"];
         }
     }

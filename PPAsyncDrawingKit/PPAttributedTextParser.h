@@ -7,15 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PPAttributedTextRange.h"
+
+@class PPAttributedTextParseStack;
 
 @interface PPAttributedTextParser : NSObject
 
-@property(retain, nonatomic) NSMutableArray *parsedRanges;
-//@property(retain, nonatomic) WBTimelineAttributedTextParseStack *parseRangeStack; // @synthesize parseRangeStack=_parseRangeStack;
+@property(retain, nonatomic) NSMutableArray<PPAttributedTextRange *> *parsedRanges;
+@property(retain, nonatomic) PPAttributedTextParseStack *parseRangeStack;
 @property(copy, nonatomic) NSString *plainText;
 @property(retain, nonatomic) NSArray *miniCardUrlItems;
 + (void)test;
-- (id)parseWithLinkMiniCard:(BOOL)arg1;
+- (NSArray<PPAttributedTextRange *> *)parseWithLinkMiniCard:(BOOL)arg1;
 - (void)parseEmailAdressModeFromMentionModeResult;
 - (void)parseAllModesExceptMiniCardMode;
 - (void)parseMiniCardModeWithLink:(BOOL)arg1;
@@ -28,9 +31,9 @@
 - (NSUInteger)parseHashtagModeAtIndex:(NSUInteger)index;
 - (NSUInteger)parseLinkModeAtIndex:(NSUInteger)index;
 - (NSUInteger)tryEnterLinkModeAtIndex:(NSUInteger)index shouldFinishCurrentRange:(BOOL)arg2;
-- (id)beginNewRangeWithMode:(NSUInteger)mode atIndex:(NSUInteger)index;
-- (void)finishParseRange:(id)arg1 atIndex:(NSUInteger)index;
+- (PPAttributedTextRange *)beginNewRangeWithMode:(PPAttributedTextRangeMode)mode atIndex:(NSUInteger)index;
+- (void)finishParseRange:(PPAttributedTextRange *)range atIndex:(NSUInteger)index;
 - (void)finishParseCurrentRangeAtIndex:(NSUInteger)index;
-- (instancetype)initWithPlainText:(NSString *)text andMiniCardUrl:(NSArray *)arg2;
+- (instancetype)initWithPlainText:(NSString *)text andMiniCardUrl:(NSArray *)miniCardUrl;
 - (instancetype)initWithPlainText:(NSString *)text;
 @end

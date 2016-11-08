@@ -90,10 +90,11 @@
         if (keywords.count > 0 && string) {
             if (string.length > 0) {
                 NSMutableArray *arrs = [NSMutableArray array];
-                arrs addObjectsFromArray:<#(nonnull NSArray *)#>
+//                arrs addObjectsFromArray:<#(nonnull NSArray *)#>
             }
         }
     }
+    return result;
 }
 
 - (NSMutableAttributedString *)mutableAttributedString

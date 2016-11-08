@@ -23,6 +23,7 @@
 		867F77A21DB77C7C004FCEBA /* PPWebImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 867F77A11DB77C7C004FCEBA /* PPWebImageView.m */; };
 		86A98D2C1D92E446008F0A7E /* PPUIControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A98D2B1D92E446008F0A7E /* PPUIControl.m */; };
 		86A98D351D92F582008F0A7E /* PPImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A98D341D92F582008F0A7E /* PPImageView.m */; };
+		86AED6541DD1BFBD00887F3B /* PPAttributedTextParseStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AED6531DD1BFBD00887F3B /* PPAttributedTextParseStack.m */; };
 		86EB758F1D2393CC005F14A1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EB758E1D2393CC005F14A1 /* main.m */; };
 		86EB75921D2393CC005F14A1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EB75911D2393CC005F14A1 /* AppDelegate.m */; };
 		86EB75951D2393CC005F14A1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EB75941D2393CC005F14A1 /* ViewController.m */; };
@@ -77,6 +78,8 @@
 		86A98D2B1D92E446008F0A7E /* PPUIControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPUIControl.m; sourceTree = "<group>"; };
 		86A98D331D92F582008F0A7E /* PPImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPImageView.h; sourceTree = "<group>"; };
 		86A98D341D92F582008F0A7E /* PPImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPImageView.m; sourceTree = "<group>"; };
+		86AED6521DD1BFBD00887F3B /* PPAttributedTextParseStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAttributedTextParseStack.h; sourceTree = "<group>"; };
+		86AED6531DD1BFBD00887F3B /* PPAttributedTextParseStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAttributedTextParseStack.m; sourceTree = "<group>"; };
 		86EB758A1D2393CC005F14A1 /* PPAsyncDrawingKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PPAsyncDrawingKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86EB758E1D2393CC005F14A1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		86EB75901D2393CC005F14A1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -253,6 +256,8 @@
 				86394B961DCC919B00BF0DE6 /* PPAttributedTextParser.m */,
 				86F443A21DD0956000FCD61B /* PPAttributedTextRange.h */,
 				86F443A31DD0956000FCD61B /* PPAttributedTextRange.m */,
+				86AED6521DD1BFBD00887F3B /* PPAttributedTextParseStack.h */,
+				86AED6531DD1BFBD00887F3B /* PPAttributedTextParseStack.m */,
 			);
 			name = Label;
 			sourceTree = "<group>";
@@ -399,6 +404,7 @@
 				863952AE1D3FBA1400904204 /* PPAsyncDrawingView.m in Sources */,
 				86A98D2C1D92E446008F0A7E /* PPUIControl.m in Sources */,
 				861EB1DB1DB11E28005C07C7 /* WBCardsModel.m in Sources */,
+				86AED6541DD1BFBD00887F3B /* PPAttributedTextParseStack.m in Sources */,
 				86EF6AAE1DB132F9006464CE /* TextViewController.m in Sources */,
 				861EB1E21DB11EBD005C07C7 /* NSObject+YYModel.m in Sources */,
 				865BC5AC1DC36C57003AF1AF /* PPFlavoredRange.m in Sources */,

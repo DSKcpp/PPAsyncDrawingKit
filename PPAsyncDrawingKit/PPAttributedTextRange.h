@@ -8,16 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSUInteger, PPAttributedTextRangeModel) {
-    PPAttributedTextRangeModelNormal,
-    PPAttributedTextRangeModelMention,
-    PPAttributedTextRangeModelLink,
-    PPAttributedTextRangeModelHashtag,
-    PPAttributedTextRangeModelDollartag,
-    PPAttributedTextRangeModelEmoticon,
-    PPAttributedTextRangeModelDictation,
-    PPAttributedTextRangeModelMiniCard,
-    PPAttributedTextRangeModelEmailAdress
+typedef NS_ENUM(NSUInteger, PPAttributedTextRangeMode) {
+    PPAttributedTextRangeModeNormal,
+    PPAttributedTextRangeModeMention,
+    PPAttributedTextRangeModeLink,
+    PPAttributedTextRangeModeHashtag,
+    PPAttributedTextRangeModeDollartag,
+    PPAttributedTextRangeModeEmoticon,
+    PPAttributedTextRangeModeDictation,
+    PPAttributedTextRangeModeMiniCard,
+    PPAttributedTextRangeModeEmailAdress
 };
 
 @interface PPAttributedTextRange : NSObject
@@ -25,8 +25,8 @@ typedef NS_ENUM(NSUInteger, PPAttributedTextRangeModel) {
 @property (nonatomic, retain) NSString *content;
 @property (nonatomic, assign) NSUInteger length;
 @property (nonatomic, assign) NSUInteger location;
-@property (nonatomic, assign) PPAttributedTextRangeModel mode;
+@property (nonatomic, assign) PPAttributedTextRangeMode mode;
 
-+ (instancetype)rangeWithMode:(PPAttributedTextRangeModel)mode andLocation:(NSUInteger)locaiton;
++ (instancetype)rangeWithMode:(PPAttributedTextRangeMode)mode andLocation:(NSUInteger)locaiton;
 @end
 
