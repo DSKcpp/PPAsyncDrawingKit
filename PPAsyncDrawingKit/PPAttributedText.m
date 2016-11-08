@@ -8,9 +8,11 @@
 
 #import "PPAttributedText.h"
 #import "PPTextStorage.h"
-#import "PPAsyncDrawingKitUtilities.h"
 #import "PPAttributedTextParser.h"
 #import "PPAttributedTextRange.h"
+#import "NSMutableAttributedString+PPAsyncDrawingKit.h"
+#import "UIFont+PPAsyncDrawingKit.h"
+#import "NSString+PPAsyncDrawingKit.h"
 
 @implementation PPAttributedText
 {
@@ -149,19 +151,19 @@
 {
     NSMutableArray *activeRanges = @[].mutableCopy;
     // At
-    [string enumerateStringsMatchedByRegex:@"@([\\x{4e00}-\\x{9fa5}A-Za-z0-9_\\-]+)" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
+    [string pp_enumerateStringsMatchedByRegex:@"@([\\x{4e00}-\\x{9fa5}A-Za-z0-9_\\-]+)" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
         NSLog(@"[%@] - %@", capturedString, NSStringFromRange(capturedRange));
     }];
     // Topic
-    [string enumerateStringsMatchedByRegex:@"#([^#]+?)#" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
+    [string pp_enumerateStringsMatchedByRegex:@"#([^#]+?)#" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
         NSLog(@"[%@] - %@", capturedString, NSStringFromRange(capturedRange));
     }];
     // Email
-    [string enumerateStringsMatchedByRegex:@"([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,6})" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
+    [string pp_enumerateStringsMatchedByRegex:@"([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,6})" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
         NSLog(@"[%@] - %@", capturedString, NSStringFromRange(capturedRange));
     }];
     // URL
-    [string enumerateStringsMatchedByRegex:@"(?i)https?://[a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)+([-A-Z0-9a-z_\\$\\.\\+!\\*\(\\)/,:;@&=\?~#%]*)*" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
+    [string pp_enumerateStringsMatchedByRegex:@"(?i)https?://[a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)+([-A-Z0-9a-z_\\$\\.\\+!\\*\(\\)/,:;@&=\?~#%]*)*" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
         NSLog(@"[%@] - %@", capturedString, NSStringFromRange(capturedRange));
     }];
     return activeRanges;

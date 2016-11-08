@@ -7,6 +7,7 @@
 //
 
 #import "PPImageView.h"
+#import "UIImage+PPAsyncDrawingKit.h"
 #import "PPAsyncDrawingKitUtilities.h"
 
 @implementation PPImageView

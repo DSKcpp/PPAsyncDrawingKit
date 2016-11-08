@@ -24,6 +24,10 @@
 		86A98D2C1D92E446008F0A7E /* PPUIControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A98D2B1D92E446008F0A7E /* PPUIControl.m */; };
 		86A98D351D92F582008F0A7E /* PPImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A98D341D92F582008F0A7E /* PPImageView.m */; };
 		86AED6541DD1BFBD00887F3B /* PPAttributedTextParseStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AED6531DD1BFBD00887F3B /* PPAttributedTextParseStack.m */; };
+		86AED6581DD1D63D00887F3B /* NSString+PPAsyncDrawingKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AED6571DD1D63D00887F3B /* NSString+PPAsyncDrawingKit.m */; };
+		86AED65B1DD1D7D100887F3B /* UIFont+PPAsyncDrawingKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AED65A1DD1D7D100887F3B /* UIFont+PPAsyncDrawingKit.m */; };
+		86AED65E1DD1D82E00887F3B /* NSMutableAttributedString+PPAsyncDrawingKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AED65D1DD1D82E00887F3B /* NSMutableAttributedString+PPAsyncDrawingKit.m */; };
+		86AED6621DD1DB2C00887F3B /* UIImage+PPAsyncDrawingKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AED6611DD1DB2C00887F3B /* UIImage+PPAsyncDrawingKit.m */; };
 		86EB758F1D2393CC005F14A1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EB758E1D2393CC005F14A1 /* main.m */; };
 		86EB75921D2393CC005F14A1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EB75911D2393CC005F14A1 /* AppDelegate.m */; };
 		86EB75951D2393CC005F14A1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EB75941D2393CC005F14A1 /* ViewController.m */; };
@@ -80,6 +84,14 @@
 		86A98D341D92F582008F0A7E /* PPImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPImageView.m; sourceTree = "<group>"; };
 		86AED6521DD1BFBD00887F3B /* PPAttributedTextParseStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAttributedTextParseStack.h; sourceTree = "<group>"; };
 		86AED6531DD1BFBD00887F3B /* PPAttributedTextParseStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAttributedTextParseStack.m; sourceTree = "<group>"; };
+		86AED6561DD1D63D00887F3B /* NSString+PPAsyncDrawingKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+PPAsyncDrawingKit.h"; sourceTree = "<group>"; };
+		86AED6571DD1D63D00887F3B /* NSString+PPAsyncDrawingKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PPAsyncDrawingKit.m"; sourceTree = "<group>"; };
+		86AED6591DD1D7D100887F3B /* UIFont+PPAsyncDrawingKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+PPAsyncDrawingKit.h"; sourceTree = "<group>"; };
+		86AED65A1DD1D7D100887F3B /* UIFont+PPAsyncDrawingKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+PPAsyncDrawingKit.m"; sourceTree = "<group>"; };
+		86AED65C1DD1D82E00887F3B /* NSMutableAttributedString+PPAsyncDrawingKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+PPAsyncDrawingKit.h"; sourceTree = "<group>"; };
+		86AED65D1DD1D82E00887F3B /* NSMutableAttributedString+PPAsyncDrawingKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableAttributedString+PPAsyncDrawingKit.m"; sourceTree = "<group>"; };
+		86AED6601DD1DB2C00887F3B /* UIImage+PPAsyncDrawingKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+PPAsyncDrawingKit.h"; sourceTree = "<group>"; };
+		86AED6611DD1DB2C00887F3B /* UIImage+PPAsyncDrawingKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+PPAsyncDrawingKit.m"; sourceTree = "<group>"; };
 		86EB758A1D2393CC005F14A1 /* PPAsyncDrawingKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PPAsyncDrawingKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86EB758E1D2393CC005F14A1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		86EB75901D2393CC005F14A1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -186,7 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				86A98D301D92F495008F0A7E /* Core */,
-				86A98D321D92F4BC008F0A7E /* Label */,
+				86A98D321D92F4BC008F0A7E /* Text */,
 				86A98D311D92F4AD008F0A7E /* ImageView */,
 				8651C4FB1DC1FD120092569A /* Button */,
 			);
@@ -219,6 +231,7 @@
 		86A98D311D92F4AD008F0A7E /* ImageView */ = {
 			isa = PBXGroup;
 			children = (
+				86AED65F1DD1DAF200887F3B /* Utilities */,
 				86A98D331D92F582008F0A7E /* PPImageView.h */,
 				86A98D341D92F582008F0A7E /* PPImageView.m */,
 				867F77A01DB77C7C004FCEBA /* PPWebImageView.h */,
@@ -227,9 +240,10 @@
 			name = ImageView;
 			sourceTree = "<group>";
 		};
-		86A98D321D92F4BC008F0A7E /* Label */ = {
+		86A98D321D92F4BC008F0A7E /* Text */ = {
 			isa = PBXGroup;
 			children = (
+				86AED6551DD1D5E100887F3B /* Utilities */,
 				861EB1CE1DB11419005C07C7 /* PPTextContentView.h */,
 				861EB1CF1DB11419005C07C7 /* PPTextContentView.m */,
 				861EB1D41DB11563005C07C7 /* PPTextRenderer.h */,
@@ -259,7 +273,29 @@
 				86AED6521DD1BFBD00887F3B /* PPAttributedTextParseStack.h */,
 				86AED6531DD1BFBD00887F3B /* PPAttributedTextParseStack.m */,
 			);
-			name = Label;
+			name = Text;
+			sourceTree = "<group>";
+		};
+		86AED6551DD1D5E100887F3B /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				86AED6561DD1D63D00887F3B /* NSString+PPAsyncDrawingKit.h */,
+				86AED6571DD1D63D00887F3B /* NSString+PPAsyncDrawingKit.m */,
+				86AED6591DD1D7D100887F3B /* UIFont+PPAsyncDrawingKit.h */,
+				86AED65A1DD1D7D100887F3B /* UIFont+PPAsyncDrawingKit.m */,
+				86AED65C1DD1D82E00887F3B /* NSMutableAttributedString+PPAsyncDrawingKit.h */,
+				86AED65D1DD1D82E00887F3B /* NSMutableAttributedString+PPAsyncDrawingKit.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		86AED65F1DD1DAF200887F3B /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				86AED6601DD1DB2C00887F3B /* UIImage+PPAsyncDrawingKit.h */,
+				86AED6611DD1DB2C00887F3B /* UIImage+PPAsyncDrawingKit.m */,
+			);
+			name = Utilities;
 			sourceTree = "<group>";
 		};
 		86EB75811D2393CC005F14A1 = {
@@ -403,6 +439,7 @@
 				86EF6ADC1DB3B873006464CE /* WBTimelineItem.m in Sources */,
 				863952AE1D3FBA1400904204 /* PPAsyncDrawingView.m in Sources */,
 				86A98D2C1D92E446008F0A7E /* PPUIControl.m in Sources */,
+				86AED6621DD1DB2C00887F3B /* UIImage+PPAsyncDrawingKit.m in Sources */,
 				861EB1DB1DB11E28005C07C7 /* WBCardsModel.m in Sources */,
 				86AED6541DD1BFBD00887F3B /* PPAttributedTextParseStack.m in Sources */,
 				86EF6AAE1DB132F9006464CE /* TextViewController.m in Sources */,
@@ -418,10 +455,13 @@
 				86A98D351D92F582008F0A7E /* PPImageView.m in Sources */,
 				861EB1E31DB11EBD005C07C7 /* YYClassInfo.m in Sources */,
 				8651C4FE1DC1FD3F0092569A /* PPButton.m in Sources */,
+				86AED65E1DD1D82E00887F3B /* NSMutableAttributedString+PPAsyncDrawingKit.m in Sources */,
 				863ADA8F1DC47F1300AC582D /* PPTextAttachment.m in Sources */,
 				861EB1CD1DB10F0B005C07C7 /* ImageViewTableViewController.m in Sources */,
+				86AED65B1DD1D7D100887F3B /* UIFont+PPAsyncDrawingKit.m in Sources */,
 				86EF6ABD1DB36CCD006464CE /* PPAttributedText.m in Sources */,
 				86EB758F1D2393CC005F14A1 /* main.m in Sources */,
+				86AED6581DD1D63D00887F3B /* NSString+PPAsyncDrawingKit.m in Sources */,
 				86EF6AB11DB13677006464CE /* PPTextLayout.m in Sources */,
 				86EF6AC31DB36EA2006464CE /* PPTextParagraphStyle.m in Sources */,
 				86394B971DCC919B00BF0DE6 /* PPAttributedTextParser.m in Sources */,

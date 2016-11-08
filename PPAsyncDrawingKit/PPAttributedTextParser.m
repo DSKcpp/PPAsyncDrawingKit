@@ -9,6 +9,7 @@
 #import "PPAttributedTextParser.h"
 #import "PPAttributedTextRange.h"
 #import "PPAttributedTextParseStack.h"
+#import "NSString+PPAsyncDrawingKit.h"
 
 @implementation PPAttributedTextParser
 - (instancetype)initWithPlainText:(NSString *)text
@@ -154,6 +155,36 @@
         }
     }
     return 0;
+}
+
+- (NSUInteger)parseEmoticonModeAtIndex:(NSUInteger)index
+{
+    return 0;
+}
+
+- (NSUInteger)parseMentionModeAtIndex:(NSUInteger)index
+{
+    NSUInteger result = 0;
+    NSString *text = [self.plainText substringWithRange:NSMakeRange(index, 1)];
+    if ([text pp_isMatchedByRegex:@"[\\x{4e00}-\\x{9fa5}A-Za-z0-9_\\-\\x{b7}]"]) {
+        unichar unichar = [self.plainText characterAtIndex:index];
+        if ((unichar | 32) == 104) {
+            result = [self tryEnterLinkModeAtIndex:index shouldFinishCurrentRange:YES];
+        }
+    } else {
+        [self finishParseCurrentRangeAtIndex:index];
+        result = [self parseAtIndex:index];
+    }
+    NSLog(@"%zu", result);
+    return result;
+}
+
+- (NSUInteger)parseHashtagModeAtIndex:(NSUInteger)index
+{
+//    if (<#condition#>) {
+//        <#statements#>
+//    }
+    return index;
 }
 
 @end
