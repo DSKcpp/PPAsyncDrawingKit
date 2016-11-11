@@ -1,27 +1,28 @@
 //
-//  WBTimeLineViewController.m
+//  WBTimelineViewController.m
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 2016/10/14.
 //  Copyright © 2016年 DSKcpp. All rights reserved.
 //
 
-#import "WBTimeLineViewController.h"
+#import "WBTimelineViewController.h"
 #import "WBCardsModel.h"
 #import "YYModel.h"
-#import "WBCardCell.h"
+#import "WBTimelineTableViewCell.h"
+#import "WBTimelineContentView.h"
 
-@interface WBTimeLineViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface WBTimelineViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray<WBCardModel *> *cards;
+@property (nonatomic, strong) NSMutableArray<WBTimelineItem *> *timelineItems;
 @end
 
-@implementation WBTimeLineViewController
+@implementation WBTimelineViewController
 
 - (instancetype)init
 {
     if (self = [super init]) {
-        _cards = @[].mutableCopy;
+        _timelineItems = @[].mutableCopy;
         _tableView = [[UITableView alloc] init];
     }
     return self;
@@ -42,7 +43,11 @@
         NSString *path = [[NSBundle mainBundle] pathForResource:@"WBTimeLineJSON.json" ofType:@""];
         NSData *data = [NSData dataWithContentsOfFile:path];
         WBCardsModel *cards = [WBCardsModel yy_modelWithJSON:data];
-        [_cards addObjectsFromArray:cards.cards];
+        [cards.cards enumerateObjectsUsingBlock:^(WBCardModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if (obj.mblog) {
+                [_timelineItems addObject:obj.mblog];
+            }
+        }];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
         });
@@ -51,18 +56,22 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _cards.count;
+    return _timelineItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *identifier = @"kWBCardCell";
-    WBCardCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    NSString *identifier = @"kWBTimelineTableViewCell";
+    WBTimelineTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
-        cell = [[WBCardCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        cell = [[WBTimelineTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    [cell setCard:_cards[indexPath.row]];
+    [cell setTimelineItem:_timelineItems[indexPath.row]];
     return cell;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [WBTimelineContentView heightOfTimelineItem:_timelineItems[indexPath.row] withContentWidth:320];
+}
 @end

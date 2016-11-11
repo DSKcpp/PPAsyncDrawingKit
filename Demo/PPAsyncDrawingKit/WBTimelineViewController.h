@@ -1,5 +1,5 @@
 //
-//  WBTimeLineViewController.h
+//  WBTimelineViewController.h
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 2016/10/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WBTimeLineViewController : UIViewController
+@interface WBTimelineViewController : UIViewController
 
 @end

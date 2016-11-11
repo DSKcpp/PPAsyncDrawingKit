@@ -13,6 +13,8 @@
 #import "NSMutableAttributedString+PPAsyncDrawingKit.h"
 #import "UIFont+PPAsyncDrawingKit.h"
 #import "NSString+PPAsyncDrawingKit.h"
+#import "PPTextAttachment.h"
+#import "PPFlavoredRange.h"
 
 @implementation PPAttributedText
 {
@@ -68,15 +70,76 @@
     self.textAttachments = nil;
     self.activeRanges = nil;
     NSMutableAttributedString *attributedString = [self mutableAttributedString];
-    self.attributedString = attributedString;
     if (attributedString.length) {
         PPAttributedTextParser *parse = [[PPAttributedTextParser alloc] initWithPlainText:attributedString.string
                                                                            andMiniCardUrl:self.urlItems];
         PPParseOptions parseOptions = self.parseOptions;
         NSArray<PPAttributedTextRange *> *parsingResult = [parse parseWithLinkMiniCard:NO];
         parsingResult = [self filterParsingResult:parsingResult];
-        [self _parseString:self.plainText withKeyword:self.keywords andCurrentParsingResult:parsingResult];
+        parsingResult = [self _parseString:self.plainText withKeyword:self.keywords andCurrentParsingResult:parsingResult];
+        [self extractAttachmentsAndParseActiveRangesFromParseResult:parsingResult toAttributedString:attributedString];
+        for (PPFlavoredRange *range in self.activeRanges) {
+            [self setColorWithActiveRange:range forAttributedString:attributedString];
+        }
     }
+    self.attributedString = attributedString;
+}
+
+- (void)extractAttachmentsAndParseActiveRangesFromParseResult:(NSArray<PPAttributedTextRange *> *)parseResult toAttributedString:(NSMutableAttributedString *)attributedString
+{
+    NSMutableArray *activeRanges = [NSMutableArray array];
+    for (PPAttributedTextRange *range in parseResult) {
+        switch (range.mode) {
+            case PPAttributedTextRangeModeMention: {
+                 PPFlavoredRange *flavoredRange = [[PPFlavoredRange alloc] init];
+                flavoredRange.range = NSMakeRange(range.location, range.length);
+                flavoredRange.flavor = PPAttributedTextRangeModeMention;
+                [activeRanges addObject:flavoredRange];
+            }
+                break;
+            case PPAttributedTextRangeModeLink:
+                break;
+            case PPAttributedTextRangeModeHashtag: {
+                PPFlavoredRange *flavoredRange = [[PPFlavoredRange alloc] init];
+                flavoredRange.range = NSMakeRange(range.location, range.length);
+                flavoredRange.flavor = PPAttributedTextRangeModeHashtag;
+                [activeRanges addObject:flavoredRange];
+            }
+                break;
+            case PPAttributedTextRangeModeDollartag:
+                break;
+            case PPAttributedTextRangeModeEmoticon:
+                break;
+            case PPAttributedTextRangeModeMiniCard:
+                break;
+            default:
+                break;
+        }
+    }
+    self.activeRanges = [NSArray arrayWithArray:activeRanges];
+}
+
+- (void)setColorWithActiveRange:(PPFlavoredRange *)activeRange forAttributedString:(NSMutableAttributedString *)attributedString
+{
+    if (activeRange) {
+        [attributedString pp_setColor:[UIColor blueColor] inRange:activeRange.range];
+    }
+}
+
+- (NSInteger)mergeAttachment:(PPTextAttachment *)attachment toAttributedString:(NSMutableAttributedString *)attributedString withTextRange:(NSRange)textRange merged:(BOOL)merged
+{
+    if (attachment) {
+        NSInteger r = 1;
+        if (textRange.location + textRange.length >= textRange.location) {
+            r = 0;
+        }
+        if (!r && textRange.location + textRange.length <= attributedString.length) {
+            if (!self.shouldShowSmallCardForcily && attachment) {
+                
+            }
+        }
+    }
+    return 0;
 }
 
 - (NSArray<PPAttributedTextRange *> *)filterParsingResult:(NSArray<PPAttributedTextRange *> *)result
@@ -91,6 +154,7 @@
     if (keywords) {
         if (keywords.count > 0 && string) {
             if (string.length > 0) {
+                
                 NSMutableArray *arrs = [NSMutableArray array];
 //                arrs addObjectsFromArray:<#(nonnull NSArray *)#>
             }

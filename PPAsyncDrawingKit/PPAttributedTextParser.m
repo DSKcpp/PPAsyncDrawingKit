@@ -33,7 +33,14 @@
     [self parsePhoneNumber];
     [self parseAllModesExceptMiniCardMode];
     [self parseEmailAdressModeFromMentionModeResult];
-    return [NSArray arrayWithArray:self.parsedRanges];
+    PPAttributedTextRange *hashtag = [PPAttributedTextRange rangeWithMode:PPAttributedTextRangeModeHashtag andLocation:0];
+    hashtag.length = 6;
+    hashtag.content = @"#纽约漫展#";
+    PPAttributedTextRange *mention = [PPAttributedTextRange rangeWithMode:PPAttributedTextRangeModeMention andLocation:16];
+    mention.length = 5;
+    mention.content = @"@陈一发儿";
+    return @[hashtag, mention];
+//    return [NSArray arrayWithArray:self.parsedRanges];
 }
 
 - (void)parsePhoneNumber
@@ -58,7 +65,18 @@
     NSUInteger length = self.plainText.length;
     if (length) {
         for (NSInteger i = 0; i < length; i++) {
-            [self parseAtIndex:i];
+            NSUInteger j = [self parseAtIndex:i];
+        }
+    }
+    NSLog(@"%@", self.parsedRanges);
+    PPAttributedTextRange *parsingRange = self.parseRangeStack.parsingRange;
+    if (parsingRange) {
+        if (parsingRange.mode <= 10) {
+            [self finishParseCurrentRangeAtIndex:0];
+            PPAttributedTextRange *parsingRange = self.parseRangeStack.parsingRange;
+            if (!parsingRange) {
+                return;
+            }
         }
     }
 }
@@ -133,6 +151,7 @@
 - (NSUInteger)parseNormalModeAtIndex:(NSUInteger)index
 {
     unichar unichar = [self.plainText characterAtIndex:index];
+    NSLog(@"%d", unichar);
     if (unichar > 71) {
         if (unichar == 72) {
             return [self tryEnterLinkModeAtIndex:index shouldFinishCurrentRange:YES];
@@ -181,9 +200,27 @@
 
 - (NSUInteger)parseHashtagModeAtIndex:(NSUInteger)index
 {
-//    if (<#condition#>) {
-//        <#statements#>
-//    }
+    unichar unichar = [self.plainText characterAtIndex:index];
+    NSLog(@"%d", unichar);
+    if (unichar > 71) {
+        if (unichar <= 92) {
+            if (unichar != 72) {
+                if (unichar == 91) {
+                    [self beginNewRangeWithMode:PPAttributedTextRangeModeEmoticon atIndex:index];
+                    return 0;
+                }
+            }
+            return 0;
+        } else if (unichar != 93) {
+            if (unichar != 104) {
+                return 0;
+            }
+            return [self tryEnterLinkModeAtIndex:index shouldFinishCurrentRange:NO];
+        }
+        return [self tryEnterLinkModeAtIndex:index shouldFinishCurrentRange:NO];
+    } else if (unichar == 35) {
+        
+    }
     return index;
 }
 

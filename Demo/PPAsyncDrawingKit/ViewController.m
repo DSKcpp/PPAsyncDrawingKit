@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import "ImageViewTableViewController.h"
-#import "WBTimeLineViewController.h"
+#import "WBTimelineViewController.h"
 #import "TextViewController.h"
 #import "PPAsyncDrawingKitUtilities.h"
 #import "YYFPSLabel.h"
@@ -32,7 +32,7 @@
         TextViewController * viewController = [[TextViewController alloc] init];
         [self.navigationController pushViewController:viewController animated:YES];
     } else if (indexPath.row == 2) {
-        WBTimeLineViewController * viewController = [[WBTimeLineViewController alloc] init];
+        WBTimelineViewController * viewController = [[WBTimelineViewController alloc] init];
         [self.navigationController pushViewController:viewController animated:YES];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

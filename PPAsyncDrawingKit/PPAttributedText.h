@@ -12,6 +12,8 @@
 #import "PPTextParagraphStyle.h"
 
 @class PPAttributedTextRange;
+@class PPTextAttachment;
+@class PPFlavoredRange;
 
 typedef NS_OPTIONS(NSUInteger, PPParseOptions) {
     PPParseOptionsNormal = 1 << 0,
@@ -28,8 +30,8 @@ typedef NS_OPTIONS(NSUInteger, PPParseOptions) {
 @interface PPAttributedText : NSObject
 + (id)defaultSchemeForTopicName:(id)arg1;
 @property (nonatomic, copy) NSString *plainTextForCharacterCounting;
-@property (nonatomic, strong) NSArray *textAttachments;
-@property (nonatomic, strong) NSArray *activeRanges;
+@property (nonatomic, strong) NSArray<PPTextAttachment *> *textAttachments;
+@property (nonatomic, strong) NSArray<PPFlavoredRange *> *activeRanges;
 @property (nonatomic, strong) NSMutableAttributedString *attributedString;
 @property (nonatomic, assign) BOOL shouldShowSmallCardForcily;
 @property (nonatomic, strong) NSDictionary *analysisParameters;
@@ -52,22 +54,23 @@ typedef NS_OPTIONS(NSUInteger, PPParseOptions) {
 @property (nonatomic, strong) UIColor *activeRangeColor;
 @property (nonatomic, strong) UIColor *textColor;
 
+- (instancetype)initWithPlainText:(NSString *)plainText;
 - (id)characterCountingPlainTextForTimelineURL:(id)arg1;
 - (void)updatePlainTextForCharacterCountingWithAttributedString:(id)arg1;
 - (void)updateParagraphStyleForAttributedString:(id)arg1;
 - (id)parseActiveRangesFromString:(NSString *)string;
 - (id)extractAttachmentsAndMergeToAttributedString:(id)arg1;
-- (NSInteger)mergeAttachment:(id)arg1 toAttributedString:(id)arg2 withTextRange:(NSRange)textRange merged:(BOOL)merged;
+- (NSInteger)mergeAttachment:(PPTextAttachment *)attachment toAttributedString:(NSMutableAttributedString *)attributedString withTextRange:(NSRange)textRange merged:(BOOL)merged;
 - (void)insertFlavoredRange:(id)arg1 toMiniCardRange:(id)arg2;
 - (NSArray<PPAttributedTextRange *> *)filterParsingResult:(NSArray<PPAttributedTextRange *> *)result;
-- (void)extractAttachmentsAndParseActiveRangesFromParseResult:(id)arg1 toAttributedString:(id)arg2;
+- (void)extractAttachmentsAndParseActiveRangesFromParseResult:(NSArray<PPAttributedTextRange *> *)parseResult toAttributedString:(NSMutableAttributedString *)attributedString;
 - (id)substringOfPageTitle:(id)arg1 withWordCount:(unsigned long long)arg2 trancates:(_Bool *)arg3;
 - (NSMutableAttributedString *)mutableAttributedString;
 - (void)rebuild;
-- (void)setColorWithActiveRange:(id)arg1 forAttributedString:(id)arg2;
+- (void)setColorWithActiveRange:(PPFlavoredRange *)activeRange forAttributedString:(NSMutableAttributedString *)attributedString;
 - (id)attributedStringWithTextColor:(id)arg1;
-- (void)wb_paragraphStyleDidUpdateAttribute:(id)arg1;
-- (void)wb_textStorage:(id)arg1 didProcessEditing:(unsigned long long)arg2 range:(struct _NSRange)arg3 changeInLength:(long long)arg4;
+- (void)PP_paragraphStyleDidUpdateAttribute:(id)arg1;
+- (void)PP_textStorage:(PPTextStorage *)textStorage didProcessEditing:(unsigned long long)arg2 range:(NSRange)range changeInLength:(long long)arg4;
 - (BOOL)isTrancationed;
 - (BOOL)replaceEndingCharWithString:(id)arg1 andUrl:(id)arg2 inWidth:(double)arg3 andLineLimited:(NSUInteger)arg4 andActualLineDisplayed:(NSUInteger)arg5;
 - (BOOL)isTrancationedWithSurfix:(id)arg1 contentStr:(id)arg2 andUrl:(id)arg3 inWidth:(double)arg4 andLimitedLine:(NSUInteger)arg5;
@@ -84,15 +87,12 @@ typedef NS_OPTIONS(NSUInteger, PPParseOptions) {
 - (void)resetTextStorageWithPlainText:(NSString *)plainText;
 - (void)rebuildIfNeeded;
 - (void)setNeedsRebuild;
-- (instancetype)initWithPlainText:(NSString *)plainText;
-- (instancetype)init;
 
-@property(nonatomic) unsigned char textAlignment;
-@property(nonatomic) unsigned char lineBreakMode;
-@property(nonatomic) double maximunLineHeight;
-@property(nonatomic) double lineSpacing;
-@property(nonatomic) _Bool allowsDynamicLineSpacing;
-
+@property (nonatomic, assign) unsigned char textAlignment;
+@property (nonatomic, assign) unsigned char lineBreakMode;
+@property (nonatomic, assign) CGFloat maximunLineHeight;
+@property (nonatomic, assign) CGFloat lineSpacing;
+@property (nonatomic, assign) BOOL allowsDynamicLineSpacing;
 @end
 
 @interface PPAttributedText (TextDrawing)

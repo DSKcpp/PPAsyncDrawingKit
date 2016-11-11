@@ -17,10 +17,10 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         for (NSInteger i = 0; i < 7; i++) {
-            PPImageView *roundedImageView = [[PPImageView alloc] initWithFrame:CGRectMake(i * 45, 5, 40, 40)];
-            roundedImageView.cornerRadius = 20;
-            roundedImageView.userInteractionEnabled = YES;
+            PPImageView *roundedImageView = [[PPImageView alloc] initWithFrame:CGRectMake(i * 45.0f, 5.0f, 40.0f, 40.0f)];
+            roundedImageView.cornerRadius = 20.0f;
             roundedImageView.roundedCorners = UIRectCornerAllCorners;
+            roundedImageView.userInteractionEnabled = YES;
             roundedImageView.image = [UIImage imageNamed:@"avatar"];
             [roundedImageView addTarget:self action:@selector(tapImageView:) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:roundedImageView];
@@ -55,8 +55,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    AvatarImageCell *cell = [tableView dequeueReusableCellWithIdentifier:@"kAvatarImageCell" forIndexPath:indexPath];
-    return cell;
+    return [tableView dequeueReusableCellWithIdentifier:@"kAvatarImageCell" forIndexPath:indexPath];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

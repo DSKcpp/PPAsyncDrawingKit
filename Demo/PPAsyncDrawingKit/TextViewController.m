@@ -7,7 +7,6 @@
 //
 
 #import "TextViewController.h"
-#import "PPTextContentView.h"
 #import "PPLabel.h"
 #import "PPAttributedText.h"
 

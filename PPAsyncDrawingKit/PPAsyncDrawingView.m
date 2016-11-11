@@ -10,9 +10,7 @@
 
 static BOOL asyncDrawingDisabled = NO;
 
-@interface PPAsyncDrawingView ()
-
-@end
+@interface PPAsyncDrawingView () @end
 
 @implementation PPAsyncDrawingView
 
@@ -87,47 +85,54 @@ static BOOL asyncDrawingDisabled = NO;
 
 - (void)_displayLayer:(PPAsyncDrawingViewLayer *)layer rect:(CGRect)rect drawingStarted:(void (^)(BOOL))drawingStarted drawingFinished:(void (^)(BOOL, BOOL))drawingFinished drawingInterrupted:(void (^)(BOOL, BOOL))drawingInterrupted
 {
-    BOOL asynchronously = YES;
-//    if ([layer drawsCurrentContentAsynchronously]) {
-//        if (![self.class asyncDrawingDisabledGlobally]) {
-//            asynchronously = YES;
-//        }
-//    }
+    BOOL asynchronously = NO;
+    if ([layer drawsCurrentContentAsynchronously]) {
+        if (![self.class asyncDrawingDisabledGlobally]) {
+            asynchronously = YES;
+        }
+    }
     _padingRedraw = NO;
     [layer increaseDrawingCount];
     NSInteger drawCount = [layer drawingCount];
     NSDictionary *userInfo = [self currentDrawingUserInfo];
     
+    dispatch_queue_t queue;
     if (asynchronously) {
         if (!layer.reserveContentsBeforeNextDrawingComplete) {
             [layer setContents:nil];
         }
-        dispatch_async(self.drawQueue, ^{
-            CGSize size = layer.bounds.size;
-            CGFloat scale = layer.contentsScale;
-            UIGraphicsBeginImageContextWithOptions(size, layer.isOpaque, scale);
-            CGContextRef context = UIGraphicsGetCurrentContext();
-            CGContextSaveGState(context);
-            UIColor *backgroundColor = self.backgroundColor;
-            if (backgroundColor) {
-                CGContextSetFillColorWithColor(context, backgroundColor.CGColor);
-                CGContextFillRect(context, CGRectMake(0, 0, size.width * scale, size.height * scale));
-            }
-            [self drawInRect:CGRectMake(0, 0, size.width, size.height) withContext:context asynchronously:asynchronously userInfo:userInfo];
-            CGContextRestoreGState(context);
-            UIImage *image = [UIImage imageWithCGImage:CGBitmapContextCreateImage(context)];
-            UIGraphicsEndImageContext();
-            dispatch_async(dispatch_get_main_queue(), ^{
-                self.layer.contents = (__bridge id _Nullable)(image.CGImage);
-            });
-        });
+        queue = self.drawQueue;
     } else if ([NSThread isMainThread]) {
-        NSLog(@"is main ququq");
+        queue = dispatch_get_main_queue();
     } else {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"main queue");
-        });
+        queue = dispatch_get_main_queue();
     }
+    dispatch_async(queue, ^{
+        if (drawingStarted) {
+            drawingStarted(YES);
+        }
+        CGSize size = layer.bounds.size;
+        CGFloat scale = layer.contentsScale;
+        UIGraphicsBeginImageContextWithOptions(size, layer.isOpaque, scale);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        CGContextSaveGState(context);
+        UIColor *backgroundColor = self.backgroundColor;
+        if (backgroundColor) {
+            CGContextSetFillColorWithColor(context, backgroundColor.CGColor);
+            CGContextFillRect(context, CGRectMake(0, 0, size.width * scale, size.height * scale));
+        }
+        [self drawInRect:CGRectMake(0, 0, size.width, size.height) withContext:context asynchronously:asynchronously userInfo:userInfo];
+        CGContextRestoreGState(context);
+        UIImage *image = [UIImage imageWithCGImage:CGBitmapContextCreateImage(context)];
+        UIGraphicsEndImageContext();
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.layer.contents = (__bridge id _Nullable)(image.CGImage);
+            if (drawingFinished) {
+                drawingFinished(YES, YES);
+            }
+        });
+    });
+
 }
 
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async
@@ -284,14 +289,13 @@ static BOOL asyncDrawingDisabled = NO;
 
 - (BOOL)drawsCurrentContentAsynchronously
 {
-    if (_drawingPolicy != DISPATCH_QUEUE_PRIORITY_HIGH) {
-        if (_drawingPolicy == DISPATCH_QUEUE_PRIORITY_DEFAULT) {
-            return _contentsChangedAfterLastAsyncDrawing;
-        } else {
-            return NO;
-        }
-    } else {
+    NSUInteger drawingPolicy = self.drawingPolicy;
+    if (drawingPolicy == 2) {
         return YES;
+    } else if (drawingPolicy == 1) {
+        return NO;
+    } else {
+        return self.contentsChangedAfterLastAsyncDrawing;
     }
 }
 

@@ -13,11 +13,13 @@
 
 @interface PPAttributedTextParser : NSObject
 
-@property(retain, nonatomic) NSMutableArray<PPAttributedTextRange *> *parsedRanges;
-@property(retain, nonatomic) PPAttributedTextParseStack *parseRangeStack;
-@property(copy, nonatomic) NSString *plainText;
-@property(retain, nonatomic) NSArray *miniCardUrlItems;
+@property (nonatomic, strong) NSMutableArray<PPAttributedTextRange *> *parsedRanges;
+@property (nonatomic, strong) PPAttributedTextParseStack *parseRangeStack;
+@property (nonatomic, copy) NSString *plainText;
+@property (nonatomic, strong) NSArray *miniCardUrlItems;
 + (void)test;
+- (instancetype)initWithPlainText:(NSString *)text;
+- (instancetype)initWithPlainText:(NSString *)text andMiniCardUrl:(NSArray *)miniCardUrl;
 - (NSArray<PPAttributedTextRange *> *)parseWithLinkMiniCard:(BOOL)arg1;
 - (void)parseEmailAdressModeFromMentionModeResult;
 - (void)parseAllModesExceptMiniCardMode;
@@ -34,6 +36,5 @@
 - (PPAttributedTextRange *)beginNewRangeWithMode:(PPAttributedTextRangeMode)mode atIndex:(NSUInteger)index;
 - (void)finishParseRange:(PPAttributedTextRange *)range atIndex:(NSUInteger)index;
 - (void)finishParseCurrentRangeAtIndex:(NSUInteger)index;
-- (instancetype)initWithPlainText:(NSString *)text andMiniCardUrl:(NSArray *)miniCardUrl;
-- (instancetype)initWithPlainText:(NSString *)text;
+
 @end

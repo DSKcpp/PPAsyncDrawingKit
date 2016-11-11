@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class WBCardModel;
-@class WBMblog;
+@class WBTimelineItem;
 @class WBUser;
 @class WBCardUserBadge;
 
@@ -23,10 +23,10 @@
 @property (nonatomic, copy) NSString *scheme;
 @property (nonatomic, assign) NSUInteger show_type;
 @property (nonatomic, copy) NSString *openurl;
-@property (nonatomic, strong) WBMblog *mblog;
+@property (nonatomic, strong) WBTimelineItem *mblog;
 @end
 
-@interface WBMblog : NSObject
+@interface WBTimelineItem : NSObject
 @property (nonatomic, copy) NSString *created_at;
 @property (nonatomic, copy) NSString *mid;
 @property (nonatomic, copy) NSString *idstr;
@@ -50,7 +50,7 @@
 @property (nonatomic, assign) NSInteger comments_count;
 @property (nonatomic, assign) NSInteger attitudes_count;
 @property (nonatomic, assign) BOOL isLongText;
-@property (nonatomic, strong) WBMblog *retweeted_status;
+@property (nonatomic, strong) WBTimelineItem *retweeted_status;
 @end
 
 @interface WBUser : NSObject

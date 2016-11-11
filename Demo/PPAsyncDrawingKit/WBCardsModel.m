@@ -18,7 +18,7 @@
 
 @end
 
-@implementation WBMblog
+@implementation WBTimelineItem
 
 @end
 
