@@ -9,6 +9,8 @@
 #import "WBTimelineContentView.h"
 #import "WBTimelineTableViewCellDrawingContext.h"
 #import "WBTimelineTextContentView.h"
+#import "PPNameLabel.h"
+#import "PPImageView.h"
 
 @implementation WBTimelineContentView
 + (CGFloat)heightOfTimelineItem:(WBTimelineItem *)timelineItem withContentWidth:(CGFloat)width
@@ -37,14 +39,25 @@
 
 - (instancetype)initWithWidth:(CGFloat)width
 {
-    return [self initWithFrame:CGRectMake(0, 0, width, 0)];
+    if (self = [self initWithFrame:CGRectMake(0, 0, width, 0)]) {
+        self.contentWidth = width;
+    }
+    return self;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        self.textContentView = [[WBTimelineTextContentView alloc] init];
+        self.textContentView = [[WBTimelineTextContentView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
+        
+        self.textContentView.enableAsyncDrawing = YES;
         [self addSubview:self.textContentView];
+//        self.nameLabel = [[PPNameLabel alloc] initWithFrame:CGRectZero];
+//        [self insertSubview:self.nameLabel belowSubview:self.textContentView];
+        self.avatarView = [[PPImageView alloc] initWithFrame:CGRectMake(0, 0, 38, 38)];
+        self.avatarView.image = [UIImage imageNamed:@"avatar"];
+        self.avatarView.cornerRadius = 19;
+        [self addSubview:self.avatarView];
     }
     return self;
 }
@@ -57,7 +70,8 @@
 - (void)setTimelineItem:(WBTimelineItem *)timelineItem userInfo:(NSDictionary *)userInfo
 {
     if (_timelineItem != timelineItem) {
-        
+       WBTimelineTableViewCellDrawingContext *drawingContext = [WBTimelineContentView validDrawingContextOfTimelineItem:timelineItem withContentWidth:320 userInfo:userInfo];
+        [self.textContentView setDrawingContext:drawingContext];
     }
 }
 @end

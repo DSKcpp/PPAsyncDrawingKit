@@ -12,12 +12,14 @@
 @class WBTimelineItem;
 @class WBTimelineTableViewCellDrawingContext;
 @class WBTimelineTextContentView;
+@class PPNameLabel;
 
 @interface WBTimelineContentView : UIView
 @property (nonatomic, strong) WBTimelineItem *timelineItem;
 @property (nonatomic, strong) PPImageView *avatarView;
-@property (nonatomic, strong) UILabel *nameLabel;
+@property (nonatomic, strong) PPNameLabel *nameLabel;
 @property (nonatomic, strong) WBTimelineTextContentView *textContentView;
+@property (nonatomic, assign) CGFloat contentWidth;
 
 + (CGFloat)heightOfTimelineItem:(WBTimelineItem *)timelineItem withContentWidth:(CGFloat)width;
 + (CGFloat)heightOfTimelineItem:(WBTimelineItem *)timelineItem withContentWidth:(CGFloat)width userInfo:(NSDictionary *)userInfo;

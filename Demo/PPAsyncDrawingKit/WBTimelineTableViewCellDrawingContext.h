@@ -23,8 +23,8 @@
 //@property(retain) WBTimelineContentImageViewLayouter *imageLayouter;
 @property (nonatomic, assign) int topRightButtonType;
 @property (nonatomic, assign) CGRect productsFrame;
-@property _Bool showPictureTag;
-@property (nonatomic, assign) _Bool isNotCustomSource;
+@property BOOL showPictureTag;
+@property (nonatomic, assign) BOOL isNotCustomSource;
 @property (nonatomic, assign) CGRect quotedItemContinueIndicatorFrame;
 @property (nonatomic, assign) CGRect continueIndicatorFrame;
 @property (nonatomic, assign) CGRect lastSourceInfoTextFrame;
@@ -46,7 +46,7 @@
 @property (nonatomic, assign) CGRect titleTextFrame;
 @property (nonatomic, assign) CGRect falseInfoTextFrame;
 @property (nonatomic, assign) CGRect falseInfoBackgroundImageFrame;
-@property (nonatomic, assign) _Bool screenNameLabelShowUserRemark;
+@property (nonatomic, assign) BOOL screenNameLabelShowUserRemark;
 @property (nonatomic, assign) CGRect screenNameFrame;
 @property(retain, nonatomic) NSMutableDictionary *userInfo;
 @property(retain, nonatomic) PPAttributedText *titleItemAttributedText;
@@ -94,4 +94,35 @@
 - (void)resetWithContentWidth:(CGFloat)width;
 - (void)resetWithContentWidth:(CGFloat)width userInfo:(NSDictionary *)userInfo;
 - (void)resetTimelineItem:(WBTimelineItem *)timelineItem;
+- (unsigned long long)getContextVersion;
+- (void)setContextVersion:(unsigned long long)arg1;
+- (id)availableImageURLs;
+- (id)availableImageURL;
+- (id)availableThumbnailImageURL;
+- (id)availableMiddleImageURL;
+- (BOOL)shouldShowLocationIndicator;
+- (BOOL)shouldShowImageIndicator;
+- (BOOL)shouldHighlightTimeText;
+- (BOOL)shouldShowImage;
+- (BOOL)hasLocation;
+- (BOOL)shouldShowTime;
+- (id)quotedImages;
+- (BOOL)quotedItemHasPhoto;
+- (id)images;
+- (BOOL)itemHasPhoto;
+- (id)quotedProducts;
+- (BOOL)quotedItemHasProduct;
+- (id)products;
+- (BOOL)itemHasProduct;
+- (BOOL)shouldShowAvatar;
+- (BOOL)shouldShowSource;
+- (BOOL)shouldShowExtraActionButton;
+- (BOOL)isValid;
+- (void)generateTitleItemText;
+- (void)generateBriefQuotedItemText;
+- (void)generateBriefItemText;
+- (id)flagImageUrl;
+- (id)statusTypeTextColors;
+- (id)statusTypeTexts;
+
 @end

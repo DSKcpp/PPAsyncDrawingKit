@@ -18,12 +18,13 @@ Using a rounded image view, the FPS does not decrease during scrolling
 There are three ways to use PPAsyncDrawingKit in your project:
 
 * using CocoaPods
+* using Carthage
 * by cloning the project into your repository
 
 ###Installation with CocoaPods
 ###Podfile
 ``` Ruby
-pod 'PPAsyncDrawingKit', '~>1.0'
+pod 'PPAsyncDrawingKit'
 ```
 
 ###Subspecs

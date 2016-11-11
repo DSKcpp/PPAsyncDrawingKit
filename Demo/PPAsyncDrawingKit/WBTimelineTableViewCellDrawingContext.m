@@ -7,12 +7,20 @@
 //
 
 #import "WBTimelineTableViewCellDrawingContext.h"
+#import "PPAttributedText.h"
 
 @implementation WBTimelineTableViewCellDrawingContext
 - (instancetype)initWithTimelineItem:(WBTimelineItem *)timelineItem
 {
     if (self = [super init]) {
-        
+        self.itemAttributedText = [PPAttributedText new];
+        self.itemAttributedText.shouldShowSmallCardForcily = YES;
+        self.quotedItemAttributedText = [PPAttributedText new];
+        self.quotedItemAttributedText.shouldShowSmallCardForcily = YES;
+        self.titleItemAttributedText = [PPAttributedText new];
+        self.titleItemAttributedText.shouldShowSmallCardForcily = YES;
+        self.userInfo = [NSMutableDictionary dictionary];
+        self.timelineItem = timelineItem;
     }
     return self;
 }

@@ -64,7 +64,7 @@ typedef NS_OPTIONS(NSUInteger, PPParseOptions) {
 - (void)insertFlavoredRange:(id)arg1 toMiniCardRange:(id)arg2;
 - (NSArray<PPAttributedTextRange *> *)filterParsingResult:(NSArray<PPAttributedTextRange *> *)result;
 - (void)extractAttachmentsAndParseActiveRangesFromParseResult:(NSArray<PPAttributedTextRange *> *)parseResult toAttributedString:(NSMutableAttributedString *)attributedString;
-- (id)substringOfPageTitle:(id)arg1 withWordCount:(unsigned long long)arg2 trancates:(_Bool *)arg3;
+- (id)substringOfPageTitle:(id)arg1 withWordCount:(unsigned long long)arg2 trancates:(BOOL)arg3;
 - (NSMutableAttributedString *)mutableAttributedString;
 - (void)rebuild;
 - (void)setColorWithActiveRange:(PPFlavoredRange *)activeRange forAttributedString:(NSMutableAttributedString *)attributedString;
