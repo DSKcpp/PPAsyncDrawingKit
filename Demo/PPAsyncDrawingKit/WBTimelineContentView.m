@@ -55,9 +55,9 @@
         [self addSubview:self.textContentView];
 //        self.nameLabel = [[PPNameLabel alloc] initWithFrame:CGRectZero];
 //        [self insertSubview:self.nameLabel belowSubview:self.textContentView];
-        self.avatarView = [[PPImageView alloc] initWithFrame:CGRectMake(10, 10, 38, 38)];
+        self.avatarView = [[PPImageView alloc] initWithFrame:CGRectMake(12, 15, 39, 39)];
         self.avatarView.image = [UIImage imageNamed:@"avatar"];
-        self.avatarView.cornerRadius = 19;
+        self.avatarView.cornerRadius = 19.5;
         [self addSubview:self.avatarView];
     }
     return self;
@@ -75,8 +75,8 @@
         if (!self.textContentView.drawingContext) {
             WBTimelineTableViewCellDrawingContext *drawingContext = [WBTimelineContentView validDrawingContextOfTimelineItem:timelineItem withContentWidth:width userInfo:userInfo];
             [self.textContentView setDrawingContext:drawingContext];
+            self.textContentView.frame = CGRectMake(0, 0, drawingContext.contentWidth, drawingContext.contentHeight);
         }
-        self.textContentView.frame = CGRectMake(0, 0, self.textContentView.drawingContext.contentWidth, self.textContentView.drawingContext.contentHeight);
     }
 }
 @end

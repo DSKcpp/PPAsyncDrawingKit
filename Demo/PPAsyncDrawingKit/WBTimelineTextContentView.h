@@ -74,7 +74,7 @@
 - (void)resetSourceInfoStringWidth:(double)arg1 right:(double)arg2;
 - (void)drawMetaInfoWithTimelineItem:(WBTimelineItem *)timelineItem InRect:(CGRect)rect withContext:(CGContextRef)context initialDrawingCount:(NSUInteger)drawingCount;
 - (double)titleItemTextMaxWidth;
-- (void)setupMetaInfoRenderer:(id)arg1 timelineItem:(id)arg2;
+- (void)setupMetaInfoRenderer:(PPTextRenderer *)metaInfoRenderer timelineItem:(WBTimelineItem *)timelineItem;
 - (id)memberIconImageNameForTimelineItem:(id)arg1;
 - (void)setDrawingContextWithIsNotCustomSource:(BOOL)arg1;
 - (id)attributedStringIgnoreActiveRangeColorForAttributedString:(id)arg1;

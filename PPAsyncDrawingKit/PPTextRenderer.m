@@ -67,15 +67,16 @@
 //                    
 //                }];
             }
+            CGContextSaveGState(context);
             CGContextSetTextMatrix(context, CGAffineTransformIdentity);
-            CGContextTranslateCTM(context, 0, self.textLayout.size.height);
+            CGContextTranslateCTM(context, self.drawingOrigin.x, self.textLayout.size.height + self.drawingOrigin.y);
             CGContextScaleCTM(context, 1.0, -1.0);
             for (PPTextLayoutLine *line in self.textLayout.layoutFrame.lineFragments) {
                 CGPoint position = line.originalBaselineOrigin;
-                NSLog(@"%@", NSStringFromCGPoint(position));
                 CGContextSetTextPosition(context, position.x, position.y);
                 CTLineDraw(line.lineRef, context);
             }
+            CGContextRestoreGState(context);
             if (placeAttachments) {
                 [self drawAttachmentsWithAttributedString:attributedString layoutFrame:self.textLayout.layoutFrame context:context shouldInterrupt:shouldInterruptBlock];
             }

@@ -21,9 +21,16 @@
 
 + (void)renderDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext userInfo:(NSDictionary *)userInfo
 {
+    CGFloat width = [UIScreen mainScreen].bounds.size.width - 12.0f * 2.0f;
     NSAttributedString *att = [[NSAttributedString alloc] initWithString:drawingContext.briefItemText];
-    CGSize size = [att pp_sizeConstrainedToWidth:320 numberOfLines:0];
-    drawingContext.contentHeight = MAX(size.height, 50);
+    CGSize size = [att pp_sizeConstrainedToWidth:width numberOfLines:0];
+    size.height += 61;
+    if (drawingContext.briefQuotedItemText) {
+        NSAttributedString *att = [[NSAttributedString alloc] initWithString:drawingContext.briefQuotedItemText];
+        CGFloat height = [att pp_heightConstrainedToWidth:width];
+        size = CGSizeMake(size.width, size.height + height + 12);
+    }
+    drawingContext.contentHeight = MAX(size.height, 92);
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -72,13 +79,23 @@
     WBTimelineTableViewCellDrawingContext *drawingContext = userInfo[@"drawingContext"];
     WBTimelineItem *timelineItem = userInfo[@"timelineItem"];
     NSUInteger drawingCount = self.drawingCount;
+    rect.size.width -= 24.0f;
+    rect.origin.x = 62;
+    rect.origin.y = 37;
     [self drawMetaInfoWithTimelineItem:timelineItem InRect:rect withContext:context initialDrawingCount:drawingCount];
+    CGFloat y = self.metaInfoTextRenderer.textLayout.layoutHeight + 23;
+    rect.origin.x = 12;
+    rect.origin.y = 61;
+    self.itemTextRenderer.frame = rect;
     self.itemTextRenderer.attributedString = [[NSAttributedString alloc] initWithString:timelineItem.text];
     [self.itemTextRenderer drawInContext:context shouldInterruptBlock:nil];
-//    if (timelineItem.retweeted_status.text) {
-//        self.quotedItemTextRenderer.attributedString = [[NSAttributedString alloc] initWithString:timelineItem.retweeted_status.text];
-//        [self.quotedItemTextRenderer drawInContext:context shouldInterruptBlock:nil];
-//    }
+    if (timelineItem.retweeted_status.text) {
+        CGFloat y = self.itemTextRenderer.textLayout.layoutHeight;
+        rect.origin.y += y + 12;
+        self.quotedItemTextRenderer.frame = rect;
+        self.quotedItemTextRenderer.attributedString = [[NSAttributedString alloc] initWithString:timelineItem.retweeted_status.text];
+        [self.quotedItemTextRenderer drawInContext:context shouldInterruptBlock:nil];
+    }
     return YES;
 }
 
@@ -102,6 +119,22 @@
 
 - (void)drawMetaInfoWithTimelineItem:(WBTimelineItem *)timelineItem InRect:(CGRect)rect withContext:(CGContextRef)context initialDrawingCount:(NSUInteger)drawingCount
 {
+    [self setupMetaInfoRenderer:self.metaInfoTextRenderer timelineItem:timelineItem];
+    self.metaInfoTextRenderer.frame = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+    [self.metaInfoTextRenderer drawInContext:context shouldInterruptBlock:nil];
+}
+
+- (void)setupMetaInfoRenderer:(PPTextRenderer *)metaInfoRenderer timelineItem:(WBTimelineItem *)timelineItem
+{
+//    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"2分钟前  来自iPhone 8"];
+    self.metaInfoTextRenderer.attributedString = [[NSAttributedString alloc] initWithString:@"2分钟前  来自iPhone 8"];
     
+//    if (self.drawingContext.shouldShowTime) {
+//        NSString *displayTimeText = [self.drawingContext.timelineItem displayTimeText];
+//        if (!displayTimeText) {
+//            displayTimeText = @"";
+//        }
+//        
+//    }
 }
 @end

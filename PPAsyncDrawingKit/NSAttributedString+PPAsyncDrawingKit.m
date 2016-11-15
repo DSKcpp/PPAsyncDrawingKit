@@ -89,4 +89,22 @@
     return resultSize;
 }
 
+- (NSRange)pp_rangeToSize:(CGSize)size
+{
+    PPTextRenderer *textRenderer = [self pp_sharedTextRenderer];
+    textRenderer.attributedString = self;
+    textRenderer.frame = CGRectMake(0, 0, size.width, size.height);
+    PPTextLayout *textLayout = textRenderer.textLayout;
+    textLayout.maximumNumberOfLines = 0;
+    return textLayout.containingStringRange;
+}
+
+- (NSRange)pp_rangeToSize:(CGSize)size withLimitedLines:(NSUInteger)limitedLines
+{
+    PPTextRenderer *textRenderer = [self pp_sharedTextRenderer];
+    textRenderer.attributedString = self;
+    textRenderer.frame = CGRectMake(0, 0, size.width, size.height);
+    PPTextLayout *textLayout = textRenderer.textLayout;
+    return [textLayout containingStringRangeWithLineLimited:limitedLines];
+}
 @end

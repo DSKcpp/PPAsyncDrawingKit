@@ -19,7 +19,21 @@
 @end
 
 @implementation WBTimelineItem
+- (NSString *)displaySource
+{
+    return self.source;
+}
 
+- (NSString *)displaySourceWithFrom
+{
+    return [NSString stringWithFormat:@"来自 %@", self.displaySource];
+}
+
+- (NSString *)displayTimeText
+{
+//    NSDate *date = [NSDatef]
+    return @"";
+}
 @end
 
 @implementation WBUser

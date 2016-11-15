@@ -54,10 +54,10 @@
 @property(retain, nonatomic) PPAttributedText *itemAttributedText;
 @property(retain, nonatomic) NSString *quotedItemFalseInfoText;
 @property(retain, nonatomic) NSString *itemFalseInfoText;
-@property(readonly, nonatomic) NSString *titleItemText;
-@property(readonly, nonatomic) NSString *briefQuotedItemText;
-@property(readonly, nonatomic) NSString *briefItemText;
-@property(readonly, nonatomic) NSString *displayName;
+@property (nonatomic, copy, readonly) NSString *titleItemText;
+@property (nonatomic, copy, readonly) NSString *briefQuotedItemText;
+@property (nonatomic, copy, readonly) NSString *briefItemText;
+@property (nonatomic, copy, readonly) NSString *displayName;
 @property(retain, nonatomic) UIColor *imageMaskColor;
 @property (nonatomic, assign) CGRect rectOfPhotoImageLayer;
 @property (nonatomic, assign) CGRect rectOfPhotoImage;

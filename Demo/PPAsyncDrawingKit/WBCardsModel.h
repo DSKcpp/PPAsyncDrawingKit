@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @class WBCardModel;
 @class WBTimelineItem;
@@ -51,6 +52,39 @@
 @property (nonatomic, assign) NSInteger attitudes_count;
 @property (nonatomic, assign) BOOL isLongText;
 @property (nonatomic, strong) WBTimelineItem *retweeted_status;
+
+- (BOOL)showsReadCount;
+- (id)accessibilityQuotedItemValue;
+- (id)accessibilityItemValue;
+- (id)actionButtonTypes;
+- (id)readableTimeText;
+- (BOOL)isShowTime;
+- (id)displayTimeLineTimeTextWithColor:(CGColorRef)arg1;
+- (NSString *)displayTimeText;
+- (id)displayTimeTextWithTextColor:(CGColorRef)arg1;
+- (id)displayTopRightCommonButton;
+- (id)displaySourceScheme;
+- (NSString *)displaySourceWithFrom;
+- (NSString *)displaySource;
+- (BOOL)shouldShowProducts;
+- (BOOL)shouldShowQuotedItemProducts;
+- (BOOL)shouldShowItemProducts;
+- (BOOL)shouldShowImageIndicator;
+- (BOOL)shouldShowImages;
+- (BOOL)shouldShowQuotedItemImages;
+- (BOOL)shouldShowItemImages;
+- (BOOL)showQuotedVideo;
+- (BOOL)showVideo;
+- (BOOL)shouldShowItemTypes;
+- (BOOL)shouldShowSourceText;
+- (BOOL)shouldShowMapImage;
+- (BOOL)shouldShowQuotedItemActionButtons;
+- (BOOL)shouldShowActionButtons;
+- (id)prepareDrawingContextWithUserInfo:(id)arg1;
+- (id)prepareDrawingContext;
+- (id)reusableCellOfTableView:(id)arg1;
+- (double)rowHeightOfTableView:(id)arg1;
+- (void)didSelectRowOfTableView:(id)arg1 inViewController:(id)arg2;
 @end
 
 @interface WBUser : NSObject

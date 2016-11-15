@@ -8,6 +8,7 @@
 
 #import "PPTextLayout.h"
 #import <objc/objc-sync.h>
+#import "PPTextLayoutLine.h"
 
 @implementation PPTextLayout
 {
@@ -125,5 +126,28 @@
     } else {
         return CGSizeZero;
     }
+}
+@end
+
+@implementation PPTextLayout (LayoutResult)
+- (NSRange)containingStringRange
+{
+    return [self containingStringRangeWithLineLimited:0];
+}
+
+- (NSRange)containingStringRangeWithLineLimited:(NSUInteger)lineLimited
+{
+    NSUInteger count = self.layoutFrame.lineFragments.count;
+    NSRange range;
+    if (count) {
+        PPTextLayoutLine *line;
+        if (count >= lineLimited) {
+            line = self.layoutFrame.lineFragments[lineLimited];
+        } else {
+            line = self.layoutFrame.lineFragments.lastObject;
+        }
+        range = line.stringRange;
+    }
+    return range;
 }
 @end

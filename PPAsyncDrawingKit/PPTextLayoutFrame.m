@@ -44,7 +44,7 @@
 - (void)updateLayoutSize
 {
     if (self.lineFragments.count) {
-        CGFloat width = 320;
+        CGFloat width = [UIScreen mainScreen].bounds.size.width;
         __block CGFloat height = 0;
         [self.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
             height += line.fragmentRect.size.height;

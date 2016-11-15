@@ -16,11 +16,13 @@
 + (nullable PPTextRenderer *)pp_sharedTextRenderer;
 - (nullable PPTextRenderer *)pp_sharedTextRenderer;
 - (CGFloat)pp_heightConstrainedToWidth:(CGFloat)width;
-- (CGFloat)pp_heightConstrainedToWidth:(CGFloat)width exclusionPaths:(NSArray<UIBezierPath *> *)exclusionPaths;
+- (CGFloat)pp_heightConstrainedToWidth:(CGFloat)width exclusionPaths:(nullable NSArray<UIBezierPath *> *)exclusionPaths;
 - (CGSize)pp_sizeConstrainedToWidth:(CGFloat)width;
 - (CGSize)pp_sizeConstrainedToWidth:(CGFloat)width numberOfLines:(NSInteger)numberOfLines;
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size;
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines;
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines derivedLineCount:(NSInteger)derivedLineCount;
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines derivedLineCount:(NSInteger)derivedLineCount baselineMetrics:(PPFontMetrics)baselineMetrics;
+- (NSRange)pp_rangeToSize:(CGSize)size;
+- (NSRange)pp_rangeToSize:(CGSize)size withLimitedLines:(NSUInteger)limitedLines;
 @end
