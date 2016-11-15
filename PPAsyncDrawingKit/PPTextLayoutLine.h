@@ -14,17 +14,18 @@
 @property (nonatomic, assign) CTLineRef lineRef;
 @property (nonatomic, assign) CGFloat width;
 @property (nonatomic, assign, readonly) BOOL truncated;
-@property (nonatomic, assign, readonly) PPFontMetrics lineMetrics;
-@property (nonatomic, assign, readonly) PPFontMetrics originalLineMetrics;
 @property (nonatomic, assign, readonly) NSRange stringRange;
 @property (nonatomic, assign, readonly) CGPoint baselineOrigin;
 @property (nonatomic, assign, readonly) CGPoint originalBaselineOrigin;
-@property (nonatomic, weak) PPTextLayout *layout;
-
+@property (nonatomic, assign, readonly) PPFontMetrics lineMetrics;
+@property (nonatomic, assign, readonly) PPFontMetrics originalLineMetrics;
 @property (nonatomic, assign, readonly) CGRect fragmentRect;
 @property (nonatomic, assign, readonly) CGRect originalFragmentRect;
+@property (nonatomic, weak) PPTextLayout *layout;
+
 - (instancetype)initWithCTLine:(CTLineRef)lineRef origin:(CGPoint)origin layout:(PPTextLayout *)layout;
-- (instancetype)initWithCTLine:(CTLineRef)lineRef origin:(CGPoint)origin layout:(PPTextLayout *)layout truncatedLine:(CTLineRef)truncatedLine;
+- (instancetype)initWithCTLine:(CTLineRef)lineRef origin:(CGPoint)origin layout:(PPTextLayout *)layout
+                 truncatedLine:(CTLineRef)truncatedLine;
 - (void)setupWithCTLine;
 
 - (void)enumerateLayoutRunsUsingBlock:(void(^)(NSDictionary *attributes, NSRange range))block;

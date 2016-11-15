@@ -31,6 +31,31 @@
     return [[self class] pp_sharedTextRenderer];
 }
 
+- (CGFloat)pp_heightConstrainedToWidth:(CGFloat)width
+{
+    return [self pp_heightConstrainedToWidth:width exclusionPaths:nil];
+}
+
+- (CGFloat)pp_heightConstrainedToWidth:(CGFloat)width exclusionPaths:(NSArray<UIBezierPath *> *)exclusionPaths
+{
+    PPTextLayout *textLayout = [self pp_sharedTextRenderer].textLayout;
+    textLayout.maximumNumberOfLines = 0;
+    textLayout.attributedString = self;
+    textLayout.exclusionPaths = exclusionPaths;
+    textLayout.size = CGSizeMake(width, CGFLOAT_MAX);
+    return textLayout.layoutHeight;
+}
+
+- (CGSize)pp_sizeConstrainedToWidth:(CGFloat)width
+{
+    return [self pp_sizeConstrainedToSize:CGSizeMake(width, CGFLOAT_MAX)];
+}
+
+- (CGSize)pp_sizeConstrainedToWidth:(CGFloat)width numberOfLines:(NSInteger)numberOfLines
+{
+    return [self pp_sizeConstrainedToSize:CGSizeMake(width, CGFLOAT_MAX) numberOfLines:numberOfLines];
+}
+
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size
 {
     return [self pp_sizeConstrainedToSize:size numberOfLines:0];
@@ -49,8 +74,7 @@
 
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines derivedLineCount:(NSInteger)derivedLineCount baselineMetrics:(PPFontMetrics)baselineMetrics
 {
-    PPTextRenderer *textRenderer = [NSAttributedString pp_sharedTextRenderer];
-    PPTextLayout *textLayout = textRenderer.textLayout;
+    PPTextLayout *textLayout = [self pp_sharedTextRenderer].textLayout;
     textLayout.attributedString = self;
     textLayout.size = size;
     textLayout.maximumNumberOfLines = numberOfLines;

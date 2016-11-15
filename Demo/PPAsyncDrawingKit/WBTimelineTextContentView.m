@@ -10,6 +10,8 @@
 #import "WBTimelineTableViewCellDrawingContext.h"
 #import "PPTextRenderer.h"
 #import "WBCardsModel.h"
+#import "PPAttributedText.h"
+#import "NSAttributedString+PPAsyncDrawingKit.h"
 
 @interface WBTimelineTextContentView () <PPTextRendererDelegate, PPTextRendererEventDelegate>
 
@@ -19,7 +21,9 @@
 
 + (void)renderDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext userInfo:(NSDictionary *)userInfo
 {
-    drawingContext.contentHeight = 100;
+    NSAttributedString *att = [[NSAttributedString alloc] initWithString:drawingContext.briefItemText];
+    CGSize size = [att pp_sizeConstrainedToWidth:320 numberOfLines:0];
+    drawingContext.contentHeight = MAX(size.height, 50);
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -70,13 +74,11 @@
     NSUInteger drawingCount = self.drawingCount;
     [self drawMetaInfoWithTimelineItem:timelineItem InRect:rect withContext:context initialDrawingCount:drawingCount];
     self.itemTextRenderer.attributedString = [[NSAttributedString alloc] initWithString:timelineItem.text];
-    
-//    [self.itemTextRenderer drawInContext:context shouldInterruptBlock:nil];
-    [self.itemTextRenderer drawInContext:context visibleRect:rect placeAttachments:YES shouldInterruptBlock:nil];
-    if (timelineItem.retweeted_status.text) {
-        self.quotedItemTextRenderer.attributedString = [[NSAttributedString alloc] initWithString:timelineItem.retweeted_status.text];
-        [self.quotedItemTextRenderer drawInContext:context visibleRect:rect placeAttachments:YES shouldInterruptBlock:nil];
-    }
+    [self.itemTextRenderer drawInContext:context shouldInterruptBlock:nil];
+//    if (timelineItem.retweeted_status.text) {
+//        self.quotedItemTextRenderer.attributedString = [[NSAttributedString alloc] initWithString:timelineItem.retweeted_status.text];
+//        [self.quotedItemTextRenderer drawInContext:context shouldInterruptBlock:nil];
+//    }
     return YES;
 }
 

@@ -19,7 +19,9 @@
 - (instancetype)init
 {
     if (self = [super init]) {
-//        self.baselineFontMetrics =
+        flags.needsLayout = 1;
+        PPFontMetrics fontMetrics;
+        self.baselineFontMetrics = fontMetrics;
     }
     return self;
 }
@@ -34,7 +36,7 @@
 
 - (PPTextLayoutFrame *)layoutFrame
 {
-    if (_layoutFrame == nil || flags.needsLayout != 0) {
+    if (flags.needsLayout != 0 || _layoutFrame == nil) {
         @synchronized (self) {
             _layoutFrame = [self createLayoutFrame];
         }

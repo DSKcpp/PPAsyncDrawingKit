@@ -24,6 +24,8 @@
 {
     if (self = [super init]) {
         _originalBaselineOrigin = origin;
+//        _baselineOrigin = origin;
+        self.layout = layout;
         if (lineRef) {
             _lineRef = lineRef;
             CFRange range = CTLineGetStringRange(lineRef);
@@ -37,8 +39,13 @@
 
 - (void)setupWithCTLine
 {
-    
-//    CTLineGetTypographicBounds(_lineRef, <#CGFloat * _Nullable ascent#>, <#CGFloat * _Nullable descent#>, <#CGFloat * _Nullable leading#>)
+    PPFontMetrics fontMetrics;
+    if (self.layout) {
+        fontMetrics = self.layout.baselineFontMetrics;
+    }
+    self.width = CTLineGetTypographicBounds(_lineRef, &fontMetrics.ascent, &fontMetrics.descent, &fontMetrics.leading);
+    _originalLineMetrics = fontMetrics;
+    _lineMetrics = fontMetrics;
 }
 
 - (CGRect)originalFragmentRect

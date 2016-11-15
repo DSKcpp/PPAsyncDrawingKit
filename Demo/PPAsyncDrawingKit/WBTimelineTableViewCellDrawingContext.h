@@ -64,7 +64,7 @@
 @property (nonatomic, assign) CGSize quotedItemTextSize;
 @property (nonatomic, assign) CGSize itemTextSize;
 @property (nonatomic, assign) CGFloat contentHeight;
-@property(readonly, nonatomic) CGFloat contentWidth;
+@property (nonatomic) CGFloat contentWidth;
 @property (nonatomic, assign) CGFloat rowHeight;
 @property (nonatomic, weak) WBTimelineItem *timelineItem;
 @property (nonatomic, assign) CGRect commentSummaryFrame;

@@ -11,6 +11,7 @@
 #import "WBTimelineTextContentView.h"
 #import "PPNameLabel.h"
 #import "PPImageView.h"
+#import "WBCardsModel.h"
 
 @implementation WBTimelineContentView
 + (CGFloat)heightOfTimelineItem:(WBTimelineItem *)timelineItem withContentWidth:(CGFloat)width
@@ -33,6 +34,7 @@
 + (WBTimelineTableViewCellDrawingContext *)validDrawingContextOfTimelineItem:(WBTimelineItem *)timelineItem withContentWidth:(CGFloat)width userInfo:(NSDictionary *)userInfo
 {
     WBTimelineTableViewCellDrawingContext *drawingContext = [[WBTimelineTableViewCellDrawingContext alloc] initWithTimelineItem:timelineItem];
+    drawingContext.contentWidth = width;
     [self calculateContentHeightForDrawingContext:drawingContext userInfo:userInfo];
     return drawingContext;
 }
@@ -48,13 +50,12 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        self.textContentView = [[WBTimelineTextContentView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
-        
+        self.textContentView = [[WBTimelineTextContentView alloc] init];
         self.textContentView.enableAsyncDrawing = YES;
         [self addSubview:self.textContentView];
 //        self.nameLabel = [[PPNameLabel alloc] initWithFrame:CGRectZero];
 //        [self insertSubview:self.nameLabel belowSubview:self.textContentView];
-        self.avatarView = [[PPImageView alloc] initWithFrame:CGRectMake(0, 0, 38, 38)];
+        self.avatarView = [[PPImageView alloc] initWithFrame:CGRectMake(10, 10, 38, 38)];
         self.avatarView.image = [UIImage imageNamed:@"avatar"];
         self.avatarView.cornerRadius = 19;
         [self addSubview:self.avatarView];
@@ -70,8 +71,12 @@
 - (void)setTimelineItem:(WBTimelineItem *)timelineItem userInfo:(NSDictionary *)userInfo
 {
     if (_timelineItem != timelineItem) {
-       WBTimelineTableViewCellDrawingContext *drawingContext = [WBTimelineContentView validDrawingContextOfTimelineItem:timelineItem withContentWidth:320 userInfo:userInfo];
-        [self.textContentView setDrawingContext:drawingContext];
+        CGFloat width = [UIScreen mainScreen].bounds.size.width;
+        if (!self.textContentView.drawingContext) {
+            WBTimelineTableViewCellDrawingContext *drawingContext = [WBTimelineContentView validDrawingContextOfTimelineItem:timelineItem withContentWidth:width userInfo:userInfo];
+            [self.textContentView setDrawingContext:drawingContext];
+        }
+        self.textContentView.frame = CGRectMake(0, 0, self.textContentView.drawingContext.contentWidth, self.textContentView.drawingContext.contentHeight);
     }
 }
 @end

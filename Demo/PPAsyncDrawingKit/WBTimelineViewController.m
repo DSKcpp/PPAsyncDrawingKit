@@ -37,6 +37,7 @@
     _tableView.frame = self.view.bounds;
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_tableView];
     
     dispatch_async(dispatch_get_global_queue(0, DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
@@ -66,12 +67,14 @@
     if (!cell) {
         cell = [[WBTimelineTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    [cell setTimelineItem:_timelineItems[indexPath.row]];
+    WBTimelineItem *item = _timelineItems[indexPath.row];
+    [cell setTimelineItem:item];
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return [WBTimelineContentView heightOfTimelineItem:_timelineItems[indexPath.row] withContentWidth:320];
+    
 }
 @end

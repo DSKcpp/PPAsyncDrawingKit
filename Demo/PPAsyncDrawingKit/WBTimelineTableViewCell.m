@@ -8,6 +8,7 @@
 
 #import "WBTimelineTableViewCell.h"
 #import "WBTimelineContentView.h"
+#import "WBTimelineTextContentView.h"
 
 @implementation WBTimelineTableViewCell
 
@@ -25,4 +26,11 @@
 {
     [self.timelineContentView setTimelineItem:timelineItem];
 }
+
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
+//    [self.timelineContentView.textContentView setNeedsDisplay];
+}
+
 @end

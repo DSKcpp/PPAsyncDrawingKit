@@ -10,6 +10,7 @@
 #import "PPTextRenderer.h"
 #import "PPTextLayoutLine.h"
 #import "PPTextAttachment.h"
+#import "NSAttributedString+PPAsyncDrawingKit.h"
 
 @implementation PPTextRenderer
 - (instancetype)init
@@ -57,26 +58,28 @@
 {
     if (context) {
         NSAttributedString *attributedString = self.attributedString;
-        CGContextSetTextMatrix(context, CGAffineTransformIdentity);
-        CGContextTranslateCTM(context, 0, visibleRect.size.height);
-        CGContextScaleCTM(context, 1.0, -1.0);
-        if (CGRectIsNull(visibleRect)) {
-            
-        } else {
-            
+        if (attributedString) {
+            PPTextLayoutFrame *layoutFrame = self.textLayout.layoutFrame;
+            if (layoutFrame) {
+                UIOffset offset = [self drawingOffsetWithTextLayout:self.textLayout layoutFrame:layoutFrame];
+//                NSRange range = self.pressingActiveRange.range;
+//                [self enumerateEnclosingRectsForCharacterRange:range usingBlock:^{
+//                    
+//                }];
+            }
+            CGContextSetTextMatrix(context, CGAffineTransformIdentity);
+            CGContextTranslateCTM(context, 0, self.textLayout.size.height);
+            CGContextScaleCTM(context, 1.0, -1.0);
+            for (PPTextLayoutLine *line in self.textLayout.layoutFrame.lineFragments) {
+                CGPoint position = line.originalBaselineOrigin;
+                NSLog(@"%@", NSStringFromCGPoint(position));
+                CGContextSetTextPosition(context, position.x, position.y);
+                CTLineDraw(line.lineRef, context);
+            }
+            if (placeAttachments) {
+                [self drawAttachmentsWithAttributedString:attributedString layoutFrame:self.textLayout.layoutFrame context:context shouldInterrupt:shouldInterruptBlock];
+            }
         }
-        self.textLayout.size = visibleRect.size;
-        for (NSInteger i = 0; i < self.textLayout.layoutFrame.lineFragments.count; i++) {
-            PPTextLayoutLine *line = self.textLayout.layoutFrame.lineFragments[i];
-            CGPoint position = line.originalBaselineOrigin;
-            CGContextSetTextPosition(context, position.x, position.y);
-            CTLineDraw(line.lineRef, context);
-        }
-        if (placeAttachments) {
-            [self drawAttachmentsWithAttributedString:attributedString layoutFrame:self.textLayout.layoutFrame context:context shouldInterrupt:shouldInterruptBlock];
-        }
-    } else {
-        
     }
 }
 

@@ -38,11 +38,19 @@
         [lines addObject:line];
     }
     self.lineFragments = lines;
+    [self updateLayoutSize];
 }
 
 - (void)updateLayoutSize
 {
-    
+    if (self.lineFragments.count) {
+        CGFloat width = 320;
+        __block CGFloat height = 0;
+        [self.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
+            height += line.fragmentRect.size.height;
+        }];
+        self.layoutSize = CGSizeMake(width, height);
+    }
 }
 
 - (id)textLayout:(PPTextLayout *)layout truncateLine:(CTLineRef)truncateLine atIndex:(NSUInteger)index truncated:(BOOL)truncated

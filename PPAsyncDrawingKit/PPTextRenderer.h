@@ -52,10 +52,10 @@
 - (NSRange)characterRangeForBoundingRect:(CGRect)rect;
 - (CGRect)boundingRectForCharacterRange:(NSRange)range;
 - (CGPoint)locationForCharacterAtIndex:(NSUInteger)index;
-- (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)arg1 usingBlock:(id)arg2;
-- (void)enumerateEnclosingRectsForCharacterRange:(NSRange)arg1 usingBlock:(id)arg2;
-- (void)enumerateLineFragmentsForCharacterRange:(NSRange)arg1 usingBlock:(id)arg2;
-- (CGRect)firstSelectionRectForCharacterRange:(NSRange)arg1;
+- (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(void(^)(void))block;
+- (void)enumerateEnclosingRectsForCharacterRange:(NSRange)range usingBlock:(void(^)(void))block;
+- (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(void(^)(void))block;
+- (CGRect)firstSelectionRectForCharacterRange:(NSRange)range;
 - (CGRect)lineFragmentRectForCharacterAtIndex:(NSUInteger)index effectiveRange:(NSRange)effectiveRange;
 - (CGRect)lineFragmentRectForLineAtIndex:(NSUInteger)index effectiveRange:(NSRange)effectiveRange;
 - (NSUInteger)lineFragmentIndexForCharacterAtIndex:(NSUInteger)index;

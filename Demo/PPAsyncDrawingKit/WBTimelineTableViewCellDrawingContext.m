@@ -8,6 +8,7 @@
 
 #import "WBTimelineTableViewCellDrawingContext.h"
 #import "PPAttributedText.h"
+#import "WBCardsModel.h"
 
 @implementation WBTimelineTableViewCellDrawingContext
 - (instancetype)initWithTimelineItem:(WBTimelineItem *)timelineItem
@@ -21,6 +22,9 @@
         self.titleItemAttributedText.shouldShowSmallCardForcily = YES;
         self.userInfo = [NSMutableDictionary dictionary];
         self.timelineItem = timelineItem;
+        _displayName = timelineItem.user.screen_name;
+        _briefItemText = timelineItem.text;
+        _briefQuotedItemText = timelineItem.retweeted_status.text;
     }
     return self;
 }
