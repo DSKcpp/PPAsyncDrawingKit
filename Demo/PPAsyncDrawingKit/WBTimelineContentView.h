@@ -13,12 +13,20 @@
 @class WBTimelineTableViewCellDrawingContext;
 @class WBTimelineTextContentView;
 @class PPNameLabel;
+@class WBTimelineActionButtonsView;
+@class WBColorImageView;
+@class WBTimelineImageContentView;
 
 @interface WBTimelineContentView : UIView
 @property (nonatomic, strong) WBTimelineItem *timelineItem;
 @property (nonatomic, strong) PPImageView *avatarView;
 @property (nonatomic, strong) PPNameLabel *nameLabel;
 @property (nonatomic, strong) WBTimelineTextContentView *textContentView;
+@property (nonatomic, strong) WBTimelineActionButtonsView *actionButtonsView;
+@property (nonatomic, strong) WBColorImageView *itemContentBgImageView;
+@property (nonatomic, strong) UIButton *quotedItemBorderButton;
+@property (nonatomic, strong) WBTimelineImageContentView *photoImageView;
+
 @property (nonatomic, assign) CGFloat contentWidth;
 
 + (CGFloat)heightOfTimelineItem:(WBTimelineItem *)timelineItem withContentWidth:(CGFloat)width;

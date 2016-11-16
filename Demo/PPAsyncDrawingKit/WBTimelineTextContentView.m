@@ -24,13 +24,13 @@
     CGFloat width = [UIScreen mainScreen].bounds.size.width - 12.0f * 2.0f;
     NSAttributedString *att = [[NSAttributedString alloc] initWithString:drawingContext.briefItemText];
     CGSize size = [att pp_sizeConstrainedToWidth:width numberOfLines:0];
-    size.height += 61;
+    size.height += 115;
     if (drawingContext.briefQuotedItemText) {
         NSAttributedString *att = [[NSAttributedString alloc] initWithString:drawingContext.briefQuotedItemText];
         CGFloat height = [att pp_heightConstrainedToWidth:width];
         size = CGSizeMake(size.width, size.height + height + 12);
     }
-    drawingContext.contentHeight = MAX(size.height, 92);
+    drawingContext.contentHeight = MAX(size.height, 136);
 }
 
 - (instancetype)initWithFrame:(CGRect)frame

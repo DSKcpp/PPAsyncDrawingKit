@@ -15,6 +15,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        self.backgroundColor = [UIColor clearColor];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.timelineContentView = [[WBTimelineContentView alloc] initWithWidth:350.0f];
         [self.contentView addSubview:self.timelineContentView];

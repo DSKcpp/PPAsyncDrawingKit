@@ -11,19 +11,20 @@
 
 @class PPAttributedText;
 @class WBTimelineItem;
+@class WBTimelineContentImageViewLayouter;
 
 @interface WBTimelineTableViewCellDrawingContext : NSObject
 @property (nonatomic, assign) unsigned long long renderVersion;
-@property(retain) NSString *uniqueIdentifier;
+@property (nonatomic, copy) NSString *uniqueIdentifier;
 @property (nonatomic, assign) CGRect displaySourceFromFrame;
 @property (nonatomic, assign) CGRect retweetedLongStatusRequestStateAreaFrame;
 @property (nonatomic, assign) CGRect longStatusRequestStateAreaFrame;
 @property (nonatomic, assign) CGRect miniCardGroupFrame;
 @property (nonatomic, assign) CGSize displayNameSize;
-//@property(retain) WBTimelineContentImageViewLayouter *imageLayouter;
+@property (nonatomic, retain) WBTimelineContentImageViewLayouter *imageLayouter;
 @property (nonatomic, assign) int topRightButtonType;
 @property (nonatomic, assign) CGRect productsFrame;
-@property BOOL showPictureTag;
+@property (nonatomic, assign) BOOL showPictureTag;
 @property (nonatomic, assign) BOOL isNotCustomSource;
 @property (nonatomic, assign) CGRect quotedItemContinueIndicatorFrame;
 @property (nonatomic, assign) CGRect continueIndicatorFrame;
