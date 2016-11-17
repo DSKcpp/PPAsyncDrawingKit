@@ -25,7 +25,7 @@
 
 - (void)setTimelineItem:(WBTimelineItem *)timelineItem
 {
-    [self.timelineContentView setTimelineItem:timelineItem];
+    self.timelineContentView.timelineItem = timelineItem;
 }
 
 - (void)prepareForReuse

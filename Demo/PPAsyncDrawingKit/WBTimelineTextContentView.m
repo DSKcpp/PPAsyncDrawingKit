@@ -9,7 +9,7 @@
 #import "WBTimelineTextContentView.h"
 #import "WBTimelineTableViewCellDrawingContext.h"
 #import "PPTextRenderer.h"
-#import "WBCardsModel.h"
+#import "WBTimelineItem.h"
 #import "PPAttributedText.h"
 #import "NSAttributedString+PPAsyncDrawingKit.h"
 
@@ -21,15 +21,18 @@
 
 + (void)renderDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext userInfo:(NSDictionary *)userInfo
 {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width - 12.0f * 2.0f;
+    CGFloat maxWidth = drawingContext.contentWidth - 12.0f * 2.0f;
     NSAttributedString *att = [[NSAttributedString alloc] initWithString:drawingContext.briefItemText];
-    CGSize size = [att pp_sizeConstrainedToWidth:width numberOfLines:0];
-    size.height += 115;
+    CGSize size = [att pp_sizeConstrainedToWidth:maxWidth numberOfLines:0];
+    size.height += 81;
+    drawingContext.itemTextFrame = CGRectMake(0, 10, drawingContext.contentWidth, size.height - 10);
     if (drawingContext.briefQuotedItemText) {
         NSAttributedString *att = [[NSAttributedString alloc] initWithString:drawingContext.briefQuotedItemText];
-        CGFloat height = [att pp_heightConstrainedToWidth:width];
+        CGFloat height = [att pp_heightConstrainedToWidth:maxWidth];
+        drawingContext.quotedItemTextFrame = CGRectMake(0, size.height, drawingContext.contentWidth, height + 12);
         size = CGSizeMake(size.width, size.height + height + 12);
     }
+    size.height += 34;
     drawingContext.contentHeight = MAX(size.height, 136);
 }
 
@@ -55,6 +58,7 @@
         self.wb_accessibilityElements = [NSMutableArray array];
         self.dispatchPriority = 2;
         self.isSourceRectBeReset = NO;
+        self.contentsChangedAfterLastAsyncDrawing = YES;
     }
     return self;
 }
@@ -62,6 +66,7 @@
 - (void)setDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext
 {
     _drawingContext = drawingContext;
+    [self setNeedsDisplay];
 }
 
 - (void)drawingWillStartAsynchronously:(BOOL)async

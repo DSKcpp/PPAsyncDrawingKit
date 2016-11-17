@@ -7,7 +7,7 @@
 //
 
 #import "WBTimelineViewController.h"
-#import "WBCardsModel.h"
+#import "WBTimelineItem.h"
 #import "YYModel.h"
 #import "WBTimelineTableViewCell.h"
 #import "WBTimelineContentView.h"
@@ -75,7 +75,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [WBTimelineContentView heightOfTimelineItem:_timelineItems[indexPath.row] withContentWidth:320];
-    
+    WBTimelineItem *timelineItem = _timelineItems[indexPath.row];
+    return [WBTimelineContentView heightOfTimelineItem:timelineItem withContentWidth:tableView.bounds.size.width userInfo:nil];
 }
+
 @end

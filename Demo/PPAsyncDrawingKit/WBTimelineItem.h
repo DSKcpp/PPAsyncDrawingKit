@@ -1,5 +1,5 @@
 //
-//  WBCardsModel.h
+//  WBTimelineItem.h
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 2016/10/14.
@@ -13,6 +13,9 @@
 @class WBTimelineItem;
 @class WBUser;
 @class WBCardUserBadge;
+@class WBPictureMetadata;
+@class WBTimelinePicture;
+@class WBTimelineTableViewCellDrawingContext;
 
 @interface WBCardsModel : NSObject
 @property (nonatomic, strong) NSArray<WBCardModel *> *cards;
@@ -52,6 +55,8 @@
 @property (nonatomic, assign) NSInteger attitudes_count;
 @property (nonatomic, assign) BOOL isLongText;
 @property (nonatomic, strong) WBTimelineItem *retweeted_status;
+@property (nonatomic, strong) NSDictionary<NSString *, WBTimelinePicture *> *pic_infos;
+@property (nonatomic, strong) WBTimelineTableViewCellDrawingContext *drawingContext;
 
 - (BOOL)showsReadCount;
 - (id)accessibilityQuotedItemValue;
@@ -83,8 +88,10 @@
 - (id)prepareDrawingContextWithUserInfo:(id)arg1;
 - (id)prepareDrawingContext;
 - (id)reusableCellOfTableView:(id)arg1;
-- (double)rowHeightOfTableView:(id)arg1;
 - (void)didSelectRowOfTableView:(id)arg1 inViewController:(id)arg2;
++ (void)load;
+- (id)uniqueDrawingContextIdentifier;
+- (void)wbt_dealloc;
 @end
 
 @interface WBUser : NSObject
@@ -121,3 +128,24 @@
 @property (nonatomic, assign) NSInteger has_ability_tag;
 @end
 
+@interface WBTimelinePicture : NSObject
+@property (nonatomic, copy) NSString *object_id;
+@property (nonatomic, copy) NSString *pic_id;
+@property (nonatomic, copy) NSString *type;
+@property (nonatomic, assign) NSInteger *photo_tag;
+@property (nonatomic, assign) NSInteger *pic_status;
+@property (nonatomic, strong) WBPictureMetadata *thumbnail;
+@property (nonatomic, strong) WBPictureMetadata *bmiddle;
+@property (nonatomic, strong) WBPictureMetadata *middleplus;
+@property (nonatomic, strong) WBPictureMetadata *large;
+@property (nonatomic, strong) WBPictureMetadata *original;
+@property (nonatomic, strong) WBPictureMetadata *largest;
+@end
+
+@interface WBPictureMetadata : NSObject
+@property (nonatomic, assign) NSInteger cutType;
+@property (nonatomic, copy) NSString *type;
+@property (nonatomic, assign) CGFloat height;
+@property (nonatomic, assign) CGFloat width;
+@property (nonatomic, copy) NSString *url;
+@end

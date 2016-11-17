@@ -26,13 +26,16 @@
 - (void)setupWithCTFrame:(CTFrameRef)frame
 {
     NSInteger maxLines = self.layout.maximumNumberOfLines;
+
     CFArrayRef lineRefs = CTFrameGetLines(frame);
-    CFIndex lineCount = CFArrayGetCount(lineRefs);
-    CGPoint origins[lineCount];
+    if (maxLines == 0) {
+        maxLines = CFArrayGetCount(lineRefs);
+    }
+    CGPoint origins[maxLines];
     CTFrameGetLineOrigins(frame, CFRangeMake(0, 0), origins);
     NSMutableArray *lines = [NSMutableArray array];
     
-    for (NSInteger i = 0; i < lineCount; i++) {
+    for (NSInteger i = 0; i < maxLines; i++) {
         CTLineRef lineRef = CFArrayGetValueAtIndex(lineRefs, i);
         PPTextLayoutLine *line = [[PPTextLayoutLine alloc] initWithCTLine:lineRef origin:origins[i] layout:self.layout];
         [lines addObject:line];

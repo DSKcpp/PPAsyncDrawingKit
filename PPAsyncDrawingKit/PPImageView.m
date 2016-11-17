@@ -26,7 +26,7 @@
         self.borderWidth = 0.0f;
         self.clipsToBounds = YES;
         self.updatePathWhenViewSizeChanges = YES;
-        [self setDrawingPolicy:1];
+        [self setDrawingPolicy:0];
         self.useUIImageView = NO;
         self.imageLayer = [CALayer layer];
         [self.layer addSublayer:self.imageLayer];

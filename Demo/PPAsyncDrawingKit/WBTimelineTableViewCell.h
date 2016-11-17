@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WBCardsModel.h"
+#import "WBTimelineItem.h"
 
 @class WBTimelineContentView;
 
@@ -15,5 +15,4 @@
 @property (nonatomic, strong) WBTimelineItem *timelineItem;
 @property (nonatomic, strong) WBTimelineContentView *timelineContentView;
 @property (nonatomic, assign) CGFloat timelineContainerWidth;
-+ (CGFloat)rowHeightOfDataObject:(id)arg1 tableView:(UITableView *)tableView;
 @end

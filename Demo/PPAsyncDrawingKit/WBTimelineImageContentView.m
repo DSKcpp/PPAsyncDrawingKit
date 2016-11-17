@@ -10,12 +10,20 @@
 
 @implementation WBTimelineImageContentView
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    if (self = [super initWithFrame:frame]) {
+        self.userInteractionEnabled = YES;
+    }
+    return self;
 }
-*/
+
+- (NSMutableArray *)imageViews
+{
+    if (_imageViews) {
+        _imageViews = [NSMutableArray array];
+    }
+    return _imageViews;
+}
 
 @end

@@ -87,7 +87,7 @@ static BOOL asyncDrawingDisabled = NO;
 {
     BOOL asynchronously = NO;
     if ([layer drawsCurrentContentAsynchronously]) {
-        if (![self.class asyncDrawingDisabledGlobally]) {
+        if (![PPAsyncDrawingView asyncDrawingDisabledGlobally]) {
             asynchronously = YES;
         }
     }
@@ -95,7 +95,9 @@ static BOOL asyncDrawingDisabled = NO;
     [layer increaseDrawingCount];
     NSInteger drawCount = [layer drawingCount];
     NSDictionary *userInfo = [self currentDrawingUserInfo];
-    
+    BOOL (^isCancel)() = ^BOOL() {
+        return drawCount != [layer drawingCount];
+    };
     dispatch_queue_t queue;
     if (asynchronously) {
         if (!layer.reserveContentsBeforeNextDrawingComplete) {
@@ -111,6 +113,12 @@ static BOOL asyncDrawingDisabled = NO;
         if (drawingStarted) {
             drawingStarted(YES);
         }
+        if (isCancel()) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                drawingFinished(YES, NO);
+            });
+            return;
+        }
         CGSize size = layer.bounds.size;
         CGFloat scale = layer.contentsScale;
         UIGraphicsBeginImageContextWithOptions(size, layer.isOpaque, scale);
@@ -125,14 +133,21 @@ static BOOL asyncDrawingDisabled = NO;
         CGContextRestoreGState(context);
         UIImage *image = [UIImage imageWithCGImage:CGBitmapContextCreateImage(context)];
         UIGraphicsEndImageContext();
+        if (isCancel()) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                drawingFinished(YES, NO);
+            });
+            return;
+        }
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.layer.contents = (__bridge id _Nullable)(image.CGImage);
-            if (drawingFinished) {
+            if (isCancel()) {
+                drawingFinished(YES, NO);
+            } else {
+                self.layer.contents = (__bridge id _Nullable)(image.CGImage);
                 drawingFinished(YES, YES);
             }
         });
     });
-
 }
 
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async

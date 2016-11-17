@@ -35,7 +35,7 @@
         self.textRenderer = textRenderer;
         textRenderer.eventDelegate = self;
         textRenderer.renderDelegate = self;
-        self.drawingPolicy = 1;
+        self.drawingPolicy = 0;
         [self setBackgroundColor:[UIColor clearColor]];
         self.clearsContextBeforeDrawing = NO;
         self.contentMode = UIViewContentModeRedraw;

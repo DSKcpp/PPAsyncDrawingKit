@@ -8,7 +8,7 @@
 
 #import "WBTimelineTableViewCellDrawingContext.h"
 #import "PPAttributedText.h"
-#import "WBCardsModel.h"
+#import "WBTimelineItem.h"
 
 @implementation WBTimelineTableViewCellDrawingContext
 - (instancetype)initWithTimelineItem:(WBTimelineItem *)timelineItem

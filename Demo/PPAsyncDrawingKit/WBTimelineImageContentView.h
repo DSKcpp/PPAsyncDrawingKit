@@ -10,31 +10,41 @@
 
 @class WBTimelineItem;
 @class WBTimelineContentImageViewLayouter;
+@class WBTimelineImageView;
+@class WBTimelinePicture;
+
+@protocol WBTimelineImageContentViewDelegate <NSObject>
+@optional
+//- (UIViewController *)timelineImageContentView:(WBTimelineImageContentView *)arg1 peekingViewControllerForPicture:(WBTimelinePicture *)arg2;
+//- (void)timelineImageContentView:(WBTimelineImageContentView *)arg1 pictureSizeDidChange:(WBTimelinePicture *)arg2;
+//- (void)timelineImageContentView:(WBTimelineImageContentView *)arg1 didSelectPicture:(WBTimelinePicture *)arg2;
+@end
 
 @interface WBTimelineImageContentView : UIView
 + (BOOL)isGifNewAspectEnabled;
 + (CGRect)rectForImageLayer:(id)arg1 imageSize:(CGSize)arg2;
 + (CGSize)sizeForImages:(id)arg1 maxWidth:(unsigned long long)arg2;
-@property(retain, nonatomic) NSMutableArray *idleContentImageViewAry;
-@property(retain, nonatomic) NSMutableArray *contentImageViewAry;
-@property(retain, nonatomic) NSObject<OS_dispatch_queue> *imageLoadQueue;
-@property(retain, nonatomic) WBTimelineItem *timelineItem;
-@property(nonatomic) NSRange picsArrayShowRange;
-@property(nonatomic) BOOL allowShowPicNumFlag;
-@property(retain, nonatomic) WBTimelineContentImageViewLayouter *layouter;
-@property(nonatomic) CGRect imageLayerFrame;
-@property(nonatomic) BOOL highlighted;
-@property(copy, nonatomic) NSArray *pictures;
-@property(nonatomic) BOOL animationWhenImageReceived;
-@property(nonatomic, weak) NSObject<WBTimelineImageContentViewDelegate> *delegate;
-@property(nonatomic) BOOL enableAsyncDrawing;
-@property(retain, nonatomic) NSMutableArray *imageViews;
-@property(nonatomic) BOOL forceHidden;
-- (id)previewingContext:(id)arg1 viewControllerForLocation:(struct CGPoint)arg2;
+
+@property (nonatomic, strong) NSMutableArray *idleContentImageViewAry;
+@property (nonatomic, strong) NSMutableArray<WBTimelineImageView *> *contentImageViewAry;
+@property (nonatomic, strong) dispatch_queue_t imageLoadQueue;
+@property (nonatomic, strong) WBTimelineItem *timelineItem;
+@property (nonatomic, assign) NSRange picsArrayShowRange;
+@property (nonatomic, assign) BOOL allowShowPicNumFlag;
+@property (nonatomic, strong) WBTimelineContentImageViewLayouter *layouter;
+@property (nonatomic, assign) CGRect imageLayerFrame;
+@property (nonatomic, assign) BOOL highlighted;
+@property (nonatomic, strong) NSArray<WBTimelinePicture *> *pictures;
+@property (nonatomic, assign) BOOL animationWhenImageReceived;
+@property (nonatomic, weak) id <WBTimelineImageContentViewDelegate> delegate;
+@property (nonatomic, assign) BOOL enableAsyncDrawing;
+@property (nonatomic, strong) NSMutableArray<WBTimelineImageView *> *imageViews;
+@property (nonatomic, assign) BOOL forceHidden;
+- (id)previewingContext:(id)arg1 viewControllerForLocation:(CGPoint)arg2;
 - (BOOL)previewingContextShouldBeginPreview:(id)arg1;
 - (BOOL)shouldPresentVideoTimeline;
-- (void)viewWillAppear:(BOOL)arg1;
-- (void)viewDidDisappear:(BOOL)arg1;
+- (void)viewWillAppear:(BOOL)animated;
+- (void)viewDidDisappear:(BOOL)animated;
 - (void)imageSelected:(id)arg1;
 - (CGRect)frameForIndex:(long long)arg1 count:(long long)arg2;
 - (void)addToIdleContentImageViewAry:(id)arg1;
@@ -42,6 +52,5 @@
 - (id)imageViewForImageURL:(id)arg1 reusing:(BOOL)arg2;
 - (id)imageViewForImageURL:(id)arg1;
 - (void)reloadImageViews;
-- (id)initWithFrame:(struct CGRect)arg1;
-- (void)setHidden:(BOOL)arg1;
+- (void)setHidden:(BOOL)hidden;
 @end

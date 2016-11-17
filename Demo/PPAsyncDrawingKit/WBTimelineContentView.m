@@ -11,12 +11,13 @@
 #import "WBTimelineTextContentView.h"
 #import "PPNameLabel.h"
 #import "PPImageView.h"
-#import "WBCardsModel.h"
+#import "WBTimelineItem.h"
 #import "WBTimelineActionButtonsView.h"
 #import "UIView+Frame.h"
 #import "WBColorImageView.h"
 #import "UIImage+Color.h"
 #import "WBTimelineImageContentView.h"
+#import "PPImageView+WebCache.h"
 
 @implementation WBTimelineContentView
 + (CGFloat)heightOfTimelineItem:(WBTimelineItem *)timelineItem withContentWidth:(CGFloat)width
@@ -38,10 +39,13 @@
 
 + (WBTimelineTableViewCellDrawingContext *)validDrawingContextOfTimelineItem:(WBTimelineItem *)timelineItem withContentWidth:(CGFloat)width userInfo:(NSDictionary *)userInfo
 {
-    WBTimelineTableViewCellDrawingContext *drawingContext = [[WBTimelineTableViewCellDrawingContext alloc] initWithTimelineItem:timelineItem];
-    drawingContext.contentWidth = width;
-    [self calculateContentHeightForDrawingContext:drawingContext userInfo:userInfo];
-    return drawingContext;
+    if (!timelineItem.drawingContext) {
+        WBTimelineTableViewCellDrawingContext *drawingContext = [[WBTimelineTableViewCellDrawingContext alloc] initWithTimelineItem:timelineItem];
+        drawingContext.contentWidth = width;
+        [self calculateContentHeightForDrawingContext:drawingContext userInfo:userInfo];
+        timelineItem.drawingContext = drawingContext;
+    }
+    return timelineItem.drawingContext;
 }
 
 - (instancetype)initWithWidth:(CGFloat)width
@@ -71,7 +75,8 @@
         [self addSubview:self.itemContentBgImageView];
         
         self.quotedItemBorderButton = [[UIButton alloc] init];
-        [self.quotedItemBorderButton setImage:[UIImage imageWithColor:[UIColor colorWithRed:0 green:0.48 blue:1 alpha:1]] forState:UIControlStateNormal];
+        [self.quotedItemBorderButton setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1]] forState:UIControlStateNormal];
+        [self.quotedItemBorderButton setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1]] forState:UIControlStateHighlighted];
         [self addSubview:self.quotedItemBorderButton];
         
         self.textContentView = [[WBTimelineTextContentView alloc] init];
@@ -80,7 +85,6 @@
 //        self.nameLabel = [[PPNameLabel alloc] initWithFrame:CGRectZero];
 //        [self insertSubview:self.nameLabel belowSubview:self.textContentView];
         self.avatarView = [[PPImageView alloc] initWithFrame:CGRectMake(12, 25, 39, 39)];
-        self.avatarView.image = [UIImage imageNamed:@"avatar"];
         self.avatarView.cornerRadius = 19.5;
         [self addSubview:self.avatarView];
         
@@ -98,16 +102,17 @@
 - (void)setTimelineItem:(WBTimelineItem *)timelineItem userInfo:(NSDictionary *)userInfo
 {
     if (_timelineItem != timelineItem) {
-        CGFloat width = [UIScreen mainScreen].bounds.size.width;
-        if (!self.textContentView.drawingContext) {
-            WBTimelineTableViewCellDrawingContext *drawingContext = [WBTimelineContentView validDrawingContextOfTimelineItem:timelineItem withContentWidth:width userInfo:userInfo];
-            [self.textContentView setDrawingContext:drawingContext];
-            self.textContentView.frame = CGRectMake(0, 10, drawingContext.contentWidth, drawingContext.contentHeight);
-            self.itemContentBgImageView.frame = CGRectMake(0, 10, self.textContentView.width, self.textContentView.height - 44);
-            self.quotedItemBorderButton.frame = drawingContext.quotedItemTextFrame;
-            self.actionButtonsView.top = self.itemContentBgImageView.bottom;
-            self.itemContentBgImageView.bottomLineView.bottom = self.itemContentBgImageView.height;
-        }
+        _timelineItem = timelineItem;
+        WBTimelineTableViewCellDrawingContext *drawingContext = timelineItem.drawingContext;
+        self.textContentView.drawingContext = drawingContext;
+        self.textContentView.frame = CGRectMake(0, 10, drawingContext.contentWidth, drawingContext.contentHeight);
+        self.itemContentBgImageView.frame = drawingContext.itemTextFrame;
+        self.quotedItemBorderButton.frame = drawingContext.quotedItemTextFrame;
+        self.actionButtonsView.bottom = drawingContext.contentHeight;
+        self.itemContentBgImageView.bottomLineView.bottom = self.itemContentBgImageView.height;
+        NSString *url = timelineItem.user.avatar_large;
+        [self.avatarView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"avatar"]];
     }
+
 }
 @end

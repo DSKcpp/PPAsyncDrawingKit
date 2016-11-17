@@ -1,12 +1,13 @@
 //
-//  WBCardsModel.m
+//  WBTimelineItem.m
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 2016/10/14.
 //  Copyright © 2016年 DSKcpp. All rights reserved.
 //
 
-#import "WBCardsModel.h"
+#import "WBTimelineItem.h"
+#import "WBTimelineTableViewCell.h"
 
 @implementation WBCardsModel
 + (NSDictionary *)modelContainerPropertyGenericClass {
@@ -19,6 +20,10 @@
 @end
 
 @implementation WBTimelineItem
++ (NSDictionary *)modelContainerPropertyGenericClass {
+    return @{@"pic_infos" : [WBTimelinePicture class]};
+}
+
 - (NSString *)displaySource
 {
     return self.source;
@@ -37,5 +42,13 @@
 @end
 
 @implementation WBUser
+
+@end
+
+@implementation WBTimelinePicture
+
+@end
+
+@implementation WBPictureMetadata
 
 @end
