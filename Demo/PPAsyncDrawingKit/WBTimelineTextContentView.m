@@ -12,6 +12,7 @@
 #import "WBTimelineItem.h"
 #import "PPAttributedText.h"
 #import "NSAttributedString+PPAsyncDrawingKit.h"
+#import "WBTimelineContentImageViewLayouter.h"
 
 @interface WBTimelineTextContentView () <PPTextRendererDelegate, PPTextRendererEventDelegate>
 
@@ -22,16 +23,32 @@
 + (void)renderDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext userInfo:(NSDictionary *)userInfo
 {
     CGFloat maxWidth = drawingContext.contentWidth - 12.0f * 2.0f;
-    NSAttributedString *att = [[NSAttributedString alloc] initWithString:drawingContext.briefItemText];
-    CGSize size = [att pp_sizeConstrainedToWidth:maxWidth numberOfLines:0];
+    drawingContext.screenNameFrame = CGRectMake(51, 12, 100, 33);
+    CGSize size = [drawingContext.itemAttributedText.attributedString pp_sizeConstrainedToWidth:maxWidth numberOfLines:0];
     size.height += 81;
-    drawingContext.itemTextFrame = CGRectMake(0, 10, drawingContext.contentWidth, size.height - 10);
     if (drawingContext.briefQuotedItemText) {
-        NSAttributedString *att = [[NSAttributedString alloc] initWithString:drawingContext.briefQuotedItemText];
-        CGFloat height = [att pp_heightConstrainedToWidth:maxWidth];
+        CGFloat height = [drawingContext.quotedItemAttributedText.attributedString pp_heightConstrainedToWidth:maxWidth];
         drawingContext.quotedItemTextFrame = CGRectMake(0, size.height, drawingContext.contentWidth, height + 12);
         size = CGSizeMake(size.width, size.height + height + 12);
     }
+    WBTimelineContentImageViewLayouter *imageLayouter = [[WBTimelineContentImageViewLayouter alloc] init];
+    imageLayouter.constraintWidth = drawingContext.contentWidth;
+    imageLayouter.horizonSpacing = 2.5;
+    imageLayouter.verticalSpacing = 2.5;
+    imageLayouter.needRelayout = YES;
+    drawingContext.imageLayouter = imageLayouter;
+    NSUInteger picCount = drawingContext.timelineItem.pic_infos.count;
+    if (picCount == 0) {
+        drawingContext.rectOfPhotoImage = CGRectZero;
+    } else if (picCount == 1) {
+        drawingContext.rectOfPhotoImage = CGRectMake(12, size.height, 148, 196);
+        size.height += 196;
+    } else {
+        CGFloat wh = (maxWidth - 2.5 * 2) / 3;
+        drawingContext.rectOfPhotoImage = CGRectMake(12, size.height, maxWidth, picCount % 3 * wh);
+        size.height += (picCount / 3 + 1) * wh;
+    }
+    drawingContext.itemTextFrame = CGRectMake(0, 10, drawingContext.contentWidth, size.height - 10);
     size.height += 34;
     drawingContext.contentHeight = MAX(size.height, 136);
 }

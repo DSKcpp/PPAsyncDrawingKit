@@ -7,6 +7,7 @@
 //
 
 #import "PPButton.h"
+#import "NSString+PPAsyncDrawingKit.h"
 
 @implementation PPButtonInfo @end
 
@@ -32,10 +33,10 @@
 {
     self.backgroundColor = [UIColor clearColor];
     self.drawingPolicy = 0;
-    self.titles = @{}.mutableCopy;
-    self.titleColors = @{}.mutableCopy;
-    self.images = @{}.mutableCopy;
-    self.backgroundImages = @{}.mutableCopy;
+    _titles = @{}.mutableCopy;
+    _titleColors = @{}.mutableCopy;
+    _images = @{}.mutableCopy;
+    _backgroundImages = @{}.mutableCopy;
     self.reserveContentsBeforeNextDrawingComplete = YES;
     self.contentsChangedAfterLastAsyncDrawing = YES;
     [self setNeedsUpdateFrame];
@@ -71,6 +72,58 @@
     
 }
 
+- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(NSDictionary *)userInfo
+{
+    CGContextSaveGState(context);
+    CGContextSetInterpolationQuality(context, 1);
+    PPButtonInfo *buttonInfo = self.buttonInfo;
+    [buttonInfo.image drawInRect:self.imageFrame];
+    [buttonInfo.backgroundImage drawInRect:self.backgroundFrame];
+    self.titleFrame = CGRectMake(0, 0, 100, 32);
+    [buttonInfo.title pp_drawInRect:self.titleFrame withFont:buttonInfo.titleFont textColor:buttonInfo.titleColor lineBreakMode:NSLineBreakByWordWrapping];
+    CGContextRestoreGState(context);
+    return YES;
+}
+
+- (void)setTitle:(NSString *)title forState:(UIControlState)state
+{
+    NSString *stateString = [self stringOfState:state];
+    if (title) {
+        self.titles[stateString] = title;
+    } else {
+        [self.titles removeObjectForKey:stateString];
+    }
+    if (self.state == state) {
+        [self updateTitle:title];
+    } else {
+        
+    }
+}
+
+- (void)updateTitle:(NSString *)title
+{
+    self.buttonInfo.title = title;
+    self.buttonInfo.titleFont = [UIFont systemFontOfSize:18];
+    self.buttonInfo.titleColor = [UIColor redColor];
+    [self setNeedsUpdateFrame];
+    [self setNeedsDisplay];
+}
+
+- (void)setBackgroundImage:(UIImage *)image forState:(UIControlState)state
+{
+    
+}
+
+- (void)setImage:(UIImage *)image forState:(UIControlState)state
+{
+    
+}
+
+- (void)setTitleColor:(UIColor *)color forState:(UIControlState)state
+{
+    
+}
+
 - (void)updateContentsAndRelayout:(BOOL)relayout
 {
     [self updateButtonInfo];
@@ -78,6 +131,11 @@
         [self setNeedsUpdateFrame];
     }
     [self setNeedsDisplay];
+}
+
+- (void)setNeedsUpdateFrame
+{
+    
 }
 
 - (void)didCommitBoundsSizeChange { }

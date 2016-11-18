@@ -18,7 +18,7 @@
 @property (nonatomic, strong) NSMutableArray *attachmentViews;
 @property (nonatomic, strong) NSMutableArray *attachments;
 @property (nonatomic, assign) unsigned long long touchingItemIndex;
-@property (nonatomic, assign) struct CGRect unionAreaHighlightedFeedbackFrame;
+@property (nonatomic, assign) CGRect unionAreaHighlightedFeedbackFrame;
 @property (nonatomic, assign) double detaRightPading;
 @property (nonatomic, assign) double timeSourceReleventWidth;
 @property (nonatomic, assign) BOOL isSourceRectBeReset;
@@ -61,7 +61,7 @@
 - (id)activeRangesForTextRenderer:(id)arg1;
 - (id)contextViewForTextRenderer:(id)arg1;
 - (id)rendererAtPoint:(struct CGPoint)arg1;
-@property(readonly, nonatomic) NSArray *textRenderers;
+@property (nonatomic, strong, readonly) NSArray<PPTextRenderer *> *textRenderers;
 - (void)longTouchAtPoint:(id)arg1;
 - (void)touchesCancelled:(id)arg1 withEvent:(id)arg2;
 - (void)touchesMoved:(id)arg1 withEvent:(id)arg2;
@@ -70,7 +70,7 @@
 - (void)touchesBegan:(id)arg1 withEvent:(id)arg2;
 - (void)removeAttachmentViews;
 - (void)addAttachmentViews;
-@property (nonatomic, assign) BOOL enableAsyncDrawing; // @synthesize enableAsyncDrawing=_enableAsyncDrawing;
+@property (nonatomic, assign) BOOL enableAsyncDrawing;
 - (void)resetSourceInfoStringWidth:(double)arg1 right:(double)arg2;
 - (void)drawMetaInfoWithTimelineItem:(WBTimelineItem *)timelineItem InRect:(CGRect)rect withContext:(CGContextRef)context initialDrawingCount:(NSUInteger)drawingCount;
 - (double)titleItemTextMaxWidth;
@@ -86,7 +86,6 @@
 - (id)pageInfoIdentifier;
 
 
-- (id)textRenderers;
 - (void)recentCommentsPressed;
 - (struct CGRect)recentCommentsTouchingArea;
 - (void)setDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext;
@@ -96,10 +95,4 @@
 + (id)forwardStatusAttributedTextsOfUnionAreaFrom:(id)arg1;
 + (id)statisticsStringWithNumberForLongStr:(long long)arg1;
 + (id)statisticsStringWithNumber:(long long)arg1;
-@property (nonatomic, strong) PPTextRenderer *commentCountSummaryRender; // @synthesize commentCountSummaryRender=_commentCountSummaryRender;
-@property (nonatomic, strong) NSMutableArray *commentSummaryTextRenderers; // @synthesize commentSummaryTextRenderers=_commentSummaryTextRenderers;
-@property (nonatomic, strong) NSMutableArray *forwardSummaryTextRendersers; // @synthesize forwardSummaryTextRendersers=_forwardSummaryTextRendersers;
-@property (nonatomic, strong) PPTextRenderer *forwardSummaryRender; // @synthesize forwardSummaryRender=_forwardSummaryRender;
-@property (nonatomic, strong) PPTextRenderer *likeSummaryRender; // @synthesize likeSummaryRender=_likeSummaryRender;
-@property (nonatomic, strong) NSMutableArray *commentTextRenderers; // @synthesize commentTextRenderers=_commentTextRenderers;
 @end

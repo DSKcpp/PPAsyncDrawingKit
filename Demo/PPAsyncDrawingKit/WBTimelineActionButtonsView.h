@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class WBTimelineItem;
+@class PPButton;
 
 @interface WBTimelineActionButtonsView : UIView
 + (id)likedStatisticsWithParameters:(id)arg1 forStatus:(id)arg2;
@@ -18,16 +19,17 @@
 + (void)showForwardComposerWithStatus:(id)arg1 view:(id)arg2;
 + (void)respondToCommentButton:(id)arg1 type:(unsigned long long)arg2 inView:(id)arg3 timelineItem:(id)arg4 delegate:(id)arg5;
 + (void)showCommentComposerWithStatus:(id)arg1 view:(id)arg2;
-@property(retain, nonatomic) NSArray *actionButtonTypes; // @synthesize actionButtonTypes=_actionButtonTypes;
-@property(nonatomic) long long buttonWidth; // @synthesize buttonWidth=_buttonWidth;
-@property(nonatomic) long long lineHeight; // @synthesize lineHeight=_lineHeight;
-@property(nonatomic) long long btnHeight; // @synthesize btnHeight=_btnHeight;
-@property(retain, nonatomic) UIFont *btnFont; // @synthesize btnFont=_btnFont;
-@property(retain, nonatomic) NSString *composeDefaultText; // @synthesize composeDefaultText=_composeDefaultText;
-@property(nonatomic) _Bool needsButtonSeparators; // @synthesize needsButtonSeparators=_needsButtonSeparators;
-@property(nonatomic) _Bool needsBackgroundImageForHighlightedState; // @synthesize needsBackgroundImageForHighlightedState=_needsBackgroundImageForHighlightedState;
-@property(nonatomic) _Bool ignoreTimelineItemShouldShowButtonsSetting; // @synthesize ignoreTimelineItemShouldShowButtonsSetting=_ignoreTimelineItemShouldShowButtonsSetting;
-@property(retain, nonatomic) WBTimelineItem *timelineItem; // @synthesize timelineItem=_timelineItem;
+@property(retain, nonatomic) NSArray *actionButtonTypes;
+@property(nonatomic) long long buttonWidth;
+@property(nonatomic) long long lineHeight;
+@property(nonatomic) long long btnHeight;
+@property(retain, nonatomic) UIFont *btnFont;
+@property(retain, nonatomic) NSString *composeDefaultText;
+@property(nonatomic) _Bool needsButtonSeparators;
+@property(nonatomic) _Bool needsBackgroundImageForHighlightedState;
+@property(nonatomic) _Bool ignoreTimelineItemShouldShowButtonsSetting;
+@property(retain, nonatomic) WBTimelineItem *timelineItem;
+@property (nonatomic, strong) NSArray<PPButton *> *actionButtons;
 //@property(nonatomic) __weak id <WBTimelineActionButtonsViewDelegate> delegate; // @synthesize delegate=_delegate;
 - (void)buttonAutoresizingMask:(id)arg1;
 - (void)likeStatePostRequestCompletedNotification:(id)arg1;

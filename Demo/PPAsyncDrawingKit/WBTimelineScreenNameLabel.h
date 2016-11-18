@@ -1,5 +1,5 @@
 //
-//  PPNameLabel.h
+//  WBTimelineScreenNameLabel.h
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 2016/11/10.
@@ -10,7 +10,7 @@
 
 @class WBUser;
 
-@interface PPNameLabel : PPUIControl
+@interface WBTimelineScreenNameLabel : PPUIControl
 @property (nonatomic, strong) WBUser *user;
 @property (nonatomic, strong) NSArray *remoteIconImageViews;
 @property (nonatomic, assign) struct CGRect currentTextFrame;

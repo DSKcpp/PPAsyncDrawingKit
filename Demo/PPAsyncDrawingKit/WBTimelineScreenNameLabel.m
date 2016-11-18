@@ -6,9 +6,11 @@
 //  Copyright © 2016年 DSKcpp. All rights reserved.
 //
 
-#import "PPNameLabel.h"
+#import "WBTimelineScreenNameLabel.h"
+#import "WBTimelineItem.h"
+#import "NSString+PPAsyncDrawingKit.h"
 
-@implementation PPNameLabel
+@implementation WBTimelineScreenNameLabel
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
@@ -37,6 +39,9 @@
 
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async
 {
+    NSString *username = self.user.screen_name;
+//    CGContextSetFillColorWithColor(context, [UIColor redColor].CGColor);
+    [username pp_drawInRect:rect withFont:[UIFont systemFontOfSize:15.0] textColor:[UIColor redColor] lineBreakMode:NSLineBreakByWordWrapping];
     return YES;
 }
 

@@ -21,10 +21,7 @@
         self.titleItemAttributedText = [PPAttributedText new];
         self.titleItemAttributedText.shouldShowSmallCardForcily = YES;
         self.userInfo = [NSMutableDictionary dictionary];
-        self.timelineItem = timelineItem;
-        _displayName = timelineItem.user.screen_name;
-        _briefItemText = timelineItem.text;
-        _briefQuotedItemText = timelineItem.retweeted_status.text;
+        [self resetTimelineItem:timelineItem];
     }
     return self;
 }
@@ -41,6 +38,22 @@
 
 - (void)resetTimelineItem:(WBTimelineItem *)timelineItem
 {
-//    self.timelineItem
+    if (self.timelineItem != timelineItem) {
+        self.timelineItem = timelineItem;
+        NSString *itemText = timelineItem.text;
+        if (itemText) {
+            self.itemAttributedText.attributedString = [[NSMutableAttributedString alloc] initWithString:itemText];
+            _briefItemText = itemText;
+        }
+        NSString *userName = timelineItem.user.screen_name;
+        if (userName) {
+            _displayName = userName;
+        }
+        NSString *quotedItemText = timelineItem.retweeted_status.text;
+        if (quotedItemText) {
+            self.quotedItemAttributedText.attributedString = [[NSMutableAttributedString alloc] initWithString:quotedItemText];
+            _briefQuotedItemText = timelineItem.retweeted_status.text;
+        }
+    }
 }
 @end

@@ -18,15 +18,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGRect backgroundFrame;
 @property (nonatomic, assign) CGRect imageFrame;
 @property (nonatomic, assign) CGRect titleFrame;
-@property (nonatomic, strong) NSMutableDictionary<NSString *, UIImage *> *backgroundImages;
-@property (nonatomic, strong) NSMutableDictionary<NSString *, UIImage *> *images;
-@property (nonatomic, strong) NSMutableDictionary<NSString *, UIColor *> *titleColors;
-@property (nonatomic, strong) NSMutableDictionary<NSString *, NSString *> *titles;
+@property (nonatomic, strong, readonly) NSMutableDictionary<NSString *, UIImage *> *backgroundImages;
+@property (nonatomic, strong, readonly) NSMutableDictionary<NSString *, UIImage *> *images;
+@property (nonatomic, strong, readonly) NSMutableDictionary<NSString *, UIColor *> *titleColors;
+@property (nonatomic, strong, readonly) NSMutableDictionary<NSString *, NSString *> *titles;
 @property (nonatomic, assign) BOOL shouldDelayHighlighted;
 @property (nonatomic, assign) UIEdgeInsets imageEdgeInsets;
 @property (nonatomic, assign) UIEdgeInsets contentEdgeInsets;
 @property (nonatomic, assign) UIEdgeInsets titleEdgeInsets;
-@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong, readonly) UILabel *titleLabel;
 
 - (void)updateButtonInfo;
 - (NSString *)stringOfState:(UIControlState)state;
@@ -35,13 +35,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable UIImage *)backgroundImageForState:(UIControlState)state;
 - (nullable NSString *)titleForState:(UIControlState)state;
 
+- (void)setTitle:(NSString *)title forState:(UIControlState)state;
+- (void)setTitleColor:(UIColor *)color forState:(UIControlState)state;
 - (void)setBackgroundImage:(UIImage *)image forState:(UIControlState)state;
 - (void)setImage:(UIImage *)image forState:(UIControlState)state;
-- (void)setTitleColor:(UIColor *)color forState:(UIControlState)state;
 - (void)updateBackgroundImage:(UIImage *)image;
 - (void)updateImage:(id)arg1;
-- (void)updateTitle:(id)arg1;
-- (void)setTitle:(NSString *)title forState:(UIControlState)state;
+- (void)updateTitle:(NSString *)title;
 - (void)cancelTrackingWithEvent:(id)arg1;
 - (void)endTrackingWithTouch:(id)arg1 withEvent:(id)arg2;
 - (BOOL)continueTrackingWithTouch:(id)arg1 withEvent:(id)arg2;

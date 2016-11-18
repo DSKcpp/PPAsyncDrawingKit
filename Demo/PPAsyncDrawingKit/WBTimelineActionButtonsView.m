@@ -7,6 +7,7 @@
 //
 
 #import "WBTimelineActionButtonsView.h"
+#import "PPButton.h"
 
 @implementation WBTimelineActionButtonsView
 
@@ -14,7 +15,16 @@
 {
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor whiteColor];
+        [self initActionButtons];
     }
     return self;
+}
+
+- (void)initActionButtons
+{
+    
+    PPButton *forwardButton = [[PPButton alloc] initWithFrame:CGRectMake(0, 0, 320, 34)];
+    [forwardButton setTitle:@"转发 0" forState:UIControlStateNormal];
+    [self addSubview:forwardButton];
 }
 @end

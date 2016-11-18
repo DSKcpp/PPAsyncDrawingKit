@@ -9,7 +9,7 @@
 #import "WBTimelineContentView.h"
 #import "WBTimelineTableViewCellDrawingContext.h"
 #import "WBTimelineTextContentView.h"
-#import "PPNameLabel.h"
+#import "WBTimelineScreenNameLabel.h"
 #import "PPImageView.h"
 #import "WBTimelineItem.h"
 #import "WBTimelineActionButtonsView.h"
@@ -82,8 +82,8 @@
         self.textContentView = [[WBTimelineTextContentView alloc] init];
         self.textContentView.enableAsyncDrawing = YES;
         [self addSubview:self.textContentView];
-//        self.nameLabel = [[PPNameLabel alloc] initWithFrame:CGRectZero];
-//        [self insertSubview:self.nameLabel belowSubview:self.textContentView];
+        self.nameLabel = [[WBTimelineScreenNameLabel alloc] initWithFrame:CGRectZero];
+        [self insertSubview:self.nameLabel belowSubview:self.textContentView];
         self.avatarView = [[PPImageView alloc] initWithFrame:CGRectMake(12, 25, 39, 39)];
         self.avatarView.cornerRadius = 19.5;
         [self addSubview:self.avatarView];
@@ -104,12 +104,16 @@
     if (_timelineItem != timelineItem) {
         _timelineItem = timelineItem;
         WBTimelineTableViewCellDrawingContext *drawingContext = timelineItem.drawingContext;
+        self.nameLabel.user = timelineItem.user;
+        self.nameLabel.frame = drawingContext.screenNameFrame;
         self.textContentView.drawingContext = drawingContext;
         self.textContentView.frame = CGRectMake(0, 10, drawingContext.contentWidth, drawingContext.contentHeight);
         self.itemContentBgImageView.frame = drawingContext.itemTextFrame;
         self.quotedItemBorderButton.frame = drawingContext.quotedItemTextFrame;
         self.actionButtonsView.bottom = drawingContext.contentHeight;
         self.itemContentBgImageView.bottomLineView.bottom = self.itemContentBgImageView.height;
+        self.photoImageView.frame = drawingContext.rectOfPhotoImage;
+        self.photoImageView.pictures = timelineItem.pic_infos.allValues;
         NSString *url = timelineItem.user.avatar_large;
         [self.avatarView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"avatar"]];
     }

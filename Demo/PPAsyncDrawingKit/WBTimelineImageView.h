@@ -8,6 +8,8 @@
 
 #import "PPImageView.h"
 
-@interface WBTimelineImageView : PPImageView
+@class WBTimelineItem;
 
+@interface WBTimelineImageView : PPImageView
+@property (nonatomic, strong) WBTimelineItem *timelineItem;
 @end
