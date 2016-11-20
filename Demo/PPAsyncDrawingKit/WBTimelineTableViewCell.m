@@ -17,7 +17,8 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.backgroundColor = [UIColor clearColor];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.timelineContentView = [[WBTimelineContentView alloc] initWithWidth:350.0f];
+        CGFloat width = [UIScreen mainScreen].bounds.size.width;
+        self.timelineContentView = [[WBTimelineContentView alloc] initWithWidth:width];
         [self.contentView addSubview:self.timelineContentView];
     }
     return self;

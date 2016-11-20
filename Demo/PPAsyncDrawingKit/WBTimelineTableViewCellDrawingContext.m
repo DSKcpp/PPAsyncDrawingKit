@@ -14,13 +14,14 @@
 - (instancetype)initWithTimelineItem:(WBTimelineItem *)timelineItem
 {
     if (self = [super init]) {
-        self.itemAttributedText = [PPAttributedText new];
-        self.itemAttributedText.shouldShowSmallCardForcily = YES;
-        self.quotedItemAttributedText = [PPAttributedText new];
-        self.quotedItemAttributedText.shouldShowSmallCardForcily = YES;
-        self.titleItemAttributedText = [PPAttributedText new];
-        self.titleItemAttributedText.shouldShowSmallCardForcily = YES;
-        self.userInfo = [NSMutableDictionary dictionary];
+        self.titleAttributedText = [PPAttributedText new];
+        self.titleAttributedText.shouldShowSmallCardForcily = YES;
+        self.metaInfoAttributedText = [PPAttributedText new];
+        self.metaInfoAttributedText.shouldShowSmallCardForcily = YES;
+        self.textAttributedText = [PPAttributedText new];
+        self.textAttributedText.shouldShowSmallCardForcily = YES;
+        self.quotedAttributedText = [PPAttributedText new];
+        self.quotedAttributedText.shouldShowSmallCardForcily = YES;
         [self resetTimelineItem:timelineItem];
     }
     return self;
@@ -42,18 +43,33 @@
         self.timelineItem = timelineItem;
         NSString *itemText = timelineItem.text;
         if (itemText) {
-            self.itemAttributedText.attributedString = [[NSMutableAttributedString alloc] initWithString:itemText];
-            _briefItemText = itemText;
+            self.textAttributedText.attributedString = [[NSMutableAttributedString alloc] initWithString:itemText];
         }
-        NSString *userName = timelineItem.user.screen_name;
-        if (userName) {
-            _displayName = userName;
+        if (timelineItem.retweeted_status) {
+            NSString *quotedItemText = [NSString stringWithFormat:@"@%@:%@", timelineItem.retweeted_status.user.screen_name, timelineItem.retweeted_status.text] ;
+            if (quotedItemText.length > 0) {
+                self.quotedAttributedText.attributedString = [[NSMutableAttributedString alloc] initWithString:quotedItemText];
+            }
         }
-        NSString *quotedItemText = timelineItem.retweeted_status.text;
-        if (quotedItemText) {
-            self.quotedItemAttributedText.attributedString = [[NSMutableAttributedString alloc] initWithString:quotedItemText];
-            _briefQuotedItemText = timelineItem.retweeted_status.text;
+        if (timelineItem.title) {
+            NSString *title = timelineItem.title.text;
+            self.titleAttributedText.attributedString = [[NSMutableAttributedString alloc] initWithString:title];
         }
     }
+}
+
+- (BOOL)hasQuoted
+{
+    return self.timelineItem.retweeted_status != nil;
+}
+
+- (BOOL)hasPhoto
+{
+    return self.timelineItem.pic_infos.count > 0 || self.timelineItem.retweeted_status.pic_infos.count > 0;
+}
+
+- (BOOL)hasTitle
+{
+    return self.timelineItem.title != nil;
 }
 @end

@@ -45,8 +45,10 @@
         NSString *path = [[NSBundle mainBundle] pathForResource:@"WBTimeLineJSON.json" ofType:@""];
         NSData *data = [NSData dataWithContentsOfFile:path];
         WBCardsModel *cards = [WBCardsModel yy_modelWithJSON:data];
+        CGFloat width = _tableView.bounds.size.width;
         [cards.cards enumerateObjectsUsingBlock:^(WBCardModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if (obj.mblog) {
+                [WBTimelineContentView heightOfTimelineItem:obj.mblog withContentWidth:width userInfo:nil];
                 [_timelineItems addObject:obj.mblog];
             }
         }];

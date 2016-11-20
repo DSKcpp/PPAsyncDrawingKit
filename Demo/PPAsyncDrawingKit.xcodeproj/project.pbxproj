@@ -77,6 +77,7 @@
 		86FCDAD91DDDA9B700CB2563 /* UIView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 86FCDAC41DDDA9B700CB2563 /* UIView+WebCache.m */; };
 		86FCDADA1DDDA9B700CB2563 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 86FCDAC61DDDA9B700CB2563 /* UIView+WebCacheOperation.m */; };
 		86FCDADD1DDDA9D300CB2563 /* PPImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 86FCDADC1DDDA9D300CB2563 /* PPImageView+WebCache.m */; };
+		86FCDAE01DE18FF700CB2563 /* WBTimelinePreset.m in Sources */ = {isa = PBXBuildFile; fileRef = 86FCDADF1DE18FF700CB2563 /* WBTimelinePreset.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -219,6 +220,8 @@
 		86FCDAC61DDDA9B700CB2563 /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
 		86FCDADB1DDDA9D300CB2563 /* PPImageView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PPImageView+WebCache.h"; sourceTree = "<group>"; };
 		86FCDADC1DDDA9D300CB2563 /* PPImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PPImageView+WebCache.m"; sourceTree = "<group>"; };
+		86FCDADE1DE18FF700CB2563 /* WBTimelinePreset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTimelinePreset.h; sourceTree = "<group>"; };
+		86FCDADF1DE18FF700CB2563 /* WBTimelinePreset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTimelinePreset.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -272,6 +275,8 @@
 				86AED66B1DD4780300887F3B /* WBTimelineTableViewCellDrawingContext.m */,
 				86FCDA961DDC7BD200CB2563 /* WBTimelineContentImageViewLayouter.h */,
 				86FCDA971DDC7BD200CB2563 /* WBTimelineContentImageViewLayouter.m */,
+				86FCDADE1DE18FF700CB2563 /* WBTimelinePreset.h */,
+				86FCDADF1DE18FF700CB2563 /* WBTimelinePreset.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -649,6 +654,7 @@
 				86EB758F1D2393CC005F14A1 /* main.m in Sources */,
 				86FCDAD81DDDA9B700CB2563 /* UIImageView+WebCache.m in Sources */,
 				869AFD191DDC61CA00842C6C /* WBColorImageView.m in Sources */,
+				86FCDAE01DE18FF700CB2563 /* WBTimelinePreset.m in Sources */,
 				86AED6581DD1D63D00887F3B /* NSString+PPAsyncDrawingKit.m in Sources */,
 				86EF6AB11DB13677006464CE /* PPTextLayout.m in Sources */,
 				86FCDAD61DDDA9B700CB2563 /* UIImage+WebP.m in Sources */,

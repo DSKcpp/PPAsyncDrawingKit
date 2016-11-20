@@ -69,7 +69,7 @@
             }
             CGContextSaveGState(context);
             CGContextSetTextMatrix(context, CGAffineTransformIdentity);
-            CGContextTranslateCTM(context, self.drawingOrigin.x, self.textLayout.size.height + self.drawingOrigin.y);
+            CGContextTranslateCTM(context, self.drawingOrigin.x, self.drawingOrigin.y + self.textLayout.size.height);
             CGContextScaleCTM(context, 1.0, -1.0);
             for (PPTextLayoutLine *line in self.textLayout.layoutFrame.lineFragments) {
                 CGPoint position = line.originalBaselineOrigin;

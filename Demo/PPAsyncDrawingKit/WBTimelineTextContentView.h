@@ -72,9 +72,7 @@
 - (void)addAttachmentViews;
 @property (nonatomic, assign) BOOL enableAsyncDrawing;
 - (void)resetSourceInfoStringWidth:(double)arg1 right:(double)arg2;
-- (void)drawMetaInfoWithTimelineItem:(WBTimelineItem *)timelineItem InRect:(CGRect)rect withContext:(CGContextRef)context initialDrawingCount:(NSUInteger)drawingCount;
 - (double)titleItemTextMaxWidth;
-- (void)setupMetaInfoRenderer:(PPTextRenderer *)metaInfoRenderer timelineItem:(WBTimelineItem *)timelineItem;
 - (id)memberIconImageNameForTimelineItem:(id)arg1;
 - (void)setDrawingContextWithIsNotCustomSource:(BOOL)arg1;
 - (id)attributedStringIgnoreActiveRangeColorForAttributedString:(id)arg1;

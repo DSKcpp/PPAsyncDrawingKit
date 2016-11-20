@@ -16,6 +16,7 @@
 @class WBPictureMetadata;
 @class WBTimelinePicture;
 @class WBTimelineTableViewCellDrawingContext;
+@class WBTimelineTitle;
 
 @interface WBCardsModel : NSObject
 @property (nonatomic, strong) NSArray<WBCardModel *> *cards;
@@ -56,6 +57,7 @@
 @property (nonatomic, assign) BOOL isLongText;
 @property (nonatomic, strong) WBTimelineItem *retweeted_status;
 @property (nonatomic, strong) NSDictionary<NSString *, WBTimelinePicture *> *pic_infos;
+@property (nonatomic, strong) WBTimelineTitle *title;
 @property (nonatomic, strong) WBTimelineTableViewCellDrawingContext *drawingContext;
 
 - (BOOL)showsReadCount;
@@ -148,4 +150,10 @@
 @property (nonatomic, assign) CGFloat height;
 @property (nonatomic, assign) CGFloat width;
 @property (nonatomic, copy) NSString *url;
+@end
+
+@interface WBTimelineTitle : NSObject
+@property (nonatomic, copy) NSString *text;
+@property (nonatomic, assign) NSInteger base_color;
+@property (nonatomic, copy) NSString *icon_url;
 @end

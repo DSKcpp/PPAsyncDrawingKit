@@ -52,3 +52,7 @@
 @implementation WBPictureMetadata
 
 @end
+
+@implementation WBTimelineTitle
+
+@end

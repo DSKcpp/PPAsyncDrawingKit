@@ -13,6 +13,7 @@
 #import "PPAttributedText.h"
 #import "NSAttributedString+PPAsyncDrawingKit.h"
 #import "WBTimelineContentImageViewLayouter.h"
+#import "WBTimelinePreset.h"
 
 @interface WBTimelineTextContentView () <PPTextRendererDelegate, PPTextRendererEventDelegate>
 
@@ -22,35 +23,49 @@
 
 + (void)renderDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext userInfo:(NSDictionary *)userInfo
 {
-    CGFloat maxWidth = drawingContext.contentWidth - 12.0f * 2.0f;
-    drawingContext.screenNameFrame = CGRectMake(51, 12, 100, 33);
-    CGSize size = [drawingContext.itemAttributedText.attributedString pp_sizeConstrainedToWidth:maxWidth numberOfLines:0];
-    size.height += 81;
-    if (drawingContext.briefQuotedItemText) {
-        CGFloat height = [drawingContext.quotedItemAttributedText.attributedString pp_heightConstrainedToWidth:maxWidth];
-        drawingContext.quotedItemTextFrame = CGRectMake(0, size.height, drawingContext.contentWidth, height + 12);
-        size = CGSizeMake(size.width, size.height + height + 12);
+    WBTimelinePreset *preset = [WBTimelinePreset sharedInstance];
+    CGFloat maxWidth = drawingContext.contentWidth - preset.leftSpacing * 2.0f;
+    CGFloat totalHeight = 0.0f;
+    if (drawingContext.hasTitle) {
+        drawingContext.titleBackgroundViewFrame = CGRectMake(0, 0, drawingContext.contentWidth, preset.titleItemHeight);
+        drawingContext.titleFrame = CGRectMake(preset.titleIconLeft + preset.titleIconSize + 5.0f, preset.titleIconTop, drawingContext.contentWidth, preset.titleItemHeight);
+        totalHeight += preset.titleItemHeight;
     }
-    WBTimelineContentImageViewLayouter *imageLayouter = [[WBTimelineContentImageViewLayouter alloc] init];
-    imageLayouter.constraintWidth = drawingContext.contentWidth;
-    imageLayouter.horizonSpacing = 2.5;
-    imageLayouter.verticalSpacing = 2.5;
-    imageLayouter.needRelayout = YES;
-    drawingContext.imageLayouter = imageLayouter;
-    NSUInteger picCount = drawingContext.timelineItem.pic_infos.count;
-    if (picCount == 0) {
-        drawingContext.rectOfPhotoImage = CGRectZero;
-    } else if (picCount == 1) {
-        drawingContext.rectOfPhotoImage = CGRectMake(12, size.height, 148, 196);
-        size.height += 196;
-    } else {
-        CGFloat wh = (maxWidth - 2.5 * 2) / 3;
-        drawingContext.rectOfPhotoImage = CGRectMake(12, size.height, maxWidth, picCount % 3 * wh);
-        size.height += (picCount / 3 + 1) * wh;
+    
+    CGFloat titleHeight = CGRectGetHeight(drawingContext.titleFrame);
+    drawingContext.avatarFrame = CGRectMake(preset.leftSpacing, preset.avatarTop + titleHeight, preset.avatarSize, preset.avatarSize);
+    drawingContext.nicknameFrame = CGRectMake(preset.nameLabelLeft, totalHeight + preset.nameLabelTop, 100, 20);
+    drawingContext.metaInfoFrame = CGRectMake(preset.nameLabelLeft, 39.0f + titleHeight, drawingContext.contentWidth, 20.0f);
+    totalHeight += 54.0f;
+    
+    CGFloat height = [drawingContext.textAttributedText.attributedString pp_heightConstrainedToWidth:maxWidth];
+    drawingContext.textFrame = CGRectMake(preset.leftSpacing, totalHeight + 10.0f, maxWidth, height + 10.0f);
+    totalHeight += height + 20.0f;
+    
+    if (drawingContext.hasQuoted) {
+        CGFloat height = [drawingContext.quotedAttributedText.attributedString pp_heightConstrainedToWidth:maxWidth];
+        drawingContext.quotedFrame = CGRectMake(preset.leftSpacing, CGRectGetMaxY(drawingContext.textFrame), maxWidth, height + 10);
+        totalHeight += height + 10.0f;
+        drawingContext.quotedContentBackgroundViewFrame = CGRectMake(0, CGRectGetMinY(drawingContext.quotedFrame) - 5.0f, drawingContext.contentWidth, CGRectGetHeight(drawingContext.quotedFrame) + 5.0f);
     }
-    drawingContext.itemTextFrame = CGRectMake(0, 10, drawingContext.contentWidth, size.height - 10);
-    size.height += 34;
-    drawingContext.contentHeight = MAX(size.height, 136);
+//    NSUInteger picCount = drawingContext.timelineItem.pic_infos.count;
+//    if (picCount == 0) {
+//        drawingContext.photoFrame = CGRectZero;
+//    } else if (picCount == 1) {
+//        CGFloat width = 148.0f;
+//        CGFloat height = 196.0f;
+//        drawingContext.photoFrame = CGRectMake(12, totalHeight, width, height);
+//        totalHeight += height;
+//    } else {
+//        CGFloat wh = (maxWidth - 2.5 * 2) / 3;
+//        drawingContext.photoFrame = CGRectMake(12, totalHeight, maxWidth, (picCount / 3 + 1) * wh);
+//        totalHeight += (picCount / 3 + 1) * wh;
+//    }
+
+    drawingContext.textContentBackgroundViewFrame = CGRectMake(0, titleHeight, drawingContext.contentWidth, totalHeight - titleHeight);
+    drawingContext.actionButtonsViewFrame = CGRectMake(0, CGRectGetMaxY(drawingContext.textContentBackgroundViewFrame), drawingContext.contentWidth, preset.actionButtonsHeight);
+    totalHeight += preset.actionButtonsHeight + 10.0f;
+    drawingContext.contentHeight = MAX(totalHeight, 136);
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -99,23 +114,20 @@
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(NSDictionary *)userInfo
 {
     WBTimelineTableViewCellDrawingContext *drawingContext = userInfo[@"drawingContext"];
-    WBTimelineItem *timelineItem = userInfo[@"timelineItem"];
-    NSUInteger drawingCount = self.drawingCount;
-    rect.size.width -= 24.0f;
-    rect.origin.x = 62;
-    rect.origin.y = 37;
-    [self drawMetaInfoWithTimelineItem:timelineItem InRect:rect withContext:context initialDrawingCount:drawingCount];
-    CGFloat y = self.metaInfoTextRenderer.textLayout.layoutHeight + 23;
-    rect.origin.x = 12;
-    rect.origin.y = 61;
-    self.itemTextRenderer.frame = rect;
-    self.itemTextRenderer.attributedString = [[NSAttributedString alloc] initWithString:timelineItem.text];
+    if (drawingContext.hasTitle) {
+        self.titleTextRenderer.attributedString = drawingContext.titleAttributedText.attributedString;
+        self.titleTextRenderer.frame = drawingContext.titleFrame;
+        [self.titleTextRenderer drawInContext:context shouldInterruptBlock:nil];
+    }
+    self.metaInfoTextRenderer.attributedString = [[NSAttributedString alloc] initWithString:@"2分钟前  来自iPhone 7"];
+    self.metaInfoTextRenderer.frame = drawingContext.metaInfoFrame;
+    [self.metaInfoTextRenderer drawInContext:context shouldInterruptBlock:nil];
+    self.itemTextRenderer.frame = drawingContext.textFrame;
+    self.itemTextRenderer.attributedString = drawingContext.textAttributedText.attributedString;
     [self.itemTextRenderer drawInContext:context shouldInterruptBlock:nil];
-    if (timelineItem.retweeted_status.text) {
-        CGFloat y = self.itemTextRenderer.textLayout.layoutHeight;
-        rect.origin.y += y + 12;
-        self.quotedItemTextRenderer.frame = rect;
-        self.quotedItemTextRenderer.attributedString = [[NSAttributedString alloc] initWithString:timelineItem.retweeted_status.text];
+    if (drawingContext.hasQuoted) {
+        self.quotedItemTextRenderer.frame = drawingContext.quotedFrame;
+        self.quotedItemTextRenderer.attributedString = drawingContext.quotedAttributedText.attributedString;
         [self.quotedItemTextRenderer drawInContext:context shouldInterruptBlock:nil];
     }
     return YES;
@@ -137,26 +149,5 @@
 - (void)addAttachmentViews
 {
     
-}
-
-- (void)drawMetaInfoWithTimelineItem:(WBTimelineItem *)timelineItem InRect:(CGRect)rect withContext:(CGContextRef)context initialDrawingCount:(NSUInteger)drawingCount
-{
-    [self setupMetaInfoRenderer:self.metaInfoTextRenderer timelineItem:timelineItem];
-    self.metaInfoTextRenderer.frame = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
-    [self.metaInfoTextRenderer drawInContext:context shouldInterruptBlock:nil];
-}
-
-- (void)setupMetaInfoRenderer:(PPTextRenderer *)metaInfoRenderer timelineItem:(WBTimelineItem *)timelineItem
-{
-//    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"2分钟前  来自iPhone 8"];
-    self.metaInfoTextRenderer.attributedString = [[NSAttributedString alloc] initWithString:@"2分钟前  来自iPhone 8"];
-    
-//    if (self.drawingContext.shouldShowTime) {
-//        NSString *displayTimeText = [self.drawingContext.timelineItem displayTimeText];
-//        if (!displayTimeText) {
-//            displayTimeText = @"";
-//        }
-//        
-//    }
 }
 @end

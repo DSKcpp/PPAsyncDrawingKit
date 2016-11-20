@@ -26,6 +26,8 @@
 @property (nonatomic, strong) WBColorImageView *itemContentBgImageView;
 @property (nonatomic, strong) UIButton *quotedItemBorderButton;
 @property (nonatomic, strong) WBTimelineImageContentView *photoImageView;
+@property (nonatomic, strong) WBColorImageView *itemTypeBgImageView;
+@property (nonatomic, strong) PPImageView *titleIcon;
 
 @property (nonatomic, assign) CGFloat contentWidth;
 
