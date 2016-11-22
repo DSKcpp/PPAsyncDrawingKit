@@ -52,15 +52,15 @@
     if (picCount == 0) {
         drawingContext.photoFrame = CGRectZero;
     } else if (picCount == 1) {
-        CGFloat width = 148.0f;
-        CGFloat height = 196.0f;
+        CGFloat width = preset.oneImageWidth;
+        CGFloat height = preset.oneImageHeight;
         drawingContext.photoFrame = CGRectMake(12, totalHeight, width, height);
         totalHeight += height + 10.0f;
     } else {
-        CGFloat wh = (maxWidth - 2.5 * 2) / 3;
-        CGFloat row = (picCount / 3 + 1) <= 3 ?: 3;
-        drawingContext.photoFrame = CGRectMake(12, totalHeight, maxWidth, row * wh);
-        totalHeight += row * wh + 10.0f;
+        NSUInteger rows = ceilf(picCount / 3.0f);
+        CGFloat height = rows * preset.gridImageSize;
+        drawingContext.photoFrame = CGRectMake(12, totalHeight, maxWidth, height);
+        totalHeight += height + 10.0f;
     }
     drawingContext.textContentBackgroundViewFrame = CGRectMake(0, titleHeight, drawingContext.contentWidth, totalHeight - titleHeight);
     drawingContext.actionButtonsViewFrame = CGRectMake(0, CGRectGetMaxY(drawingContext.textContentBackgroundViewFrame), drawingContext.contentWidth, preset.actionButtonsHeight);

@@ -6,8 +6,6 @@
  * file that was distributed with this source code.
  */
 
-#ifdef SD_WEBP
-
 #import "SDWebImageCompat.h"
 
 @interface UIImage (WebP)
@@ -15,5 +13,3 @@
 + (nullable UIImage *)sd_imageWithWebPData:(nullable NSData *)data;
 
 @end
-
-#endif

@@ -10,10 +10,7 @@
 #import "UIImage+GIF.h"
 #import "NSData+ImageContentType.h"
 #import <ImageIO/ImageIO.h>
-
-#ifdef SD_WEBP
 #import "UIImage+WebP.h"
-#endif
 
 @implementation UIImage (MultiFormat)
 
@@ -27,12 +24,10 @@
     if (imageFormat == SDImageFormatGIF) {
         image = [UIImage sd_animatedGIFWithData:data];
     }
-#ifdef SD_WEBP
     else if (imageFormat == SDImageFormatWebP)
     {
         image = [UIImage sd_imageWithWebPData:data];
     }
-#endif
     else {
         image = [[UIImage alloc] initWithData:data];
 #if SD_UIKIT || SD_WATCH
