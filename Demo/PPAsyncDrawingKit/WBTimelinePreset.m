@@ -34,6 +34,10 @@
         _titleIconTop = 9.5f;
         _titleIconLeft = 11.0f;
         _titleIconSize = 15.0f;
+        _gridImageSpacing = 2.5f;
+        _gridImageSize = ([UIScreen mainScreen].bounds.size.width - _gridImageSpacing * 2.0f - _leftSpacing * 2.0f) / 3.0f;
+        _oneImageWidth = 148.0f;
+        _oneImageHeight = 196.0f;
     }
     return self;
 }

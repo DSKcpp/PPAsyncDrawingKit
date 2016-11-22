@@ -73,6 +73,7 @@
     [self createNicknameLabel];
     [self createAvatarView];
     [self createActionButtonsView];
+    [self createPhotoImageView];
 }
 
 - (void)createTitleItemContentBackgroundView
@@ -139,6 +140,12 @@
     [self addSubview:self.actionButtonsView];
 }
 
+- (void)createPhotoImageView
+{
+    self.photoImageView = [[WBTimelineImageContentView alloc] init];
+    [self addSubview:self.photoImageView];
+}
+
 - (void)setTimelineItem:(WBTimelineItem *)timelineItem
 {
     [self setTimelineItem:timelineItem userInfo:nil];
@@ -165,7 +172,7 @@
         self.quotedItemBorderButton.frame = drawingContext.quotedContentBackgroundViewFrame;
         NSString *url = timelineItem.user.avatar_large;
         [self.avatarView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"avatar"]];
-        self.actionButtonsView.timelineItem = timelineItem;
+        [self.actionButtonsView setTimelineItem:timelineItem];
     }
 
 }

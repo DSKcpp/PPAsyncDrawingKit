@@ -29,4 +29,9 @@
 @property (nonatomic, assign, readonly) CGFloat titleIconLeft;
 @property (nonatomic, assign, readonly) CGFloat titleIconTop;
 @property (nonatomic, assign, readonly) CGFloat titleIconSize;
+
+@property (nonatomic, assign, readonly) CGFloat gridImageSize;
+@property (nonatomic, assign, readonly) CGFloat gridImageSpacing;
+@property (nonatomic, assign, readonly) CGFloat oneImageWidth;
+@property (nonatomic, assign, readonly) CGFloat oneImageHeight;
 @end

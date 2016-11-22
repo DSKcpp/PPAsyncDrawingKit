@@ -89,7 +89,7 @@
 {
     NSString *stateString = [self stringOfState:state];
     if (title) {
-        self.titles[stateString] = title;
+        [self.titles setObject:title forKey:stateString];
     } else {
         [self.titles removeObjectForKey:stateString];
     }
@@ -100,28 +100,76 @@
     }
 }
 
-- (void)updateTitle:(NSString *)title
+- (void)setBackgroundImage:(UIImage *)backgroundImage forState:(UIControlState)state
 {
-    self.buttonInfo.title = title;
-    self.buttonInfo.titleFont = [UIFont systemFontOfSize:18];
-    self.buttonInfo.titleColor = [UIColor redColor];
-    [self setNeedsUpdateFrame];
-    [self setNeedsDisplay];
-}
-
-- (void)setBackgroundImage:(UIImage *)image forState:(UIControlState)state
-{
-    
+    NSString *stateString = [self stringOfState:state];
+    if (backgroundImage) {
+        [self.backgroundImages setObject:backgroundImage forKey:stateString];
+    } else {
+        [self.backgroundImages removeObjectForKey:stateString];
+    }
+    if (self.state == state) {
+        [self updateBackgroundImage:backgroundImage];
+    }
 }
 
 - (void)setImage:(UIImage *)image forState:(UIControlState)state
 {
-    
+    NSString *stateString = [self stringOfState:state];
+    if (image) {
+        [self.images setObject:image forKey:stateString];
+    } else {
+        [self.images removeObjectForKey:stateString];
+    }
+    if (self.state == state) {
+        [self updateImage:image];
+    }
 }
 
 - (void)setTitleColor:(UIColor *)color forState:(UIControlState)state
 {
+    NSString *stateString = [self stringOfState:state];
+    if ([self.titleColors objectForKey:stateString] != color) {
+        if (color) {
+            [self.titleColors setObject:color forKey:stateString];
+        } else {
+            [self.titleColors removeObjectForKey:stateString];
+        }
+        self.contentsChangedAfterLastAsyncDrawing = YES;
+        [self setNeedsUpdateFrame];
+        if (self.state == state) {
+            self.titleLabel.textColor = color;
+            self.buttonInfo.titleColor = color;
+            [self asyncSetNeedsDisplay];
+        }
+    }
+}
+
+- (void)updateTitle:(NSString *)title
+{
+    if (![self.buttonInfo.title isEqualToString:title]) {
+        self.buttonInfo.title = title;
+        [self setNeedsUpdateFrame];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+        });
+    }
     
+}
+
+- (void)updateImage:(UIImage *)image
+{
+    if (self.buttonInfo.image != image) {
+        self.buttonInfo.image = image;
+        
+    }
+}
+
+- (void)updateBackgroundImage:(UIImage *)backgroundImage
+{
+    if (self.buttonInfo.backgroundImage != backgroundImage) {
+        self.buttonInfo.backgroundImage = backgroundImage;
+    }
 }
 
 - (void)updateContentsAndRelayout:(BOOL)relayout
@@ -135,7 +183,7 @@
 
 - (void)setNeedsUpdateFrame
 {
-    
+    self.needsUpdateFrame = YES;
 }
 
 - (void)didCommitBoundsSizeChange { }

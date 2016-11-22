@@ -48,20 +48,20 @@
         totalHeight += height + 10.0f;
         drawingContext.quotedContentBackgroundViewFrame = CGRectMake(0, CGRectGetMinY(drawingContext.quotedFrame) - 5.0f, drawingContext.contentWidth, CGRectGetHeight(drawingContext.quotedFrame) + 5.0f);
     }
-//    NSUInteger picCount = drawingContext.timelineItem.pic_infos.count;
-//    if (picCount == 0) {
-//        drawingContext.photoFrame = CGRectZero;
-//    } else if (picCount == 1) {
-//        CGFloat width = 148.0f;
-//        CGFloat height = 196.0f;
-//        drawingContext.photoFrame = CGRectMake(12, totalHeight, width, height);
-//        totalHeight += height;
-//    } else {
-//        CGFloat wh = (maxWidth - 2.5 * 2) / 3;
-//        drawingContext.photoFrame = CGRectMake(12, totalHeight, maxWidth, (picCount / 3 + 1) * wh);
-//        totalHeight += (picCount / 3 + 1) * wh;
-//    }
-
+    NSUInteger picCount = drawingContext.timelineItem.pic_infos.count;
+    if (picCount == 0) {
+        drawingContext.photoFrame = CGRectZero;
+    } else if (picCount == 1) {
+        CGFloat width = 148.0f;
+        CGFloat height = 196.0f;
+        drawingContext.photoFrame = CGRectMake(12, totalHeight, width, height);
+        totalHeight += height + 10.0f;
+    } else {
+        CGFloat wh = (maxWidth - 2.5 * 2) / 3;
+        CGFloat row = (picCount / 3 + 1) <= 3 ?: 3;
+        drawingContext.photoFrame = CGRectMake(12, totalHeight, maxWidth, row * wh);
+        totalHeight += row * wh + 10.0f;
+    }
     drawingContext.textContentBackgroundViewFrame = CGRectMake(0, titleHeight, drawingContext.contentWidth, totalHeight - titleHeight);
     drawingContext.actionButtonsViewFrame = CGRectMake(0, CGRectGetMaxY(drawingContext.textContentBackgroundViewFrame), drawingContext.contentWidth, preset.actionButtonsHeight);
     totalHeight += preset.actionButtonsHeight + 10.0f;
@@ -87,7 +87,6 @@
         self.metaInfoTextRenderer.textLayout.maximumNumberOfLines = 1;
         self.attachmentViews = [NSMutableArray array];
         self.attachments = [NSMutableArray array];
-        self.wb_accessibilityElements = [NSMutableArray array];
         self.dispatchPriority = 2;
         self.isSourceRectBeReset = NO;
         self.contentsChangedAfterLastAsyncDrawing = YES;

@@ -27,8 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) UIEdgeInsets contentEdgeInsets;
 @property (nonatomic, assign) UIEdgeInsets titleEdgeInsets;
 @property (nonatomic, strong, readonly) UILabel *titleLabel;
+@property (nonatomic, assign) BOOL needsUpdateFrame;
 
-- (void)updateButtonInfo;
 - (NSString *)stringOfState:(UIControlState)state;
 - (nullable UIColor *)titleColorForState:(UIControlState)state;
 - (nullable UIImage *)imageForState:(UIControlState)state;
@@ -37,11 +37,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setTitle:(NSString *)title forState:(UIControlState)state;
 - (void)setTitleColor:(UIColor *)color forState:(UIControlState)state;
-- (void)setBackgroundImage:(UIImage *)image forState:(UIControlState)state;
+- (void)setBackgroundImage:(UIImage *)backgroundImage forState:(UIControlState)state;
 - (void)setImage:(UIImage *)image forState:(UIControlState)state;
-- (void)updateBackgroundImage:(UIImage *)image;
-- (void)updateImage:(id)arg1;
+
+- (void)updateButtonInfo;
+- (void)updateBackgroundImage:(UIImage *)backgroundImage;
+- (void)updateImage:(UIImage *)image;
 - (void)updateTitle:(NSString *)title;
+
 - (void)cancelTrackingWithEvent:(id)arg1;
 - (void)endTrackingWithTouch:(id)arg1 withEvent:(id)arg2;
 - (BOOL)continueTrackingWithTouch:(id)arg1 withEvent:(id)arg2;

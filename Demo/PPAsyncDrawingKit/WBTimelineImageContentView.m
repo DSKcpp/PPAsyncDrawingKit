@@ -8,6 +8,9 @@
 
 #import "WBTimelineImageContentView.h"
 #import "WBTimelineImageView.h"
+#import "WBTimelineItem.h"
+#import "PPImageView+WebCache.h"
+#import "WBTimelinePreset.h"
 
 @implementation WBTimelineImageContentView
 
@@ -17,6 +20,34 @@
         self.userInteractionEnabled = YES;
     }
     return self;
+}
+
+- (WBTimelineImageView *)dequeueReusableImageView
+{
+    WBTimelineImageView *imageView = self.idleContentImageViewAry.firstObject;
+    if (imageView) {
+        [self.idleContentImageViewAry removeObjectAtIndex:0];
+    } else {
+        imageView = [[WBTimelineImageView alloc] initWithFrame:CGRectZero];
+        imageView.userInteractionEnabled = YES;
+        [imageView addTarget:self action:@selector(imageSelected:) forControlEvents:UIControlEventTouchUpInside];
+        imageView.enableAsyncDrawing = self.enableAsyncDrawing;
+        [self.contentImageViewAry addObject:imageView];
+    }
+    return imageView;
+}
+
+- (void)imageSelected:(WBTimelineImageView *)imageView
+{
+    
+}
+
+- (NSMutableArray<WBTimelineImageView *> *)contentImageViewAry
+{
+    if (!_contentImageViewAry) {
+        _contentImageViewAry = [NSMutableArray array];
+    }
+    return _contentImageViewAry;
 }
 
 - (NSMutableArray *)imageViews
@@ -41,6 +72,34 @@
 {
     if (![_pictures isEqualToArray:pictures]) {
         _pictures = [pictures copy];
+        [self reloadImageViews];
     }
 }
+
+- (void)reloadImageViews
+{
+    [self.imageViews removeAllObjects];
+    for (UIView *view in self.subviews) {
+        [view removeFromSuperview];
+    }
+    
+    WBTimelinePreset *preset = [WBTimelinePreset sharedInstance];
+    NSUInteger count = _pictures.count;
+    NSUInteger cols = 3;
+    for (NSInteger i = 0; i < count; i++) {
+        WBTimelineImageView *imageView = [self dequeueReusableImageView];
+        if (count == 1) {
+            imageView.frame = CGRectMake(0, 0, preset.oneImageWidth, preset.oneImageHeight);
+        } else {
+            NSUInteger row = i / cols;
+            NSUInteger col = i % cols;
+            imageView.frame = CGRectMake(col * (preset.gridImageSize + 2.5), row * (preset.gridImageSize + 2.5), preset.gridImageSize, preset.gridImageSize);
+        }
+        NSString *url = _pictures[i].thumbnail.url;
+        [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"avatar"]];
+        [self addSubview:imageView];
+        [self.imageViews addObject:imageView];
+    }
+}
+
 @end

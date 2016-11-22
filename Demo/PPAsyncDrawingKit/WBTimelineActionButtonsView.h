@@ -12,8 +12,8 @@
 @class PPButton;
 
 @interface WBTimelineActionButtonsView : UIView
-@property (nonatomic, strong) WBTimelineItem *timelineItem;
 @property (nonatomic, strong, readonly) PPButton *retweetButton;
 @property (nonatomic, strong, readonly) PPButton *commentButton;
 @property (nonatomic, strong, readonly) PPButton *likeButton;
+- (void)setTimelineItem:(WBTimelineItem *)timelineItem;
 @end

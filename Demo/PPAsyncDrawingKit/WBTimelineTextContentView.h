@@ -23,12 +23,11 @@
 @property (nonatomic, assign) double timeSourceReleventWidth;
 @property (nonatomic, assign) BOOL isSourceRectBeReset;
 @property (nonatomic, assign) BOOL customSourceColorDefault;
-@property (nonatomic, strong) NSMutableArray *wb_accessibilityElements;
-@property (nonatomic, strong) PPTextRenderer *metaInfoTextRenderer;
 @property (nonatomic, assign) BOOL quotedItemHighlighted;
 @property (nonatomic, strong) NSMutableAttributedString *sourceInfoString;
 //@property (nonatomic, strong) WBTimelineLargeCardView *largeCardView;
 @property (nonatomic, assign) BOOL disableTextLinkHighlight;
+@property (nonatomic, strong) PPTextRenderer *metaInfoTextRenderer;
 @property (nonatomic, strong) PPTextRenderer *respondTextRenderer;
 @property (nonatomic, strong) PPTextRenderer *titleTextRenderer;
 @property (nonatomic, strong) PPTextRenderer *quotedItemTextRenderer;

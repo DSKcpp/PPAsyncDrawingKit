@@ -25,9 +25,8 @@
 + (CGRect)rectForImageLayer:(id)arg1 imageSize:(CGSize)arg2;
 + (CGSize)sizeForImages:(id)arg1 maxWidth:(unsigned long long)arg2;
 
-@property (nonatomic, strong) NSMutableArray *idleContentImageViewAry;
+@property (nonatomic, strong) NSMutableArray<WBTimelineImageView *> *idleContentImageViewAry;
 @property (nonatomic, strong) NSMutableArray<WBTimelineImageView *> *contentImageViewAry;
-@property (nonatomic, strong) dispatch_queue_t imageLoadQueue;
 @property (nonatomic, strong) WBTimelineItem *timelineItem;
 @property (nonatomic, assign) NSRange picsArrayShowRange;
 @property (nonatomic, assign) BOOL allowShowPicNumFlag;
@@ -43,12 +42,9 @@
 - (id)previewingContext:(id)arg1 viewControllerForLocation:(CGPoint)arg2;
 - (BOOL)previewingContextShouldBeginPreview:(id)arg1;
 - (BOOL)shouldPresentVideoTimeline;
-- (void)viewWillAppear:(BOOL)animated;
-- (void)viewDidDisappear:(BOOL)animated;
-- (void)imageSelected:(id)arg1;
 - (CGRect)frameForIndex:(long long)arg1 count:(long long)arg2;
 - (void)addToIdleContentImageViewAry:(id)arg1;
-- (id)dequeueReusableImageView;
+- (WBTimelineImageView *)dequeueReusableImageView;
 - (id)imageViewForImageURL:(id)arg1 reusing:(BOOL)arg2;
 - (id)imageViewForImageURL:(id)arg1;
 - (void)reloadImageViews;

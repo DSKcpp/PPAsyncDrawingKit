@@ -150,6 +150,7 @@
 @property (nonatomic, assign) CGFloat height;
 @property (nonatomic, assign) CGFloat width;
 @property (nonatomic, copy) NSString *url;
+- (NSURL *)defaultURLForImageURL;
 @end
 
 @interface WBTimelineTitle : NSObject
