@@ -57,9 +57,9 @@
 
 - (NSRange)pp_effectiveRangeWithRange:(NSRange)range
 {
-    NSUInteger max = range.location + range.location;
+    NSUInteger max = range.location + range.length;
     if (max > self.length) {
-        return NSMakeRange(0, 0);
+        return NSMakeRange(0, self.length);
     } else if (max == self.length) {
         return range;
     }

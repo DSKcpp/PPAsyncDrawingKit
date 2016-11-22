@@ -70,28 +70,31 @@
         return layout.size.width;
     }
 }
+
 @end
 
 @implementation PPTextLayoutFrame (LayoutResult)
-//- (CGRect)firstSelectionRectForCharacterRange:(NSRange)range
-//{
-//    [self enumerateSelectionRectsForCharacterRange:range usingBlock:^{
-//        
-//    }];
-//}
+- (CGRect)firstSelectionRectForCharacterRange:(NSRange)range
+{
+    [self enumerateSelectionRectsForCharacterRange:range usingBlock:^{
+        
+    }];
+    return CGRectZero;
+}
 
-//- (NSUInteger)lineFragmentIndexForCharacterAtIndex:(NSUInteger)index
-//{
-//    [self.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        
-//    }];
-//}
+- (NSUInteger)lineFragmentIndexForCharacterAtIndex:(NSUInteger)index
+{
+    [self.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+    }];
+    return 0;
+}
 
 - (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(void (^)(void))block
 {
     [self.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
-        line.fragmentRect;
-        line.stringRange;
+//        line.fragmentRect;
+//        line.stringRange;
     }];
 }
 
@@ -102,11 +105,12 @@
     }];
 }
 
-//- (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(void (^)(void))block
-//{
-//    [self enumerateEnclosingRectsForCharacterRange:range usingBlock:^{
-//        
-//    }];
-//}
+- (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(void (^)(void))block
+{
+    [self enumerateEnclosingRectsForCharacterRange:range usingBlock:^{
+        
+    }];
+    return CGRectZero;
+}
 
 @end

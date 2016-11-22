@@ -9,11 +9,13 @@
 #import "WBTimelineTableViewCellDrawingContext.h"
 #import "PPAttributedText.h"
 #import "WBTimelineItem.h"
+#import "WBTimelineAttributedTextParser.h"
 
 @implementation WBTimelineTableViewCellDrawingContext
 - (instancetype)initWithTimelineItem:(WBTimelineItem *)timelineItem
 {
     if (self = [super init]) {
+        _timelineItem = timelineItem;
         self.titleAttributedText = [PPAttributedText new];
         self.titleAttributedText.shouldShowSmallCardForcily = YES;
         self.metaInfoAttributedText = [PPAttributedText new];
@@ -22,40 +24,25 @@
         self.textAttributedText.shouldShowSmallCardForcily = YES;
         self.quotedAttributedText = [PPAttributedText new];
         self.quotedAttributedText.shouldShowSmallCardForcily = YES;
-        [self resetTimelineItem:timelineItem];
-    }
-    return self;
-}
-
-- (void)resetWithContentWidth:(CGFloat)width
-{
-    [self resetWithContentWidth:width userInfo:nil];
-}
-
-- (void)resetWithContentWidth:(CGFloat)width userInfo:(NSDictionary *)userInfo
-{
-    _contentWidth = width;
-}
-
-- (void)resetTimelineItem:(WBTimelineItem *)timelineItem
-{
-    if (self.timelineItem != timelineItem) {
-        self.timelineItem = timelineItem;
         NSString *itemText = timelineItem.text;
         if (itemText) {
-            self.textAttributedText.attributedString = [[NSMutableAttributedString alloc] initWithString:itemText];
+            self.textAttributedText.textParser = [[WBTimelineAttributedTextParser alloc] init];
+            [self.textAttributedText resetTextStorageWithPlainText:itemText];
         }
         if (timelineItem.retweeted_status) {
             NSString *quotedItemText = [NSString stringWithFormat:@"@%@:%@", timelineItem.retweeted_status.user.screen_name, timelineItem.retweeted_status.text] ;
             if (quotedItemText.length > 0) {
-                self.quotedAttributedText.attributedString = [[NSMutableAttributedString alloc] initWithString:quotedItemText];
+                self.quotedAttributedText.textParser = [[WBTimelineAttributedTextParser alloc] init];
+                [self.quotedAttributedText resetTextStorageWithPlainText:quotedItemText];
             }
         }
         if (timelineItem.title) {
             NSString *title = timelineItem.title.text;
-            self.titleAttributedText.attributedString = [[NSMutableAttributedString alloc] initWithString:title];
+            self.titleAttributedText.textParser = [[WBTimelineAttributedTextParser alloc] init];
+            [self.titleAttributedText resetTextStorageWithPlainText:title];
         }
     }
+    return self;
 }
 
 - (BOOL)hasQuoted

@@ -1,46 +1,61 @@
 //
-//  PPAttributedTextParser.m
+//  WBTimelineAttributedTextParser.m
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 2016/11/4.
 //  Copyright © 2016年 DSKcpp. All rights reserved.
 //
 
-#import "PPAttributedTextParser.h"
+#import "WBTimelineAttributedTextParser.h"
 #import "PPAttributedTextRange.h"
-#import "PPAttributedTextParseStack.h"
 #import "NSString+PPAsyncDrawingKit.h"
 
-@implementation PPAttributedTextParser
-- (instancetype)initWithPlainText:(NSString *)text
-{
-    return [self initWithPlainText:text andMiniCardUrl:nil];
-}
-
-- (instancetype)initWithPlainText:(NSString *)text andMiniCardUrl:(NSArray *)miniCardUrl
+@implementation WBTimelineAttributedTextParser
+- (instancetype)init
 {
     if (self = [super init]) {
-        self.plainText = text;
         self.parsedRanges = @[].mutableCopy;
-        self.miniCardUrlItems = miniCardUrl;
         self.parseRangeStack = [[PPAttributedTextParseStack alloc] init];
     }
     return self;
 }
 
-- (NSArray<PPAttributedTextRange *> *)parseWithLinkMiniCard:(BOOL)arg1
+- (NSArray<PPAttributedTextRange *> *)parserWithString:(NSString *)string
 {
-    [self parsePhoneNumber];
-    [self parseAllModesExceptMiniCardMode];
-    [self parseEmailAdressModeFromMentionModeResult];
-    PPAttributedTextRange *hashtag = [PPAttributedTextRange rangeWithMode:PPAttributedTextRangeModeHashtag andLocation:0];
-    hashtag.length = 6;
-    hashtag.content = @"#纽约漫展#";
-    PPAttributedTextRange *mention = [PPAttributedTextRange rangeWithMode:PPAttributedTextRangeModeMention andLocation:16];
-    mention.length = 5;
-    mention.content = @"@陈一发儿";
-    return @[hashtag, mention];
+//    [self parsePhoneNumber];
+//    [self parseAllModesExceptMiniCardMode];
+//    [self parseEmailAdressModeFromMentionModeResult];
 //    return [NSArray arrayWithArray:self.parsedRanges];
+    NSMutableArray<PPAttributedTextRange *> *activeRanges = @[].mutableCopy;
+    // At
+    [string pp_enumerateStringsMatchedByRegex:@"@([\\x{4e00}-\\x{9fa5}A-Za-z0-9_\\-]+)" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
+        PPAttributedTextRange *textRange = [PPAttributedTextRange rangeWithMode:PPAttributedTextRangeModeMention andLocation:capturedRange.location];
+        textRange.content = capturedString;
+        textRange.length = capturedRange.length;
+        [activeRanges addObject:textRange];
+    }];
+    // Topic
+    [string pp_enumerateStringsMatchedByRegex:@"#([^#]+?)#" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
+        PPAttributedTextRange *textRange = [PPAttributedTextRange rangeWithMode:PPAttributedTextRangeModeHashtag andLocation:capturedRange.location];
+        textRange.content = capturedString;
+        textRange.length = capturedRange.length;
+        [activeRanges addObject:textRange];
+    }];
+    // Email
+    [string pp_enumerateStringsMatchedByRegex:@"([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,6})" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
+        PPAttributedTextRange *textRange = [PPAttributedTextRange rangeWithMode:PPAttributedTextRangeModeEmailAdress andLocation:capturedRange.location];
+        textRange.content = capturedString;
+        textRange.length = capturedRange.length;
+        [activeRanges addObject:textRange];
+    }];
+    // URL
+    [string pp_enumerateStringsMatchedByRegex:@"(?i)https?://[a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)+([-A-Z0-9a-z_\\$\\.\\+!\\*\(\\)/,:;@&=\?~#%]*)*" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
+        PPAttributedTextRange *textRange = [PPAttributedTextRange rangeWithMode:PPAttributedTextRangeModeLink andLocation:capturedRange.location];
+        textRange.content = capturedString;
+        textRange.length = capturedRange.length;
+        [activeRanges addObject:textRange];
+    }];
+    return activeRanges;
 }
 
 - (void)parsePhoneNumber
@@ -68,11 +83,10 @@
             NSUInteger j = [self parseAtIndex:i];
         }
     }
-    NSLog(@"%@", self.parsedRanges);
     PPAttributedTextRange *parsingRange = self.parseRangeStack.parsingRange;
     if (parsingRange) {
         if (parsingRange.mode <= 10) {
-            [self finishParseCurrentRangeAtIndex:0];
+//            [self finishParseCurrentRangeAtIndex:0];
             PPAttributedTextRange *parsingRange = self.parseRangeStack.parsingRange;
             if (!parsingRange) {
                 return;
@@ -151,7 +165,6 @@
 - (NSUInteger)parseNormalModeAtIndex:(NSUInteger)index
 {
     unichar unichar = [self.plainText characterAtIndex:index];
-    NSLog(@"%d", unichar);
     if (unichar > 71) {
         if (unichar == 72) {
             return [self tryEnterLinkModeAtIndex:index shouldFinishCurrentRange:YES];
@@ -194,7 +207,7 @@
         [self finishParseCurrentRangeAtIndex:index];
         result = [self parseAtIndex:index];
     }
-    NSLog(@"%zu", result);
+    NSLog(@"%zd", result);
     return result;
 }
 
@@ -224,4 +237,42 @@
     return index;
 }
 
+@end
+
+@implementation PPAttributedTextParseStack
+
+- (PPAttributedTextRange *)parsingRange
+{
+    return self.ranges.lastObject;
+}
+
+- (void)push:(PPAttributedTextRange *)range
+{
+    if (!self.ranges) {
+        self.ranges = [NSMutableArray array];
+    }
+    if (range.mode != PPAttributedTextRangeModeHashtag) {
+        
+    } else {
+        
+    }
+    [self.ranges addObject:range];
+}
+
+- (PPAttributedTextRange *)pop
+{
+    PPAttributedTextRange *laseRange = self.ranges.lastObject;
+    [self.ranges removeLastObject];
+    return laseRange;
+}
+
+- (PPAttributedTextRange *)popToMode:(PPAttributedTextRangeMode)model
+{
+    return [self pop];
+}
+
+- (NSString *)description
+{
+    return [self.ranges description];
+}
 @end

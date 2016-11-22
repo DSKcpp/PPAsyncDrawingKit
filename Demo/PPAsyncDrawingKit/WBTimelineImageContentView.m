@@ -95,7 +95,7 @@
             NSUInteger col = i % cols;
             imageView.frame = CGRectMake(col * (preset.gridImageSize + 2.5), row * (preset.gridImageSize + 2.5), preset.gridImageSize, preset.gridImageSize);
         }
-        NSString *url = _pictures[i].thumbnail.url;
+        NSString *url = _pictures[i].bmiddle.url;
         [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"avatar"]];
         [self addSubview:imageView];
         [self.imageViews addObject:imageView];

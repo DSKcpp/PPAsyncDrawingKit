@@ -23,6 +23,6 @@
 
 @interface PPFlavoredRange : NSObject <PPTextActiveRange>
 @property (nonatomic, assign) NSRange range;
-@property (nonatomic, assign) NSUInteger flavor;
+@property (nonatomic, assign) NSInteger flavor;
 + (PPFlavoredRange *)valueWithRange:(NSRange)range;
 @end

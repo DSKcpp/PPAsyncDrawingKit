@@ -14,7 +14,7 @@
 @class WBTimelineContentImageViewLayouter;
 
 @interface WBTimelineTableViewCellDrawingContext : NSObject
-@property (nonatomic, weak) WBTimelineItem *timelineItem;
+@property (nonatomic, weak, readonly) WBTimelineItem *timelineItem;
 @property (nonatomic, assign) CGFloat rowHeight;
 @property (nonatomic, assign) CGFloat contentHeight;
 @property (nonatomic, assign) CGFloat contentWidth;
@@ -35,9 +35,6 @@
 @property (nonatomic, assign) CGRect avatarFrame;
 
 - (instancetype)initWithTimelineItem:(WBTimelineItem *)timelineItem;
-- (void)resetWithContentWidth:(CGFloat)width;
-- (void)resetWithContentWidth:(CGFloat)width userInfo:(NSDictionary *)userInfo;
-- (void)resetTimelineItem:(WBTimelineItem *)timelineItem;
 
 - (BOOL)hasPhoto;
 - (BOOL)hasQuoted;

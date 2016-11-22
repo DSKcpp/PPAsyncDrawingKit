@@ -26,7 +26,6 @@ typedef NS_ENUM(NSUInteger, PPAttributedTextRangeMode) {
 @property (nonatomic, assign) NSUInteger length;
 @property (nonatomic, assign) NSUInteger location;
 @property (nonatomic, assign) PPAttributedTextRangeMode mode;
-
 + (instancetype)rangeWithMode:(PPAttributedTextRangeMode)mode andLocation:(NSUInteger)locaiton;
 @end
 

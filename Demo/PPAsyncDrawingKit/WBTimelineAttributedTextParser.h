@@ -1,5 +1,5 @@
 //
-//  PPAttributedTextParser.h
+//  WBTimelineAttributedTextParser.h
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 2016/11/4.
@@ -8,19 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import "PPAttributedTextRange.h"
+#import "PPAttributedText.h"
 
 @class PPAttributedTextParseStack;
 
-@interface PPAttributedTextParser : NSObject
+@interface WBTimelineAttributedTextParser : NSObject <PPTextParser>
 
 @property (nonatomic, strong) NSMutableArray<PPAttributedTextRange *> *parsedRanges;
 @property (nonatomic, strong) PPAttributedTextParseStack *parseRangeStack;
 @property (nonatomic, copy) NSString *plainText;
 @property (nonatomic, strong) NSArray *miniCardUrlItems;
-+ (void)test;
-- (instancetype)initWithPlainText:(NSString *)text;
-- (instancetype)initWithPlainText:(NSString *)text andMiniCardUrl:(NSArray *)miniCardUrl;
-- (NSArray<PPAttributedTextRange *> *)parseWithLinkMiniCard:(BOOL)arg1;
 - (void)parseEmailAdressModeFromMentionModeResult;
 - (void)parseAllModesExceptMiniCardMode;
 - (void)parseMiniCardModeWithLink:(BOOL)arg1;
@@ -37,4 +34,16 @@
 - (void)finishParseRange:(PPAttributedTextRange *)range atIndex:(NSUInteger)index;
 - (void)finishParseCurrentRangeAtIndex:(NSUInteger)index;
 
+@end
+
+@interface PPAttributedTextParseStack : NSObject
+@property (nonatomic, strong) PPAttributedTextRange *firstEmotionRange;
+@property (nonatomic, strong) PPAttributedTextRange *firstDollartagRange;
+@property (nonatomic, strong) PPAttributedTextRange *firstHashtagRange;
+@property (nonatomic, strong) NSMutableArray<PPAttributedTextRange *> *ranges;
+
+- (PPAttributedTextRange *)parsingRange;
+- (void)push:(PPAttributedTextRange *)range;
+- (PPAttributedTextRange *)pop;
+- (PPAttributedTextRange *)popToMode:(PPAttributedTextRangeMode)model;
 @end

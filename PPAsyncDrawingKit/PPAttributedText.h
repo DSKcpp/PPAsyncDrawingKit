@@ -15,20 +15,14 @@
 @class PPTextAttachment;
 @class PPFlavoredRange;
 
-typedef NS_OPTIONS(NSUInteger, PPParseOptions) {
-    PPParseOptionsNormal = 1 << 0,
-    PPParseOptionsMention = 1 << 1,
-    PPParseOptionsLink = 1 << 2,
-    PPParseOptionsHashtag = 1 << 3,
-    PPParseOptionsDollartag = 1 << 4,
-    PPParseOptionsEmoticon = 1 << 5,
-    PPParseOptionsDictation = 1 << 6,
-    PPParseOptionsMiniCard = 1 << 7,
-    PPParseOptionsEmailAdress = 1 << 8
-};
+NS_ASSUME_NONNULL_BEGIN
+
+@protocol PPTextParser <NSObject>
+- (nullable NSArray<PPAttributedTextRange *> *)parserWithString:(nullable NSString *)string;
+@end
 
 @interface PPAttributedText : NSObject
-+ (id)defaultSchemeForTopicName:(id)arg1;
+@property (nonatomic, strong) id<PPTextParser> textParser;
 @property (nonatomic, copy) NSString *plainTextForCharacterCounting;
 @property (nonatomic, strong) NSArray<PPTextAttachment *> *textAttachments;
 @property (nonatomic, strong) NSArray<PPFlavoredRange *> *activeRanges;
@@ -50,22 +44,21 @@ typedef NS_OPTIONS(NSUInteger, PPParseOptions) {
 @property (nonatomic, assign) BOOL boldFont;
 @property (nonatomic, assign) NSInteger fontSize;
 @property (nonatomic, strong) PPTextStorage *textStorage;
-@property (nonatomic, copy) NSString *plainText;
+@property (nonatomic, copy, readonly) NSString *plainText;
 @property (nonatomic, strong) UIColor *activeRangeColor;
 @property (nonatomic, strong) UIColor *textColor;
 
 - (instancetype)initWithPlainText:(NSString *)plainText;
 - (id)characterCountingPlainTextForTimelineURL:(id)arg1;
-- (void)updatePlainTextForCharacterCountingWithAttributedString:(id)arg1;
-- (void)updateParagraphStyleForAttributedString:(id)arg1;
-- (id)parseActiveRangesFromString:(NSString *)string;
+- (void)updatePlainTextForCharacterCountingWithAttributedString:(NSMutableAttributedString *)attributedString;
+- (void)updateParagraphStyleForAttributedString:(NSMutableAttributedString *)attributedString;
 - (id)extractAttachmentsAndMergeToAttributedString:(id)arg1;
 - (NSInteger)mergeAttachment:(PPTextAttachment *)attachment toAttributedString:(NSMutableAttributedString *)attributedString withTextRange:(NSRange)textRange merged:(BOOL)merged;
 - (void)insertFlavoredRange:(id)arg1 toMiniCardRange:(id)arg2;
 - (NSArray<PPAttributedTextRange *> *)filterParsingResult:(NSArray<PPAttributedTextRange *> *)result;
 - (void)extractAttachmentsAndParseActiveRangesFromParseResult:(NSArray<PPAttributedTextRange *> *)parseResult toAttributedString:(NSMutableAttributedString *)attributedString;
 - (id)substringOfPageTitle:(id)arg1 withWordCount:(unsigned long long)arg2 trancates:(BOOL)arg3;
-- (NSMutableAttributedString *)mutableAttributedString;
+- (nullable NSMutableAttributedString *)mutableAttributedString;
 - (void)rebuild;
 - (void)setColorWithActiveRange:(PPFlavoredRange *)activeRange forAttributedString:(NSMutableAttributedString *)attributedString;
 - (id)attributedStringWithTextColor:(id)arg1;
@@ -88,8 +81,8 @@ typedef NS_OPTIONS(NSUInteger, PPParseOptions) {
 - (void)rebuildIfNeeded;
 - (void)setNeedsRebuild;
 
-@property (nonatomic, assign) unsigned char textAlignment;
-@property (nonatomic, assign) unsigned char lineBreakMode;
+@property (nonatomic, assign) NSTextAlignment textAlignment;
+@property (nonatomic, assign) NSLineBreakMode lineBreakMode;
 @property (nonatomic, assign) CGFloat maximunLineHeight;
 @property (nonatomic, assign) CGFloat lineSpacing;
 @property (nonatomic, assign) BOOL allowsDynamicLineSpacing;
@@ -104,3 +97,5 @@ typedef NS_OPTIONS(NSUInteger, PPParseOptions) {
 @interface PPAttributedText (CharacterCount)
 + (id)shortenURLReplacementForCharacterCounting:(id)arg1;
 @end
+
+NS_ASSUME_NONNULL_END
