@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event;
 - (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event;
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event;
-- (void)cancelTrackingWithTouch:(UITouch *)touch WithEvent:(UIEvent *)event;
+- (void)cancelTrackingWithEvent:(UIEvent *)event;
 
 - (void)sendAction:(SEL)action to:(id)to forEvent:(UIEvent *)event;
 - (void)sendActionsForControlEvents:(UIControlEvents)controlEvents;
@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray<NSString *> *)actionsForTarget:(id)target forControlEvent:(UIControlEvents)controlEvent;
 
 - (NSSet<id> *)allTargets;
-- (UIControlEvents)allControllEvents;
+- (UIControlEvents)allControlEvents;
 @end
 
 NS_ASSUME_NONNULL_END

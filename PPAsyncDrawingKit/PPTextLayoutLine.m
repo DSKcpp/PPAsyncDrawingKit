@@ -23,8 +23,7 @@
 - (instancetype)initWithCTLine:(CTLineRef)lineRef origin:(CGPoint)origin layout:(PPTextLayout *)layout truncatedLine:(CTLineRef)truncatedLine
 {
     if (self = [super init]) {
-        _originalBaselineOrigin = origin;
-//        _baselineOrigin = origin;
+        _baselineOrigin = origin;
         self.layout = layout;
         if (lineRef) {
             _lineRef = lineRef;
@@ -43,21 +42,14 @@
     if (self.layout) {
         fontMetrics = self.layout.baselineFontMetrics;
     }
-    self.width = CTLineGetTypographicBounds(_lineRef, &fontMetrics.ascent, &fontMetrics.descent, &fontMetrics.leading);
-    _originalLineMetrics = fontMetrics;
+    _width = CTLineGetTypographicBounds(_lineRef, &fontMetrics.ascent, &fontMetrics.descent, &fontMetrics.leading);
     _lineMetrics = fontMetrics;
-}
-
-- (CGRect)originalFragmentRect
-{
-    CGFloat height = self.originalLineMetrics.ascent + self.originalLineMetrics.descent + self.originalLineMetrics.leading;
-    return CGRectIntegral((CGRect){self.originalBaselineOrigin, (CGSize){self.width, ceilf(height)}});
 }
 
 - (CGRect)fragmentRect
 {
     CGFloat height = self.lineMetrics.ascent + self.lineMetrics.descent + self.lineMetrics.leading;
-    return CGRectIntegral((CGRect){self.baselineOrigin, (CGSize){self.width, ceilf(height)}});
+    return (CGRect){self.baselineOrigin, (CGSize){self.width, height}};
 }
 
 - (void)dealloc

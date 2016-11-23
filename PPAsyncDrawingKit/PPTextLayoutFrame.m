@@ -47,10 +47,11 @@
 - (void)updateLayoutSize
 {
     if (self.lineFragments.count) {
-        CGFloat width = [UIScreen mainScreen].bounds.size.width;
-        __block CGFloat height = 0;
+        __block CGFloat height = 0.0f;
+        __block CGFloat width = 0.0f;
         [self.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
             height += line.fragmentRect.size.height;
+            width = MAX(width, line.fragmentRect.size.width);
         }];
         self.layoutSize = CGSizeMake(width, height);
     }

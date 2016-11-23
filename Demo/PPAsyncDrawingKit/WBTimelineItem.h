@@ -59,41 +59,6 @@
 @property (nonatomic, strong) NSDictionary<NSString *, WBTimelinePicture *> *pic_infos;
 @property (nonatomic, strong) WBTimelineTitle *title;
 @property (nonatomic, strong) WBTimelineTableViewCellDrawingContext *drawingContext;
-
-- (BOOL)showsReadCount;
-- (id)accessibilityQuotedItemValue;
-- (id)accessibilityItemValue;
-- (id)actionButtonTypes;
-- (id)readableTimeText;
-- (BOOL)isShowTime;
-- (id)displayTimeLineTimeTextWithColor:(CGColorRef)arg1;
-- (NSString *)displayTimeText;
-- (id)displayTimeTextWithTextColor:(CGColorRef)arg1;
-- (id)displayTopRightCommonButton;
-- (id)displaySourceScheme;
-- (NSString *)displaySourceWithFrom;
-- (NSString *)displaySource;
-- (BOOL)shouldShowProducts;
-- (BOOL)shouldShowQuotedItemProducts;
-- (BOOL)shouldShowItemProducts;
-- (BOOL)shouldShowImageIndicator;
-- (BOOL)shouldShowImages;
-- (BOOL)shouldShowQuotedItemImages;
-- (BOOL)shouldShowItemImages;
-- (BOOL)showQuotedVideo;
-- (BOOL)showVideo;
-- (BOOL)shouldShowItemTypes;
-- (BOOL)shouldShowSourceText;
-- (BOOL)shouldShowMapImage;
-- (BOOL)shouldShowQuotedItemActionButtons;
-- (BOOL)shouldShowActionButtons;
-- (id)prepareDrawingContextWithUserInfo:(id)arg1;
-- (id)prepareDrawingContext;
-- (id)reusableCellOfTableView:(id)arg1;
-- (void)didSelectRowOfTableView:(id)arg1 inViewController:(id)arg2;
-+ (void)load;
-- (id)uniqueDrawingContextIdentifier;
-- (void)wbt_dealloc;
 @end
 
 @interface WBUser : NSObject
@@ -104,18 +69,8 @@
 @property (nonatomic, copy) NSString *profile_image_url;
 @property (nonatomic, copy) NSString *profile_url;
 @property (nonatomic, copy) NSString *domain;
-@property (nonatomic, copy) NSString *gender;
 @property (nonatomic, copy) NSString *avatar_large;
 @property (nonatomic, copy) NSString *avatar_hd;
-@property (nonatomic, assign) NSInteger verified_state;
-@property (nonatomic, assign) NSInteger verified_level;
-@property (nonatomic, assign) NSInteger verified_type_ext;
-@property (nonatomic, copy) NSString *verified_reason_modified;
-@property (nonatomic, copy) NSString *verified_contact_name;
-@property (nonatomic, copy) NSString *verified_contact_email;
-@property (nonatomic, copy) NSString *verified_contact_mobile;
-@property (nonatomic, assign) BOOL follow_me;
-@property (nonatomic, assign) NSInteger online_status;
 @property (nonatomic, assign) NSInteger bi_followers_count;
 @property (nonatomic, copy) NSString *lang;
 @property (nonatomic, assign) NSInteger star;
@@ -150,7 +105,6 @@
 @property (nonatomic, assign) CGFloat height;
 @property (nonatomic, assign) CGFloat width;
 @property (nonatomic, copy) NSString *url;
-- (NSURL *)defaultURLForImageURL;
 @end
 
 @interface WBTimelineTitle : NSObject

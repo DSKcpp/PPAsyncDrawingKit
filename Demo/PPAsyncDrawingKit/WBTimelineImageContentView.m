@@ -39,7 +39,7 @@
 
 - (void)imageSelected:(WBTimelineImageView *)imageView
 {
-    
+    NSLog(@"%@", imageView);
 }
 
 - (NSMutableArray<WBTimelineImageView *> *)contentImageViewAry

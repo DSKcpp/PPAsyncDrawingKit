@@ -50,8 +50,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)continueTrackingWithTouch:(id)arg1 withEvent:(id)arg2;
 - (BOOL)beginTrackingWithTouch:(id)arg1 withEvent:(id)arg2;
 - (BOOL)canBecomeFirstResponder;
-- (void)setEnabled:(BOOL)arg1;
-- (void)setHighlighted:(BOOL)arg1;
 - (CGRect)imageRectForContentRect:(CGRect)arg1;
 - (CGRect)titleRectForContentRect:(CGRect)arg1;
 - (CGRect)contentRectForBounds:(CGRect)arg1;
