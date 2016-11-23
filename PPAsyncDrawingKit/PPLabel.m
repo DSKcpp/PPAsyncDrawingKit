@@ -15,23 +15,8 @@
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
-    return [self initWithFrame:frame textRendererClass:[PPTextRenderer class]];
-}
-
-- (instancetype)initWithWidth:(CGFloat)width
-{
-    return [self initWithFrame:CGRectMake(0, 0, width, 0)];
-}
-
-- (instancetype)initWithFrame:(CGRect)frame textRendererClass:(Class)textRendererClass
-{
-    if ([textRendererClass isSubclassOfClass:[PPTextRenderer class]]) {
-        
-    } else {
-        
-    }
     if (self = [super initWithFrame:frame]) {
-        PPTextRenderer * textRenderer = [[textRendererClass alloc] init];
+        PPTextRenderer * textRenderer = [[PPTextRenderer alloc] init];
         self.textRenderer = textRenderer;
         textRenderer.eventDelegate = self;
         textRenderer.renderDelegate = self;
@@ -41,6 +26,11 @@
         self.contentMode = UIViewContentModeRedraw;
     }
     return self;
+}
+
+- (instancetype)initWithWidth:(CGFloat)width
+{
+    return [self initWithFrame:CGRectMake(0, 0, width, 0)];
 }
 
 - (NSAttributedString *)attributedString

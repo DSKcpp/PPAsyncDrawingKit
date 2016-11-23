@@ -10,8 +10,6 @@
 
 static BOOL asyncDrawingDisabled = NO;
 
-@interface PPAsyncDrawingView () @end
-
 @implementation PPAsyncDrawingView
 
 + (BOOL)asyncDrawingDisabledGlobally
@@ -41,11 +39,6 @@ static BOOL asyncDrawingDisabled = NO;
         }
     }
     return self;
-}
-
-- (CGContextRef)newCGContextForLayer:(CALayer *)layer
-{
-    return nil;
 }
 
 - (NSDictionary *)currentDrawingUserInfo
@@ -264,6 +257,7 @@ static BOOL asyncDrawingDisabled = NO;
     if (_serializesDrawingOperations == serializesDrawingOperations) {
         return;
     }
+    
     _serializesDrawingOperations = serializesDrawingOperations;
     if (serializesDrawingOperations) {
         dispatch_queue_t queue = dispatch_queue_create("PPAsyncDrawingViewSerializeQueue", 0);

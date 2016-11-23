@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) BOOL padingRedraw;
 @property (nonatomic, assign) BOOL serializesDrawingOperations;
 @property (nonatomic, assign) NSInteger dispatchPriority;
-@property (nonatomic, assign) dispatch_queue_t dispatchDrawQueue;
+@property (nonatomic, assign, nullable) dispatch_queue_t dispatchDrawQueue;
 @property (nonatomic, assign) NSTimeInterval fadeDuration;
 @property (nonatomic, assign) BOOL reserveContentsBeforeNextDrawingComplete;
 @property (nonatomic, assign) BOOL contentsChangedAfterLastAsyncDrawing;
@@ -32,11 +32,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)interruptDrawingWhenPossible;
 - (dispatch_queue_t)drawQueue;
 - (void)redraw;
-- (CGContextRef)newCGContextForLayer:(CALayer *)layer;
 - (void)drawingWillStartAsynchronously:(BOOL)async;
 - (void)drawingDidFinishAsynchronously:(BOOL)async success:(BOOL)success;
-- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async;
-- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(NSDictionary *)userInfo;
+- (BOOL)drawInRect:(CGRect)rect withContext:(nullable CGContextRef)context asynchronously:(BOOL)async;
+- (BOOL)drawInRect:(CGRect)rect withContext:(nullable CGContextRef)context asynchronously:(BOOL)async userInfo:(nullable NSDictionary *)userInfo;
 - (nullable NSDictionary *)currentDrawingUserInfo;
 @end
 

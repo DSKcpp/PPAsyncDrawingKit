@@ -10,34 +10,39 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ A UIControl.
+ */
 @interface PPUIControl : PPAsyncDrawingView
+@property (nonatomic, assign, getter=isEnabled) BOOL enabled; // default is YES. if NO, ignores touch events and subclasses may draw differently
+@property (nonatomic, assign, getter=isSelected) BOOL selected; // default is NO may be used by some subclasses or by application
+@property (nonatomic, assign, getter=isHighlighted) BOOL highlighted; // default is NO. this gets set/cleared automatically when touch enters/exits during tracking and cleared on up
+@property (nonatomic, assign, readonly, getter=isTracking) BOOL tracking;
+@property (nonatomic, assign, readonly, getter=isTouchInside) BOOL touchInside;
+@property (nonatomic, assign) BOOL redrawsAutomaticallyWhenStateChange; // default is No. if YES, set enabled / selected / highlighted auto execute [self setNeedsDisplay].
 
-@property (nonatomic, assign, getter=isEnabled) BOOL enabled;
-@property (nonatomic, assign, getter=isSelected) BOOL selected;
-@property (nonatomic, assign, getter=isHighlighted) BOOL highlighted;
-@property (nonatomic, assign, getter=isTracking) BOOL tracking;
-@property (nonatomic, assign, getter=isTouchInside) BOOL touchInside;
-@property (nonatomic, assign) UIControlContentHorizontalAlignment contentHorizontalAlignment;
-@property (nonatomic, assign) UIControlContentVerticalAlignment contentVerticalAlignment;
-@property (nonatomic, assign) CGPoint touchStartPoint;
-@property (nonatomic, assign, readonly) UIControlState state;
-@property (nonatomic, assign, readonly) BOOL redrawsAutomaticallyWhenStateChange;
+@property (nonatomic, assign) UIControlContentHorizontalAlignment contentHorizontalAlignment; // how to position content hozontally inside control.
+@property (nonatomic, assign) UIControlContentVerticalAlignment contentVerticalAlignment;  // how to position content vertically inside control.
+@property (nonatomic, assign, readonly) UIControlState state; // could be more than one state (e.g. disabled|selected). synthesized from other flags.
+
+@property (nonatomic, assign, readonly) CGPoint touchStartPoint;
+
+@property(nonatomic, readonly) NSSet *allTargets; // get info about target & actions. this makes it possible to enumerate all target/actions by checking for each event kind
+@property(nonatomic, readonly) UIControlEvents allControlEvents;                            // list of all events that have at least one action
 
 - (void)addTarget:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents;
 - (void)removeTarget:(id)target action:(SEL)action fotControlEvents:(UIControlEvents)controlEvents;
 
-- (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event;
-- (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event;
-- (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event;
-- (void)cancelTrackingWithEvent:(UIEvent *)event;
+- (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(nullable UIEvent *)event;
+- (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(nullable UIEvent *)event;
+- (void)endTrackingWithTouch:(nullable UITouch *)touch withEvent:(nullable UIEvent *)event; // touch is sometimes nil if cancelTracking calls through to this.
+- (void)cancelTrackingWithEvent:(nullable UIEvent *)event; // event may be nil if cancelled for non-event reasons, e.g. removed from window
 
-- (void)sendAction:(SEL)action to:(id)to forEvent:(UIEvent *)event;
-- (void)sendActionsForControlEvents:(UIControlEvents)controlEvents;
+- (nullable NSArray<NSString *> *)actionsForTarget:(nullable id)target forControlEvent:(UIControlEvents)controlEvent;    // single event. returns NSArray of NSString selector names. returns nil if none
 
-- (NSArray<NSString *> *)actionsForTarget:(id)target forControlEvent:(UIControlEvents)controlEvent;
-
-- (NSSet<id> *)allTargets;
-- (UIControlEvents)allControlEvents;
+// send the action. the first method is called for the event and is a point at which you can observe or override behavior. it is called repeately by the second.
+- (void)sendAction:(SEL)action to:(nullable id)target forEvent:(nullable UIEvent *)event;
+- (void)sendActionsForControlEvents:(UIControlEvents)controlEvents;                        // send all actions associated with events
 @end
 
 NS_ASSUME_NONNULL_END

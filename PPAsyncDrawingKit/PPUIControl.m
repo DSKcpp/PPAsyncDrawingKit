@@ -16,23 +16,6 @@
 
 @implementation PPUIControlTargetAction
 
-- (BOOL)isEqual:(id)object
-{
-    if (object != self) {
-        if ([object isKindOfClass:[self class]]) {
-            PPUIControlTargetAction *obj = (PPUIControlTargetAction *)object;
-            if (obj.target == self.target && obj.action == self.action && obj.controlEvents == self.controlEvents) {
-                return YES;
-            } else {
-                return NO;
-            }
-        } else {
-            return NO;
-        }
-    } else {
-        return YES;
-    }
-}
 @end
 
 
@@ -41,6 +24,8 @@
 @end
 
 @implementation PPUIControl
+@dynamic allTargets;
+@dynamic allControlEvents;
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -89,31 +74,19 @@
     return actions;
 }
 
-- (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
-{
-    return YES;
-}
+- (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event { return  YES; }
 
-- (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
-{
-    return YES;
-}
+- (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event { return  YES; }
 
-- (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
-{
-    
-}
+- (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event { }
 
-- (void)cancelTrackingWithEvent:(UIEvent *)event
-{
-    
-}
+- (void)cancelTrackingWithEvent:(UIEvent *)event { }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    self.touchInside = YES;
+    _touchInside = YES;
     UITouch *touch = [touches anyObject];
-    self.tracking = [self beginTrackingWithTouch:touch withEvent:event];
+    _tracking = [self beginTrackingWithTouch:touch withEvent:event];
     self.highlighted = YES;
     if (self.tracking) {
         UIControlEvents controlEvents = UIControlEventTouchDown;
@@ -134,11 +107,11 @@
         point = CGPointZero;
     }
     BOOL touchInside = [self pointInside:point withEvent:event];
-    self.touchInside = touchInside;
+    _touchInside = touchInside;
     self.highlighted = YES;
     if (self.tracking) {
         BOOL continueTracking = [self continueTrackingWithTouch:touch withEvent:event];;
-        self.tracking = continueTracking;
+        _tracking = continueTracking;
         if (continueTracking) {
             UIControlEvents controlEvents = UIControlEventTouchDragOutside;
             if (self.touchInside) {
@@ -163,7 +136,7 @@
     } else {
         point = CGPointZero;
     }
-    self.touchInside = [self pointInside:point withEvent:event];
+    _touchInside = [self pointInside:point withEvent:event];
     self.highlighted = NO;
     if (self.tracking) {
         [self endTrackingWithTouch:touch withEvent:event];
@@ -175,8 +148,8 @@
             [self _sendActionsForControlEvents:controlEvents withEvent:event];
         });
     }
-    self.touchInside = NO;
-    self.tracking = NO;
+    _touchInside = NO;
+    _tracking = NO;
 }
 
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -186,33 +159,18 @@
         [self cancelTrackingWithEvent:event];
         [self _sendActionsForControlEvents:UIControlEventTouchCancel withEvent:event];
     }
-    self.tracking = NO;
-    self.touchInside = NO;
+    _tracking = NO;
+    _touchInside = NO;
 }
 
-- (void)sendAction:(SEL)action to:(id)to forEvent:(UIEvent *)event
+- (void)sendAction:(SEL)action to:(id)target forEvent:(UIEvent *)event
 {
-    [[UIApplication sharedApplication] sendAction:action to:to from:self forEvent:event];
+    [[UIApplication sharedApplication] sendAction:action to:target from:self forEvent:event];
 }
 
 - (void)sendActionsForControlEvents:(UIControlEvents)controlEvents
 {
     [self _sendActionsForControlEvents:controlEvents withEvent:nil];
-}
-
-- (NSSet<id> *)allTargets
-{
-    NSArray<id> *targets = [self.targetActions valueForKey:@"target"];
-    return [NSSet setWithArray:targets];
-}
-
-- (UIControlEvents)allControlEvents
-{
-    UIControlEvents controlEvents;
-    for (PPUIControlTargetAction *targetAction in self.targetActions) {
-        controlEvents += targetAction.controlEvents;
-    }
-    return controlEvents;
 }
 
 - (void)_stateWillChange
@@ -242,6 +200,21 @@
         _targetActions = @[].mutableCopy;
     }
     return _targetActions;
+}
+
+- (NSSet *)allTargets
+{
+    NSArray *targets = [self.targetActions valueForKey:@"target"];
+    return [NSSet setWithArray:targets];
+}
+
+- (UIControlEvents)allControlEvents
+{
+    UIControlEvents controlEvents;
+    for (PPUIControlTargetAction *targetAction in self.targetActions) {
+        controlEvents += targetAction.controlEvents;
+    }
+    return controlEvents;
 }
 
 @end
