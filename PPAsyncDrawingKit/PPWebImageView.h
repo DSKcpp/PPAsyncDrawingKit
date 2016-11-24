@@ -32,26 +32,16 @@
 @property (nonatomic, assign) BOOL ignoreImageMask;
 @property (nonatomic, copy) NSString *imageUrl;
 @property (nonatomic, assign, readonly) BOOL imageLoaded;
-@property (nonatomic, strong) NSMutableArray *photoTagViews;
 - (void)viewWillAppear:(BOOL)animated;
 - (void)viewDidDisappear:(BOOL)animated;
-- (NSUInteger)accessibilityTraits;
-- (id)accessibilityValue;
-- (id)accessibilityLabel;
 - (void)imageDrawingFinished;
-- (void)setImageLoaderImage:(id)arg1 url:(id)arg2;
 - (void)setFinalFlagImage:(id)arg1;
 - (void)setFinalImage:(id)arg1;
 - (void)changePlaceholderImage:(id)arg1;
 - (void)cancelCurrentImageLoading;
 - (void)setContentMode:(long long)arg1;
-- (void)setPhotoTags:(id)arg1;
-- (void)tagClicked:(id)arg1;
 - (void)setGifImage:(id)arg1;
 - (void)setFrame:(CGRect)frame;
-- (void)reloadUIElements;
-- (void)setFlagTitle:(id)arg1 font:(id)arg2 textColor:(id)arg3;
-- (void)setFlagUrl:(id)arg1;
 
 - (void)loadImageWithPath:(NSString *)path localCacheFileAsyncFirst:(BOOL)arg2;
 - (void)setImageUrl:(NSString *)url placeholderImage:(UIImage *)placeholderImage;

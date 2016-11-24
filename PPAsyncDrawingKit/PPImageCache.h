@@ -17,8 +17,7 @@ typedef NS_OPTIONS(NSUInteger, PPImageCacheType) {
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PPImageCache : NSObject
-
-@property (nonatomic, class, readonly) PPImageCache *sharedCache;
+@property (class, strong, readonly) PPImageCache *sharedCache;
 @property (retain, nonatomic) NSRecursiveLock *readingTaskLock;
 @property (retain, nonatomic) NSMutableArray *currentReadingTaskKeys;
 @property (nonatomic, assign) NSUInteger maxMemorySize;
