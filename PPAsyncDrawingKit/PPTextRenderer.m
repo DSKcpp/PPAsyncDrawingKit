@@ -134,6 +134,7 @@
         }
         point = [self convertPointToLayout:point];
         id<PPTextActiveRange> range = [self rangeInRanges:[self eventDelegateActiveRanges] forLayoutLocation:point];
+        NSLog(@"%@", NSStringFromRange(range.range));
     }
 }
 
@@ -203,13 +204,18 @@
 
 - (id<PPTextActiveRange>)rangeInRanges:(NSArray<id<PPTextActiveRange>> *)ranges forLayoutLocation:(CGPoint)location
 {
+    __block id<PPTextActiveRange> r;
     for (id<PPTextActiveRange> range in ranges) {
         if ([_eventDelegate textRenderer:self shouldInteractWithActiveRange:range]) {
-            [self.textLayout enumerateEnclosingRectsForCharacterRange:range.range usingBlock:^(NSRange range, CGRect rect) {
-                if (CGRectContainsPoint(rect, location) == YES) {
-                    NSLog(@"%@ - %@", NSStringFromRange(range), NSStringFromCGRect(rect));
+            [self.textLayout enumerateEnclosingRectsForCharacterRange:range.range usingBlock:^(CGRect rect, BOOL *stop) {
+                if (CGRectContainsPoint(rect, location)) {
+                    r = range;
+                    *stop = YES;
                 }
             }];
+            if (r) {
+                return r;
+            }
         }
     }
     return nil;

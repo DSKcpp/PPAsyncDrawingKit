@@ -13,7 +13,6 @@
 #import "UIFont+PPAsyncDrawingKit.h"
 #import "NSString+PPAsyncDrawingKit.h"
 #import "PPTextAttachment.h"
-#import "PPFlavoredRange.h"
 
 @implementation PPAttributedText
 {
@@ -54,7 +53,7 @@
     self.attributedString = nil;
     self.activeRanges = nil;
     self.textAttachments = nil;
-    flags.needsRebuild = flags.needsRebuild | 1;
+    flags.needsRebuild = 1;
 }
 
 - (void)rebuildIfNeeded
@@ -75,11 +74,11 @@
     self.activeRanges = nil;
     NSMutableAttributedString *attributedString = [self mutableAttributedString];
     if (attributedString.length) {
-        NSArray<PPAttributedTextRange *> *parsingResult = [self.textParser parserWithString:attributedString.string];
+        NSArray<id<PPTextActiveRange>> *parsingResult = [self.textParser parserWithString:attributedString.string];
         parsingResult = [self filterParsingResult:parsingResult];
         parsingResult = [self _parseString:self.plainText withKeyword:self.keywords andCurrentParsingResult:parsingResult];
         [self extractAttachmentsAndParseActiveRangesFromParseResult:parsingResult toAttributedString:attributedString];
-        for (PPFlavoredRange *range in self.activeRanges) {
+        for (id<PPTextActiveRange> range in self.activeRanges) {
             [self setColorWithActiveRange:range forAttributedString:attributedString];
         }
         [self updateParagraphStyleForAttributedString:attributedString];
@@ -101,41 +100,41 @@
     }];
 }
 
-- (void)extractAttachmentsAndParseActiveRangesFromParseResult:(NSArray<PPAttributedTextRange *> *)parseResult toAttributedString:(NSMutableAttributedString *)attributedString
+- (void)extractAttachmentsAndParseActiveRangesFromParseResult:(NSArray<id<PPTextActiveRange>> *)parseResult toAttributedString:(NSMutableAttributedString *)attributedString
 {
     NSMutableArray *activeRanges = [NSMutableArray array];
-    for (PPAttributedTextRange *range in parseResult) {
-        switch (range.mode) {
-            case PPAttributedTextRangeModeMention: {
-                 PPFlavoredRange *flavoredRange = [[PPFlavoredRange alloc] init];
-                flavoredRange.range = NSMakeRange(range.location, range.length);
-                flavoredRange.flavor = PPAttributedTextRangeModeMention;
-                [activeRanges addObject:flavoredRange];
-            }
-                break;
-            case PPAttributedTextRangeModeLink:
-                break;
-            case PPAttributedTextRangeModeHashtag: {
-                PPFlavoredRange *flavoredRange = [[PPFlavoredRange alloc] init];
-                flavoredRange.range = NSMakeRange(range.location, range.length);
-                flavoredRange.flavor = PPAttributedTextRangeModeHashtag;
-                [activeRanges addObject:flavoredRange];
-            }
-                break;
-            case PPAttributedTextRangeModeDollartag:
-                break;
-            case PPAttributedTextRangeModeEmoticon:
-                break;
-            case PPAttributedTextRangeModeMiniCard:
-                break;
-            default:
-                break;
-        }
-    }
-    self.activeRanges = [NSArray arrayWithArray:activeRanges];
+//    for (PPAttributedTextRange *range in parseResult) {
+//        switch (range.mode) {
+//            case PPAttributedTextRangeModeMention: {
+//                 PPFlavoredRange *flavoredRange = [[PPFlavoredRange alloc] init];
+//                flavoredRange.range = NSMakeRange(range.location, range.length);
+//                flavoredRange.flavor = PPAttributedTextRangeModeMention;
+//                [activeRanges addObject:flavoredRange];
+//            }
+//                break;
+//            case PPAttributedTextRangeModeLink:
+//                break;
+//            case PPAttributedTextRangeModeHashtag: {
+//                PPFlavoredRange *flavoredRange = [[PPFlavoredRange alloc] init];
+//                flavoredRange.range = NSMakeRange(range.location, range.length);
+//                flavoredRange.flavor = PPAttributedTextRangeModeHashtag;
+//                [activeRanges addObject:flavoredRange];
+//            }
+//                break;
+//            case PPAttributedTextRangeModeDollartag:
+//                break;
+//            case PPAttributedTextRangeModeEmoticon:
+//                break;
+//            case PPAttributedTextRangeModeMiniCard:
+//                break;
+//            default:
+//                break;
+//        }
+//    }
+    self.activeRanges = [NSArray arrayWithArray:parseResult];
 }
 
-- (void)setColorWithActiveRange:(PPFlavoredRange *)activeRange forAttributedString:(NSMutableAttributedString *)attributedString
+- (void)setColorWithActiveRange:(id<PPTextActiveRange>)activeRange forAttributedString:(NSMutableAttributedString *)attributedString
 {
     if (activeRange) {
         [attributedString pp_setColor:[UIColor blueColor] inRange:activeRange.range];
@@ -158,14 +157,14 @@
     return 0;
 }
 
-- (NSArray<PPAttributedTextRange *> *)filterParsingResult:(NSArray<PPAttributedTextRange *> *)result
+- (NSArray<id<PPTextActiveRange>> *)filterParsingResult:(NSArray<id<PPTextActiveRange>> *)result
 {
     return result;
 }
 
-- (NSArray<PPAttributedTextRange *> *)_parseString:(NSString *)string
+- (NSArray<id<PPTextActiveRange>> *)_parseString:(NSString *)string
                                        withKeyword:(NSArray *)keywords
-                           andCurrentParsingResult:(NSArray<PPAttributedTextRange *> *)result
+                           andCurrentParsingResult:(NSArray<id<PPTextActiveRange>> *)result
 {
 //    if (keywords) {
 //        if (keywords.count > 0 && string) {

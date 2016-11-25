@@ -45,10 +45,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)updateImage:(UIImage *)image;
 - (void)updateTitle:(NSString *)title;
 
-- (void)cancelTrackingWithEvent:(id)arg1;
-- (void)endTrackingWithTouch:(id)arg1 withEvent:(id)arg2;
-- (BOOL)continueTrackingWithTouch:(id)arg1 withEvent:(id)arg2;
-- (BOOL)beginTrackingWithTouch:(id)arg1 withEvent:(id)arg2;
 - (BOOL)canBecomeFirstResponder;
 - (CGRect)imageRectForContentRect:(CGRect)arg1;
 - (CGRect)titleRectForContentRect:(CGRect)arg1;

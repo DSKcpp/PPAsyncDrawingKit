@@ -10,22 +10,21 @@
 #import <UIKit/UIKit.h>
 #import "PPTextStorage.h"
 #import "PPTextParagraphStyle.h"
+#import "PPTextRenderer.h"
 
-@class PPAttributedTextRange;
 @class PPTextAttachment;
-@class PPFlavoredRange;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol PPTextParser <NSObject>
-- (nullable NSArray<PPAttributedTextRange *> *)parserWithString:(nullable NSString *)string;
+- (nullable NSArray<id<PPTextActiveRange>> *)parserWithString:(nullable NSString *)string;
 @end
 
 @interface PPAttributedText : NSObject
 @property (nonatomic, strong) id<PPTextParser> textParser;
 @property (nonatomic, copy) NSString *plainTextForCharacterCounting;
-@property (nonatomic, strong) NSArray<PPTextAttachment *> *textAttachments;
-@property (nonatomic, strong) NSArray<PPFlavoredRange *> *activeRanges;
+@property (nullable, nonatomic, strong) NSArray<PPTextAttachment *> *textAttachments;
+@property (nullable, nonatomic, strong) NSArray<id<PPTextActiveRange>> *activeRanges;
 @property (nonatomic, strong) NSMutableAttributedString *attributedString;
 @property (nonatomic, assign) BOOL shouldShowSmallCardForcily;
 @property (nonatomic, strong) NSDictionary *analysisParameters;
@@ -55,12 +54,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (id)extractAttachmentsAndMergeToAttributedString:(id)arg1;
 - (NSInteger)mergeAttachment:(PPTextAttachment *)attachment toAttributedString:(NSMutableAttributedString *)attributedString withTextRange:(NSRange)textRange merged:(BOOL)merged;
 - (void)insertFlavoredRange:(id)arg1 toMiniCardRange:(id)arg2;
-- (NSArray<PPAttributedTextRange *> *)filterParsingResult:(NSArray<PPAttributedTextRange *> *)result;
-- (void)extractAttachmentsAndParseActiveRangesFromParseResult:(NSArray<PPAttributedTextRange *> *)parseResult toAttributedString:(NSMutableAttributedString *)attributedString;
+- (NSArray<id<PPTextActiveRange>> *)filterParsingResult:(NSArray<id<PPTextActiveRange>> *)result;
+- (void)extractAttachmentsAndParseActiveRangesFromParseResult:(NSArray<id<PPTextActiveRange>> *)parseResult toAttributedString:(NSMutableAttributedString *)attributedString;
 - (id)substringOfPageTitle:(id)arg1 withWordCount:(unsigned long long)arg2 trancates:(BOOL)arg3;
 - (nullable NSMutableAttributedString *)mutableAttributedString;
 - (void)rebuild;
-- (void)setColorWithActiveRange:(PPFlavoredRange *)activeRange forAttributedString:(NSMutableAttributedString *)attributedString;
+- (void)setColorWithActiveRange:(id<PPTextActiveRange>)activeRange forAttributedString:(NSMutableAttributedString *)attributedString;
 - (id)attributedStringWithTextColor:(id)arg1;
 - (void)PP_paragraphStyleDidUpdateAttribute:(id)arg1;
 - (void)PP_textStorage:(PPTextStorage *)textStorage didProcessEditing:(unsigned long long)arg2 range:(NSRange)range changeInLength:(long long)arg4;

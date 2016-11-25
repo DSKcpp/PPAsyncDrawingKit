@@ -158,11 +158,11 @@
         }
     }
     [self.respondTextRenderer touchesBegan:touches withEvent:event];
-    PPFlavoredRange *flavoredRange = self.respondTextRenderer.pressingActiveRange;
-    if (!flavoredRange) {
+    id<PPTextActiveRange> range = self.respondTextRenderer.pressingActiveRange;
+    if (!range) {
         
     }
-    [self checkNeedToDrawUnionAreaHightlightedFeedback:flavoredRange];
+    [self checkNeedToDrawUnionAreaHightlightedFeedback:range];
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event

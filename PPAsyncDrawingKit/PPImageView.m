@@ -312,4 +312,9 @@
 
 - (void)imageDrawingFinished { }
 
+- (id)maskView
+{
+    return self.maskView;
+}
+
 @end

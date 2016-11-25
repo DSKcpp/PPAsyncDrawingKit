@@ -19,13 +19,3 @@ typedef NS_ENUM(NSUInteger, PPAttributedTextRangeMode) {
     PPAttributedTextRangeModeMiniCard,
     PPAttributedTextRangeModeEmailAdress
 };
-
-@interface PPAttributedTextRange : NSObject
-@property (nonatomic, retain) id contentAttachment;
-@property (nonatomic, retain) NSString *content;
-@property (nonatomic, assign) NSUInteger length;
-@property (nonatomic, assign) NSUInteger location;
-@property (nonatomic, assign) PPAttributedTextRangeMode mode;
-+ (instancetype)rangeWithMode:(PPAttributedTextRangeMode)mode andLocation:(NSUInteger)locaiton;
-@end
-

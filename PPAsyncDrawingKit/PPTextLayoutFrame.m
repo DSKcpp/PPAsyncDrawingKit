@@ -99,15 +99,16 @@
     }];
 }
 
-- (void)enumerateEnclosingRectsForCharacterRange:(NSRange)range usingBlock:(void (^)(NSRange, CGRect))block
+- (void)enumerateEnclosingRectsForCharacterRange:(NSRange)range usingBlock:(nonnull void (^)(CGRect, BOOL * _Nonnull))block
 {
     if (block) {
         if (self.lineFragments.count) {
             [self.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
                 if (range.location >= line.stringRange.location && (range.location + range.length) <= line.stringRange.location + line.stringRange.length) {
+                    CGFloat x = [line offsetXForCharacterAtIndex:range.location + range.length];
                     CGRect rect = line.fragmentRect;
-                    rect.origin.y = idx * rect.size.height;
-                    block(line.stringRange, line.fragmentRect);
+                    rect.origin.x = x;
+                    block(rect, stop);
                 }
             }];
         }

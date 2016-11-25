@@ -80,9 +80,9 @@
     if (_lineRef) {
         NSInteger idx = [self locationDeltaFromRealRangeToLineRefRange];
         if (idx > index) {
-            
+            idx = index;
         }
-        return CTLineGetOffsetForStringIndex(_lineRef, idx, NULL);
+        return CTLineGetOffsetForStringIndex(_lineRef, index - idx, NULL);
     } else {
         return 0.0f;
     }
@@ -91,7 +91,11 @@
 - (NSInteger)locationDeltaFromRealRangeToLineRefRange
 {
     if (_lineRef) {
-        return lineRefRange.length - _stringRange.length;
+        NSInteger i = self.stringRange.location - lineRefRange.location;
+        if (i < 0) {
+            return 0;
+        }
+        return i;
     } else {
         return 0;
     }

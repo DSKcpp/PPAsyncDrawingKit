@@ -18,8 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PPImageCache : NSObject
 @property (class, strong, readonly) PPImageCache *sharedCache;
-@property (retain, nonatomic) NSRecursiveLock *readingTaskLock;
-@property (retain, nonatomic) NSMutableArray *currentReadingTaskKeys;
+@property (nonatomic, strong) NSRecursiveLock *readingTaskLock;
+@property (nonatomic, strong) NSMutableArray *currentReadingTaskKeys;
 @property (nonatomic, assign) NSUInteger maxMemorySize;
 @property (nonatomic, assign) NSUInteger maxCacheSize;
 @property (nonatomic, assign) CGFloat maxCacheAge;
