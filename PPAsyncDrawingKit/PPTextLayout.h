@@ -54,9 +54,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) BOOL layoutUpToDate;
 - (CGRect)boundingRectForCharacterRange:(NSRange)range;
 - (CGPoint)locationForCharacterAtIndex:(NSUInteger)index;
-- (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(id)block;
-- (void)enumerateEnclosingRectsForCharacterRange:(NSRange)arg1 usingBlock:(id)block;
-- (void)enumerateLineFragmentsForCharacterRange:(NSRange)arg1 usingBlock:(id)block;
+- (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(void(^)(void))block;
+- (void)enumerateEnclosingRectsForCharacterRange:(NSRange)range usingBlock:(void (^)(NSRange range, CGRect rect))block;
+- (void)enumerateLineFragmentsForCharacterRange:(NSRange)arg1 usingBlock:(void(^)(void))block;
 - (CGRect)firstSelectionRectForCharacterRange:(NSRange)arg1;
 - (PPFontMetrics)lineFragmentMetricsForLineAtIndex:(NSUInteger)index effectiveRange:(NSRange)range;
 - (CGRect)lineFragmentRectForCharacterAtIndex:(NSUInteger)arg1 effectiveRange:(NSRange)range;

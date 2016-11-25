@@ -27,9 +27,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithFrame:(CGRect)frame;
 
 - (void)textRenderer:(PPTextRenderer *)textRenderer placeAttachment:(id)arg2 frame:(CGRect)frame context:(CGContextRef)context;
-- (void)textRenderer:(PPTextRenderer *)textRenderer didPressActiveRange:(id)arg2;
-- (id)activeRangesForTextRenderer:(PPTextRenderer *)textRenderer;
-- (id)contextViewForTextRenderer:(PPTextRenderer *)textRenderer;
 
 - (NSInteger)lineIndexForPoint:(CGPoint)point;
 - (NSInteger)textIndexForPoint:(CGPoint)point;

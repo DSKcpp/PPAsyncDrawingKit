@@ -17,7 +17,12 @@
 @end
 
 @protocol PPTextRendererEventDelegate <NSObject>
+- (void)textRenderer:(PPTextRenderer *)arg1 didPressActiveRange:(id<PPTextActiveRange>)arg2;
+- (NSArray *)activeRangesForTextRenderer:(PPTextRenderer *)textRenderer;
+- (UIView *)contextViewForTextRenderer:(PPTextRenderer *)textRenderer;
 
+@optional
+- (BOOL)textRenderer:(PPTextRenderer *)textRenderer shouldInteractWithActiveRange:(id<PPTextActiveRange>)arg2;
 @end
 
 @interface PPTextRenderer : UIResponder
@@ -68,10 +73,13 @@
 
 #pragma mark - Events
 @property (nonatomic, weak) id <PPTextRendererEventDelegate> eventDelegate;
-- (id)rangeInRanges:(id)arg1 forLayoutLocation:(CGPoint)location;
+@end
+
+@interface PPTextRenderer (Events)
+- (PPFlavoredRange *)rangeInRanges:(NSArray<PPFlavoredRange *> *)ranges forLayoutLocation:(CGPoint)location;
 - (void)eventDelegateDidPressActiveRange:(id)arg1;
 - (NSArray *)eventDelegateActiveRanges;
-- (id)eventDelegateContextView;
+- (UIView *)eventDelegateContextView;
 @end
 
 @interface PPTextRenderer (Previewing)

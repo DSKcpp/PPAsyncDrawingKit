@@ -125,16 +125,15 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     if (self.eventDelegateContextView) {
-        NSSet<UITouch *> * _touches = [event touchesForView:self.eventDelegateContextView];
+        UIView *touchView = self.eventDelegateContextView;
+        NSSet<UITouch *> * _touches = [event touchesForView:touchView];
         UITouch *touch = _touches.anyObject;
-        CGPoint point;
+        CGPoint point = CGPointZero;
         if (touch) {
-            point = [touch locationInView:self.eventDelegateContextView];
-        } else {
-            point = CGPointZero;
+            point = [touch locationInView:touchView];
         }
         point = [self convertPointToLayout:point];
-        [self rangeInRanges:[self eventDelegateActiveRanges] forLayoutLocation:point];   
+        PPFlavoredRange *range = [self rangeInRanges:[self eventDelegateActiveRanges] forLayoutLocation:point];
     }
 }
 
@@ -174,6 +173,47 @@
     }
 }
 
+
+@end
+
+@implementation PPTextRenderer (Coordinates)
+- (CGPoint)convertPointToLayout:(CGPoint)point
+{
+    CGPoint drawingOrigin = self.drawingOrigin;
+    return CGPointMake(point.x - drawingOrigin.x, point.y - drawingOrigin.y);
+}
+@end
+
+@implementation PPTextRenderer (Events)
+- (UIView *)eventDelegateContextView
+{
+    if (_eventDelegate) {
+        return [_eventDelegate contextViewForTextRenderer:self];
+    }
+    return nil;
+}
+
+- (NSArray *)eventDelegateActiveRanges
+{
+    if (_eventDelegate) {
+        return [_eventDelegate activeRangesForTextRenderer:self];
+    }
+    return nil;
+}
+
+- (PPFlavoredRange *)rangeInRanges:(NSArray<PPFlavoredRange *> *)ranges forLayoutLocation:(CGPoint)location
+{
+    for (PPFlavoredRange *range in ranges) {
+        if ([_eventDelegate textRenderer:self shouldInteractWithActiveRange:range]) {
+            [self.textLayout enumerateEnclosingRectsForCharacterRange:range.range usingBlock:^(NSRange range, CGRect rect) {
+                if (CGRectContainsPoint(rect, location) == YES) {
+                    NSLog(@"%@ - %@", NSStringFromRange(range), NSStringFromCGRect(rect));
+                }
+            }];
+        }
+    }
+    return nil;
+}
 @end
 
 @implementation PPTextRenderer (Debug)
@@ -220,3 +260,4 @@ static BOOL textRendererDebugModeEnabled = NO;
 }
 
 @end
+

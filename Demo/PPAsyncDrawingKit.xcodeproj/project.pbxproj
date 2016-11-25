@@ -271,7 +271,7 @@
 		861EB1E41DB11F3B005C07C7 /* WBTimeline */ = {
 			isa = PBXGroup;
 			children = (
-				86D7C2561DE4579F001D88E8 /* Other */,
+				86D7C2711DE81AEC001D88E8 /* Parser */,
 				86AED6661DD46DB500887F3B /* View */,
 				861F1C511DB125F70002BE2E /* Controller */,
 				861EB1E51DB11F56005C07C7 /* Model */,
@@ -344,15 +344,8 @@
 				86A98D341D92F582008F0A7E /* PPImageView.m */,
 				867F77A01DB77C7C004FCEBA /* PPWebImageView.h */,
 				867F77A11DB77C7C004FCEBA /* PPWebImageView.m */,
+				86D7C2701DE711AE001D88E8 /* Component */,
 				86AED65F1DD1DAF200887F3B /* Utilities */,
-				86D7C2641DE5BBAE001D88E8 /* PPImageCache.h */,
-				86D7C2651DE5BBAE001D88E8 /* PPImageCache.m */,
-				86D7C2671DE6743B001D88E8 /* PPWebImageManager.h */,
-				86D7C2681DE6743B001D88E8 /* PPWebImageManager.m */,
-				86D7C26A1DE677C2001D88E8 /* PPImageLoadOperation.h */,
-				86D7C26B1DE677C2001D88E8 /* PPImageLoadOperation.m */,
-				86D7C26D1DE678E8001D88E8 /* PPImageLoadRequest.h */,
-				86D7C26E1DE678E8001D88E8 /* PPImageLoadRequest.m */,
 			);
 			name = ImageView;
 			sourceTree = "<group>";
@@ -423,13 +416,6 @@
 			path = webp;
 			sourceTree = "<group>";
 		};
-		86D7C2561DE4579F001D88E8 /* Other */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Other;
-			sourceTree = "<group>";
-		};
 		86D7C2631DE5B9B6001D88E8 /* Component */ = {
 			isa = PBXGroup;
 			children = (
@@ -451,6 +437,34 @@
 				863ADA8E1DC47F1300AC582D /* PPTextAttachment.m */,
 			);
 			name = Component;
+			sourceTree = "<group>";
+		};
+		86D7C2701DE711AE001D88E8 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				86D7C2641DE5BBAE001D88E8 /* PPImageCache.h */,
+				86D7C2651DE5BBAE001D88E8 /* PPImageCache.m */,
+				86D7C2671DE6743B001D88E8 /* PPWebImageManager.h */,
+				86D7C2681DE6743B001D88E8 /* PPWebImageManager.m */,
+				86D7C26A1DE677C2001D88E8 /* PPImageLoadOperation.h */,
+				86D7C26B1DE677C2001D88E8 /* PPImageLoadOperation.m */,
+				86D7C26D1DE678E8001D88E8 /* PPImageLoadRequest.h */,
+				86D7C26E1DE678E8001D88E8 /* PPImageLoadRequest.m */,
+			);
+			name = Component;
+			sourceTree = "<group>";
+		};
+		86D7C2711DE81AEC001D88E8 /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				86D7C2571DE45812001D88E8 /* WBTimelineAttributedTextParser.h */,
+				86D7C2581DE45812001D88E8 /* WBTimelineAttributedTextParser.m */,
+				86D7C25B1DE45812001D88E8 /* PPAttributedTextRange.h */,
+				86D7C25C1DE45812001D88E8 /* PPAttributedTextRange.m */,
+				86D7C25D1DE45812001D88E8 /* PPFlavoredRange.h */,
+				86D7C25E1DE45812001D88E8 /* PPFlavoredRange.m */,
+			);
+			name = Parser;
 			sourceTree = "<group>";
 		};
 		86EB75811D2393CC005F14A1 = {
@@ -512,12 +526,6 @@
 		86EFEF231DBF9D760003E078 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				86D7C2571DE45812001D88E8 /* WBTimelineAttributedTextParser.h */,
-				86D7C2581DE45812001D88E8 /* WBTimelineAttributedTextParser.m */,
-				86D7C25B1DE45812001D88E8 /* PPAttributedTextRange.h */,
-				86D7C25C1DE45812001D88E8 /* PPAttributedTextRange.m */,
-				86D7C25D1DE45812001D88E8 /* PPFlavoredRange.h */,
-				86D7C25E1DE45812001D88E8 /* PPFlavoredRange.m */,
 				86D7C24B1DE41D87001D88E8 /* webp */,
 				86FCDA9C1DDDA9B700CB2563 /* SDWebImage */,
 				861EB1DC1DB11E82005C07C7 /* YYModel */,

@@ -43,8 +43,6 @@
 - (BOOL)isAccessibilityElement;
 - (BOOL)shouldReloadAccessibilityElementsWhenSettingDrawingContext;
 - (void)didPressSourceButton:(id)arg1 ActiveRange:(id)arg2;
-- (BOOL)textRenderer:(id)arg1 shouldInteractWithActiveRange:(id)arg2;
-- (void)textRenderer:(id)arg1 didPressActiveRange:(id)arg2;
 - (id)timelineURLForScheme:(id)arg1;
 - (id)schemeForMiniCardActiveRange:(id)arg1 andAttributedText:(id)arg2;
 - (void)pressedActiveRange:(id)arg1 inText:(id)arg2;
@@ -57,16 +55,10 @@
 - (struct CGRect)pressedItemaAttachmentPointInWindow:(id)arg1;
 - (void)pressedTimelineURL:(id)arg1;
 - (void)textRenderer:(id)arg1 placeAttachment:(id)arg2 frame:(struct CGRect)arg3 context:(struct CGContext *)arg4;
-- (id)activeRangesForTextRenderer:(id)arg1;
-- (id)contextViewForTextRenderer:(id)arg1;
-- (id)rendererAtPoint:(struct CGPoint)arg1;
+- (PPTextRenderer *)rendererAtPoint:(CGPoint)point;
 @property (nonatomic, strong, readonly) NSArray<PPTextRenderer *> *textRenderers;
 - (void)longTouchAtPoint:(id)arg1;
-- (void)touchesCancelled:(id)arg1 withEvent:(id)arg2;
-- (void)touchesMoved:(id)arg1 withEvent:(id)arg2;
-- (void)touchesEnded:(id)arg1 withEvent:(id)arg2;
 - (void)checkNeedToDrawUnionAreaHightlightedFeedback:(id)arg1;
-- (void)touchesBegan:(id)arg1 withEvent:(id)arg2;
 - (void)removeAttachmentViews;
 - (void)addAttachmentViews;
 @property (nonatomic, assign) BOOL enableAsyncDrawing;
@@ -76,7 +68,7 @@
 - (void)setDrawingContextWithIsNotCustomSource:(BOOL)arg1;
 - (id)attributedStringIgnoreActiveRangeColorForAttributedString:(id)arg1;
 @property(readonly, nonatomic) BOOL reduceDrawingContents;
-- (unsigned long long)touchingOtherTouchableItemIndex:(struct CGPoint)arg1 finishBlock:(id)arg2;
+- (NSUInteger)touchingOtherTouchableItemIndex:(CGPoint)point finishBlock:(void(^)(void))finishBlock;
 - (struct CGRect)otherTouchableItemFrameOfPoint:(struct CGPoint)arg1;
 - (void)dealloc;
 

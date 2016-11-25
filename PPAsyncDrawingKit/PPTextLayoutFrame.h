@@ -28,7 +28,7 @@
 
 @interface PPTextLayoutFrame (LayoutResult)
 - (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(void(^)(void))block;
-- (void)enumerateEnclosingRectsForCharacterRange:(NSRange)arg1 usingBlock:(void(^)(void))block;
+- (void)enumerateEnclosingRectsForCharacterRange:(NSRange)range usingBlock:(void(^)(NSRange range, CGRect rect))block;
 - (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(void(^)(void))block;
 - (CGRect)firstSelectionRectForCharacterRange:(NSRange)range;
 - (NSUInteger)lineFragmentIndexForCharacterAtIndex:(NSUInteger)index;

@@ -150,4 +150,9 @@
     }
     return range;
 }
+
+- (void)enumerateEnclosingRectsForCharacterRange:(NSRange)range usingBlock:(void (^)(NSRange, CGRect))block
+{
+    [self.layoutFrame enumerateEnclosingRectsForCharacterRange:range usingBlock:block];
+}
 @end

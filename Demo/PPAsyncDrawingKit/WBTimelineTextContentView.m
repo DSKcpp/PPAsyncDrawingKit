@@ -90,6 +90,7 @@
         self.dispatchPriority = 2;
         self.isSourceRectBeReset = NO;
         self.contentsChangedAfterLastAsyncDrawing = YES;
+        _textRenderers = @[self.itemTextRenderer, self.quotedItemTextRenderer, self.titleTextRenderer, self.metaInfoTextRenderer];
     }
     return self;
 }
@@ -140,6 +141,64 @@
     return userInfo;
 }
 
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touch = [touches anyObject];
+    CGPoint point = CGPointZero;
+    if (touch) {
+        point = [touch locationInView:self];
+    }
+    self.respondTextRenderer = [self rendererAtPoint:point];
+    self.respondTextRenderer.eventDelegate = self;
+    if (!self.respondTextRenderer) {
+        NSUInteger index = [self touchingOtherTouchableItemIndex:point finishBlock:nil];
+        self.touchingItemIndex = index;
+        if (index == 9999) {
+            
+        }
+    }
+    [self.respondTextRenderer touchesBegan:touches withEvent:event];
+    PPFlavoredRange *flavoredRange = self.respondTextRenderer.pressingActiveRange;
+    if (!flavoredRange) {
+        
+    }
+    [self checkNeedToDrawUnionAreaHightlightedFeedback:flavoredRange];
+}
+
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    
+}
+
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    
+}
+
+- (PPTextRenderer *)rendererAtPoint:(CGPoint)point
+{
+    for (PPTextRenderer *textRenderer in self.textRenderers) {
+        if (CGRectContainsPoint(textRenderer.frame, point)) {
+            return textRenderer;
+        }
+    }
+    return nil;
+}
+
+- (void)checkNeedToDrawUnionAreaHightlightedFeedback:(id)arg1
+{
+    
+}
+
+- (NSUInteger)touchingOtherTouchableItemIndex:(CGPoint)point finishBlock:(void (^)(void))finishBlock
+{
+    return 0;
+}
 - (void)removeAttachmentViews
 {
     
@@ -148,5 +207,30 @@
 - (void)addAttachmentViews
 {
     
+}
+
+- (UIView *)contextViewForTextRenderer:(PPTextRenderer *)arg1
+{
+    return self;
+}
+
+- (NSArray *)activeRangesForTextRenderer:(PPTextRenderer *)textRenderer
+{
+    if (textRenderer == self.titleTextRenderer) {
+        return self.drawingContext.titleAttributedText.activeRanges;
+    } else if (textRenderer == self.itemTextRenderer) {
+        return self.drawingContext.textAttributedText.activeRanges;
+    } else if (textRenderer == self.quotedItemTextRenderer) {
+        return self.drawingContext.quotedAttributedText.activeRanges;
+    } else if (textRenderer == self.metaInfoTextRenderer) {
+        return self.drawingContext.metaInfoAttributedText.activeRanges;
+    } else {
+        return nil;
+    }
+}
+
+- (BOOL)textRenderer:(PPTextRenderer *)textRenderer shouldInteractWithActiveRange:(id<PPTextActiveRange>)arg2
+{
+    return YES;
 }
 @end
