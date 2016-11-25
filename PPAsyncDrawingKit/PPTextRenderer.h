@@ -8,9 +8,21 @@
 
 #import <UIKit/UIKit.h>
 #import "PPTextLayout.h"
-#import "PPFlavoredRange.h"
 
 @class PPTextLayoutFrame;
+
+@protocol PPTextActiveRange <NSObject>
+@property (nonatomic, strong) id userInfo;
+@property (nonatomic, copy, readonly) NSString *keyRangeText;
+@property (nonatomic, assign, readonly) NSRange keyRange;
+@property (nonatomic, copy, readonly) NSString *rangeText;
+@property (nonatomic, assign, readonly) NSInteger flavor;
+@property (nonatomic, assign, readonly) NSRange range;
+@property (nonatomic, copy, readonly) NSString *text;
+
+@optional
+@property (nonatomic, strong) id dataBinding;
+@end
 
 @protocol PPTextRendererDelegate <NSObject>
 
@@ -76,7 +88,7 @@
 @end
 
 @interface PPTextRenderer (Events)
-- (PPFlavoredRange *)rangeInRanges:(NSArray<PPFlavoredRange *> *)ranges forLayoutLocation:(CGPoint)location;
+- (id<PPTextActiveRange>)rangeInRanges:(NSArray<id<PPTextActiveRange>> *)ranges forLayoutLocation:(CGPoint)location;
 - (void)eventDelegateDidPressActiveRange:(id)arg1;
 - (NSArray *)eventDelegateActiveRanges;
 - (UIView *)eventDelegateContextView;

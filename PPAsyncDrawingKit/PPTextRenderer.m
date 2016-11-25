@@ -133,7 +133,7 @@
             point = [touch locationInView:touchView];
         }
         point = [self convertPointToLayout:point];
-        PPFlavoredRange *range = [self rangeInRanges:[self eventDelegateActiveRanges] forLayoutLocation:point];
+        id<PPTextActiveRange> range = [self rangeInRanges:[self eventDelegateActiveRanges] forLayoutLocation:point];
     }
 }
 
@@ -201,9 +201,9 @@
     return nil;
 }
 
-- (PPFlavoredRange *)rangeInRanges:(NSArray<PPFlavoredRange *> *)ranges forLayoutLocation:(CGPoint)location
+- (id<PPTextActiveRange>)rangeInRanges:(NSArray<id<PPTextActiveRange>> *)ranges forLayoutLocation:(CGPoint)location
 {
-    for (PPFlavoredRange *range in ranges) {
+    for (id<PPTextActiveRange> range in ranges) {
         if ([_eventDelegate textRenderer:self shouldInteractWithActiveRange:range]) {
             [self.textLayout enumerateEnclosingRectsForCharacterRange:range.range usingBlock:^(NSRange range, CGRect rect) {
                 if (CGRectContainsPoint(rect, location) == YES) {
