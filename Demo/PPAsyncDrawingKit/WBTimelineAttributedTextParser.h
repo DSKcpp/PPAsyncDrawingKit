@@ -7,10 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PPAttributedTextRange.h"
-#import "PPAttributedText.h"
-#import "PPFlavoredRange.h"
-
+#import "PPTextAttributed.h"
 
 @interface WBTimelineAttributedTextParser : NSObject <PPTextParser>
 

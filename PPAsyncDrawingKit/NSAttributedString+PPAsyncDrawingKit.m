@@ -42,18 +42,18 @@
     textLayout.maximumNumberOfLines = 0;
     textLayout.attributedString = self;
     textLayout.exclusionPaths = exclusionPaths;
-    textLayout.size = CGSizeMake(width, CGFLOAT_MAX);
+    textLayout.size = CGSizeMake(width, 20000);
     return textLayout.layoutHeight;
 }
 
 - (CGSize)pp_sizeConstrainedToWidth:(CGFloat)width
 {
-    return [self pp_sizeConstrainedToSize:CGSizeMake(width, CGFLOAT_MAX)];
+    return [self pp_sizeConstrainedToSize:CGSizeMake(width, 20000)];
 }
 
 - (CGSize)pp_sizeConstrainedToWidth:(CGFloat)width numberOfLines:(NSInteger)numberOfLines
 {
-    return [self pp_sizeConstrainedToSize:CGSizeMake(width, CGFLOAT_MAX) numberOfLines:numberOfLines];
+    return [self pp_sizeConstrainedToSize:CGSizeMake(width, 20000) numberOfLines:numberOfLines];
 }
 
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size

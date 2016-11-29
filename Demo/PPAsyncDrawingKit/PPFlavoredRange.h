@@ -7,10 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PPTextRenderer.h"
+#import "PPTextActiveRange.h"
 
-@interface PPFlavoredRange : NSObject <PPTextActiveRange>
-@property (nonatomic, assign) NSRange range;
+@interface PPFlavoredRange : PPTextActiveRange
 @property (nonatomic, assign) NSInteger flavor;
-+ (PPFlavoredRange *)valueWithRange:(NSRange)range;
 @end

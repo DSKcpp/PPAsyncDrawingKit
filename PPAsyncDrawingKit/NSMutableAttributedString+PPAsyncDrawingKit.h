@@ -19,12 +19,11 @@
 - (void)pp_setAlignment:(NSTextAlignment)alignment lineBreakMode:(NSLineBreakMode)lineBreakMode lineHeight:(CGFloat)lineHeight;
 - (void)pp_setAlignment:(NSTextAlignment)alignment lineBreakMode:(NSLineBreakMode)lineBreakMode;
 - (void)pp_setLineHeight:(CGFloat)lineHeight inRange:(NSRange)range;
-- (void)pp_setCTFont:(CTFontRef)CTFont;
 - (void)pp_setKerning:(CGFloat)kerning inRange:(NSRange)range;
 - (void)pp_setBackgroundColor:(UIColor *)backgroundColor inRange:(NSRange)range;
 - (void)pp_setColor:(UIColor *)color;
 - (void)pp_setColor:(UIColor *)color inRange:(NSRange)range;
-- (void)pp_setCTFont:(CTFontRef)CTFont inRange:(NSRange)range;
+- (void)pp_setFont:(UIFont *)font;
 - (void)pp_setFont:(UIFont *)font inRange:(NSRange)range;
 - (NSRange)pp_effectiveRangeWithRange:(NSRange)range;
 - (NSRange)pp_stringRange;

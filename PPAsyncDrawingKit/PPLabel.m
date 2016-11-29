@@ -9,7 +9,7 @@
 #import "PPLabel.h"
 #import "PPTextRenderer.h"
 #import <objc/runtime.h>
-#import "PPAttributedText.h"
+#import "PPTextAttributed.h"
 
 @implementation PPLabel
 
@@ -80,7 +80,7 @@
     self.textRenderer.textLayout.maximumNumberOfLines = numberOfLines;
 }
 
-- (void)setText:(PPAttributedText *)text
+- (void)setText:(PPTextAttributed *)text
 {
     if (_text != text) {
         _text = text;

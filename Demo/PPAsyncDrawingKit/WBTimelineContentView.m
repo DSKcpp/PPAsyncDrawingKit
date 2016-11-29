@@ -23,27 +23,22 @@
 @implementation WBTimelineContentView
 + (CGFloat)heightOfTimelineItem:(WBTimelineItem *)timelineItem withContentWidth:(CGFloat)width
 {
-    return [self heightOfTimelineItem:timelineItem withContentWidth:width userInfo:nil];
-}
-
-+ (CGFloat)heightOfTimelineItem:(WBTimelineItem *)timelineItem withContentWidth:(CGFloat)width userInfo:(NSDictionary *)userInfo
-{
-    WBTimelineTableViewCellDrawingContext *context = [self validDrawingContextOfTimelineItem:timelineItem withContentWidth:width userInfo:userInfo];
+    WBTimelineTableViewCellDrawingContext *context = [self validDrawingContextOfTimelineItem:timelineItem withContentWidth:width];
     return context.rowHeight;
 }
 
-+ (void)calculateContentHeightForDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext userInfo:(NSDictionary *)userInfo
++ (void)calculateContentHeightForDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext
 {
-    [WBTimelineTextContentView renderDrawingContext:drawingContext userInfo:userInfo];
+    [WBTimelineTextContentView renderDrawingContext:drawingContext];
     drawingContext.rowHeight = drawingContext.contentHeight;
 }
 
-+ (WBTimelineTableViewCellDrawingContext *)validDrawingContextOfTimelineItem:(WBTimelineItem *)timelineItem withContentWidth:(CGFloat)width userInfo:(NSDictionary *)userInfo
++ (WBTimelineTableViewCellDrawingContext *)validDrawingContextOfTimelineItem:(WBTimelineItem *)timelineItem withContentWidth:(CGFloat)width
 {
     if (!timelineItem.drawingContext) {
         WBTimelineTableViewCellDrawingContext *drawingContext = [[WBTimelineTableViewCellDrawingContext alloc] initWithTimelineItem:timelineItem];
         drawingContext.contentWidth = width;
-        [self calculateContentHeightForDrawingContext:drawingContext userInfo:userInfo];
+        [self calculateContentHeightForDrawingContext:drawingContext];
         timelineItem.drawingContext = drawingContext;
     }
     return timelineItem.drawingContext;
@@ -148,11 +143,6 @@
 
 - (void)setTimelineItem:(WBTimelineItem *)timelineItem
 {
-    [self setTimelineItem:timelineItem userInfo:nil];
-}
-
-- (void)setTimelineItem:(WBTimelineItem *)timelineItem userInfo:(NSDictionary *)userInfo
-{
     if (_timelineItem != timelineItem) {
         _timelineItem = timelineItem;
         WBTimelineTableViewCellDrawingContext *drawingContext = timelineItem.drawingContext;
@@ -174,6 +164,5 @@
         [self.avatarView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"avatar"]];
         [self.actionButtonsView setTimelineItem:timelineItem];
     }
-
 }
 @end

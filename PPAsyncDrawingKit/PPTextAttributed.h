@@ -1,5 +1,5 @@
 //
-//  PPAttributedText.h
+//  PPTextAttributed.h
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 2016/10/16.
@@ -10,21 +10,21 @@
 #import <UIKit/UIKit.h>
 #import "PPTextStorage.h"
 #import "PPTextParagraphStyle.h"
-#import "PPTextRenderer.h"
+#import "PPTextActiveRange.h"
 
 @class PPTextAttachment;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol PPTextParser <NSObject>
-- (nullable NSArray<id<PPTextActiveRange>> *)parserWithString:(nullable NSString *)string;
+- (nullable NSArray<PPTextActiveRange *> *)parserWithString:(nullable NSString *)string;
 @end
 
-@interface PPAttributedText : NSObject
+@interface PPTextAttributed : NSObject
 @property (nonatomic, strong) id<PPTextParser> textParser;
 @property (nonatomic, copy) NSString *plainTextForCharacterCounting;
 @property (nullable, nonatomic, strong) NSArray<PPTextAttachment *> *textAttachments;
-@property (nullable, nonatomic, strong) NSArray<id<PPTextActiveRange>> *activeRanges;
+@property (nullable, nonatomic, strong) NSArray<PPTextActiveRange *> *activeRanges;
 @property (nonatomic, strong) NSMutableAttributedString *attributedString;
 @property (nonatomic, assign) BOOL shouldShowSmallCardForcily;
 @property (nonatomic, strong) NSDictionary *analysisParameters;
@@ -54,12 +54,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (id)extractAttachmentsAndMergeToAttributedString:(id)arg1;
 - (NSInteger)mergeAttachment:(PPTextAttachment *)attachment toAttributedString:(NSMutableAttributedString *)attributedString withTextRange:(NSRange)textRange merged:(BOOL)merged;
 - (void)insertFlavoredRange:(id)arg1 toMiniCardRange:(id)arg2;
-- (NSArray<id<PPTextActiveRange>> *)filterParsingResult:(NSArray<id<PPTextActiveRange>> *)result;
-- (void)extractAttachmentsAndParseActiveRangesFromParseResult:(NSArray<id<PPTextActiveRange>> *)parseResult toAttributedString:(NSMutableAttributedString *)attributedString;
+- (NSArray<PPTextActiveRange *> *)filterParsingResult:(NSArray<PPTextActiveRange *> *)result;
+- (void)extractAttachmentsAndParseActiveRangesFromParseResult:(NSArray<PPTextActiveRange *> *)parseResult toAttributedString:(NSMutableAttributedString *)attributedString;
 - (id)substringOfPageTitle:(id)arg1 withWordCount:(unsigned long long)arg2 trancates:(BOOL)arg3;
 - (nullable NSMutableAttributedString *)mutableAttributedString;
 - (void)rebuild;
-- (void)setColorWithActiveRange:(id<PPTextActiveRange>)activeRange forAttributedString:(NSMutableAttributedString *)attributedString;
+- (void)setColorWithActiveRange:(PPTextActiveRange *)activeRange forAttributedString:(NSMutableAttributedString *)attributedString;
 - (id)attributedStringWithTextColor:(id)arg1;
 - (void)PP_paragraphStyleDidUpdateAttribute:(id)arg1;
 - (void)PP_textStorage:(PPTextStorage *)textStorage didProcessEditing:(unsigned long long)arg2 range:(NSRange)range changeInLength:(long long)arg4;
@@ -87,13 +87,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL allowsDynamicLineSpacing;
 @end
 
-@interface PPAttributedText (TextDrawing)
+@interface PPTextAttributed (TextDrawing)
 - (CGSize)sizeConstrainedToWidth:(CGFloat)width;
 - (CGSize)sizeConstrainedToWidth:(CGFloat)width numberOfLines:(NSInteger)numberOfLines;
 - (CGSize)sizeConstrainedToWidth:(CGFloat)width numberOfLines:(NSInteger)numberOfLines derivedLineCount:(NSInteger)derivedLineCount;
 @end
 
-@interface PPAttributedText (CharacterCount)
+@interface PPTextAttributed (CharacterCount)
 + (id)shortenURLReplacementForCharacterCounting:(id)arg1;
 @end
 

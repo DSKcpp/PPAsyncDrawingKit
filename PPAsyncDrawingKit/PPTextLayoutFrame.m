@@ -105,9 +105,9 @@
         if (self.lineFragments.count) {
             [self.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
                 if (range.location >= line.stringRange.location && (range.location + range.length) <= line.stringRange.location + line.stringRange.length) {
-                    CGFloat x = [line offsetXForCharacterAtIndex:range.location + range.length];
-                    CGRect rect = line.fragmentRect;
-                    rect.origin.x = x;
+                    CGFloat left = [line offsetXForCharacterAtIndex:range.location];
+                    CGFloat right = [line offsetXForCharacterAtIndex:range.location + range.length];
+                    CGRect rect = CGRectMake(left, line.fragmentRect.size.height * idx, right - left, line.fragmentRect.size.height);
                     block(rect, stop);
                 }
             }];

@@ -1,20 +1,19 @@
 //
-//  PPAttributedText.m
+//  PPTextAttributed.m
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 2016/10/16.
 //  Copyright © 2016年 DSKcpp. All rights reserved.
 //
 
-#import "PPAttributedText.h"
+#import "PPTextAttributed.h"
 #import "PPTextStorage.h"
 #import "PPAttributedTextRange.h"
 #import "NSMutableAttributedString+PPAsyncDrawingKit.h"
-#import "UIFont+PPAsyncDrawingKit.h"
 #import "NSString+PPAsyncDrawingKit.h"
 #import "PPTextAttachment.h"
 
-@implementation PPAttributedText
+@implementation PPTextAttributed
 {
     struct {
         unsigned int needsRebuild:1;
@@ -24,7 +23,7 @@
 - (instancetype)init
 {
     if (self = [super init]) {
-        self.fontSize = 14;
+        self.fontSize = 15.0f;
         self.textLigature = 1;
         self.textStorage = [[PPTextStorage alloc] init];
     }
@@ -74,11 +73,11 @@
     self.activeRanges = nil;
     NSMutableAttributedString *attributedString = [self mutableAttributedString];
     if (attributedString.length) {
-        NSArray<id<PPTextActiveRange>> *parsingResult = [self.textParser parserWithString:attributedString.string];
+        NSArray<PPTextActiveRange *> *parsingResult = [self.textParser parserWithString:attributedString.string];
         parsingResult = [self filterParsingResult:parsingResult];
         parsingResult = [self _parseString:self.plainText withKeyword:self.keywords andCurrentParsingResult:parsingResult];
         [self extractAttachmentsAndParseActiveRangesFromParseResult:parsingResult toAttributedString:attributedString];
-        for (id<PPTextActiveRange> range in self.activeRanges) {
+        for (PPTextActiveRange *range in self.activeRanges) {
             [self setColorWithActiveRange:range forAttributedString:attributedString];
         }
         [self updateParagraphStyleForAttributedString:attributedString];
@@ -100,41 +99,13 @@
     }];
 }
 
-- (void)extractAttachmentsAndParseActiveRangesFromParseResult:(NSArray<id<PPTextActiveRange>> *)parseResult toAttributedString:(NSMutableAttributedString *)attributedString
+- (void)extractAttachmentsAndParseActiveRangesFromParseResult:(NSArray<PPTextActiveRange *> *)parseResult toAttributedString:(NSMutableAttributedString *)attributedString
 {
     NSMutableArray *activeRanges = [NSMutableArray array];
-//    for (PPAttributedTextRange *range in parseResult) {
-//        switch (range.mode) {
-//            case PPAttributedTextRangeModeMention: {
-//                 PPFlavoredRange *flavoredRange = [[PPFlavoredRange alloc] init];
-//                flavoredRange.range = NSMakeRange(range.location, range.length);
-//                flavoredRange.flavor = PPAttributedTextRangeModeMention;
-//                [activeRanges addObject:flavoredRange];
-//            }
-//                break;
-//            case PPAttributedTextRangeModeLink:
-//                break;
-//            case PPAttributedTextRangeModeHashtag: {
-//                PPFlavoredRange *flavoredRange = [[PPFlavoredRange alloc] init];
-//                flavoredRange.range = NSMakeRange(range.location, range.length);
-//                flavoredRange.flavor = PPAttributedTextRangeModeHashtag;
-//                [activeRanges addObject:flavoredRange];
-//            }
-//                break;
-//            case PPAttributedTextRangeModeDollartag:
-//                break;
-//            case PPAttributedTextRangeModeEmoticon:
-//                break;
-//            case PPAttributedTextRangeModeMiniCard:
-//                break;
-//            default:
-//                break;
-//        }
-//    }
     self.activeRanges = [NSArray arrayWithArray:parseResult];
 }
 
-- (void)setColorWithActiveRange:(id<PPTextActiveRange>)activeRange forAttributedString:(NSMutableAttributedString *)attributedString
+- (void)setColorWithActiveRange:(PPTextActiveRange *)activeRange forAttributedString:(NSMutableAttributedString *)attributedString
 {
     if (activeRange) {
         [attributedString pp_setColor:[UIColor blueColor] inRange:activeRange.range];
@@ -157,14 +128,14 @@
     return 0;
 }
 
-- (NSArray<id<PPTextActiveRange>> *)filterParsingResult:(NSArray<id<PPTextActiveRange>> *)result
+- (NSArray<PPTextActiveRange *> *)filterParsingResult:(NSArray<PPTextActiveRange *> *)result
 {
     return result;
 }
 
-- (NSArray<id<PPTextActiveRange>> *)_parseString:(NSString *)string
+- (NSArray<PPTextActiveRange *> *)_parseString:(NSString *)string
                                        withKeyword:(NSArray *)keywords
-                           andCurrentParsingResult:(NSArray<id<PPTextActiveRange>> *)result
+                           andCurrentParsingResult:(NSArray<PPTextActiveRange *> *)result
 {
 //    if (keywords) {
 //        if (keywords.count > 0 && string) {
@@ -188,15 +159,7 @@
                 [attributedString pp_setColor:self.textColor];
             }
         }
-        NSInteger systemVersion = [[[UIDevice currentDevice] systemVersion] integerValue];
-        CTFontRef font;
-        if (systemVersion < 9) {
-            font = [UIFont pp_newCTFontWithName:@"HelveticaNeue" size:self.fontSize];
-        } else {
-            UIFont *systemFont = [UIFont systemFontOfSize:self.fontSize];
-            font = [UIFont pp_newCTFontWithName:[systemFont fontName] size:self.fontSize];
-        }
-        [attributedString pp_setCTFont:font];
+        [attributedString pp_setFont:[UIFont systemFontOfSize:self.fontSize]];
         NSRange range = [attributedString pp_stringRange];
         if (self.textLigature != 1) {
             NSNumber *textLigature = [NSNumber numberWithUnsignedInteger:self.textLigature];

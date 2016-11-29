@@ -8,33 +8,26 @@
 
 #import <UIKit/UIKit.h>
 #import "PPTextLayout.h"
+#import "PPTextActiveRange.h"
 
 @class PPTextLayoutFrame;
-
-@protocol PPTextActiveRange <NSObject>
-@property (nonatomic, strong) id userInfo;
-@property (nonatomic, copy, readonly) NSString *keyRangeText;
-@property (nonatomic, assign, readonly) NSRange keyRange;
-@property (nonatomic, copy, readonly) NSString *rangeText;
-@property (nonatomic, assign, readonly) NSInteger flavor;
-@property (nonatomic, assign, readonly) NSRange range;
-@property (nonatomic, copy, readonly) NSString *text;
-
-@optional
-@property (nonatomic, strong) id dataBinding;
-@end
+@class PPTextAttachment;
 
 @protocol PPTextRendererDelegate <NSObject>
-
+@optional
+- (void)textRenderer:(PPTextRenderer *)textRenderer
+     placeAttachment:(PPTextAttachment *)attachment
+               frame:(CGRect)frame
+             context:(CGContextRef)context;
 @end
 
 @protocol PPTextRendererEventDelegate <NSObject>
-- (void)textRenderer:(PPTextRenderer *)arg1 didPressActiveRange:(id<PPTextActiveRange>)arg2;
+- (void)textRenderer:(PPTextRenderer *)textRenderer didPressActiveRange:(PPTextActiveRange *)activeRange;
 - (NSArray *)activeRangesForTextRenderer:(PPTextRenderer *)textRenderer;
 - (UIView *)contextViewForTextRenderer:(PPTextRenderer *)textRenderer;
 
 @optional
-- (BOOL)textRenderer:(PPTextRenderer *)textRenderer shouldInteractWithActiveRange:(id<PPTextActiveRange>)arg2;
+- (BOOL)textRenderer:(PPTextRenderer *)textRenderer shouldInteractWithActiveRange:(PPTextActiveRange *)activeRange;
 @end
 
 @interface PPTextRenderer : UIResponder
@@ -43,15 +36,15 @@
 @property (nonatomic, assign) BOOL heightSensitiveLayout;
 @property (nonatomic, weak) id <PPTextRendererDelegate> renderDelegate;
 @property (nonatomic, weak) id <PPTextLayoutDelegate> layoutDelegate;
-@property (nonatomic, strong) id <PPTextActiveRange> savedPressingActiveRange;
-@property (nonatomic, strong) id <PPTextActiveRange> pressingActiveRange;
+@property (nonatomic, strong) PPTextActiveRange *savedPressingActiveRange;
+@property (nonatomic, strong) PPTextActiveRange *pressingActiveRange;
 @property (nonatomic, assign) CGPoint drawingOrigin;
 @property (nonatomic, assign) CGFloat shadowBlur;
 @property (nonatomic, assign) UIOffset shadowOffset;
 @property (nonatomic, strong) UIColor *shadowColor;
 @property (nonatomic, strong) PPTextLayout *textLayout;
 - (UIOffset)drawingOffsetWithTextLayout:(PPTextLayout *)textLayout layoutFrame:(PPTextLayoutFrame *)layoutFrame;
-- (void)drawHighlightedBackgroundForActiveRange:(id)arg1 rect:(CGRect)rect context:(CGContextRef)context;
+- (void)drawHighlightedBackgroundForActiveRange:(PPTextActiveRange *)activeRange rect:(CGRect)rect context:(CGContextRef)context;
 - (void)drawAttachmentsWithAttributedString:(NSAttributedString *)attributedString
                                 layoutFrame:(PPTextLayoutFrame *)layoutFrame
                                     context:(CGContextRef)context
@@ -70,7 +63,7 @@
 - (CGRect)boundingRectForCharacterRange:(NSRange)range;
 - (CGPoint)locationForCharacterAtIndex:(NSUInteger)index;
 - (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(void(^)(void))block;
-- (void)enumerateEnclosingRectsForCharacterRange:(NSRange)range usingBlock:(void(^)(void))block;
+- (void)enumerateEnclosingRectsForCharacterRange:(NSRange)range usingBlock:(void(^)(CGRect rect, BOOL *stop))block;
 - (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(void(^)(void))block;
 - (CGRect)firstSelectionRectForCharacterRange:(NSRange)range;
 - (CGRect)lineFragmentRectForCharacterAtIndex:(NSUInteger)index effectiveRange:(NSRange)effectiveRange;
@@ -88,7 +81,7 @@
 @end
 
 @interface PPTextRenderer (Events)
-- (id<PPTextActiveRange>)rangeInRanges:(NSArray<id<PPTextActiveRange>> *)ranges forLayoutLocation:(CGPoint)location;
+- (PPTextActiveRange *)rangeInRanges:(NSArray<PPTextActiveRange *> *)ranges forLayoutLocation:(CGPoint)location;
 - (void)eventDelegateDidPressActiveRange:(id)arg1;
 - (NSArray *)eventDelegateActiveRanges;
 - (UIView *)eventDelegateContextView;

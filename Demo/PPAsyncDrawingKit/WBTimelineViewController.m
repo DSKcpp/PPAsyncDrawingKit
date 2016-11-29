@@ -46,10 +46,10 @@
         NSData *data = [NSData dataWithContentsOfFile:path];
         WBCardsModel *cards = [WBCardsModel yy_modelWithJSON:data];
         CGFloat width = _tableView.bounds.size.width;
-        [cards.cards enumerateObjectsUsingBlock:^(WBCardModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if (obj.mblog) {
-                [WBTimelineContentView heightOfTimelineItem:obj.mblog withContentWidth:width userInfo:nil];
-                [_timelineItems addObject:obj.mblog];
+        [cards.cards enumerateObjectsUsingBlock:^(WBCardModel * _Nonnull card, NSUInteger idx, BOOL * _Nonnull stop) {
+            if (card.mblog) {
+                [WBTimelineContentView heightOfTimelineItem:card.mblog withContentWidth:width];
+                [_timelineItems addObject:card.mblog];
             }
         }];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -78,7 +78,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     WBTimelineItem *timelineItem = _timelineItems[indexPath.row];
-    return [WBTimelineContentView heightOfTimelineItem:timelineItem withContentWidth:tableView.bounds.size.width userInfo:nil];
+    return [WBTimelineContentView heightOfTimelineItem:timelineItem withContentWidth:tableView.bounds.size.width];
 }
 
 @end

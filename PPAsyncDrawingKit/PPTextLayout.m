@@ -66,7 +66,6 @@
         CFRelease(framesetter);
         if (frame) {
             PPTextLayoutFrame *textLayoutFrame = [[PPTextLayoutFrame alloc] initWithCTFrame:frame layout:self];
-//            CFRelease(frame);
             return textLayoutFrame;
         }
         return nil;
@@ -154,5 +153,12 @@
 - (void)enumerateEnclosingRectsForCharacterRange:(NSRange)range usingBlock:(nonnull void (^)(CGRect, BOOL * _Nonnull))block
 {
     [self.layoutFrame enumerateEnclosingRectsForCharacterRange:range usingBlock:block];
+}
+@end
+
+@implementation PPTextLayout (Coordinates)
+- (CGPoint)convertPointToCoreText:(CGPoint)point
+{
+    return CGPointMake(point.x, self.size.height - point.y);
 }
 @end

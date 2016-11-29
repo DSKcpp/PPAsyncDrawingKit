@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@class PPAttributedText;
+@class PPTextAttributed;
 @class WBTimelineItem;
 @class WBTimelineContentImageViewLayouter;
 
@@ -18,10 +18,10 @@
 @property (nonatomic, assign) CGFloat rowHeight;
 @property (nonatomic, assign) CGFloat contentHeight;
 @property (nonatomic, assign) CGFloat contentWidth;
-@property (nonatomic, strong) PPAttributedText *titleAttributedText;
-@property (nonatomic, strong) PPAttributedText *metaInfoAttributedText;
-@property (nonatomic, strong) PPAttributedText *textAttributedText;
-@property (nonatomic, strong) PPAttributedText *quotedAttributedText;
+@property (nonatomic, strong) PPTextAttributed *titleAttributedText;
+@property (nonatomic, strong) PPTextAttributed *metaInfoAttributedText;
+@property (nonatomic, strong) PPTextAttributed *textAttributedText;
+@property (nonatomic, strong) PPTextAttributed *quotedAttributedText;
 @property (nonatomic, assign) CGRect titleBackgroundViewFrame;
 @property (nonatomic, assign) CGRect titleFrame;
 @property (nonatomic, assign) CGRect textContentBackgroundViewFrame;

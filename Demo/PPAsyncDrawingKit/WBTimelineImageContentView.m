@@ -89,7 +89,7 @@
     for (NSInteger i = 0; i < count; i++) {
         WBTimelineImageView *imageView = [self dequeueReusableImageView];
         if (count == 1) {
-            imageView.frame = CGRectMake(0, 0, preset.oneImageWidth, preset.oneImageHeight);
+            imageView.frame = CGRectMake(0, 0, preset.verticalImageWidth, preset.verticalImageHeight);
         } else {
             NSUInteger row = i / cols;
             NSUInteger col = i % cols;

@@ -15,7 +15,7 @@
 {
     if (self = [super initWithFrame:frame]) {
         self.drawingPolicy = 0;
-        self.fontSize = 0;
+        self.fontSize = 15;
     }
     return self;
 }
@@ -40,7 +40,7 @@
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async
 {
     NSString *username = self.user.screen_name;
-    [username pp_drawInRect:rect withFont:[UIFont systemFontOfSize:12.0] textColor:[UIColor redColor] lineBreakMode:NSLineBreakByWordWrapping];
+    [username pp_drawInRect:rect withFont:[UIFont systemFontOfSize:self.fontSize] textColor:[UIColor redColor] lineBreakMode:NSLineBreakByWordWrapping];
     return YES;
 }
 
@@ -69,6 +69,16 @@
 }
 
 - (void)_sendActionsForControlEvents:(UIControlEvents)controlEvents withEvent:(UIEvent *)event
+{
+    
+}
+
+- (void)_userPressedIcon:(id)arg1
+{
+    
+}
+
+- (void)_userPressedText
 {
     
 }

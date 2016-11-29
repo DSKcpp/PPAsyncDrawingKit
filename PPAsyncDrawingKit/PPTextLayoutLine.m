@@ -48,7 +48,7 @@
 
 - (CGRect)fragmentRect
 {
-    CGFloat height = self.lineMetrics.ascent + self.lineMetrics.descent + self.lineMetrics.leading;
+    CGFloat height = self.lineMetrics.ascent + self.lineMetrics.descent;
     return (CGRect){self.baselineOrigin, (CGSize){self.width, height}};
 }
 
@@ -56,7 +56,6 @@
 {
     if (_lineRef) {
         CFRelease(_lineRef);
-        _lineRef = nil;
     }
 }
 

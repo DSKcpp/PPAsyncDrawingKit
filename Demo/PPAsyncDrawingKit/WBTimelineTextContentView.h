@@ -14,7 +14,7 @@
 
 @interface WBTimelineTextContentView : PPAsyncDrawingView
 + (CGSize)sizeForTag:(id)arg1;
-+ (void)renderDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext userInfo:(NSDictionary *)userInfo;
++ (void)renderDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext;
 @property (nonatomic, strong) NSMutableArray *attachmentViews;
 @property (nonatomic, strong) NSMutableArray *attachments;
 @property (nonatomic, assign) unsigned long long touchingItemIndex;

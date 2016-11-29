@@ -7,22 +7,23 @@
 //
 
 #import "WBTimelineTableViewCellDrawingContext.h"
-#import "PPAttributedText.h"
+#import "PPTextAttributed.h"
 #import "WBTimelineItem.h"
 #import "WBTimelineAttributedTextParser.h"
+#import "WBTimelinePreset.h"
 
 @implementation WBTimelineTableViewCellDrawingContext
 - (instancetype)initWithTimelineItem:(WBTimelineItem *)timelineItem
 {
     if (self = [super init]) {
         _timelineItem = timelineItem;
-        self.titleAttributedText = [PPAttributedText new];
+        self.titleAttributedText = [PPTextAttributed new];
         self.titleAttributedText.shouldShowSmallCardForcily = YES;
-        self.metaInfoAttributedText = [PPAttributedText new];
+        self.metaInfoAttributedText = [PPTextAttributed new];
         self.metaInfoAttributedText.shouldShowSmallCardForcily = YES;
-        self.textAttributedText = [PPAttributedText new];
+        self.textAttributedText = [PPTextAttributed new];
         self.textAttributedText.shouldShowSmallCardForcily = YES;
-        self.quotedAttributedText = [PPAttributedText new];
+        self.quotedAttributedText = [PPTextAttributed new];
         self.quotedAttributedText.shouldShowSmallCardForcily = YES;
         NSString *itemText = timelineItem.text;
         if (itemText) {
@@ -38,6 +39,7 @@
         }
         if (timelineItem.title) {
             NSString *title = timelineItem.title.text;
+            self.titleAttributedText.fontSize = [WBTimelinePreset sharedInstance].titleFontSize;
             self.titleAttributedText.textParser = [[WBTimelineAttributedTextParser alloc] init];
             [self.titleAttributedText resetTextStorageWithPlainText:title];
         }

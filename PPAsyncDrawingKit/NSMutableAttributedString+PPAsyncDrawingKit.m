@@ -25,18 +25,18 @@
     }
 }
 
-- (void)pp_setCTFont:(CTFontRef)CTFont
+- (void)pp_setFont:(UIFont *)font
 {
-    [self pp_setCTFont:CTFont inRange:[self pp_stringRange]];
+    [self pp_setFont:font inRange:[self pp_stringRange]];
 }
 
-- (void)pp_setCTFont:(CTFontRef)CTFont inRange:(NSRange)range
+- (void)pp_setFont:(UIFont *)font inRange:(NSRange)range
 {
     range = [self pp_effectiveRangeWithRange:range];
-    if (CTFont) {
-        [self addAttribute:(NSString *)kCTFontAttributeName value:(__bridge id _Nonnull)(CTFont) range:range];
+    if (font) {
+        [self addAttribute:NSFontAttributeName value:font range:range];
     } else {
-        [self removeAttribute:(NSString *)kCTFontAttributeName range:range];
+        [self removeAttribute:NSFontAttributeName range:range];
     }
 }
 

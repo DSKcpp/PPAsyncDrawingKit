@@ -10,10 +10,11 @@
 #import "WBTimelineTableViewCellDrawingContext.h"
 #import "PPTextRenderer.h"
 #import "WBTimelineItem.h"
-#import "PPAttributedText.h"
+#import "PPTextAttributed.h"
 #import "NSAttributedString+PPAsyncDrawingKit.h"
 #import "WBTimelineContentImageViewLayouter.h"
 #import "WBTimelinePreset.h"
+#import "PPTextActiveRange.h"
 
 @interface WBTimelineTextContentView () <PPTextRendererDelegate, PPTextRendererEventDelegate>
 
@@ -21,26 +22,26 @@
 
 @implementation WBTimelineTextContentView
 
-+ (void)renderDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext userInfo:(NSDictionary *)userInfo
++ (void)renderDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext
 {
     WBTimelinePreset *preset = [WBTimelinePreset sharedInstance];
     CGFloat maxWidth = drawingContext.contentWidth - preset.leftSpacing * 2.0f;
     CGFloat totalHeight = 0.0f;
     if (drawingContext.hasTitle) {
-        drawingContext.titleBackgroundViewFrame = CGRectMake(0, 0, drawingContext.contentWidth, preset.titleItemHeight);
-        drawingContext.titleFrame = CGRectMake(preset.titleIconLeft + preset.titleIconSize + 5.0f, preset.titleIconTop, drawingContext.contentWidth, preset.titleItemHeight);
-        totalHeight += preset.titleItemHeight;
+        drawingContext.titleBackgroundViewFrame = CGRectMake(0, 0, drawingContext.contentWidth, preset.titleAreaHeight);
+        drawingContext.titleFrame = CGRectMake(preset.titleIconLeft + preset.titleIconSize + 5.0f, preset.titleIconTop, drawingContext.contentWidth, preset.titleAreaHeight);
+        totalHeight += preset.titleAreaHeight;
     }
     
     CGFloat titleHeight = CGRectGetHeight(drawingContext.titleFrame);
     drawingContext.avatarFrame = CGRectMake(preset.leftSpacing, preset.avatarTop + titleHeight, preset.avatarSize, preset.avatarSize);
-    drawingContext.nicknameFrame = CGRectMake(preset.nameLabelLeft, totalHeight + preset.nameLabelTop, 100, 20);
-    drawingContext.metaInfoFrame = CGRectMake(preset.nameLabelLeft, 39.0f + titleHeight, drawingContext.contentWidth, 20.0f);
-    totalHeight += 54.0f;
+    drawingContext.nicknameFrame = CGRectMake(preset.nicknameLeft, totalHeight + preset.nicknameTop, 100, 20);
+    drawingContext.metaInfoFrame = CGRectMake(preset.nicknameLeft, preset.avatarSize + titleHeight, drawingContext.contentWidth, 20.0f);
+    totalHeight += preset.headerAreaHeight;
     
     CGFloat height = [drawingContext.textAttributedText.attributedString pp_heightConstrainedToWidth:maxWidth];
-    drawingContext.textFrame = CGRectMake(preset.leftSpacing, totalHeight + 10.0f, maxWidth, height + 10.0f);
-    totalHeight += height + 20.0f;
+    drawingContext.textFrame = CGRectMake(preset.leftSpacing, totalHeight, maxWidth, height + 10.0f);
+    totalHeight += height + 10.0f;
     
     if (drawingContext.hasQuoted) {
         CGFloat height = [drawingContext.quotedAttributedText.attributedString pp_heightConstrainedToWidth:maxWidth];
@@ -52,14 +53,14 @@
     if (picCount == 0) {
         drawingContext.photoFrame = CGRectZero;
     } else if (picCount == 1) {
-        CGFloat width = preset.oneImageWidth;
-        CGFloat height = preset.oneImageHeight;
-        drawingContext.photoFrame = CGRectMake(12, totalHeight, width, height);
+        CGFloat width = preset.verticalImageWidth;
+        CGFloat height = preset.verticalImageHeight;
+        drawingContext.photoFrame = CGRectMake(preset.leftSpacing, totalHeight, width, height);
         totalHeight += height + 10.0f;
     } else {
         NSUInteger rows = ceilf(picCount / 3.0f);
         CGFloat height = rows * preset.gridImageSize;
-        drawingContext.photoFrame = CGRectMake(12, totalHeight, maxWidth, height);
+        drawingContext.photoFrame = CGRectMake(preset.leftSpacing, totalHeight, maxWidth, height);
         totalHeight += height + 10.0f;
     }
     drawingContext.textContentBackgroundViewFrame = CGRectMake(0, titleHeight, drawingContext.contentWidth, totalHeight - titleHeight);
@@ -72,6 +73,7 @@
 {
     if (self = [super initWithFrame:frame]) {
         [self setBackgroundColor:[UIColor clearColor]];
+        self.reserveContentsBeforeNextDrawingComplete = YES;
         self.itemTextRenderer = [[PPTextRenderer alloc] init];
         self.itemTextRenderer.renderDelegate = self;
         self.itemTextRenderer.eventDelegate = self;
@@ -89,7 +91,6 @@
         self.attachments = [NSMutableArray array];
         self.dispatchPriority = 2;
         self.isSourceRectBeReset = NO;
-        self.contentsChangedAfterLastAsyncDrawing = YES;
         _textRenderers = @[self.itemTextRenderer, self.quotedItemTextRenderer, self.titleTextRenderer, self.metaInfoTextRenderer];
     }
     return self;
@@ -98,6 +99,7 @@
 - (void)setDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext
 {
     _drawingContext = drawingContext;
+    self.contentsChangedAfterLastAsyncDrawing = YES;
     [self setNeedsDisplay];
 }
 
@@ -158,7 +160,7 @@
         }
     }
     [self.respondTextRenderer touchesBegan:touches withEvent:event];
-    id<PPTextActiveRange> range = self.respondTextRenderer.pressingActiveRange;
+    PPTextActiveRange *range = self.respondTextRenderer.pressingActiveRange;
     if (!range) {
         
     }
@@ -172,7 +174,7 @@
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    
+    [self.respondTextRenderer touchesEnded:touches withEvent:event];
 }
 
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -229,8 +231,13 @@
     }
 }
 
-- (BOOL)textRenderer:(PPTextRenderer *)textRenderer shouldInteractWithActiveRange:(id<PPTextActiveRange>)arg2
+- (BOOL)textRenderer:(PPTextRenderer *)textRenderer shouldInteractWithActiveRange:(PPTextActiveRange *)arg2
 {
     return YES;
+}
+
+- (void)textRenderer:(PPTextRenderer *)textRenderer didPressActiveRange:(PPTextActiveRange *)activeRange
+{
+    NSLog(@"%@", activeRange.content);
 }
 @end
