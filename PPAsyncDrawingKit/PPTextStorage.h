@@ -11,11 +11,18 @@
 
 @class PPTextStorage;
 
+typedef NS_OPTIONS(NSUInteger, PPTextStorageEditActions) {
+    PPTextStorageEditedAttributes = (1 << 0),
+    PPTextStorageEditedCharacters = (1 << 1)
+};
+
 @protocol PPTextStorageDelegate <NSObject>
-- (void)pp_textStorage:(PPTextStorage *)textStorage didProcessEditing:(NSUInteger)arg2 range:(NSRange)range changeInLength:(NSInteger)length;
+- (void)textStorage:(PPTextStorage *)textStorage
+  didProcessEditing:(PPTextStorageEditActions)editedMask
+              range:(NSRange)editedRange
+     changeInLength:(NSInteger)delta;
 @end
 
 @interface PPTextStorage : NSMutableAttributedString
 @property (nonatomic, weak) id <PPTextStorageDelegate> delegate;
-- (NSString *)string;
 @end

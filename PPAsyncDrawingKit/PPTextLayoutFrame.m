@@ -40,7 +40,7 @@
         PPTextLayoutLine *line = [[PPTextLayoutLine alloc] initWithCTLine:lineRef origin:origins[i] layout:self.layout];
         [lines addObject:line];
     }
-    self.lineFragments = lines;
+    self.lineFragments = [NSArray arrayWithArray:lines];
     [self updateLayoutSize];
 }
 

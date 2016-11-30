@@ -40,7 +40,7 @@
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async
 {
     NSString *username = self.user.screen_name;
-    [username pp_drawInRect:rect withFont:[UIFont systemFontOfSize:self.fontSize] textColor:[UIColor redColor] lineBreakMode:NSLineBreakByWordWrapping];
+    [username pp_drawInRect:rect withFont:[UIFont systemFontOfSize:self.fontSize] textColor:[UIColor colorWithRed:255/255.0f green:81/255.0f blue:20/255.0f alpha:1.0f] lineBreakMode:NSLineBreakByWordWrapping];
     return YES;
 }
 

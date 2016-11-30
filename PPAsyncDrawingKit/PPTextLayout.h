@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) PPFontMetrics baselineFontMetrics;
 @property (nonatomic, strong) NSAttributedString *truncationString;
 @property (nonatomic, assign) NSUInteger maximumNumberOfLines;
-@property (nonatomic, strong) NSArray<UIBezierPath *> *exclusionPaths;
+@property (nullable, nonatomic, strong) NSArray<UIBezierPath *> *exclusionPaths;
 @property (nonatomic, assign) CGSize size;
 @property (nonatomic, strong) NSAttributedString *attributedString;
 @property (nonatomic, strong) PPTextLayoutFrame *layoutFrame;

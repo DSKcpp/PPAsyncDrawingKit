@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *plainTextForCharacterCounting;
 @property (nullable, nonatomic, strong) NSArray<PPTextAttachment *> *textAttachments;
 @property (nullable, nonatomic, strong) NSArray<PPTextActiveRange *> *activeRanges;
-@property (nonatomic, strong) NSMutableAttributedString *attributedString;
+@property (nullable, nonatomic, strong) NSMutableAttributedString *attributedString;
 @property (nonatomic, assign) BOOL shouldShowSmallCardForcily;
 @property (nonatomic, strong) NSDictionary *analysisParameters;
 @property (nonatomic, strong) NSArray *userActiveRanges;

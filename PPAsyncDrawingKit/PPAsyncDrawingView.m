@@ -124,8 +124,10 @@ static BOOL asyncDrawingDisabled = NO;
         }
         [self drawInRect:CGRectMake(0, 0, size.width, size.height) withContext:context asynchronously:asynchronously userInfo:userInfo];
         CGContextRestoreGState(context);
-        UIImage *image = [UIImage imageWithCGImage:CGBitmapContextCreateImage(context)];
+        CGImageRef imageRef = CGBitmapContextCreateImage(context);
+        UIImage *image = [UIImage imageWithCGImage:imageRef];
         UIGraphicsEndImageContext();
+        CGImageRelease(imageRef);
         if (isCancel()) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 drawingFinished(YES, NO);

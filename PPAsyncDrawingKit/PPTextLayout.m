@@ -49,20 +49,24 @@
 - (PPTextLayoutFrame *)createLayoutFrame
 {
     if (self.attributedString) {
-        UIBezierPath *path = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, self.size.width, self.size.height)];
-        CGAffineTransform transform = CGAffineTransformMakeTranslation(0, 0);
+        CGRect rect = CGRectMake(0, 0, self.size.width, self.size.height);
+        UIBezierPath *path = [UIBezierPath bezierPathWithRect:rect];
+        CGAffineTransform transform = CGAffineTransformIdentity;
         CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((CFAttributedStringRef)self.attributedString);
+        CTFrameRef frame;
         if (self.exclusionPaths.count != 0) {
             [self.exclusionPaths enumerateObjectsUsingBlock:^(UIBezierPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 [path appendPath:obj.copy];
                 [path applyTransform:transform];
             }];
             path.usesEvenOddFillRule = YES;
+            frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, self.attributedString.length), path.CGPath, NULL);
         } else {
-            CGMutablePathRef path = CGPathCreateMutable();
-            CGPathAddRect(path, &transform, CGRectZero);
+            CGMutablePathRef mutablePath = CGPathCreateMutable();
+            CGPathAddRect(mutablePath, &transform, rect);
+            frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, self.attributedString.length), mutablePath, NULL);
+            CGPathRelease(mutablePath);
         }
-        CTFrameRef frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, self.attributedString.length), path.CGPath, NULL);
         CFRelease(framesetter);
         if (frame) {
             PPTextLayoutFrame *textLayoutFrame = [[PPTextLayoutFrame alloc] initWithCTFrame:frame layout:self];
@@ -158,6 +162,11 @@
 
 @implementation PPTextLayout (Coordinates)
 - (CGPoint)convertPointToCoreText:(CGPoint)point
+{
+    return CGPointMake(point.x, self.size.height - point.y);
+}
+
+- (CGPoint)convertPointFromCoreText:(CGPoint)point
 {
     return CGPointMake(point.x, self.size.height - point.y);
 }

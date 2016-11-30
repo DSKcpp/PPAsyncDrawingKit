@@ -41,6 +41,8 @@
     PPFontMetrics fontMetrics;
     if (self.layout) {
         fontMetrics = self.layout.baselineFontMetrics;
+        _baselineOrigin = [_layout convertPointFromCoreText:_baselineOrigin];
+        NSLog(@"B: %@", NSStringFromCGPoint(_baselineOrigin));
     }
     _width = CTLineGetTypographicBounds(_lineRef, &fontMetrics.ascent, &fontMetrics.descent, &fontMetrics.leading);
     _lineMetrics = fontMetrics;

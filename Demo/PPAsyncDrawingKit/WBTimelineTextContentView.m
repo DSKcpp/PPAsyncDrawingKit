@@ -29,11 +29,12 @@
     CGFloat totalHeight = 0.0f;
     if (drawingContext.hasTitle) {
         drawingContext.titleBackgroundViewFrame = CGRectMake(0, 0, drawingContext.contentWidth, preset.titleAreaHeight);
-        drawingContext.titleFrame = CGRectMake(preset.titleIconLeft + preset.titleIconSize + 5.0f, preset.titleIconTop, drawingContext.contentWidth, preset.titleAreaHeight);
+        CGFloat height = [drawingContext.titleAttributedText.attributedString pp_heightConstrainedToWidth:maxWidth];
+        drawingContext.titleFrame = CGRectMake(preset.titleIconLeft + preset.titleIconSize + 5.0f, 6.0f, drawingContext.contentWidth, 17);
         totalHeight += preset.titleAreaHeight;
     }
     
-    CGFloat titleHeight = CGRectGetHeight(drawingContext.titleFrame);
+    CGFloat titleHeight = drawingContext.hasTitle ? preset.titleAreaHeight : 0;
     drawingContext.avatarFrame = CGRectMake(preset.leftSpacing, preset.avatarTop + titleHeight, preset.avatarSize, preset.avatarSize);
     drawingContext.nicknameFrame = CGRectMake(preset.nicknameLeft, totalHeight + preset.nicknameTop, 100, 20);
     drawingContext.metaInfoFrame = CGRectMake(preset.nicknameLeft, preset.avatarSize + titleHeight, drawingContext.contentWidth, 20.0f);
@@ -121,7 +122,7 @@
         self.titleTextRenderer.frame = drawingContext.titleFrame;
         [self.titleTextRenderer drawInContext:context shouldInterruptBlock:nil];
     }
-    self.metaInfoTextRenderer.attributedString = [[NSAttributedString alloc] initWithString:@"2分钟前  来自iPhone 7"];
+    self.metaInfoTextRenderer.attributedString = drawingContext.metaInfoAttributedText.attributedString;
     self.metaInfoTextRenderer.frame = drawingContext.metaInfoFrame;
     [self.metaInfoTextRenderer drawInContext:context shouldInterruptBlock:nil];
     self.itemTextRenderer.frame = drawingContext.textFrame;

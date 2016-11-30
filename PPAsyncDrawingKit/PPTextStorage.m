@@ -12,9 +12,6 @@
 @implementation PPTextStorage
 {
     CFMutableAttributedStringRef attributedString;
-    struct {
-        unsigned int didProcessEditing: 1;
-    } delegateHas;
 }
 
 - (instancetype)init
@@ -25,11 +22,10 @@
     return self;
 }
 
-- (void)setDelegate:(id<PPTextStorageDelegate>)delegate
+- (void)dealloc
 {
-    if (_delegate != delegate) {
-        _delegate = delegate;
-        delegateHas.didProcessEditing = [delegate respondsToSelector:@selector(pp_textStorage:didProcessEditing:range:changeInLength:)];
+    if (attributedString) {
+        CFRelease(attributedString);
     }
 }
 
@@ -56,8 +52,8 @@
 - (void)setAttributes:(NSDictionary<NSString *,id> *)attrs range:(NSRange)range
 {
     CFAttributedStringSetAttributes(attributedString, PPCFRangeFromNSRange(range), (__bridge CFDictionaryRef)attrs, NO);
-    if (delegateHas.didProcessEditing != 0) {
-        [self.delegate pp_textStorage:self didProcessEditing:1 range:range changeInLength:0];
+    if ([_delegate respondsToSelector:@selector(textStorage:didProcessEditing:range:changeInLength:)]) {
+        [_delegate textStorage:self didProcessEditing:1 range:range changeInLength:0];
     }
 }
 
@@ -67,8 +63,8 @@
         str = nil;
     }
     CFAttributedStringReplaceString(attributedString, PPCFRangeFromNSRange(range), (__bridge CFStringRef)str);
-    if (delegateHas.didProcessEditing != 0) {
-        [self.delegate pp_textStorage:self didProcessEditing:1 range:range changeInLength:0];
+    if ([_delegate respondsToSelector:@selector(textStorage:didProcessEditing:range:changeInLength:)]) {
+        [_delegate textStorage:self didProcessEditing:1 range:range changeInLength:0];
     }
 }
 

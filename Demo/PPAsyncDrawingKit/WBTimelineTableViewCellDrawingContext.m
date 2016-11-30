@@ -43,6 +43,9 @@
             self.titleAttributedText.textParser = [[WBTimelineAttributedTextParser alloc] init];
             [self.titleAttributedText resetTextStorageWithPlainText:title];
         }
+        self.metaInfoAttributedText.textParser = [[WBTimelineAttributedTextParser alloc] init];
+        self.metaInfoAttributedText.fontSize = 12.0f;
+        [self.metaInfoAttributedText resetTextStorageWithPlainText:@"2分钟前 来自iPhone 7"];
     }
     return self;
 }

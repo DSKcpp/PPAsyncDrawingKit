@@ -43,6 +43,7 @@
     if (plainText == nil) {
         plainText = @"";
     }
+    flags.needsRebuild = 1;
     NSAttributedString *string = [[NSAttributedString alloc] initWithString:plainText];
     [self.textStorage setAttributedString:string];
 }
@@ -57,7 +58,9 @@
 
 - (void)rebuildIfNeeded
 {
-    [self rebuild];
+    if (flags.needsRebuild == 1) {
+        [self rebuild];
+    }
 }
 
 - (NSMutableAttributedString *)attributedString
@@ -108,7 +111,7 @@
 - (void)setColorWithActiveRange:(PPTextActiveRange *)activeRange forAttributedString:(NSMutableAttributedString *)attributedString
 {
     if (activeRange) {
-        [attributedString pp_setColor:[UIColor blueColor] inRange:activeRange.range];
+        [attributedString pp_setColor:[UIColor colorWithRed:18/255.0f green:135/255.0f blue:217/255.0f alpha:1.0f] inRange:activeRange.range];
     }
 }
 
