@@ -10,11 +10,11 @@
 #import "PPAsyncDrawingKitUtilities.h"
 #import "PPTextLayout.h"
 
-@implementation PPTextLayoutLine
-{
-    NSRange lineRefRange;
-}
+@interface PPTextLayoutLine ()
+@property (nonatomic, assign) NSRange lineRefRange;
+@end
 
+@implementation PPTextLayoutLine
 - (instancetype)initWithCTLine:(CTLineRef)lineRef origin:(CGPoint)origin layout:(PPTextLayout *)layout
 {
     return [self initWithCTLine:lineRef origin:origin layout:layout truncatedLine:nil];
@@ -24,12 +24,12 @@
 {
     if (self = [super init]) {
         _baselineOrigin = origin;
-        self.layout = layout;
+        _layout = layout;
         if (lineRef) {
             _lineRef = lineRef;
             CFRange range = CTLineGetStringRange(lineRef);
             _stringRange = PPNSRangeFromCFRange(range);
-            lineRefRange = PPNSRangeFromCFRange(range);
+            _lineRefRange = PPNSRangeFromCFRange(range);
             [self setupWithCTLine];
         }
     }
@@ -42,7 +42,6 @@
     if (self.layout) {
         fontMetrics = self.layout.baselineFontMetrics;
         _baselineOrigin = [_layout convertPointFromCoreText:_baselineOrigin];
-        NSLog(@"B: %@", NSStringFromCGPoint(_baselineOrigin));
     }
     _width = CTLineGetTypographicBounds(_lineRef, &fontMetrics.ascent, &fontMetrics.descent, &fontMetrics.leading);
     _lineMetrics = fontMetrics;
@@ -50,7 +49,7 @@
 
 - (CGRect)fragmentRect
 {
-    CGFloat height = self.lineMetrics.ascent + self.lineMetrics.descent;
+    CGFloat height = self.lineMetrics.ascent + self.lineMetrics.descent + self.lineMetrics.leading;
     return (CGRect){self.baselineOrigin, (CGSize){self.width, height}};
 }
 
@@ -92,7 +91,7 @@
 - (NSInteger)locationDeltaFromRealRangeToLineRefRange
 {
     if (_lineRef) {
-        NSInteger i = self.stringRange.location - lineRefRange.location;
+        NSInteger i = self.stringRange.location - _lineRefRange.location;
         if (i < 0) {
             return 0;
         }

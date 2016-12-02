@@ -33,15 +33,59 @@
     return self;
 }
 
-- (CTParagraphStyleRef)newCTParagraphStyleWithFontSize:(NSInteger)fontSize
+- (CTParagraphStyleRef)newCTParagraphStyleWithFontSize:(CGFloat)fontSize
 {
-    NSTextAlignmentToCTTextAlignment(self.alignment);
-    CTParagraphStyleSetting settings;
+    CGFloat paragraphSpacingBefore = self.paragraphSpacingBefore;
+    CGFloat paragraphSpacingAfter = self.paragraphSpacingAfter;
+    
+    CTParagraphStyleSetting aligmentStyle;
+    CTTextAlignment aligment = NSTextAlignmentToCTTextAlignment(self.alignment);
+    aligmentStyle.value = &aligment;
+    aligmentStyle.valueSize = sizeof(CTTextAlignment);
+    aligmentStyle.spec = kCTParagraphStyleSpecifierAlignment;
+    
+    CTParagraphStyleSetting lineBreakModel;
+    CTLineBreakMode lineBreak = self.lineBreakMode;
+    lineBreakModel.value = &lineBreak;
+    lineBreakModel.valueSize = sizeof(CTLineBreakMode);
+    lineBreakModel.spec = kCTParagraphStyleSpecifierLineBreakMode;
+    
+    CTParagraphStyleSetting maximumLineHeight;
+    CGFloat maxHeight = self.maximumLineHeight > 0 ? self.maximumLineHeight : fontSize + self.lineSpacing;
+    maximumLineHeight.value = &maxHeight;
+    maximumLineHeight.valueSize = sizeof(CGFloat);
+    maximumLineHeight.spec = kCTParagraphStyleSpecifierMaximumLineHeight;
+    
+    CTParagraphStyleSetting minimumLineHeight;
+    minimumLineHeight.value = &maxHeight;
+    minimumLineHeight.valueSize = sizeof(CGFloat);
+    minimumLineHeight.spec = kCTParagraphStyleSpecifierMinimumLineHeight;
+    
+    CTParagraphStyleSetting maximumLineSpacingStyle;
+    CGFloat maximumLineSpacing = 1;
+    maximumLineSpacingStyle.value = &maximumLineSpacing;
+    maximumLineSpacingStyle.valueSize = sizeof(CGFloat);
+    maximumLineSpacingStyle.spec = kCTParagraphStyleSpecifierMaximumLineSpacing;
+    
+    CTParagraphStyleSetting minimumLineSpacingStyle;
+    CGFloat minimumLineSpacing = 1;
+    minimumLineSpacingStyle.value = &minimumLineSpacing;
+    minimumLineSpacingStyle.valueSize = sizeof(CGFloat);
+    minimumLineSpacingStyle.spec = kCTParagraphStyleSpecifierMinimumLineSpacing;
+    
+    
+    CTParagraphStyleSetting writedicStyle;
+    CTWritingDirection writedic = kCTWritingDirectionLeftToRight;
+    writedicStyle.value = &writedic;
+    writedicStyle.valueSize = sizeof(CTWritingDirection);
+    writedicStyle.spec = kCTParagraphStyleSpecifierBaseWritingDirection;
+    
+    CTParagraphStyleSetting settings[] = {lineBreakModel, maximumLineHeight, minimumLineHeight, maximumLineSpacingStyle, minimumLineSpacingStyle, aligmentStyle, writedicStyle};
     [self propertyUpdated];
-    return CTParagraphStyleCreate(&settings, 1);
+    return CTParagraphStyleCreate(settings, 7);
 }
 
-- (NSMutableParagraphStyle *)nsParagraphStyleWithFontSize:(NSInteger)fontSize
+- (NSMutableParagraphStyle *)nsParagraphStyleWithFontSize:(CGFloat)fontSize
 {
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.lineBreakMode = self.lineBreakMode;
@@ -55,7 +99,6 @@
     }
     paragraphStyle.paragraphSpacingBefore = self.paragraphSpacingBefore;
     paragraphStyle.paragraphSpacing = self.paragraphSpacingAfter;
-    
     return paragraphStyle;
 }
 

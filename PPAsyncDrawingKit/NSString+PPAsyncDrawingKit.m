@@ -97,7 +97,7 @@
     paragraphStyle.alignment = alignment;
     NSDictionary *attributes = @{NSFontAttributeName : font,
                                  NSParagraphStyleAttributeName : paragraphStyle,
-                                 NSBaselineOffsetAttributeName : [NSNumber numberWithInt:baselineAdjustment], NSForegroundColorAttributeName : textColor};
+                                 NSBaselineOffsetAttributeName : [NSNumber numberWithInt:baselineAdjustment], NSForegroundColorAttributeName : _textColor};
     [self drawInRect:rect withAttributes:attributes];
     return rect.size;
 }

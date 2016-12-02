@@ -80,11 +80,9 @@
             for (PPTextLayoutLine *line in self.textLayout.layoutFrame.lineFragments) {
                 CGPoint position = [self.textLayout convertPointToCoreText:line.baselineOrigin];
                 CGFloat y = -self.drawingOrigin.y + position.y;
-                NSLog(@"O:%f P:%f Y:%f", self.drawingOrigin.y, position.y, y);
                 CGContextSetTextPosition(context, self.drawingOrigin.x + position.x, y);
                 CTLineDraw(line.lineRef, context);
             }
-            NSLog(@"done");
             CGContextRestoreGState(context);
             if (placeAttachments) {
                 [self drawAttachmentsWithAttributedString:attributedString layoutFrame:self.textLayout.layoutFrame context:context shouldInterrupt:shouldInterruptBlock];
@@ -278,10 +276,10 @@
     return nil;
 }
 
-- (void)eventDelegateDidPressActiveRange:(id)arg1
+- (void)eventDelegateDidPressActiveRange:(PPTextActiveRange *)activeRange
 {
     if (_eventDelegate) {
-        [_eventDelegate textRenderer:self didPressActiveRange:arg1];
+        [_eventDelegate textRenderer:self didPressActiveRange:activeRange];
     }
 }
 @end

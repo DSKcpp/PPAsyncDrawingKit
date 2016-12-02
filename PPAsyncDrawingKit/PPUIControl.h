@@ -33,8 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addTarget:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents;
 - (void)removeTarget:(id)target action:(SEL)action fotControlEvents:(UIControlEvents)controlEvents;
 
-- (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(nullable UIEvent *)event;
-- (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(nullable UIEvent *)event;
+- (BOOL)beginTrackingWithTouch:(nullable UITouch *)touch withEvent:(nullable UIEvent *)event;
+- (BOOL)continueTrackingWithTouch:(nullable UITouch *)touch withEvent:(nullable UIEvent *)event;
 - (void)endTrackingWithTouch:(nullable UITouch *)touch withEvent:(nullable UIEvent *)event; // touch is sometimes nil if cancelTracking calls through to this.
 - (void)cancelTrackingWithEvent:(nullable UIEvent *)event; // event may be nil if cancelled for non-event reasons, e.g. removed from window
 

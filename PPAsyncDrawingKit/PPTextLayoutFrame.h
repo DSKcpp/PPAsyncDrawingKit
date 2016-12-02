@@ -13,6 +13,8 @@
 @class PPTextLayout;
 @class PPTextLayoutLine;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface PPTextLayoutFrame : NSObject
 @property (nonatomic, weak) PPTextLayout *layout;
 @property (nonatomic, assign) CGSize layoutSize;
@@ -33,3 +35,5 @@
 - (CGRect)firstSelectionRectForCharacterRange:(NSRange)range;
 - (NSUInteger)lineFragmentIndexForCharacterAtIndex:(NSUInteger)index;
 @end
+
+NS_ASSUME_NONNULL_END

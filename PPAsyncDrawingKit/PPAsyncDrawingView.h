@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) BOOL padingRedraw;
 @property (nonatomic, assign) BOOL serializesDrawingOperations;
 @property (nonatomic, assign) NSInteger dispatchPriority;
-@property (nonatomic, assign, nullable) dispatch_queue_t dispatchDrawQueue;
+@property (nullable, nonatomic, assign) dispatch_queue_t dispatchDrawQueue;
 @property (nonatomic, assign) NSTimeInterval fadeDuration;
 @property (nonatomic, assign) BOOL reserveContentsBeforeNextDrawingComplete;
 @property (nonatomic, assign) BOOL contentsChangedAfterLastAsyncDrawing;

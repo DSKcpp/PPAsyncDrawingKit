@@ -10,6 +10,8 @@
 #import <UIKit/UIKit.h>
 #import "PPAsyncDrawingKitUtilities.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface PPTextAttachment : NSObject <NSCoding>
 @property (nonatomic, copy) NSString *replacementText;
 @property (nonatomic, assign) PPFontMetrics baselineFontMetrics;
@@ -29,3 +31,5 @@
 - (CGFloat)descentForLayout;
 - (CGFloat)ascentForLayout;
 @end
+
+NS_ASSUME_NONNULL_END

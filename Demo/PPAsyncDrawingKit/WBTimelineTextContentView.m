@@ -30,10 +30,9 @@
     if (drawingContext.hasTitle) {
         drawingContext.titleBackgroundViewFrame = CGRectMake(0, 0, drawingContext.contentWidth, preset.titleAreaHeight);
         CGFloat height = [drawingContext.titleAttributedText.attributedString pp_heightConstrainedToWidth:maxWidth];
-        drawingContext.titleFrame = CGRectMake(preset.titleIconLeft + preset.titleIconSize + 5.0f, 6.0f, drawingContext.contentWidth, 17);
+        drawingContext.titleFrame = CGRectMake(preset.titleIconLeft + preset.titleIconSize + 5.0f, 6.0f, drawingContext.contentWidth, height);
         totalHeight += preset.titleAreaHeight;
     }
-    
     CGFloat titleHeight = drawingContext.hasTitle ? preset.titleAreaHeight : 0;
     drawingContext.avatarFrame = CGRectMake(preset.leftSpacing, preset.avatarTop + titleHeight, preset.avatarSize, preset.avatarSize);
     drawingContext.nicknameFrame = CGRectMake(preset.nicknameLeft, totalHeight + preset.nicknameTop, 100, 20);

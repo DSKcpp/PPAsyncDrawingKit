@@ -11,6 +11,7 @@
 #import "WBTimelineItem.h"
 #import "WBTimelineAttributedTextParser.h"
 #import "WBTimelinePreset.h"
+#import "NSMutableAttributedString+PPAsyncDrawingKit.h"
 
 @implementation WBTimelineTableViewCellDrawingContext
 - (instancetype)initWithTimelineItem:(WBTimelineItem *)timelineItem
@@ -27,22 +28,29 @@
         self.quotedAttributedText.shouldShowSmallCardForcily = YES;
         NSString *itemText = timelineItem.text;
         if (itemText) {
+            self.textAttributedText.paragraphStyle = [PPTextParagraphStyle defaultParagraphStyle];
             self.textAttributedText.textParser = [[WBTimelineAttributedTextParser alloc] init];
             [self.textAttributedText resetTextStorageWithPlainText:itemText];
+            self.textAttributedText.textColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0f];
         }
         if (timelineItem.retweeted_status) {
             NSString *quotedItemText = [NSString stringWithFormat:@"@%@:%@", timelineItem.retweeted_status.user.screen_name, timelineItem.retweeted_status.text] ;
             if (quotedItemText.length > 0) {
+                self.quotedAttributedText.paragraphStyle = [PPTextParagraphStyle defaultParagraphStyle];
                 self.quotedAttributedText.textParser = [[WBTimelineAttributedTextParser alloc] init];
                 [self.quotedAttributedText resetTextStorageWithPlainText:quotedItemText];
+                self.quotedAttributedText.fontSize = 15.0f;
+                self.quotedAttributedText.textColor = [UIColor colorWithRed:0.388235 green:0.388235 blue:0.388235 alpha:1.0f];
             }
         }
         if (timelineItem.title) {
             NSString *title = timelineItem.title.text;
+            self.titleAttributedText.paragraphStyle = [PPTextParagraphStyle defaultParagraphStyle];
             self.titleAttributedText.fontSize = [WBTimelinePreset sharedInstance].titleFontSize;
             self.titleAttributedText.textParser = [[WBTimelineAttributedTextParser alloc] init];
             [self.titleAttributedText resetTextStorageWithPlainText:title];
         }
+        self.metaInfoAttributedText.paragraphStyle = [PPTextParagraphStyle defaultParagraphStyle];
         self.metaInfoAttributedText.textParser = [[WBTimelineAttributedTextParser alloc] init];
         self.metaInfoAttributedText.fontSize = 12.0f;
         [self.metaInfoAttributedText resetTextStorageWithPlainText:@"2分钟前 来自iPhone 7"];

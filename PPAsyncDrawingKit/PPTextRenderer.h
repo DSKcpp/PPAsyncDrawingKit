@@ -13,6 +13,8 @@
 @class PPTextLayoutFrame;
 @class PPTextAttachment;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol PPTextRendererDelegate <NSObject>
 @optional
 - (void)textRenderer:(PPTextRenderer *)textRenderer
@@ -34,10 +36,10 @@
 @property (nonatomic, assign) CGRect frame;
 @property (nonatomic, strong) NSAttributedString *attributedString;
 @property (nonatomic, assign) BOOL heightSensitiveLayout;
-@property (nonatomic, weak) id <PPTextRendererDelegate> renderDelegate;
-@property (nonatomic, weak) id <PPTextLayoutDelegate> layoutDelegate;
-@property (nonatomic, strong) PPTextActiveRange *savedPressingActiveRange;
-@property (nonatomic, strong) PPTextActiveRange *pressingActiveRange;
+@property (nullable, nonatomic, weak) id <PPTextRendererDelegate> renderDelegate;
+@property (nullable, nonatomic, weak) id <PPTextLayoutDelegate> layoutDelegate;
+@property (nullable, nonatomic, strong) PPTextActiveRange *savedPressingActiveRange;
+@property (nullable, nonatomic, strong) PPTextActiveRange *pressingActiveRange;
 @property (nonatomic, assign) CGPoint drawingOrigin;
 @property (nonatomic, assign) CGFloat shadowBlur;
 @property (nonatomic, assign) UIOffset shadowOffset;
@@ -53,7 +55,7 @@
           visibleRect:(CGRect)visibleRect
      placeAttachments:(BOOL)placeAttachments
  shouldInterruptBlock:(void(^)(void))shouldInterruptBlock;
-- (void)drawInContext:(CGContextRef)context shouldInterruptBlock:(void(^)(void))shouldInterruptBlock;
+- (void)drawInContext:(CGContextRef)context shouldInterruptBlock:(nullable void(^)(void))shouldInterruptBlock;
 - (void)drawInContext:(CGContextRef)context;
 - (void)draw;
 
@@ -81,16 +83,15 @@
 @end
 
 @interface PPTextRenderer (Events)
-- (PPTextActiveRange *)rangeInRanges:(NSArray<PPTextActiveRange *> *)ranges forLayoutLocation:(CGPoint)location;
-- (void)eventDelegateDidPressActiveRange:(id)arg1;
-- (NSArray *)eventDelegateActiveRanges;
-- (UIView *)eventDelegateContextView;
+- (nullable PPTextActiveRange *)rangeInRanges:(NSArray<PPTextActiveRange *> *)ranges forLayoutLocation:(CGPoint)location;
+- (void)eventDelegateDidPressActiveRange:(PPTextActiveRange *)activeRange;
+- (nullable NSArray *)eventDelegateActiveRanges;
+- (nullable UIView *)eventDelegateContextView;
 @end
 
 @interface PPTextRenderer (Previewing)
 - (id)activeRangeAtLocation:(CGPoint)location;
 @end
-
 
 @interface PPTextRenderer (Coordinates)
 - (CGRect)convertRectToLayout:(CGRect)rect;
@@ -108,3 +109,5 @@
 + (void)debugModeSetEverythingNeedsDisplayForView:(id)view;
 - (void)debugModeDrawLineFramesWithLayoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context offset:(UIOffset)offset;
 @end
+
+NS_ASSUME_NONNULL_END

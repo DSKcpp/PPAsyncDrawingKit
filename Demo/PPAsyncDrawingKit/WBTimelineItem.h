@@ -23,11 +23,8 @@
 @end
 
 @interface WBCardModel : NSObject
-@property (nonatomic, assign) NSUInteger card_type;
 @property (nonatomic, copy) NSString *itemid;
 @property (nonatomic, copy) NSString *scheme;
-@property (nonatomic, assign) NSUInteger show_type;
-@property (nonatomic, copy) NSString *openurl;
 @property (nonatomic, strong) WBTimelineItem *mblog;
 @end
 
@@ -63,7 +60,6 @@
 
 @interface WBUser : NSObject
 @property (nonatomic, copy) NSString *idstr;
-@property (nonatomic, assign) NSUInteger class;
 @property (nonatomic, copy) NSString *screen_name;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *profile_image_url;

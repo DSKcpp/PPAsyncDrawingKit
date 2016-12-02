@@ -41,12 +41,11 @@
     _tableView.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1];
     [self.view addSubview:_tableView];
     
-    dispatch_async(dispatch_get_global_queue(0, DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSString *path = [[NSBundle mainBundle] pathForResource:@"WBTimeLineJSON.json" ofType:@""];
-        NSData *data = [NSData dataWithContentsOfFile:path];
-        WBCardsModel *cards = [WBCardsModel yy_modelWithJSON:data];
+        WBCardsModel *cards = [WBCardsModel yy_modelWithJSON:[NSData dataWithContentsOfFile:path]];
         CGFloat width = _tableView.bounds.size.width;
-        [cards.cards enumerateObjectsUsingBlock:^(WBCardModel * _Nonnull card, NSUInteger idx, BOOL * _Nonnull stop) {
+        [cards.cards enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(WBCardModel * _Nonnull card, NSUInteger idx, BOOL * _Nonnull stop) {
             if (card.mblog) {
                 [WBTimelineContentView heightOfTimelineItem:card.mblog withContentWidth:width];
                 [_timelineItems addObject:card.mblog];

@@ -16,6 +16,8 @@ typedef NS_OPTIONS(NSUInteger, PPTextStorageEditActions) {
     PPTextStorageEditedCharacters = (1 << 1)
 };
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol PPTextStorageDelegate <NSObject>
 - (void)textStorage:(PPTextStorage *)textStorage
   didProcessEditing:(PPTextStorageEditActions)editedMask
@@ -26,3 +28,5 @@ typedef NS_OPTIONS(NSUInteger, PPTextStorageEditActions) {
 @interface PPTextStorage : NSMutableAttributedString
 @property (nonatomic, weak) id <PPTextStorageDelegate> delegate;
 @end
+
+NS_ASSUME_NONNULL_END

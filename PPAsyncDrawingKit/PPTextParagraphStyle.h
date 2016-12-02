@@ -12,6 +12,8 @@
 
 @class PPTextParagraphStyle;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol PPTextParagraphStyleDelegate <NSObject>
 - (void)pp_paragraphStyleDidUpdateAttribute:(PPTextParagraphStyle *)TextParagraphStyle;
 @end
@@ -29,6 +31,8 @@
 @property (nonatomic, assign) BOOL isNeedChangeSpace;
 
 - (void)propertyUpdated;
-- (CTParagraphStyleRef)newCTParagraphStyleWithFontSize:(NSInteger)fontSize;
-- (NSMutableParagraphStyle *)nsParagraphStyleWithFontSize:(NSInteger)fontSize;
+- (CTParagraphStyleRef)newCTParagraphStyleWithFontSize:(CGFloat)fontSize;
+- (NSMutableParagraphStyle *)nsParagraphStyleWithFontSize:(CGFloat)fontSize;
 @end
+
+NS_ASSUME_NONNULL_END

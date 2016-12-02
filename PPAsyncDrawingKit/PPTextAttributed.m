@@ -23,7 +23,7 @@
 - (instancetype)init
 {
     if (self = [super init]) {
-        self.fontSize = 15.0f;
+        self.fontSize = 16.0f;
         self.textLigature = 1;
         self.textStorage = [[PPTextStorage alloc] init];
     }
@@ -91,7 +91,11 @@
 
 - (void)updateParagraphStyleForAttributedString:(NSMutableAttributedString *)attributedString
 {
-    
+    CTParagraphStyleRef paragraphSetle = [self.paragraphStyle newCTParagraphStyleWithFontSize:self.fontSize];
+    if (attributedString) {
+        [attributedString addAttribute:NSParagraphStyleAttributeName value:(id)paragraphSetle range:[attributedString pp_stringRange]];
+    }
+    CFRelease(paragraphSetle);
 }
 
 - (void)updatePlainTextForCharacterCountingWithAttributedString:(NSMutableAttributedString *)attributedString
@@ -111,7 +115,7 @@
 - (void)setColorWithActiveRange:(PPTextActiveRange *)activeRange forAttributedString:(NSMutableAttributedString *)attributedString
 {
     if (activeRange) {
-        [attributedString pp_setColor:[UIColor colorWithRed:18/255.0f green:135/255.0f blue:217/255.0f alpha:1.0f] inRange:activeRange.range];
+        [attributedString pp_setColor:[UIColor colorWithRed:80/255.0f green:125/255.0f blue:174/255.0f alpha:1.0f] inRange:activeRange.range];
     }
 }
 
