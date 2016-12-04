@@ -92,15 +92,17 @@
 }
 
 - (void)drawAttachmentsWithAttributedString:(NSAttributedString *)attributedString layoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context shouldInterrupt:(void (^)(void))shouldInterruptBlock
-{
-    CGFloat scale = [UIScreen mainScreen].scale;
+{   CGFloat scale = [UIScreen mainScreen].scale;
     [layoutFrame.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
         [line enumerateLayoutRunsUsingBlock:^(NSDictionary *attributes, NSRange range) {
             PPTextAttachment *textAttachment = [attributes objectForKey:@"PPTextAttachmentAttributeName"];
-            if ([textAttachment isKindOfClass:[PPTextAttachment class]]) {
-                
-            } else {
-                
+            UIImage *image = textAttachment.contents;
+            if (image) {
+                CGRect rect = [self convertRectFromLayout:line.fragmentRect];
+                rect.size = CGSizeMake(rect.size.height, rect.size.height);
+                UIGraphicsPushContext(context);
+                [image drawInRect:rect];
+                UIGraphicsPopContext();
             }
         }];
     }];

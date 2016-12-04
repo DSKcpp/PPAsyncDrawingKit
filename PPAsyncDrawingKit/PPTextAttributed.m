@@ -9,7 +9,7 @@
 #import "PPTextAttributed.h"
 #import "PPTextStorage.h"
 #import "PPAttributedTextRange.h"
-#import "NSMutableAttributedString+PPAsyncDrawingKit.h"
+#import "NSAttributedString+PPAsyncDrawingKit.h"
 #import "NSString+PPAsyncDrawingKit.h"
 #import "PPTextAttachment.h"
 
@@ -77,9 +77,12 @@
     NSMutableAttributedString *attributedString = [self mutableAttributedString];
     if (attributedString.length) {
         NSArray<PPTextActiveRange *> *parsingResult = [self.textParser parserWithString:attributedString.string];
+        if ([self.textParser respondsToSelector:@selector(extractAttachmentsAndParseActiveRangesFromParseResult:toAttributedString:)]) {
+            self.textAttachments = [self.textParser extractAttachmentsAndParseActiveRangesFromParseResult:parsingResult toAttributedString:attributedString];
+        }
         parsingResult = [self filterParsingResult:parsingResult];
         parsingResult = [self _parseString:self.plainText withKeyword:self.keywords andCurrentParsingResult:parsingResult];
-        [self extractAttachmentsAndParseActiveRangesFromParseResult:parsingResult toAttributedString:attributedString];
+        self.activeRanges = parsingResult;
         for (PPTextActiveRange *range in self.activeRanges) {
             [self setColorWithActiveRange:range forAttributedString:attributedString];
         }
@@ -104,12 +107,6 @@
     [_attributedString enumerateAttribute:@"_WBTimelineAttributedTextLinkMarkKey" inRange:[_attributedString pp_stringRange] options:kNilOptions usingBlock:^(id  _Nullable value, NSRange range, BOOL * _Nonnull stop) {
         *stop = YES;
     }];
-}
-
-- (void)extractAttachmentsAndParseActiveRangesFromParseResult:(NSArray<PPTextActiveRange *> *)parseResult toAttributedString:(NSMutableAttributedString *)attributedString
-{
-    NSMutableArray *activeRanges = [NSMutableArray array];
-    self.activeRanges = [NSArray arrayWithArray:parseResult];
 }
 
 - (void)setColorWithActiveRange:(PPTextActiveRange *)activeRange forAttributedString:(NSMutableAttributedString *)attributedString

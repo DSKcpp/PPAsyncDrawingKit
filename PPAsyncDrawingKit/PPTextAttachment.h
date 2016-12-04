@@ -32,4 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (CGFloat)ascentForLayout;
 @end
 
+@interface PPTextAttachment (Updating)
+- (BOOL)updateContentSizeWithOptions:(id)arg1;
+@end
+
 NS_ASSUME_NONNULL_END

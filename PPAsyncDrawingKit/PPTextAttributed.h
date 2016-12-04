@@ -18,6 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol PPTextParser <NSObject>
 - (nullable NSArray<PPTextActiveRange *> *)parserWithString:(nullable NSString *)string;
+
+@optional
+- (nullable NSArray<PPTextAttachment *> *)extractAttachmentsAndParseActiveRangesFromParseResult:(nullable NSArray<PPTextActiveRange *> *)parseResult toAttributedString:(NSMutableAttributedString *)attributedString;
 @end
 
 @interface PPTextAttributed : NSObject
@@ -55,7 +58,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSInteger)mergeAttachment:(PPTextAttachment *)attachment toAttributedString:(NSMutableAttributedString *)attributedString withTextRange:(NSRange)textRange merged:(BOOL)merged;
 - (void)insertFlavoredRange:(id)arg1 toMiniCardRange:(id)arg2;
 - (NSArray<PPTextActiveRange *> *)filterParsingResult:(NSArray<PPTextActiveRange *> *)result;
-- (void)extractAttachmentsAndParseActiveRangesFromParseResult:(NSArray<PPTextActiveRange *> *)parseResult toAttributedString:(NSMutableAttributedString *)attributedString;
 - (id)substringOfPageTitle:(id)arg1 withWordCount:(unsigned long long)arg2 trancates:(BOOL)arg3;
 - (nullable NSMutableAttributedString *)mutableAttributedString;
 - (void)rebuild;

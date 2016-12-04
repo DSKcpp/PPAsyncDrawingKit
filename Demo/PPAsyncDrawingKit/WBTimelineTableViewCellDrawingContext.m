@@ -11,7 +11,7 @@
 #import "WBTimelineItem.h"
 #import "WBTimelineAttributedTextParser.h"
 #import "WBTimelinePreset.h"
-#import "NSMutableAttributedString+PPAsyncDrawingKit.h"
+#import "NSAttributedString+PPAsyncDrawingKit.h"
 
 @implementation WBTimelineTableViewCellDrawingContext
 - (instancetype)initWithTimelineItem:(WBTimelineItem *)timelineItem

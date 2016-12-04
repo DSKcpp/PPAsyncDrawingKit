@@ -9,6 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "PPTextActiveRange.h"
 
+typedef NS_ENUM(NSUInteger, PPFlavoredRangeType) {
+    PPFlavoredRangeTypeDefault,
+    PPFlavoredRangeTypeURL,
+    PPFlavoredRangeTypeEmoticon
+};
+
 @interface PPFlavoredRange : PPTextActiveRange
-@property (nonatomic, assign) NSInteger flavor;
+@property (nonatomic, assign) PPFlavoredRangeType flavor;
 @end

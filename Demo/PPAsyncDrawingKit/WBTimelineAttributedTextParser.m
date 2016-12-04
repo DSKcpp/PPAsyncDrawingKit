@@ -9,6 +9,9 @@
 #import "WBTimelineAttributedTextParser.h"
 #import "NSString+PPAsyncDrawingKit.h"
 #import "PPFlavoredRange.h"
+#import "WBUITextAttachment.h"
+#import "WBEmoticonManager.h"
+#import "NSAttributedString+PPAsyncDrawingKit.h"
 
 @implementation WBTimelineAttributedTextParser
 
@@ -41,9 +44,47 @@
         PPFlavoredRange *textRange = [[PPFlavoredRange alloc] init];
         textRange.range = capturedRange;
         textRange.content = capturedString;
+        textRange.flavor = PPFlavoredRangeTypeURL;
+        [activeRanges addObject:textRange];
+    }];
+    // Emotionc
+    [string pp_enumerateStringsMatchedByRegex:@"\\[[^ \\[\\]]+?\\]" usingBlock:^(NSString *capturedString, NSRange capturedRange, BOOL *stop) {
+        PPFlavoredRange *textRange = [[PPFlavoredRange alloc] init];
+        textRange.range = capturedRange;
+        textRange.content = capturedString;
+        textRange.flavor = PPFlavoredRangeTypeEmoticon;
         [activeRanges addObject:textRange];
     }];
     return activeRanges;
 }
 
+- (NSArray<PPTextAttachment *> *)extractAttachmentsAndParseActiveRangesFromParseResult:(NSArray<PPFlavoredRange *> *)parseResult toAttributedString:(NSMutableAttributedString *)attributedString
+{
+    NSMutableArray<PPTextAttachment *> *textAttachments = @[].mutableCopy;
+    [parseResult enumerateObjectsUsingBlock:^(PPFlavoredRange * _Nonnull activeRange, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (activeRange.flavor == PPFlavoredRangeTypeURL) {
+//            PPTextAttachment *attachment = [[PPTextAttachment alloc] init];
+//            [attributedString addAttribute:@"PPTextAttachmentAttributeName" value:attachment range:activeRange.range];
+        } else if (activeRange.flavor == PPFlavoredRangeTypeEmoticon) {
+            WBUITextAttachment *attachment = [[WBUITextAttachment alloc] init];
+            attachment.replacementText = activeRange.content;
+            attachment.contents = [[WBEmoticonManager sharedMangaer] imageWithEmotionName:activeRange.content];
+            [textAttachments addObject:attachment];
+        }
+    }];
+    
+    [textAttachments enumerateObjectsUsingBlock:^(PPTextAttachment * _Nonnull textAttachment, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+    }];
+//    NSInteger loc = [self mergeAttachment:attachment toAttributedString:attributedString withTextRange:activeRange.range merged:YES];
+    return textAttachments;
+}
+
+- (NSInteger)mergeAttachment:(PPTextAttachment *)attachment toAttributedString:(NSMutableAttributedString *)attributedString withTextRange:(NSRange)textRange merged:(BOOL)merged
+{
+    NSDictionary *attributes = [attributedString attributesAtIndex:textRange.location effectiveRange:nil];
+    NSAttributedString *attString = [NSAttributedString pp_attributedStringWithTextAttachment:attachment attributes:attributes];
+    [attributedString replaceCharactersInRange:textRange withAttributedString:attString];
+    return 1;
+}
 @end

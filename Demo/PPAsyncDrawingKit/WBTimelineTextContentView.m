@@ -40,14 +40,14 @@
     totalHeight += preset.headerAreaHeight;
     
     CGFloat height = [drawingContext.textAttributedText.attributedString pp_heightConstrainedToWidth:maxWidth];
-    drawingContext.textFrame = CGRectMake(preset.leftSpacing, totalHeight, maxWidth, height + 10.0f);
-    totalHeight += height + 10.0f;
+    drawingContext.textFrame = CGRectMake(preset.leftSpacing, totalHeight, maxWidth, height);
+    totalHeight += height;
     
     if (drawingContext.hasQuoted) {
         CGFloat height = [drawingContext.quotedAttributedText.attributedString pp_heightConstrainedToWidth:maxWidth];
-        drawingContext.quotedFrame = CGRectMake(preset.leftSpacing, CGRectGetMaxY(drawingContext.textFrame), maxWidth, height + 10);
-        totalHeight += height + 10.0f;
-        drawingContext.quotedContentBackgroundViewFrame = CGRectMake(0, CGRectGetMinY(drawingContext.quotedFrame) - 5.0f, drawingContext.contentWidth, CGRectGetHeight(drawingContext.quotedFrame) + 5.0f);
+        drawingContext.quotedFrame = CGRectMake(preset.leftSpacing, CGRectGetMaxY(drawingContext.textFrame), maxWidth, height);
+        totalHeight += height;
+        drawingContext.quotedContentBackgroundViewFrame = CGRectMake(0, CGRectGetMinY(drawingContext.quotedFrame) - 5, drawingContext.contentWidth, CGRectGetHeight(drawingContext.quotedFrame) + 5);
     }
     NSUInteger picCount = drawingContext.timelineItem.pic_infos.count;
     if (picCount == 0) {
@@ -66,7 +66,7 @@
     drawingContext.textContentBackgroundViewFrame = CGRectMake(0, titleHeight, drawingContext.contentWidth, totalHeight - titleHeight);
     drawingContext.actionButtonsViewFrame = CGRectMake(0, CGRectGetMaxY(drawingContext.textContentBackgroundViewFrame), drawingContext.contentWidth, preset.actionButtonsHeight);
     totalHeight += preset.actionButtonsHeight + 10.0f;
-    drawingContext.contentHeight = MAX(totalHeight, 136);
+    drawingContext.contentHeight = MAX(totalHeight, 136.0f);
 }
 
 - (instancetype)initWithFrame:(CGRect)frame

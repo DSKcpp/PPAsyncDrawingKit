@@ -50,7 +50,7 @@
         __block CGFloat height = 0.0f;
         __block CGFloat width = 0.0f;
         [self.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
-            height += line.fragmentRect.size.height;
+            height = MAX(height, CGRectGetMaxY(line.fragmentRect));
             width = MAX(width, line.fragmentRect.size.width);
         }];
         self.layoutSize = CGSizeMake(width, height);
