@@ -78,10 +78,8 @@
     if (attributedString.length) {
         NSArray<PPTextActiveRange *> *parsingResult = [self.textParser parserWithString:attributedString.string];
         if ([self.textParser respondsToSelector:@selector(extractAttachmentsAndParseActiveRangesFromParseResult:toAttributedString:)]) {
-            self.textAttachments = [self.textParser extractAttachmentsAndParseActiveRangesFromParseResult:parsingResult toAttributedString:attributedString];
+            parsingResult = [self.textParser extractAttachmentsAndParseActiveRangesFromParseResult:parsingResult toAttributedString:attributedString];
         }
-        parsingResult = [self filterParsingResult:parsingResult];
-        parsingResult = [self _parseString:self.plainText withKeyword:self.keywords andCurrentParsingResult:parsingResult];
         self.activeRanges = parsingResult;
         for (PPTextActiveRange *range in self.activeRanges) {
             [self setColorWithActiveRange:range forAttributedString:attributedString];

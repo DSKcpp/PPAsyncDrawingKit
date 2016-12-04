@@ -58,9 +58,11 @@
     return activeRanges;
 }
 
-- (NSArray<PPTextAttachment *> *)extractAttachmentsAndParseActiveRangesFromParseResult:(NSArray<PPFlavoredRange *> *)parseResult toAttributedString:(NSMutableAttributedString *)attributedString
+- (nullable NSArray<PPTextActiveRange *> *)extractAttachmentsAndParseActiveRangesFromParseResult:(NSArray<PPFlavoredRange *> *)parseResult toAttributedString:(NSMutableAttributedString *)attributedString
 {
     NSMutableArray<PPTextAttachment *> *textAttachments = @[].mutableCopy;
+    NSMutableArray<PPFlavoredRange *> *ranges = [NSMutableArray arrayWithArray:parseResult];
+    __block NSUInteger clipLength = 0;
     [parseResult enumerateObjectsUsingBlock:^(PPFlavoredRange * _Nonnull activeRange, NSUInteger idx, BOOL * _Nonnull stop) {
         if (activeRange.flavor == PPFlavoredRangeTypeURL) {
 //            PPTextAttachment *attachment = [[PPTextAttachment alloc] init];
@@ -70,21 +72,21 @@
             attachment.replacementText = activeRange.content;
             attachment.contents = [[WBEmoticonManager sharedMangaer] imageWithEmotionName:activeRange.content];
             [textAttachments addObject:attachment];
+            NSRange range = activeRange.range;
+            range.location -= clipLength;
+            NSDictionary *attributes = [attributedString attributesAtIndex:range.location effectiveRange:nil];
+            NSAttributedString *attString = [NSAttributedString pp_attributedStringWithTextAttachment:attachment attributes:attributes];
+            [attributedString replaceCharactersInRange:range withAttributedString:attString];
+            clipLength += range.length - 1;
+            [ranges removeObject:activeRange];
+        } else {
+            [ranges enumerateObjectsUsingBlock:^(PPFlavoredRange * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                NSUInteger loc = obj.range.location - clipLength;
+                obj.range = NSMakeRange(loc, obj.range.length);
+            }];
         }
     }];
-    
-    [textAttachments enumerateObjectsUsingBlock:^(PPTextAttachment * _Nonnull textAttachment, NSUInteger idx, BOOL * _Nonnull stop) {
-        
-    }];
-//    NSInteger loc = [self mergeAttachment:attachment toAttributedString:attributedString withTextRange:activeRange.range merged:YES];
-    return textAttachments;
+    return ranges;
 }
 
-- (NSInteger)mergeAttachment:(PPTextAttachment *)attachment toAttributedString:(NSMutableAttributedString *)attributedString withTextRange:(NSRange)textRange merged:(BOOL)merged
-{
-    NSDictionary *attributes = [attributedString attributesAtIndex:textRange.location effectiveRange:nil];
-    NSAttributedString *attString = [NSAttributedString pp_attributedStringWithTextAttachment:attachment attributes:attributes];
-    [attributedString replaceCharactersInRange:textRange withAttributedString:attString];
-    return 1;
-}
 @end

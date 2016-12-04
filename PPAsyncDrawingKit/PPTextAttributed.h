@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSArray<PPTextActiveRange *> *)parserWithString:(nullable NSString *)string;
 
 @optional
-- (nullable NSArray<PPTextAttachment *> *)extractAttachmentsAndParseActiveRangesFromParseResult:(nullable NSArray<PPTextActiveRange *> *)parseResult toAttributedString:(NSMutableAttributedString *)attributedString;
+- (nullable NSArray<PPTextActiveRange *> *)extractAttachmentsAndParseActiveRangesFromParseResult:(nullable NSArray<PPTextActiveRange *> *)parseResult toAttributedString:(NSMutableAttributedString *)attributedString ;
 @end
 
 @interface PPTextAttributed : NSObject
@@ -64,7 +64,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setColorWithActiveRange:(PPTextActiveRange *)activeRange forAttributedString:(NSMutableAttributedString *)attributedString;
 - (id)attributedStringWithTextColor:(id)arg1;
 - (void)PP_paragraphStyleDidUpdateAttribute:(id)arg1;
-- (void)PP_textStorage:(PPTextStorage *)textStorage didProcessEditing:(unsigned long long)arg2 range:(NSRange)range changeInLength:(long long)arg4;
 - (BOOL)isTrancationed;
 - (BOOL)replaceEndingCharWithString:(id)arg1 andUrl:(id)arg2 inWidth:(double)arg3 andLineLimited:(NSUInteger)arg4 andActualLineDisplayed:(NSUInteger)arg5;
 - (BOOL)isTrancationedWithSurfix:(id)arg1 contentStr:(id)arg2 andUrl:(id)arg3 inWidth:(double)arg4 andLimitedLine:(NSUInteger)arg5;

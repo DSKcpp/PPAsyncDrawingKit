@@ -204,7 +204,7 @@ static CGFloat PPRunDelegateGetWidthCallback(void *ref) {
 {
     NSUInteger max = range.location + range.length;
     if (max > self.length) {
-        return NSMakeRange(range.location, self.length - range.location);
+        return NSMakeRange(range.location, range.length);
     }
     return range;
 }
