@@ -29,15 +29,20 @@
         NSString *itemText = timelineItem.text;
         if (itemText) {
             self.textAttributedText.paragraphStyle = [PPTextParagraphStyle defaultParagraphStyle];
-            self.textAttributedText.textParser = [[WBTimelineAttributedTextParser alloc] init];
+            self.textAttributedText.textParser = [WBTimelineAttributedTextParser textParserWithTimelineItem:timelineItem];
             [self.textAttributedText resetTextStorageWithPlainText:itemText];
             self.textAttributedText.textColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0f];
         }
         if (timelineItem.retweeted_status) {
-            NSString *quotedItemText = [NSString stringWithFormat:@"@%@:%@", timelineItem.retweeted_status.user.screen_name, timelineItem.retweeted_status.text] ;
+            NSString *quotedItemText;
+            if (timelineItem.retweeted_status.user.screen_name) {
+                quotedItemText = [NSString stringWithFormat:@"@%@:%@", timelineItem.retweeted_status.user.screen_name, timelineItem.retweeted_status.text];
+            } else {
+                quotedItemText = timelineItem.retweeted_status.text;
+            }
             if (quotedItemText.length > 0) {
                 self.quotedAttributedText.paragraphStyle = [PPTextParagraphStyle defaultParagraphStyle];
-                self.quotedAttributedText.textParser = [[WBTimelineAttributedTextParser alloc] init];
+                self.quotedAttributedText.textParser = [WBTimelineAttributedTextParser textParserWithTimelineItem:timelineItem];
                 [self.quotedAttributedText resetTextStorageWithPlainText:quotedItemText];
                 self.quotedAttributedText.fontSize = 15.0f;
                 self.quotedAttributedText.textColor = [UIColor colorWithRed:0.388235 green:0.388235 blue:0.388235 alpha:1.0f];
@@ -47,11 +52,11 @@
             NSString *title = timelineItem.title.text;
             self.titleAttributedText.paragraphStyle = [PPTextParagraphStyle defaultParagraphStyle];
             self.titleAttributedText.fontSize = [WBTimelinePreset sharedInstance].titleFontSize;
-            self.titleAttributedText.textParser = [[WBTimelineAttributedTextParser alloc] init];
+            self.titleAttributedText.textParser = [WBTimelineAttributedTextParser textParserWithTimelineItem:timelineItem];
             [self.titleAttributedText resetTextStorageWithPlainText:title];
         }
         self.metaInfoAttributedText.paragraphStyle = [PPTextParagraphStyle defaultParagraphStyle];
-        self.metaInfoAttributedText.textParser = [[WBTimelineAttributedTextParser alloc] init];
+        self.metaInfoAttributedText.textParser = [WBTimelineAttributedTextParser textParserWithTimelineItem:timelineItem];
         self.metaInfoAttributedText.fontSize = 12.0f;
         [self.metaInfoAttributedText resetTextStorageWithPlainText:@"2分钟前 来自iPhone 7"];
     }

@@ -8,9 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "PPAsyncDrawingKitUtilities.h"
+#import "PPTextHighlightRange.h"
 
 @class PPTextRenderer;
 @class PPTextAttachment;
+@class PPTextActiveRange;
+@class PPTextHighlightRange;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -51,6 +54,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)pp_setFont:(UIFont *)font;
 - (void)pp_setFont:(UIFont *)font inRange:(NSRange)range;
 - (NSRange)pp_effectiveRangeWithRange:(NSRange)range;
+- (void)pp_setTextRange:(nullable PPTextActiveRange *)textRange inRange:(NSRange)range;
+- (void)pp_setTextHighlightRange:(nullable PPTextHighlightRange *)textHighlightRange inRange:(NSRange)range;
 @end
 
 NS_ASSUME_NONNULL_END

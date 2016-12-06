@@ -1,12 +1,14 @@
+急需工作，快要露宿街头，上海地区，邮箱：dskcpp@gmail.com
 PPAsyncDrawingKit
 ------------------------
-This is a kit for asynchronously drawing view, implementation of the `ImageView`, `Label`, `Button`.
+这是一个轻量的异步渲染框架，实现一系列 ImageView, Label, Button 等基础控件。
 
 #Features
-* [x] Use a multi-threaded render UI
-* [x] 
-Using a rounded image view, the FPS does not decrease during scrolling
-* [x] Parse and render `AttributedString`
+* [x] 使用简单，可自定义
+* [x] 使用多线程异步渲染，保证复杂界面的流程
+* [x] 圆角图片在滑动界面时 FPS 保持在60
+* [x] 解析并渲染 `AttributedString`
+* [x] 轻量级文字排版引擎
 
 #Requirements
 * iOS 7.0 or later
@@ -15,30 +17,16 @@ Using a rounded image view, the FPS does not decrease during scrolling
 #How To Use
 
 #Installation
-There are three ways to use PPAsyncDrawingKit in your project:
+There are two ways to use PPAsyncDrawingKit in your project:
 
 * using CocoaPods
-* using Carthage
 * by cloning the project into your repository
 
 ###Installation with CocoaPods
-###Podfile
+####Podfile
 ``` Ruby
 pod 'PPAsyncDrawingKit'
 ```
-
-###Subspecs
-By default, you get just `Core`.
-Podfile example:
-
-``` Ruby
-pod 'PPAsyncDrawingKit/Core'
-pod 'PPAsyncDrawingKit/Text'
-pod 'PPAsyncDrawingKit/Image'
-pod 'PPAsyncDrawingKit/Button'
-```
-
-#Architecture
 
 #Licenses
 All source code is licensed under the [MIT License](https://raw.githubusercontent.com/DSKcpp/PPAsyncDrawingKit/master/LICENSE).

@@ -17,10 +17,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol PPTextParser <NSObject>
-- (nullable NSArray<PPTextActiveRange *> *)parserWithString:(nullable NSString *)string;
-
-@optional
-- (nullable NSArray<PPTextActiveRange *> *)extractAttachmentsAndParseActiveRangesFromParseResult:(nullable NSArray<PPTextActiveRange *> *)parseResult toAttributedString:(NSMutableAttributedString *)attributedString ;
+- (BOOL)parserWithAttributedString:(nullable NSMutableAttributedString *)attributedString;
 @end
 
 @interface PPTextAttributed : NSObject

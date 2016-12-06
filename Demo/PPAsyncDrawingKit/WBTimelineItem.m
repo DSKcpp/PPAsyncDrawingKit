@@ -22,7 +22,7 @@
 
 @implementation WBTimelineItem
 + (NSDictionary *)modelContainerPropertyGenericClass {
-    return @{@"pic_infos" : [WBTimelinePicture class]};
+    return @{@"pic_infos" : [WBTimelinePicture class], @"url_struct" : [WBURLStruct class]};
 }
 
 @end
@@ -40,5 +40,9 @@
 @end
 
 @implementation WBTimelineTitle
+
+@end
+
+@implementation WBURLStruct
 
 @end

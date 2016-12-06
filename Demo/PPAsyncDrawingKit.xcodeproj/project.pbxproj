@@ -60,6 +60,7 @@
 		86EF6AD91DB390F8006464CE /* PPAsyncDrawingKitUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6AD81DB390F8006464CE /* PPAsyncDrawingKitUtilities.m */; };
 		86EFEF261DBF9D800003E078 /* YYFPSLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EFEF251DBF9D800003E078 /* YYFPSLabel.m */; };
 		86EFEF291DC100030003E078 /* PPTextLayoutLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EFEF281DC100030003E078 /* PPTextLayoutLine.m */; };
+		86F6BED01DF675D2006D0419 /* PPTextHighlightRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 86F6BECF1DF675D2006D0419 /* PPTextHighlightRange.m */; };
 		86FCDA951DDC7B3200CB2563 /* WBTimelineImageContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86FCDA941DDC7B3200CB2563 /* WBTimelineImageContentView.m */; };
 		86FCDA981DDC7BD200CB2563 /* WBTimelineContentImageViewLayouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 86FCDA971DDC7BD200CB2563 /* WBTimelineContentImageViewLayouter.m */; };
 		86FCDA9B1DDDA7A600CB2563 /* WBTimelineImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86FCDA9A1DDDA7A600CB2563 /* WBTimelineImageView.m */; };
@@ -189,6 +190,8 @@
 		86EFEF251DBF9D800003E078 /* YYFPSLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYFPSLabel.m; sourceTree = "<group>"; };
 		86EFEF271DC100030003E078 /* PPTextLayoutLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextLayoutLine.h; sourceTree = "<group>"; };
 		86EFEF281DC100030003E078 /* PPTextLayoutLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextLayoutLine.m; sourceTree = "<group>"; };
+		86F6BECE1DF675D2006D0419 /* PPTextHighlightRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextHighlightRange.h; sourceTree = "<group>"; };
+		86F6BECF1DF675D2006D0419 /* PPTextHighlightRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextHighlightRange.m; sourceTree = "<group>"; };
 		86FCDA931DDC7B3200CB2563 /* WBTimelineImageContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTimelineImageContentView.h; sourceTree = "<group>"; };
 		86FCDA941DDC7B3200CB2563 /* WBTimelineImageContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTimelineImageContentView.m; sourceTree = "<group>"; };
 		86FCDA961DDC7BD200CB2563 /* WBTimelineContentImageViewLayouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTimelineContentImageViewLayouter.h; sourceTree = "<group>"; };
@@ -440,6 +443,8 @@
 				863ADA8E1DC47F1300AC582D /* PPTextAttachment.m */,
 				86553B431DEC813E00ED22A4 /* PPTextActiveRange.h */,
 				86553B441DEC813E00ED22A4 /* PPTextActiveRange.m */,
+				86F6BECE1DF675D2006D0419 /* PPTextHighlightRange.h */,
+				86F6BECF1DF675D2006D0419 /* PPTextHighlightRange.m */,
 			);
 			name = Component;
 			sourceTree = "<group>";
@@ -685,6 +690,7 @@
 				86FCDAD91DDDA9B700CB2563 /* UIView+WebCache.m in Sources */,
 				86FCDAD11DDDA9B700CB2563 /* SDWebImageManager.m in Sources */,
 				86D7C2611DE45812001D88E8 /* PPAttributedTextRange.m in Sources */,
+				86F6BED01DF675D2006D0419 /* PPTextHighlightRange.m in Sources */,
 				86FCDA9B1DDDA7A600CB2563 /* WBTimelineImageView.m in Sources */,
 				86FCDAD41DDDA9B700CB2563 /* UIImage+GIF.m in Sources */,
 				86EFEF291DC100030003E078 /* PPTextLayoutLine.m in Sources */,

@@ -17,6 +17,7 @@
 @class WBTimelinePicture;
 @class WBTimelineTableViewCellDrawingContext;
 @class WBTimelineTitle;
+@class WBURLStruct;
 
 @interface WBCardsModel : NSObject
 @property (nonatomic, strong) NSArray<WBCardModel *> *cards;
@@ -55,6 +56,8 @@
 @property (nonatomic, strong) WBTimelineItem *retweeted_status;
 @property (nonatomic, strong) NSDictionary<NSString *, WBTimelinePicture *> *pic_infos;
 @property (nonatomic, strong) WBTimelineTitle *title;
+@property (nonatomic, strong) NSArray<WBURLStruct *> *url_struct;
+
 @property (nonatomic, strong) WBTimelineTableViewCellDrawingContext *drawingContext;
 @end
 
@@ -107,4 +110,16 @@
 @property (nonatomic, copy) NSString *text;
 @property (nonatomic, assign) NSInteger base_color;
 @property (nonatomic, copy) NSString *icon_url;
+@end
+
+@interface WBURLStruct : NSObject
+@property (nonatomic, copy) NSString *url_title;
+@property (nonatomic, copy) NSString *url_type_pic;
+@property (nonatomic, copy) NSString *ori_url;
+@property (nonatomic, copy) NSString *page_id;
+@property (nonatomic, copy) NSString *short_url;
+@property (nonatomic, copy) NSString *log;
+@property (nonatomic, assign) NSInteger url_type;
+@property (nonatomic, assign) NSInteger position;
+@property (nonatomic, assign) BOOL result;
 @end

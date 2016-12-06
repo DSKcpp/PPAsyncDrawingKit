@@ -22,7 +22,7 @@
 - (instancetype)init
 {
     if (self = [super init]) {
-        self.contentEdgeInsets = UIEdgeInsetsMake(0, 1, 0, 1);
+        self.contentEdgeInsets = UIEdgeInsetsZero;
     }
     return self;
 }

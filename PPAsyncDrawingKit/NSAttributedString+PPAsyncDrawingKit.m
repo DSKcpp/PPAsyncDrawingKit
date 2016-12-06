@@ -10,30 +10,6 @@
 #import "PPTextRenderer.h"
 #import "PPTextAttachment.h"
 
-static void PPRunDelegateDeallocCallback(void *ref) { }
-
-static CGFloat PPRunDelegateGetAscentCallback(void *ref) {
-    PPTextAttachment *attachment = (__bridge PPTextAttachment *)(ref);
-    if ([attachment isKindOfClass:[PPTextAttachment class]]) {
-        CGFloat height = [attachment ascentForLayout];
-        NSLog(@"%f", height);
-        return height;
-    }
-    return 0.0f;
-}
-
-static CGFloat PPRunDelegateGetWidthCallback(void *ref) {
-    PPTextAttachment *attachment = (__bridge PPTextAttachment *)(ref);
-    if ([attachment isKindOfClass:[PPTextAttachment class]]) {
-        return [attachment placeholderSize].width;
-    }
-    return 0.0f;
-}
-
-static CGFloat PPRunDelegateGetDecentCallback(void *ref) {
-    return 0;
-}
-
 @implementation NSAttributedString (PPAsyncDrawingKit)
 - (NSRange)pp_stringRange
 {
@@ -198,6 +174,16 @@ static CGFloat PPRunDelegateGetDecentCallback(void *ref) {
     } else {
         [self removeAttribute:@"PPTextBackgroundColorAttributeName" range:range];
     }
+}
+
+- (void)pp_setTextRange:(PPTextActiveRange *)textRange inRange:(NSRange)range
+{
+    [self setAttribute:@"PPTextRangeAttributeName" value:textRange range:range];
+}
+
+- (void)pp_setTextHighlightRange:(PPTextHighlightRange *)textHighlightRange inRange:(NSRange)range
+{
+    [self setAttribute:PPTextHighlightRangeAttributeName value:textHighlightRange range:range];
 }
 
 - (NSRange)pp_effectiveRangeWithRange:(NSRange)range

@@ -76,14 +76,16 @@
     self.activeRanges = nil;
     NSMutableAttributedString *attributedString = [self mutableAttributedString];
     if (attributedString.length) {
-        NSArray<PPTextActiveRange *> *parsingResult = [self.textParser parserWithString:attributedString.string];
-        if ([self.textParser respondsToSelector:@selector(extractAttachmentsAndParseActiveRangesFromParseResult:toAttributedString:)]) {
-            parsingResult = [self.textParser extractAttachmentsAndParseActiveRangesFromParseResult:parsingResult toAttributedString:attributedString];
-        }
-        self.activeRanges = parsingResult;
-        for (PPTextActiveRange *range in self.activeRanges) {
+        [_textParser parserWithAttributedString:attributedString];
+
+//        NSArray<PPTextActiveRange *> *parsingResult = [self.textParser parserWithString:attributedString.string];
+//        if ([self.textParser respondsToSelector:@selector(extractAttachmentsAndParseActiveRangesFromParseResult:toAttributedString:)]) {
+//            parsingResult = [self.textParser extractAttachmentsAndParseActiveRangesFromParseResult:parsingResult toAttributedString:attributedString];
+//        }
+//        self.activeRanges = parsingResult;
+//        for (PPTextActiveRange *range in self.activeRanges) {
 //            [self setColorWithActiveRange:range forAttributedString:attributedString];
-        }
+//        }
         [self updateParagraphStyleForAttributedString:attributedString];
     }
     [self updatePlainTextForCharacterCountingWithAttributedString:attributedString];
@@ -101,10 +103,10 @@
 
 - (void)updatePlainTextForCharacterCountingWithAttributedString:(NSMutableAttributedString *)attributedString
 {
-    NSMutableAttributedString *_attributedString = attributedString.mutableCopy;
-    [_attributedString enumerateAttribute:@"_WBTimelineAttributedTextLinkMarkKey" inRange:[_attributedString pp_stringRange] options:kNilOptions usingBlock:^(id  _Nullable value, NSRange range, BOOL * _Nonnull stop) {
-        *stop = YES;
-    }];
+//    NSMutableAttributedString *_attributedString = attributedString.mutableCopy;
+//    [_attributedString enumerateAttribute:@"_WBTimelineAttributedTextLinkMarkKey" inRange:[_attributedString pp_stringRange] options:kNilOptions usingBlock:^(id  _Nullable value, NSRange range, BOOL * _Nonnull stop) {
+//        *stop = YES;
+//    }];
 }
 
 - (void)setColorWithActiveRange:(PPTextActiveRange *)activeRange forAttributedString:(NSMutableAttributedString *)attributedString
@@ -130,55 +132,39 @@
     return 0;
 }
 
-- (NSArray<PPTextActiveRange *> *)filterParsingResult:(NSArray<PPTextActiveRange *> *)result
-{
-    return result;
-}
-
-- (NSArray<PPTextActiveRange *> *)_parseString:(NSString *)string
-                                       withKeyword:(NSArray *)keywords
-                           andCurrentParsingResult:(NSArray<PPTextActiveRange *> *)result
-{
-//    if (keywords) {
-//        if (keywords.count > 0 && string) {
-//            if (string.length > 0) {
-//                
-//                NSMutableArray *arrs = [NSMutableArray array];
-////                arrs addObjectsFromArray:<#(nonnull NSArray *)#>
-//            }
-//        }
-//    }
-    return result;
-}
-
 - (NSMutableAttributedString *)mutableAttributedString
 {
     NSString *plainText = self.plainText;
     if (plainText) {
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.plainText];
-        if (attributedString.length) {
-            if (self.textColor) {
-                [attributedString pp_setColor:self.textColor];
-            }
-        }
         [attributedString pp_setFont:[UIFont systemFontOfSize:self.fontSize]];
-        NSRange range = [attributedString pp_stringRange];
-        if (self.textLigature != 1) {
-            NSNumber *textLigature = [NSNumber numberWithUnsignedInteger:self.textLigature];
-            [attributedString addAttribute:NSLigatureAttributeName value:textLigature range:range];
+        if (self.textColor) {
+            [attributedString pp_setColor:self.textColor];
         }
-//        NSArray<NSString *> *attributeKeys = @[(NSString *)kCTFontAttributeName,
-//                                               (NSString *)kCTForegroundColorAttributeName,
-//                                               (NSString *)kCTUnderlineStyleAttributeName,
-//                                               (NSString *)kCTParagraphStyleAttributeName,
-//                                               (NSString *)kCTRunDelegateAttributeName,
-//                                               @"PPTextAttachmentAttributeName",
-//                                               @"PPTextBackgroundColorAttributeName",
-//                                               @"PPTextComposedSequenceAttributeName"];
-        
-        [self.textStorage enumerateAttribute:@"WBTimelineAttributedTextFontSymbolicTraitsKey" inRange:range options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired usingBlock:^(id  _Nullable value, NSRange range, BOOL * _Nonnull stop) {
-            *stop = YES;
-        }];
+        [_textParser parserWithAttributedString:attributedString];
+//        if (attributedString.length) {
+//            if (self.textColor) {
+//                [attributedString pp_setColor:self.textColor];
+//            }
+//        }
+//        [attributedString pp_setFont:[UIFont systemFontOfSize:self.fontSize]];
+//        NSRange range = [attributedString pp_stringRange];
+//        if (self.textLigature != 1) {
+//            NSNumber *textLigature = [NSNumber numberWithUnsignedInteger:self.textLigature];
+//            [attributedString addAttribute:NSLigatureAttributeName value:textLigature range:range];
+//        }
+////        NSArray<NSString *> *attributeKeys = @[(NSString *)kCTFontAttributeName,
+////                                               (NSString *)kCTForegroundColorAttributeName,
+////                                               (NSString *)kCTUnderlineStyleAttributeName,
+////                                               (NSString *)kCTParagraphStyleAttributeName,
+////                                               (NSString *)kCTRunDelegateAttributeName,
+////                                               @"PPTextAttachmentAttributeName",
+////                                               @"PPTextBackgroundColorAttributeName",
+////                                               @"PPTextComposedSequenceAttributeName"];
+//        
+//        [self.textStorage enumerateAttribute:@"WBTimelineAttributedTextFontSymbolicTraitsKey" inRange:range options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired usingBlock:^(id  _Nullable value, NSRange range, BOOL * _Nonnull stop) {
+//            *stop = YES;
+//        }];
         return attributedString;
     } else {
         return nil;
