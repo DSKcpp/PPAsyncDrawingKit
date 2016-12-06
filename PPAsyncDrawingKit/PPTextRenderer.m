@@ -86,7 +86,7 @@
             CGContextRestoreGState(context);
             if (placeAttachments) {
                 [self drawAttachmentsWithAttributedString:attributedString layoutFrame:self.textLayout.layoutFrame context:context shouldInterrupt:shouldInterruptBlock];
-            }   
+            }
         }
     }
 }
@@ -96,10 +96,12 @@
     [layoutFrame.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
         [line enumerateLayoutRunsUsingBlock:^(NSDictionary *attributes, NSRange range) {
             PPTextAttachment *textAttachment = [attributes objectForKey:@"PPTextAttachmentAttributeName"];
+            CGPoint origin = [line baselineOriginForCharacterAtIndex:range.location];
+            CGSize size = textAttachment.placeholderSize;
+            CGRect rect = (CGRect){(CGPoint)origin, (CGSize)size};
             UIImage *image = textAttachment.contents;
             if (image) {
-                CGRect rect = [self convertRectFromLayout:line.fragmentRect];
-                rect.size = CGSizeMake(rect.size.height, rect.size.height);
+                rect = [self convertRectFromLayout:rect];
                 UIGraphicsPushContext(context);
                 [image drawInRect:rect];
                 UIGraphicsPopContext();
@@ -237,7 +239,11 @@
 
 - (CGRect)convertRectFromLayout:(CGRect)rect
 {
-    rect.origin = [self convertPointFromLayout:rect.origin];;
+    if (CGRectIsNull(rect)) {
+        
+    } else {
+        rect.origin = [self convertPointFromLayout:rect.origin];
+    }
     return rect;
 }
 @end

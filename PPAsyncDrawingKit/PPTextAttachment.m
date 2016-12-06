@@ -22,7 +22,7 @@
 - (instancetype)init
 {
     if (self = [super init]) {
-        self.contentEdgeInsets = UIEdgeInsetsZero;
+        self.contentEdgeInsets = UIEdgeInsetsMake(0, 1, 0, 1);
     }
     return self;
 }
@@ -88,5 +88,14 @@
 - (CGFloat)leadingForLayout
 {
     return self.baselineFontMetrics.leading;
+}
+
+- (CGSize)placeholderSize
+{
+    CGSize size = self.contentSize;
+    UIEdgeInsets edgeInsets = self.contentEdgeInsets;
+    size.width += edgeInsets.left + edgeInsets.right;
+    size.height += edgeInsets.top + edgeInsets.bottom;
+    return size;
 }
 @end

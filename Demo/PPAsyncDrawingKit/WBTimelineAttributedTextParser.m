@@ -68,22 +68,20 @@
 //            PPTextAttachment *attachment = [[PPTextAttachment alloc] init];
 //            [attributedString addAttribute:@"PPTextAttachmentAttributeName" value:attachment range:activeRange.range];
         } else if (activeRange.flavor == PPFlavoredRangeTypeEmoticon) {
-            WBUITextAttachment *attachment = [[WBUITextAttachment alloc] init];
+            UIImage *image =  [[WBEmoticonManager sharedMangaer] imageWithEmotionName:activeRange.content];
+            CGSize size = CGSizeMake(15, 15);
+            WBUITextAttachment *attachment = [WBUITextAttachment attachmentWithContents:image type:0 contentSize:size];
             attachment.replacementText = activeRange.content;
-            attachment.contents = [[WBEmoticonManager sharedMangaer] imageWithEmotionName:activeRange.content];
             [textAttachments addObject:attachment];
             NSRange range = activeRange.range;
             range.location -= clipLength;
-            NSDictionary *attributes = [attributedString attributesAtIndex:range.location effectiveRange:nil];
-            NSAttributedString *attString = [NSAttributedString pp_attributedStringWithTextAttachment:attachment attributes:attributes];
-            [attributedString replaceCharactersInRange:range withAttributedString:attString];
-            clipLength += range.length - 1;
+            NSDictionary *emoticonAttributes = [attributedString attributesAtIndex:range.location effectiveRange:nil];
+            NSAttributedString *emoticonAttrString = [NSAttributedString pp_attributedStringWithTextAttachment:attachment attributes:emoticonAttributes];
+            [attributedString replaceCharactersInRange:range withAttributedString:emoticonAttrString];
+            clipLength += range.length - emoticonAttrString.length;
             [ranges removeObject:activeRange];
         } else {
-            [ranges enumerateObjectsUsingBlock:^(PPFlavoredRange * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                NSUInteger loc = obj.range.location - clipLength;
-                obj.range = NSMakeRange(loc, obj.range.length);
-            }];
+
         }
     }];
     return ranges;

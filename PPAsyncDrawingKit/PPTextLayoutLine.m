@@ -39,8 +39,8 @@
 - (void)setupWithCTLine
 {
     PPFontMetrics fontMetrics;
-    if (self.layout) {
-        fontMetrics = self.layout.baselineFontMetrics;
+    if (_layout) {
+        fontMetrics = _layout.baselineFontMetrics;
         _baselineOrigin = [_layout convertPointFromCoreText:_baselineOrigin];
     }
     _width = CTLineGetTypographicBounds(_lineRef, &fontMetrics.ascent, &fontMetrics.descent, &fontMetrics.leading);
@@ -49,8 +49,8 @@
 
 - (CGRect)fragmentRect
 {
-    CGFloat height = self.lineMetrics.ascent + self.lineMetrics.descent + self.lineMetrics.leading;
-    return (CGRect){self.baselineOrigin, (CGSize){self.width, height}};
+    CGFloat height = _lineMetrics.ascent + _lineMetrics.descent;
+    return (CGRect){_baselineOrigin, (CGSize){_width, height}};
 }
 
 - (void)dealloc
@@ -91,7 +91,7 @@
 - (NSInteger)locationDeltaFromRealRangeToLineRefRange
 {
     if (_lineRef) {
-        NSInteger i = self.stringRange.location - _lineRefRange.location;
+        NSInteger i = _stringRange.location - _lineRefRange.location;
         if (i < 0) {
             return 0;
         }
@@ -103,10 +103,10 @@
 
 - (CGPoint)baselineOriginForCharacterAtIndex:(NSUInteger)index
 {
-    CGPoint point = self.baselineOrigin;
+    CGPoint point = _baselineOrigin;
     if (_lineRef) {
-        NSInteger index = [self locationDeltaFromRealRangeToLineRefRange];
-        return CGPointMake(CTLineGetOffsetForStringIndex(_lineRef, index, NULL), point.y);
+        CGFloat x = [self offsetXForCharacterAtIndex:index];
+        return CGPointMake(x, point.y);
     }
     return point;
 }

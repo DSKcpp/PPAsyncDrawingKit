@@ -27,9 +27,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)attachmentWithContents:(id)contents type:(UIViewContentMode)type contentSize:(CGSize)contentSize;
 - (void)updateContentEdgeInsetsWithTargetPlaceholderSize:(CGSize)placeholderSize;
 - (BOOL)updateContentSizeWithOptions:(id)options;
-- (CGFloat)leadingForLayout;
-- (CGFloat)descentForLayout;
 - (CGFloat)ascentForLayout;
+- (CGFloat)descentForLayout;
+- (CGFloat)leadingForLayout;
 @end
 
 @interface PPTextAttachment (Updating)

@@ -13,25 +13,25 @@
 static void PPRunDelegateDeallocCallback(void *ref) { }
 
 static CGFloat PPRunDelegateGetAscentCallback(void *ref) {
-    
-    UIImage *image = (__bridge UIImage *)(ref);
-    if ([image isKindOfClass:[UIImage class]]) {
-        return image.size.height;
+    PPTextAttachment *attachment = (__bridge PPTextAttachment *)(ref);
+    if ([attachment isKindOfClass:[PPTextAttachment class]]) {
+        CGFloat height = [attachment ascentForLayout];
+        NSLog(@"%f", height);
+        return height;
+    }
+    return 0.0f;
+}
+
+static CGFloat PPRunDelegateGetWidthCallback(void *ref) {
+    PPTextAttachment *attachment = (__bridge PPTextAttachment *)(ref);
+    if ([attachment isKindOfClass:[PPTextAttachment class]]) {
+        return [attachment placeholderSize].width;
     }
     return 0.0f;
 }
 
 static CGFloat PPRunDelegateGetDecentCallback(void *ref) {
-    
     return 0;
-}
-
-static CGFloat PPRunDelegateGetWidthCallback(void *ref) {
-    UIImage *image = (__bridge UIImage *)(ref);
-    if ([image isKindOfClass:[UIImage class]]) {
-        return image.size.width;
-    }
-    return 0.0f;
 }
 
 @implementation NSAttributedString (PPAsyncDrawingKit)
@@ -141,7 +141,7 @@ static CGFloat PPRunDelegateGetWidthCallback(void *ref) {
     callbacks.getAscent = PPRunDelegateGetAscentCallback;
     callbacks.getDescent = PPRunDelegateGetDecentCallback;
     callbacks.getWidth = PPRunDelegateGetWidthCallback;
-    CTRunDelegateRef runDelegate = CTRunDelegateCreate(&callbacks, (__bridge void * _Nullable)(textAttachment.contents));
+    CTRunDelegateRef runDelegate = CTRunDelegateCreate(&callbacks, (__bridge void * _Nullable)(textAttachment));
     NSMutableDictionary *attr = [NSMutableDictionary dictionaryWithDictionary:attributes];
     attr[@"PPTextAttachmentAttributeName"] = textAttachment;
     attr[(NSString *)kCTForegroundColorAttributeName] = (__bridge id _Nullable)([UIColor clearColor].CGColor);

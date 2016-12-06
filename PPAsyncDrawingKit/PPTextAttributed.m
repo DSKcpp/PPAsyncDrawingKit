@@ -82,7 +82,7 @@
         }
         self.activeRanges = parsingResult;
         for (PPTextActiveRange *range in self.activeRanges) {
-            [self setColorWithActiveRange:range forAttributedString:attributedString];
+//            [self setColorWithActiveRange:range forAttributedString:attributedString];
         }
         [self updateParagraphStyleForAttributedString:attributedString];
     }

@@ -13,8 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PPImageView : PPUIControl
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, assign) CGRect imageContentFrame;
-@property (nonatomic, assign) BOOL isNeedChangeContentModel;
-@property (nonatomic, assign) BOOL useUIImageView;
 @property (nonatomic, assign) CGRect gradientColorRect;
 @property (nonatomic, assign) BOOL updatePathWhenViewSizeChanges;
 @property (nonatomic, strong) NSArray<UIColor *> *gradientColors;
@@ -26,10 +24,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGFloat cornerRadius;
 @property (nonatomic, assign) UIRectCorner roundedCorners;
 @property (nonatomic, assign) BOOL showsCornerRadius;
-@property (nonatomic, strong) CALayer *imageLayer;
 @property (nonatomic, assign) BOOL enableAsyncDrawing;
 @property (nonatomic, strong) UIView *internalMaskView;
 @property (nonatomic, assign) BOOL gradientColorsUpdated;
+@property (nonatomic, assign) BOOL isNeedChangeContentModel;
+@property (nonatomic, assign) UIViewContentMode contentMode;
 
 - (instancetype)initWithFrame:(CGRect)frame;
 - (instancetype)initWithCornerRadius:(CGFloat)cornerRadius;

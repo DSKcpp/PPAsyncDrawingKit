@@ -27,9 +27,6 @@
         self.clipsToBounds = YES;
         self.updatePathWhenViewSizeChanges = YES;
         [self setDrawingPolicy:0];
-        self.useUIImageView = NO;
-        self.imageLayer = [CALayer layer];
-        [self.layer addSublayer:self.imageLayer];
         self.isNeedChangeContentModel = NO;
     }
     return self;
@@ -86,9 +83,6 @@
         [self setNeedsDisplay];
     }
     self.layer.cornerRadius = cornerRadius;
-    if (_useUIImageView) {
-        
-    }
     self.internalMaskView.layer.cornerRadius = cornerRadius;
 }
 
@@ -108,12 +102,6 @@
     if (_maskColor != maskColor) {
         _maskColor = maskColor;
         [self setNeedsDisplay];
-        if (_useUIImageView) {
-            if (!maskColor) {
-                self.maskView.hidden = true;
-            }
-            self.maskView.backgroundColor = maskColor;
-        }
     }
 }
 
@@ -123,11 +111,7 @@
         _borderWidth = borderWidth;
         [self setNeedsDisplay];
     }
-    if (_useUIImageView) {
-        self.layer.borderWidth = borderWidth;
-    } else {
-        self.layer.borderWidth = 0.0f;
-    }
+    self.layer.borderWidth = 0.0f;
 }
 
 - (void)setBorderColor:(UIColor *)borderColor
@@ -136,23 +120,15 @@
         _borderColor = borderColor;
         [self setNeedsDisplay];
     }
-    if (_useUIImageView) {
-        self.layer.borderColor = borderColor.CGColor;
-    } else {
-        self.layer.borderColor = nil;
-    }
+    self.layer.borderColor = nil;
 }
 
 - (void)setImage:(UIImage *)image
 {
     if (_image == image) {
-        if (_useUIImageView) {
-            
-        } else {
-            if (image == nil || self.layer.contents == nil) {
-                self.contentsChangedAfterLastAsyncDrawing = YES;
-                [self setNeedsDisplay];
-            }
+        if (image == nil || self.layer.contents == nil) {
+            self.contentsChangedAfterLastAsyncDrawing = YES;
+            [self setNeedsDisplay];
         }
     } else {
         self.contentsChangedAfterLastAsyncDrawing = YES;
@@ -202,38 +178,10 @@
     }
 }
 
-- (void)setUseUIImageView:(BOOL)useUIImageView
-{
-    if (_useUIImageView != useUIImageView) {
-        _useUIImageView = useUIImageView;
-        [self setNeedsDisplay];
-        if (useUIImageView) {
-            self.imageLayer.frame = _imageContentFrame;
-        }
-    } else {
-        if (_useUIImageView) {
-            
-        } else {
-            BOOL b1 = NO;
-            if (_image == nil) {
-                b1 = YES;
-            }
-            if (self.layer.contents) {
-                
-            }
-        }
-    }
-}
-
 - (void)setImageContentFrame:(CGRect)imageContentFrame
 {
     if (!CGRectEqualToRect(_imageContentFrame, imageContentFrame)) {
         _imageContentFrame = imageContentFrame;
-        if (self.useUIImageView) {
-            [CATransaction begin];
-            [CATransaction setDisableActions:YES];
-            _imageLayer.frame = imageContentFrame;
-        }
     }
 }
 
@@ -245,11 +193,7 @@
 
 - (void)displayLayer:(CALayer *)layer
 {
-    if (_useUIImageView) {
-        
-    } else {
-        [super displayLayer:layer];
-    }
+    [super displayLayer:layer];
 }
 
 - (NSDictionary *)currentDrawingUserInfo
@@ -271,6 +215,9 @@
         CGPathRef path = CreateCGPath(self.bounds, self.cornerRadius, self.roundedCorners);
         roundPathRef = path;
         [userInfo pp_setSafeObject:(__bridge id _Nonnull)(path) forKey:@"roundPath"];
+    }
+    if (self.showsBorderCornerRadius) {
+        
     }
     if (!CGRectIsEmpty(self.imageContentFrame)) {
         [userInfo pp_setSafeObject:[NSValue valueWithCGRect:self.imageContentFrame] forKey:@"imageFrame"];
@@ -299,7 +246,7 @@
         CGContextFillRect(context, rect);
     }
     UIImage *image = components[@"image"];
-    [image pp_drawInRect:rect contentMode:UIViewContentModeScaleAspectFill withContext:context];
+    [image pp_drawInRect:rect contentMode:self.contentMode withContext:context];
 }
 
 - (void)drawingDidFinishAsynchronously:(BOOL)async success:(BOOL)success

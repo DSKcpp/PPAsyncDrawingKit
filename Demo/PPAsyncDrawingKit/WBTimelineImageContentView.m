@@ -29,6 +29,7 @@
         [self.idleContentImageViewAry removeObjectAtIndex:0];
     } else {
         imageView = [[WBTimelineImageView alloc] initWithFrame:CGRectZero];
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
         imageView.userInteractionEnabled = YES;
         [imageView addTarget:self action:@selector(imageSelected:) forControlEvents:UIControlEventTouchUpInside];
         imageView.enableAsyncDrawing = self.enableAsyncDrawing;

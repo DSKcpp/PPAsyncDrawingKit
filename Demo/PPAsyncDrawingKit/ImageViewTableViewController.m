@@ -20,6 +20,9 @@
             PPImageView *roundedImageView = [[PPImageView alloc] initWithFrame:CGRectMake(i * 45.0f, 5.0f, 40.0f, 40.0f)];
             roundedImageView.cornerRadius = 20.0f;
             roundedImageView.roundedCorners = UIRectCornerAllCorners;
+            roundedImageView.borderWidth = 1.0f;
+            roundedImageView.borderColor = [UIColor blackColor];
+            roundedImageView.contentMode = UIViewContentModeScaleAspectFill;
             roundedImageView.userInteractionEnabled = YES;
             roundedImageView.image = [UIImage imageNamed:@"avatar"];
             [roundedImageView addTarget:self action:@selector(tapImageView:) forControlEvents:UIControlEventTouchUpInside];
@@ -31,7 +34,7 @@
 
 - (void)tapImageView:(PPImageView *)imageView
 {
-    NSLog(@"%@", imageView);
+    NSLog(@"%@", imageView.image);
 }
 
 @end
