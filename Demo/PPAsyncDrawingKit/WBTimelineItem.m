@@ -8,6 +8,7 @@
 
 #import "WBTimelineItem.h"
 #import "WBTimelineTableViewCell.h"
+#import "WBTimelineLargeCardView.h"
 
 @implementation WBCardsModel
 + (NSDictionary *)modelContainerPropertyGenericClass {
@@ -22,9 +23,9 @@
 
 @implementation WBTimelineItem
 + (NSDictionary *)modelContainerPropertyGenericClass {
-    return @{@"pic_infos" : [WBTimelinePicture class], @"url_struct" : [WBURLStruct class]};
+    return @{@"pic_infos" : [WBTimelinePicture class],
+             @"url_struct" : [WBURLStruct class]};
 }
-
 @end
 
 @implementation WBUser
@@ -44,5 +45,33 @@
 @end
 
 @implementation WBURLStruct
+
+@end
+
+@implementation WBTimelinePageInfo
+- (Class)timelineModelViewClass
+{
+    Class cls = [self modelViewClass];
+    return cls;
+}
+
+- (Class)modelViewClass
+{
+    Class cls;
+    NSLog(@"%zd", _type);
+    switch (_type) {
+        case 0:
+            cls = [WBPageInfoBaseCardView class];
+            break;
+            
+        default:
+            cls = [WBPageInfoBaseCardView class];
+            break;
+    }
+    return cls;
+}
+@end
+
+@implementation WBPageActionLog
 
 @end

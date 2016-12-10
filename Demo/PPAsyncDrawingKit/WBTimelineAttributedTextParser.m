@@ -106,6 +106,10 @@ static inline CGRect YYEmojiGetGlyphBoundingRectWithFontSize(CGFloat fontSize) {
                 UIImage *image = [UIImage imageNamed:@"timeline_card_small_web"];
                 WBUITextAttachment *attachment = [WBUITextAttachment attachmentWithContents:image type:0 contentSize:size];
                 attachment.replacementText = urlStruct.short_url;
+                PPFontMetrics font;
+                font.ascent = ascent;
+                font.descent = descent;
+                attachment.baselineFontMetrics = font;
                 NSDictionary *emojiAttributes = [attributedString attributesAtIndex:range.location effectiveRange:nil];
                 NSAttributedString *emojiAttributeString = [NSAttributedString pp_attributedStringWithTextAttachment:attachment attributes:emojiAttributes];
                 [attrString insertAttributedString:emojiAttributeString atIndex:0];

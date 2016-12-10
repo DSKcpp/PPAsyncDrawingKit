@@ -33,6 +33,8 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadData)];
+    self.navigationItem.rightBarButtonItem.enabled = NO;
     
     _tableView.frame = self.view.bounds;
     _tableView.delegate = self;
@@ -53,8 +55,17 @@
         }];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
+            self.navigationItem.rightBarButtonItem.enabled = YES;
         });
     });
+}
+
+- (void)reloadData
+{
+    WBTimelineItem *obj = [_timelineItems objectAtIndex:arc4random() % _timelineItems.count];
+    [_timelineItems insertObject:obj atIndex:0];
+    [_tableView reloadData];
+//    [_tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

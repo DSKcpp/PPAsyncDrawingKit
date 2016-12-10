@@ -7,15 +7,25 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WBTimelineItem.h"
+#import "PPImageView.h"
 
-@class PPImageView;
-@class WBTimelineItem;
 @class WBTimelineTableViewCellDrawingContext;
 @class WBTimelineTextContentView;
 @class WBTimelineScreenNameLabel;
 @class WBTimelineActionButtonsView;
-@class WBColorImageView;
 @class WBTimelineImageContentView;
+
+@interface WBColorImageView : UIImageView
+@property(retain, nonatomic) UIView *bottomLineView;
+@property(retain, nonatomic) UIView *topLineView;
+@property(retain, nonatomic) UIColor *commonBackgroundColor;
+@property(retain, nonatomic) UIColor *highLightBackgroundColor;
+
+- (void)setBackgroundColor:(UIColor *)backgroundColor boolOwn:(BOOL)boolOwn;
+- (void)setBackgroundColor:(UIColor *)backgroundColor;
+- (void)setHighlighted:(BOOL)highlighted;
+@end
 
 @interface WBTimelineContentView : UIView
 @property (nonatomic, strong) WBTimelineItem *timelineItem;

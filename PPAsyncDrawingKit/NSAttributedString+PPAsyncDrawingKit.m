@@ -119,7 +119,7 @@
     callbacks.getWidth = PPRunDelegateGetWidthCallback;
     CTRunDelegateRef runDelegate = CTRunDelegateCreate(&callbacks, (__bridge void * _Nullable)(textAttachment));
     NSMutableDictionary *attr = [NSMutableDictionary dictionaryWithDictionary:attributes];
-    attr[@"PPTextAttachmentAttributeName"] = textAttachment;
+    attr[PPTextAttachmentAttributeName] = textAttachment;
     attr[(NSString *)kCTForegroundColorAttributeName] = (__bridge id _Nullable)([UIColor clearColor].CGColor);
     attr[(NSString *)kCTRunDelegateAttributeName] = (__bridge id)runDelegate;
     unichar objectReplacementChar = 0xFFFC;
@@ -128,7 +128,15 @@
 }
 @end
 
-@implementation NSMutableAttributedString (PPAsyncDrawingKit)
+@implementation NSMutableAttributedString (PPExtendedAttributedString)
+- (NSRange)pp_effectiveRangeWithRange:(NSRange)range
+{
+    NSUInteger max = range.location + range.length;
+    if (max > self.length) {
+        return NSMakeRange(range.location, range.length);
+    }
+    return range;
+}
 
 - (void)setAttribute:(NSString *)name value:(id)value {
     [self setAttribute:name value:value range:self.pp_stringRange];
@@ -176,9 +184,19 @@
     }
 }
 
+- (void)pp_setTextRange:(PPTextActiveRange *)textRange
+{
+    [self pp_setTextRange:textRange inRange:[self pp_stringRange]];
+}
+
 - (void)pp_setTextRange:(PPTextActiveRange *)textRange inRange:(NSRange)range
 {
     [self setAttribute:@"PPTextRangeAttributeName" value:textRange range:range];
+}
+
+- (void)pp_setTextHighlightRange:(PPTextHighlightRange *)textHighlightRange
+{
+    [self pp_setTextHighlightRange:textHighlightRange inRange:[self pp_stringRange]];
 }
 
 - (void)pp_setTextHighlightRange:(PPTextHighlightRange *)textHighlightRange inRange:(NSRange)range
@@ -186,13 +204,14 @@
     [self setAttribute:PPTextHighlightRangeAttributeName value:textHighlightRange range:range];
 }
 
-- (NSRange)pp_effectiveRangeWithRange:(NSRange)range
+- (void)pp_setTextParagraphStyle:(PPTextParagraphStyle *)textParagraphStyle
 {
-    NSUInteger max = range.location + range.length;
-    if (max > self.length) {
-        return NSMakeRange(range.location, range.length);
-    }
-    return range;
+    [self pp_setTextParagraphStyle:textParagraphStyle inRange:[self pp_stringRange]];
+}
+
+- (void)pp_setTextParagraphStyle:(PPTextParagraphStyle *)textParagraphStyle inRange:(NSRange)range
+{
+    [self setAttribute:@"PPTextParagraphStyleAttributedName" value:textParagraphStyle range:range];
 }
 
 @end

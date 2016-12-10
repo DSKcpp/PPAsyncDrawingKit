@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@class PPTextAttributed;
 @class WBTimelineItem;
 @class WBTimelineContentImageViewLayouter;
 
@@ -18,10 +17,10 @@
 @property (nonatomic, assign) CGFloat rowHeight;
 @property (nonatomic, assign) CGFloat contentHeight;
 @property (nonatomic, assign) CGFloat contentWidth;
-@property (nonatomic, strong) PPTextAttributed *titleAttributedText;
-@property (nonatomic, strong) PPTextAttributed *metaInfoAttributedText;
-@property (nonatomic, strong) PPTextAttributed *textAttributedText;
-@property (nonatomic, strong) PPTextAttributed *quotedAttributedText;
+@property (nonatomic, strong) NSMutableAttributedString *titleAttributedText;
+@property (nonatomic, strong) NSMutableAttributedString *metaInfoAttributedText;
+@property (nonatomic, strong) NSMutableAttributedString *textAttributedText;
+@property (nonatomic, strong) NSMutableAttributedString *quotedAttributedText;
 @property (nonatomic, assign) CGRect titleBackgroundViewFrame;
 @property (nonatomic, assign) CGRect titleFrame;
 @property (nonatomic, assign) CGRect textContentBackgroundViewFrame;
@@ -33,6 +32,7 @@
 @property (nonatomic, assign) CGRect nicknameFrame;
 @property (nonatomic, assign) CGRect metaInfoFrame;
 @property (nonatomic, assign) CGRect avatarFrame;
+@property (nonatomic, assign) CGRect largeFrame;
 
 - (instancetype)initWithTimelineItem:(WBTimelineItem *)timelineItem;
 

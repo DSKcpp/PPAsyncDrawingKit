@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PPTextLayout.h"
 #import "PPTextActiveRange.h"
+#import "PPTextHighlightRange.h"
 
 @class PPTextLayoutFrame;
 @class PPTextAttachment;
@@ -24,12 +25,12 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @protocol PPTextRendererEventDelegate <NSObject>
-- (void)textRenderer:(PPTextRenderer *)textRenderer didPressActiveRange:(PPTextActiveRange *)activeRange;
-- (NSArray *)activeRangesForTextRenderer:(PPTextRenderer *)textRenderer;
+- (void)textRenderer:(PPTextRenderer *)textRenderer didPressHighlightRange:(PPTextHighlightRange *)highlightRange;
+- (NSArray<PPTextHighlightRange *> *)highlightRangesForTextRenderer:(PPTextRenderer *)textRenderer;
 - (UIView *)contextViewForTextRenderer:(PPTextRenderer *)textRenderer;
 
 @optional
-- (BOOL)textRenderer:(PPTextRenderer *)textRenderer shouldInteractWithActiveRange:(PPTextActiveRange *)activeRange;
+- (BOOL)textRenderer:(PPTextRenderer *)textRenderer shouldInteractWithHighlightRange:(PPTextHighlightRange *)highlightRange;
 @end
 
 @interface PPTextRenderer : UIResponder
@@ -39,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, weak) id <PPTextRendererDelegate> renderDelegate;
 @property (nullable, nonatomic, weak) id <PPTextLayoutDelegate> layoutDelegate;
 @property (nullable, nonatomic, strong) PPTextActiveRange *savedPressingActiveRange;
-@property (nullable, nonatomic, strong) PPTextActiveRange *pressingActiveRange;
+@property (nullable, nonatomic, strong) PPTextHighlightRange *pressingHighlightRange;
 @property (nonatomic, assign) CGPoint drawingOrigin;
 @property (nonatomic, assign) CGFloat shadowBlur;
 @property (nonatomic, assign) UIOffset shadowOffset;
@@ -50,12 +51,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)drawAttachmentsWithAttributedString:(NSAttributedString *)attributedString
                                 layoutFrame:(PPTextLayoutFrame *)layoutFrame
                                     context:(CGContextRef)context
-                            shouldInterrupt:(void(^)(void))shouldInterruptBlock;
+                            shouldInterrupt:(nullable void(^)(BOOL *stop))shouldInterruptBlock;
 - (void)drawInContext:(CGContextRef)context
           visibleRect:(CGRect)visibleRect
      placeAttachments:(BOOL)placeAttachments
- shouldInterruptBlock:(void(^)(void))shouldInterruptBlock;
-- (void)drawInContext:(CGContextRef)context shouldInterruptBlock:(nullable void(^)(void))shouldInterruptBlock;
+ shouldInterruptBlock:(nullable void(^)(BOOL *stop))shouldInterruptBlock;
+- (void)drawInContext:(CGContextRef)context shouldInterruptBlock:(nullable void(^)(BOOL *stop))shouldInterruptBlock;
 - (void)drawInContext:(CGContextRef)context;
 - (void)draw;
 
@@ -79,11 +80,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) BOOL layoutUpToDate;
 
 #pragma mark - Events
-@property (nonatomic, weak) id <PPTextRendererEventDelegate> eventDelegate;
+@property (nullable, nonatomic, weak) id<PPTextRendererEventDelegate> eventDelegate;
 @end
 
 @interface PPTextRenderer (Events)
-- (nullable PPTextActiveRange *)rangeInRanges:(NSArray<PPTextActiveRange *> *)ranges forLayoutLocation:(CGPoint)location;
+- (nullable PPTextHighlightRange *)rangeInRanges:(NSArray<PPTextHighlightRange *> *)ranges forLayoutLocation:(CGPoint)location;
 - (void)eventDelegateDidPressActiveRange:(PPTextActiveRange *)activeRange;
 - (nullable NSArray *)eventDelegateActiveRanges;
 - (nullable UIView *)eventDelegateContextView;

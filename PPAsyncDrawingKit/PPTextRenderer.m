@@ -53,24 +53,24 @@
     [self drawInContext:context shouldInterruptBlock:nil];
 }
 
-- (void)drawInContext:(CGContextRef)context shouldInterruptBlock:(void (^)(void))shouldInterruptBlock
+- (void)drawInContext:(CGContextRef)context shouldInterruptBlock:(nullable void (^)(BOOL * _Nonnull))shouldInterruptBlock
 {
     [self drawInContext:context visibleRect:CGRectNull placeAttachments:YES shouldInterruptBlock:shouldInterruptBlock];
 }
 
-- (void)drawInContext:(CGContextRef)context visibleRect:(CGRect)visibleRect placeAttachments:(BOOL)placeAttachments shouldInterruptBlock:(void (^)(void))shouldInterruptBlock
+- (void)drawInContext:(CGContextRef)context visibleRect:(CGRect)visibleRect placeAttachments:(BOOL)placeAttachments shouldInterruptBlock:(nullable void (^)(BOOL * _Nonnull))shouldInterruptBlock
 {
     if (context) {
         NSAttributedString *attributedString = self.attributedString;
-        if (attributedString) {
+        if (attributedString.length > 0) {
             PPTextLayoutFrame *layoutFrame = self.textLayout.layoutFrame;
             if (layoutFrame) {
                 UIOffset offset = [self drawingOffsetWithTextLayout:self.textLayout layoutFrame:layoutFrame];
-                PPTextActiveRange *activeRange = self.pressingActiveRange;
-                if (activeRange) {
-                    [self enumerateEnclosingRectsForCharacterRange:activeRange.range usingBlock:^(CGRect rect, BOOL *stop) {
-                        [self drawHighlightedBackgroundForActiveRange:activeRange rect:rect context:context];
-                    }];
+                PPTextHighlightRange *highlightRange = self.pressingHighlightRange;
+                if (highlightRange) {
+//                    [self enumerateEnclosingRectsForCharacterRange:activeRange.range usingBlock:^(CGRect rect, BOOL *stop) {
+//                        [self drawHighlightedBackgroundForActiveRange:activeRange rect:rect context:context];
+//                    }];
                 }
             }
             CGContextSaveGState(context);
@@ -91,24 +91,33 @@
     }
 }
 
-- (void)drawAttachmentsWithAttributedString:(NSAttributedString *)attributedString layoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context shouldInterrupt:(void (^)(void))shouldInterruptBlock
-{   CGFloat scale = [UIScreen mainScreen].scale;
+- (void)drawAttachmentsWithAttributedString:(NSAttributedString *)attributedString layoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context shouldInterrupt:(nullable void (^)(BOOL * _Nonnull))shouldInterruptBlock
+{
+    CGFloat scale = [UIScreen mainScreen].scale;
     [layoutFrame.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
         [line enumerateLayoutRunsUsingBlock:^(NSDictionary *attributes, NSRange range) {
-            PPTextAttachment *textAttachment = [attributes objectForKey:@"PPTextAttachmentAttributeName"];
-            CGPoint origin = [line baselineOriginForCharacterAtIndex:range.location];
-            CGSize size = textAttachment.placeholderSize;
-            CGRect rect = (CGRect){(CGPoint)origin, (CGSize)size};
-            UIImage *image = textAttachment.contents;
-            if (image) {
-                rect = [self convertRectFromLayout:rect];
-                UIGraphicsPushContext(context);
-                [image drawInRect:rect];
-                UIGraphicsPopContext();
+            PPTextAttachment *textAttachment = [attributes objectForKey:PPTextAttachmentAttributeName];
+            if (textAttachment) {
+                CGPoint origin = [line baselineOriginForCharacterAtIndex:range.location];
+                UIEdgeInsets edgeInsets = textAttachment.contentEdgeInsets;
+                PPFontMetrics font = textAttachment.fontMetricsForLayout;
+                origin.y -= font.ascent;
+                origin.x -= edgeInsets.left;
+                CGSize size = textAttachment.contentSize;
+                CGRect rect = (CGRect){(CGPoint)origin, (CGSize)size};
+                UIImage *image = textAttachment.contents;
+                if (image) {
+                    rect = [self convertRectFromLayout:rect];
+                    UIGraphicsPushContext(context);
+                    [image drawInRect:rect];
+                    UIGraphicsPopContext();
+                }
             }
         }];
+//        if (shouldInterruptBlock) {
+//            shouldInterruptBlock(stop);
+//        }
     }];
-//    shouldInterruptBlock();
 }
 
 - (void)drawHighlightedBackgroundForActiveRange:(PPTextActiveRange *)activeRange rect:(CGRect)rect context:(CGContextRef)context
@@ -159,9 +168,9 @@
             point = [touch locationInView:touchView];
         }
         point = [self convertPointToLayout:point];
-        PPTextActiveRange *range = [self rangeInRanges:[self eventDelegateActiveRanges] forLayoutLocation:point];
+        PPTextHighlightRange *range = [self rangeInRanges:[self eventDelegateActiveRanges] forLayoutLocation:point];
         if (range) {
-            self.pressingActiveRange = range;
+            self.pressingHighlightRange = range;
             [touchView setNeedsDisplay];
         }
         self.touchesBeginPoint = point;
@@ -176,15 +185,15 @@
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     self.savedPressingActiveRange = nil;
-    PPTextActiveRange *activeRange = self.pressingActiveRange;
-    if (activeRange) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self eventDelegateDidPressActiveRange:activeRange];
-        });
-        self.pressingActiveRange = nil;
-        UIView *view = [self.eventDelegate contextViewForTextRenderer:self];
-        [view setNeedsDisplay];
-    }
+//    PPTextActiveRange *activeRange = self.pressingActiveRange;
+//    if (activeRange) {
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            [self eventDelegateDidPressActiveRange:activeRange];
+//        });
+//        self.pressingActiveRange = nil;
+//        UIView *view = [self.eventDelegate contextViewForTextRenderer:self];
+//        [view setNeedsDisplay];
+//    }
 }
 
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -259,23 +268,26 @@
 
 - (NSArray *)eventDelegateActiveRanges
 {
-    if (_eventDelegate) {
-        return [_eventDelegate activeRangesForTextRenderer:self];
+    if ([_eventDelegate respondsToSelector:@selector(highlightRangesForTextRenderer:)]) {
+        return [_eventDelegate highlightRangesForTextRenderer:self];
     }
     return nil;
 }
 
-- (PPTextActiveRange *)rangeInRanges:(NSArray<PPTextActiveRange *> *)ranges forLayoutLocation:(CGPoint)location
+- (PPTextHighlightRange *)rangeInRanges:(NSArray<PPTextHighlightRange *> *)ranges forLayoutLocation:(CGPoint)location
 {
-    __block PPTextActiveRange *r;
-    for (PPTextActiveRange *range in ranges) {
-        if ([_eventDelegate textRenderer:self shouldInteractWithActiveRange:range]) {
-            [self.textLayout enumerateEnclosingRectsForCharacterRange:range.range usingBlock:^(CGRect rect, BOOL *stop) {
-                if (CGRectContainsPoint(rect, location)) {
-                    r = range;
-                    *stop = YES;
-                }
-            }];
+    __block NSRange seleRange;
+
+    [self.attributedString attribute:PPTextHighlightRangeAttributeName atIndex:0 longestEffectiveRange:nil inRange:NSMakeRange(0, 0)];
+    __block PPTextHighlightRange *r;
+    for (PPTextHighlightRange *range in ranges) {
+        if ([_eventDelegate textRenderer:self shouldInteractWithHighlightRange:range]) {
+//            [self.textLayout enumerateEnclosingRectsForCharacterRange:range.range usingBlock:^(CGRect rect, BOOL *stop) {
+//                if (CGRectContainsPoint(rect, location)) {
+//                    r = range;
+//                    *stop = YES;
+//                }
+//            }];
             if (r) {
                 return r;
             }
@@ -287,7 +299,7 @@
 - (void)eventDelegateDidPressActiveRange:(PPTextActiveRange *)activeRange
 {
     if (_eventDelegate) {
-        [_eventDelegate textRenderer:self didPressActiveRange:activeRange];
+        [_eventDelegate textRenderer:self didPressHighlightRange:activeRange];
     }
 }
 @end

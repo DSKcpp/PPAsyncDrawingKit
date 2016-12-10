@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 UIKIT_EXTERN NSString * const PPTextHighlightRangeAttributeName;
 UIKIT_EXTERN NSString * const PPTextBorderAttributeName;
-
+UIKIT_EXTERN NSString * const PPTextAttachmentAttributeName;
 
 @interface PPTextBorder : NSObject
 @property (nonnull, nonatomic, strong) UIColor *fillColor;

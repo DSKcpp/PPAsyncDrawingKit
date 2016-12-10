@@ -48,7 +48,7 @@
 
 - (PPTextLayoutFrame *)createLayoutFrame
 {
-    if (self.attributedString) {
+    if (self.attributedString.length > 0) {
         CGRect rect = CGRectMake(0, 0, self.size.width, self.size.height);
         UIBezierPath *path = [UIBezierPath bezierPathWithRect:rect];
         CGAffineTransform transform = CGAffineTransformIdentity;

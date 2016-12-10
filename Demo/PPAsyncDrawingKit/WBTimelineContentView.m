@@ -10,15 +10,40 @@
 #import "WBTimelineTableViewCellDrawingContext.h"
 #import "WBTimelineTextContentView.h"
 #import "WBTimelineScreenNameLabel.h"
-#import "PPImageView.h"
-#import "WBTimelineItem.h"
 #import "WBTimelineActionButtonsView.h"
 #import "UIView+Frame.h"
-#import "WBColorImageView.h"
 #import "UIImage+Color.h"
 #import "WBTimelineImageContentView.h"
 #import "PPImageView+WebCache.h"
 #import "WBTimelinePreset.h"
+
+@implementation WBColorImageView
+
+- (void)setBackgroundColor:(UIColor *)backgroundColor
+{
+    [self setBackgroundColor:backgroundColor boolOwn:YES];
+}
+
+- (void)setBackgroundColor:(UIColor *)backgroundColor boolOwn:(BOOL)boolOwn
+{
+    [super setBackgroundColor:backgroundColor];
+    if (boolOwn) {
+        self.commonBackgroundColor = backgroundColor;
+    }
+}
+
+- (void)setHighlighted:(BOOL)highlighted
+{
+    [super setHighlighted:highlighted];
+    if (!self.image) {
+        if (highlighted) {
+            [self setBackgroundColor:self.highLightBackgroundColor boolOwn:NO];
+        } else {
+            [self setBackgroundColor:self.commonBackgroundColor boolOwn:NO];
+        }
+    }
+}
+@end
 
 @implementation WBTimelineContentView
 + (CGFloat)heightOfTimelineItem:(WBTimelineItem *)timelineItem withContentWidth:(CGFloat)width
@@ -62,7 +87,9 @@
 
 - (void)createSubviews
 {
-    [self createTitleItemContentBackgroundView];
+    [self addSubview:self.itemTypeBgImageView];
+    [self addSubview:self.titleIcon];
+    [self addSubview:self.itemContentBgImageView];
     [self createItemContentBackgroundView];
     [self createTextContentView];
     [self createNicknameLabel];
@@ -71,36 +98,49 @@
     [self createPhotoImageView];
 }
 
-- (void)createTitleItemContentBackgroundView
+- (WBColorImageView *)itemTypeBgImageView
 {
-    self.itemTypeBgImageView = [[WBColorImageView alloc] init];
-    self.itemTypeBgImageView.userInteractionEnabled = YES;
-    [self.itemTypeBgImageView setBackgroundColor:[UIColor whiteColor] boolOwn:YES];
-    [self addSubview:self.itemTypeBgImageView];
-    WBTimelinePreset *preset = [WBTimelinePreset sharedInstance];
-    
-    self.titleIcon = [[PPImageView alloc] initWithFrame:CGRectMake(preset.titleIconLeft, preset.titleIconTop, preset.titleIconSize, preset.titleIconSize)];
-    self.titleIcon.image = [UIImage imageNamed:@"timeline_title_promotions"];
-    [self addSubview:self.titleIcon];
+    if (!_itemTypeBgImageView) {
+        _itemTypeBgImageView = [[WBColorImageView alloc] init];
+        _itemTypeBgImageView.userInteractionEnabled = YES;
+        [_itemTypeBgImageView setBackgroundColor:[UIColor whiteColor] boolOwn:YES];
+        
+    }
+    return _itemTypeBgImageView;
+}
+
+- (PPImageView *)titleIcon
+{
+    if (!_titleIcon) {
+        WBTimelinePreset *preset = [WBTimelinePreset sharedInstance];
+        _titleIcon = [[PPImageView alloc] initWithFrame:CGRectMake(preset.titleIconLeft, preset.titleIconTop, preset.titleIconSize, preset.titleIconSize)];
+        _titleIcon.image = [UIImage imageNamed:@"timeline_title_promotions"];
+    }
+    return _titleIcon;
+}
+
+- (WBColorImageView *)itemContentBgImageView
+{
+    if (!_itemContentBgImageView) {
+        CGFloat width = [UIScreen mainScreen].bounds.size.width;
+        UIView *topLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 0.5f)];
+        topLineView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
+        UIView *bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 0.5f)];
+        bottomLineView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
+        _itemContentBgImageView = [[WBColorImageView alloc] init];
+        _itemContentBgImageView.userInteractionEnabled = YES;
+        [_itemContentBgImageView setBackgroundColor:[UIColor whiteColor] boolOwn:YES];
+        _itemContentBgImageView.highLightBackgroundColor = [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1.0];
+        _itemContentBgImageView.topLineView = topLineView;
+        _itemContentBgImageView.bottomLineView = bottomLineView;
+        [_itemContentBgImageView addSubview:topLineView];
+        [_itemContentBgImageView addSubview:bottomLineView];
+    }
+    return _itemContentBgImageView;
 }
 
 - (void)createItemContentBackgroundView
 {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    UIView *topLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 0.5f)];
-    topLineView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
-    UIView *bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 0.5f)];
-    bottomLineView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
-    self.itemContentBgImageView = [[WBColorImageView alloc] init];
-    self.itemContentBgImageView.userInteractionEnabled = YES;
-    [self.itemContentBgImageView setBackgroundColor:[UIColor whiteColor] boolOwn:YES];
-    self.itemContentBgImageView.highLightBackgroundColor = [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1.0];
-    self.itemContentBgImageView.topLineView = topLineView;
-    self.itemContentBgImageView.bottomLineView = bottomLineView;
-    [self.itemContentBgImageView addSubview:topLineView];
-    [self.itemContentBgImageView addSubview:bottomLineView];
-    [self addSubview:self.itemContentBgImageView];
-    
     self.quotedItemBorderButton = [[UIButton alloc] init];
     [self.quotedItemBorderButton setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1]] forState:UIControlStateNormal];
     [self.quotedItemBorderButton setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1]] forState:UIControlStateHighlighted];
@@ -163,6 +203,7 @@
         NSString *url = timelineItem.user.avatar_large;
         [self.avatarView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"avatar"]];
         [self.actionButtonsView setTimelineItem:timelineItem];
+        self.textContentView.largeCardView.frame = drawingContext.largeFrame;
     }
 }
 @end

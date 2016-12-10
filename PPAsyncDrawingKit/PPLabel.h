@@ -10,23 +10,20 @@
 #import "PPTextRenderer.h"
 
 @class PPTextLayout;
-@class PPTextAttributed;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PPLabel : PPAsyncDrawingView <PPTextRendererDelegate, PPTextRendererEventDelegate>
 @property (nonatomic, assign) BOOL pendingAttachmentUpdates;
 @property (nonatomic, strong) PPTextLayout *textLayout;
-@property (nullable, nonatomic, strong) PPTextAttributed *text;
+@property (nullable, nonatomic, copy) NSString *text;
+@property (nullable, nonatomic, strong) NSMutableAttributedString *attributedString;
 @property (nullable, nonatomic, strong) PPTextRenderer *textRenderer;
 @property (nonatomic, assign) NSRange visibleStringRange;
 @property (nonatomic, assign) NSInteger numberOfLines;
-@property (nonatomic, strong, readonly) NSAttributedString *attributedString;
 
 - (instancetype)initWithWidth:(CGFloat)width;
 - (instancetype)initWithFrame:(CGRect)frame;
-
-- (void)textRenderer:(PPTextRenderer *)textRenderer placeAttachment:(id)arg2 frame:(CGRect)frame context:(CGContextRef)context;
 
 - (NSInteger)lineIndexForPoint:(CGPoint)point;
 - (NSInteger)textIndexForPoint:(CGPoint)point;

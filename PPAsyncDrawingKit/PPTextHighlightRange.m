@@ -11,6 +11,7 @@
 
 NSString * const PPTextHighlightRangeAttributeName = @"PPTextHighlightRange";
 NSString * const PPTextBorderAttributeName = @"PPTextBorder";
+NSString * const PPTextAttachmentAttributeName = @"PPTextAttachment";
 
 @implementation PPTextHighlightRange
 - (void)_setAttribute:(NSString *)name value:(id)value

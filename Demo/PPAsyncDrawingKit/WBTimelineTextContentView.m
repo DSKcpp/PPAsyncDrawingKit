@@ -29,7 +29,7 @@
     CGFloat totalHeight = 0.0f;
     if (drawingContext.hasTitle) {
         drawingContext.titleBackgroundViewFrame = CGRectMake(0, 0, drawingContext.contentWidth, preset.titleAreaHeight);
-        CGFloat height = [drawingContext.titleAttributedText.attributedString pp_heightConstrainedToWidth:maxWidth];
+        CGFloat height = [drawingContext.titleAttributedText pp_heightConstrainedToWidth:maxWidth];
         drawingContext.titleFrame = CGRectMake(preset.titleIconLeft + preset.titleIconSize + 5.0f, 6.0f, drawingContext.contentWidth, height);
         totalHeight += preset.titleAreaHeight;
     }
@@ -39,12 +39,11 @@
     drawingContext.metaInfoFrame = CGRectMake(preset.nicknameLeft, preset.avatarSize + titleHeight, drawingContext.contentWidth, 20.0f);
     totalHeight += preset.headerAreaHeight;
     
-    CGFloat height = [drawingContext.textAttributedText.attributedString pp_heightConstrainedToWidth:maxWidth];
+    CGFloat height = [drawingContext.textAttributedText pp_heightConstrainedToWidth:maxWidth];
     drawingContext.textFrame = CGRectMake(preset.leftSpacing, totalHeight, maxWidth, height);
     totalHeight += height;
-    
     if (drawingContext.hasQuoted) {
-        CGFloat height = [drawingContext.quotedAttributedText.attributedString pp_heightConstrainedToWidth:maxWidth];
+        CGFloat height = [drawingContext.quotedAttributedText pp_heightConstrainedToWidth:maxWidth];
         drawingContext.quotedFrame = CGRectMake(preset.leftSpacing, CGRectGetMaxY(drawingContext.textFrame), maxWidth, height);
         totalHeight += height;
         drawingContext.quotedContentBackgroundViewFrame = CGRectMake(0, CGRectGetMinY(drawingContext.quotedFrame) - 5, drawingContext.contentWidth, CGRectGetHeight(drawingContext.quotedFrame) + 5);
@@ -63,6 +62,12 @@
         drawingContext.photoFrame = CGRectMake(preset.leftSpacing, totalHeight, maxWidth, height);
         totalHeight += height + 10.0f;
     }
+    
+    if (drawingContext.timelineItem.page_info) {
+        drawingContext.largeFrame = CGRectMake(preset.leftSpacing, totalHeight, maxWidth, 71.0f);
+        totalHeight += 71.0f;
+    }
+    
     drawingContext.textContentBackgroundViewFrame = CGRectMake(0, titleHeight, drawingContext.contentWidth, totalHeight - titleHeight);
     drawingContext.actionButtonsViewFrame = CGRectMake(0, CGRectGetMaxY(drawingContext.textContentBackgroundViewFrame), drawingContext.contentWidth, preset.actionButtonsHeight);
     totalHeight += preset.actionButtonsHeight + 10.0f;
@@ -91,7 +96,9 @@
         self.attachments = [NSMutableArray array];
         self.dispatchPriority = 2;
         self.isSourceRectBeReset = NO;
-        _textRenderers = @[self.itemTextRenderer, self.quotedItemTextRenderer, self.titleTextRenderer, self.metaInfoTextRenderer];
+        self.textRenderers = @[self.itemTextRenderer, self.quotedItemTextRenderer, self.titleTextRenderer, self.metaInfoTextRenderer];
+        _largeCardView = [[WBTimelineLargeCardView alloc] initWithFrame:CGRectZero];
+        [self addSubview:_largeCardView];
     }
     return self;
 }
@@ -117,19 +124,19 @@
 {
     WBTimelineTableViewCellDrawingContext *drawingContext = userInfo[@"drawingContext"];
     if (drawingContext.hasTitle) {
-        self.titleTextRenderer.attributedString = drawingContext.titleAttributedText.attributedString;
+        self.titleTextRenderer.attributedString = drawingContext.titleAttributedText;
         self.titleTextRenderer.frame = drawingContext.titleFrame;
         [self.titleTextRenderer drawInContext:context shouldInterruptBlock:nil];
     }
-    self.metaInfoTextRenderer.attributedString = drawingContext.metaInfoAttributedText.attributedString;
+    self.metaInfoTextRenderer.attributedString = drawingContext.metaInfoAttributedText;
     self.metaInfoTextRenderer.frame = drawingContext.metaInfoFrame;
     [self.metaInfoTextRenderer drawInContext:context shouldInterruptBlock:nil];
     self.itemTextRenderer.frame = drawingContext.textFrame;
-    self.itemTextRenderer.attributedString = drawingContext.textAttributedText.attributedString;
+    self.itemTextRenderer.attributedString = drawingContext.textAttributedText;
     [self.itemTextRenderer drawInContext:context shouldInterruptBlock:nil];
     if (drawingContext.hasQuoted) {
         self.quotedItemTextRenderer.frame = drawingContext.quotedFrame;
-        self.quotedItemTextRenderer.attributedString = drawingContext.quotedAttributedText.attributedString;
+        self.quotedItemTextRenderer.attributedString = drawingContext.quotedAttributedText;
         [self.quotedItemTextRenderer drawInContext:context shouldInterruptBlock:nil];
     }
     return YES;
@@ -141,30 +148,6 @@
     [userInfo pp_setSafeObject:self.drawingContext forKey:@"drawingContext"];
     [userInfo pp_setSafeObject:self.drawingContext.timelineItem forKey:@"timelineItem"];
     return userInfo;
-}
-
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    UITouch *touch = [touches anyObject];
-    CGPoint point = CGPointZero;
-    if (touch) {
-        point = [touch locationInView:self];
-    }
-    self.respondTextRenderer = [self rendererAtPoint:point];
-    self.respondTextRenderer.eventDelegate = self;
-    if (!self.respondTextRenderer) {
-        NSUInteger index = [self touchingOtherTouchableItemIndex:point finishBlock:nil];
-        self.touchingItemIndex = index;
-        if (index == 9999) {
-            
-        }
-    }
-    [self.respondTextRenderer touchesBegan:touches withEvent:event];
-    PPTextActiveRange *range = self.respondTextRenderer.pressingActiveRange;
-    if (!range) {
-        
-    }
-    [self checkNeedToDrawUnionAreaHightlightedFeedback:range];
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -180,16 +163,6 @@
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     
-}
-
-- (PPTextRenderer *)rendererAtPoint:(CGPoint)point
-{
-    for (PPTextRenderer *textRenderer in self.textRenderers) {
-        if (CGRectContainsPoint(textRenderer.frame, point)) {
-            return textRenderer;
-        }
-    }
-    return nil;
 }
 
 - (void)checkNeedToDrawUnionAreaHightlightedFeedback:(id)arg1
@@ -216,22 +189,23 @@
     return self;
 }
 
-- (NSArray *)activeRangesForTextRenderer:(PPTextRenderer *)textRenderer
+- (NSArray *)highlightRangesForTextRenderer:(PPTextRenderer *)textRenderer
 {
-    if (textRenderer == self.titleTextRenderer) {
-        return self.drawingContext.titleAttributedText.activeRanges;
-    } else if (textRenderer == self.itemTextRenderer) {
-        return self.drawingContext.textAttributedText.activeRanges;
-    } else if (textRenderer == self.quotedItemTextRenderer) {
-        return self.drawingContext.quotedAttributedText.activeRanges;
-    } else if (textRenderer == self.metaInfoTextRenderer) {
-        return self.drawingContext.metaInfoAttributedText.activeRanges;
-    } else {
-        return nil;
-    }
+    return nil;
+//    if (textRenderer == self.titleTextRenderer) {
+//        return self.drawingContext.titleAttributedText.activeRanges;
+//    } else if (textRenderer == self.itemTextRenderer) {
+//        return self.drawingContext.textAttributedText.activeRanges;
+//    } else if (textRenderer == self.quotedItemTextRenderer) {
+//        return self.drawingContext.quotedAttributedText.activeRanges;
+//    } else if (textRenderer == self.metaInfoTextRenderer) {
+//        return self.drawingContext.metaInfoAttributedText.activeRanges;
+//    } else {
+//        return nil;
+//    }
 }
 
-- (BOOL)textRenderer:(PPTextRenderer *)textRenderer shouldInteractWithActiveRange:(PPTextActiveRange *)arg2
+- (BOOL)textRenderer:(PPTextRenderer *)textRenderer shouldInteractWithHighlightRange:(nonnull PPTextHighlightRange *)highlightRange
 {
     return YES;
 }

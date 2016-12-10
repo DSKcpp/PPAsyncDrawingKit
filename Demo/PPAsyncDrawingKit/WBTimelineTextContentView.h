@@ -7,12 +7,13 @@
 //
 
 #import "PPAsyncDrawingView.h"
+#import "WBTimelineLargeCardView.h"
+#import "PPIsomerismTextView.h"
 
 @class WBTimelineTableViewCellDrawingContext;
-@class PPTextRenderer;
 @class WBTimelineItem;
 
-@interface WBTimelineTextContentView : PPAsyncDrawingView
+@interface WBTimelineTextContentView : PPIsomerismTextView
 + (CGSize)sizeForTag:(id)arg1;
 + (void)renderDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext;
 @property (nonatomic, strong) NSMutableArray *attachmentViews;
@@ -25,7 +26,7 @@
 @property (nonatomic, assign) BOOL customSourceColorDefault;
 @property (nonatomic, assign) BOOL quotedItemHighlighted;
 @property (nonatomic, strong) NSMutableAttributedString *sourceInfoString;
-//@property (nonatomic, strong) WBTimelineLargeCardView *largeCardView;
+@property (nonatomic, strong) WBTimelineLargeCardView *largeCardView;
 @property (nonatomic, assign) BOOL disableTextLinkHighlight;
 @property (nonatomic, strong) PPTextRenderer *metaInfoTextRenderer;
 @property (nonatomic, strong) PPTextRenderer *respondTextRenderer;
@@ -55,8 +56,6 @@
 - (struct CGRect)pressedItemaAttachmentPointInWindow:(id)arg1;
 - (void)pressedTimelineURL:(id)arg1;
 - (void)textRenderer:(id)arg1 placeAttachment:(id)arg2 frame:(struct CGRect)arg3 context:(struct CGContext *)arg4;
-- (PPTextRenderer *)rendererAtPoint:(CGPoint)point;
-@property (nonatomic, strong, readonly) NSArray<PPTextRenderer *> *textRenderers;
 - (void)longTouchAtPoint:(id)arg1;
 - (void)checkNeedToDrawUnionAreaHightlightedFeedback:(id)arg1;
 - (void)removeAttachmentViews;

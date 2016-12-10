@@ -18,6 +18,8 @@
 @class WBTimelineTableViewCellDrawingContext;
 @class WBTimelineTitle;
 @class WBURLStruct;
+@class WBPageActionLog;
+@class WBTimelinePageInfo;
 
 @interface WBCardsModel : NSObject
 @property (nonatomic, strong) NSArray<WBCardModel *> *cards;
@@ -30,7 +32,7 @@
 @end
 
 @interface WBTimelineItem : NSObject
-@property (nonatomic, copy) NSString *created_at;
+@property (nonatomic, strong) NSDate *created_at;
 @property (nonatomic, copy) NSString *mid;
 @property (nonatomic, copy) NSString *idstr;
 @property (nonatomic, copy) NSString *text;
@@ -57,6 +59,7 @@
 @property (nonatomic, strong) NSDictionary<NSString *, WBTimelinePicture *> *pic_infos;
 @property (nonatomic, strong) WBTimelineTitle *title;
 @property (nonatomic, strong) NSArray<WBURLStruct *> *url_struct;
+@property (nonatomic, strong) WBTimelinePageInfo *page_info;
 
 @property (nonatomic, strong) WBTimelineTableViewCellDrawingContext *drawingContext;
 @end
@@ -122,4 +125,30 @@
 @property (nonatomic, assign) NSInteger url_type;
 @property (nonatomic, assign) NSInteger position;
 @property (nonatomic, assign) BOOL result;
+@end
+
+@interface WBTimelinePageInfo : NSObject
+@property (nonatomic, copy) NSString *object_type;
+@property (nonatomic, copy) NSString *page_pic;
+@property (nonatomic, copy) NSString *page_id;
+@property (nonatomic, copy) NSString *page_title;
+@property (nonatomic, copy) NSString *page_desc;
+@property (nonatomic, copy) NSString *type_icon;
+@property (nonatomic, copy) NSString *content1;
+@property (nonatomic, copy) NSString *content2;
+@property (nonatomic, copy) NSString *page_url;
+@property (nonatomic, copy) NSString *object_id;
+@property (nonatomic, assign) NSInteger type;
+@property (nonatomic, assign) NSInteger act_status;
+@property (nonatomic, strong) WBPageActionLog *actionlog;
+
+- (Class)timelineModelViewClass;
+- (Class)modelViewClass;
+@end
+
+@interface WBPageActionLog : NSObject
+@property (nonatomic, copy) NSString *oid;
+@property (nonatomic, copy) NSString *ext;
+@property (nonatomic, assign) NSInteger act_code;
+@property (nonatomic, assign) NSInteger act_type;
 @end

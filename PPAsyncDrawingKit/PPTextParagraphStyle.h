@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGFloat maximumLineHeight;
 @property (nonatomic, assign) CGFloat lineSpacing;
 @property (nonatomic, assign) BOOL allowsDynamicLineSpacing;
-@property (nonatomic, weak) id <PPTextParagraphStyleDelegate> delegate;
+@property (nullable, nonatomic, weak) id <PPTextParagraphStyleDelegate> delegate;
 @property (nonatomic, assign) BOOL isNeedChangeSpace;
 
 - (void)propertyUpdated;

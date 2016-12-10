@@ -33,11 +33,6 @@
     return [self initWithFrame:CGRectMake(0, 0, width, 0)];
 }
 
-- (NSAttributedString *)attributedString
-{
-    return self.text.attributedString;
-}
-
 - (NSDictionary *)currentDrawingUserInfo
 {
     if (self.attributedString) {
@@ -51,11 +46,9 @@
 {
     NSAttributedString *attributedString = userInfo[@"attributedString"];
     if (attributedString) {
-        [self _updateTextRendererWithAttributedString:attributedString];
+//        [self _updateTextRendererWithAttributedString:attributedString];
 //        self.pendingAttachmentUpdates
-        [self.textRenderer drawInContext:context visibleRect:rect placeAttachments:YES shouldInterruptBlock:^{
-            
-        }];
+        [self.textRenderer drawInContext:context visibleRect:rect placeAttachments:YES shouldInterruptBlock:nil];
     }
     return YES;
 }
@@ -80,29 +73,29 @@
     self.textRenderer.textLayout.maximumNumberOfLines = numberOfLines;
 }
 
-- (void)setText:(PPTextAttributed *)text
-{
-    if (_text != text) {
-        _text = text;
-        [self _updateTextRendererWithAttributedString:text.attributedString];
-        self.contentsChangedAfterLastAsyncDrawing = YES;
-        [self setNeedsDisplay];
-        self.pendingAttachmentUpdates = YES;
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"PPCoreTextInternalViewAttributedStringDidUpdateNotification" object:self];
-    }
-}
+//- (void)setText:(PPTextAttributed *)text
+//{
+//    if (_text != text) {
+//        _text = text;
+//        [self _updateTextRendererWithAttributedString:text.attributedString];
+//        self.contentsChangedAfterLastAsyncDrawing = YES;
+//        [self setNeedsDisplay];
+//        self.pendingAttachmentUpdates = YES;
+//        [[NSNotificationCenter defaultCenter] postNotificationName:@"PPCoreTextInternalViewAttributedStringDidUpdateNotification" object:self];
+//    }
+//}
 
-- (void)_updateTextRendererWithAttributedString:(NSAttributedString *)attributedString
-{
-    if (self.textRenderer.attributedString != attributedString) {
-        self.textRenderer.attributedString = attributedString;
-    }
-}
-
-- (void)_updateTextRendererWithCurrentAttributedString
-{
-    [self _updateTextRendererWithAttributedString:self.text.attributedString];
-}
+//- (void)_updateTextRendererWithAttributedString:(NSAttributedString *)attributedString
+//{
+//    if (self.textRenderer.attributedString != attributedString) {
+//        self.textRenderer.attributedString = attributedString;
+//    }
+//}
+//
+//- (void)_updateTextRendererWithCurrentAttributedString
+//{
+//    [self _updateTextRendererWithAttributedString:self.text.attributedString];
+//}
 
 - (NSInteger)lineIndexForPoint:(CGPoint)point
 {
