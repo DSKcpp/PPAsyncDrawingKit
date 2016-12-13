@@ -9,6 +9,7 @@
 #import "NSAttributedString+PPAsyncDrawingKit.h"
 #import "PPTextRenderer.h"
 #import "PPTextAttachment.h"
+#import "PPAsyncDrawingKitUtilities.h"
 
 @implementation NSAttributedString (PPAsyncDrawingKit)
 - (NSRange)pp_stringRange
@@ -128,7 +129,31 @@
 }
 @end
 
+@interface NSMutableAttributedString (PPExtendedAttributedString)
+@property (nonatomic, strong) NSMutableDictionary<NSString *, PPTextHighlightRange *> *highlightRangeMap;
+@end
+
 @implementation NSMutableAttributedString (PPExtendedAttributedString)
+static char highlightRangesKey;
+
+- (NSArray<PPTextHighlightRange *> *)highlightRanges
+{
+    return self.highlightRangeMap.allValues;
+}
+
+- (NSMutableDictionary<NSString *,PPTextHighlightRange *> *)highlightRangeMap
+{
+    if (![self pp_objectWithAssociatedKey:&highlightRangesKey]) {
+        self.highlightRangeMap = [NSMutableDictionary dictionary];
+    }
+    return [self pp_objectWithAssociatedKey:&highlightRangesKey];
+}
+
+- (void)setHighlightRangeMap:(NSMutableDictionary<NSString *,PPTextHighlightRange *> *)highlightRangeMap
+{
+    [self pp_setObject:highlightRangeMap forAssociatedKey:&highlightRangesKey retained:YES];
+}
+
 - (NSRange)pp_effectiveRangeWithRange:(NSRange)range
 {
     NSUInteger max = range.location + range.length;
@@ -201,7 +226,15 @@
 
 - (void)pp_setTextHighlightRange:(PPTextHighlightRange *)textHighlightRange inRange:(NSRange)range
 {
-    [self setAttribute:PPTextHighlightRangeAttributeName value:textHighlightRange range:range];
+    range = [self pp_effectiveRangeWithRange:range];
+    if (textHighlightRange) {
+        textHighlightRange.range = range;
+        [self addAttribute:PPTextHighlightRangeAttributeName value:textHighlightRange range:range];
+        [self.highlightRangeMap setObject:textHighlightRange forKey:[self _rangeToString:range]];
+    } else {
+        [self removeAttribute:PPTextHighlightRangeAttributeName range:range];
+        [self.highlightRangeMap removeObjectForKey:[self _rangeToString:range]];
+    }
 }
 
 - (void)pp_setTextParagraphStyle:(PPTextParagraphStyle *)textParagraphStyle
@@ -211,7 +244,19 @@
 
 - (void)pp_setTextParagraphStyle:(PPTextParagraphStyle *)textParagraphStyle inRange:(NSRange)range
 {
-    [self setAttribute:@"PPTextParagraphStyleAttributedName" value:textParagraphStyle range:range];
+    if (textParagraphStyle) {
+        CTParagraphStyleRef paragraphSetyle = [textParagraphStyle newCTParagraphStyleWithFontSize:textParagraphStyle.fontSize];
+        [self addAttribute:NSParagraphStyleAttributeName value:(id)paragraphSetyle range:[self pp_stringRange]];
+        if (paragraphSetyle) {
+            CFRelease(paragraphSetyle);
+        }
+    } else {
+        [self removeAttribute:NSParagraphStyleAttributeName range:range];
+    }
 }
 
+- (NSString *)_rangeToString:(NSRange)range
+{
+    return [NSString stringWithFormat:@"%zd-%zd", range.location, range.length];
+}
 @end

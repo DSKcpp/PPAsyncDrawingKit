@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIColor *shadowColor;
 @property (nonatomic, strong) PPTextLayout *textLayout;
 - (UIOffset)drawingOffsetWithTextLayout:(PPTextLayout *)textLayout layoutFrame:(PPTextLayoutFrame *)layoutFrame;
-- (void)drawHighlightedBackgroundForActiveRange:(PPTextActiveRange *)activeRange rect:(CGRect)rect context:(CGContextRef)context;
+- (void)drawHighlightedBackgroundForHighlightRange:(PPTextHighlightRange *)highlightRange rect:(CGRect)rect context:(CGContextRef)context;
 - (void)drawAttachmentsWithAttributedString:(NSAttributedString *)attributedString
                                 layoutFrame:(PPTextLayoutFrame *)layoutFrame
                                     context:(CGContextRef)context
@@ -85,7 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PPTextRenderer (Events)
 - (nullable PPTextHighlightRange *)rangeInRanges:(NSArray<PPTextHighlightRange *> *)ranges forLayoutLocation:(CGPoint)location;
-- (void)eventDelegateDidPressActiveRange:(PPTextActiveRange *)activeRange;
+- (void)eventDelegateDidPressHighlightRange:(PPTextHighlightRange *)highlightRange;
 - (nullable NSArray *)eventDelegateActiveRanges;
 - (nullable UIView *)eventDelegateContextView;
 @end

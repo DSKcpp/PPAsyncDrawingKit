@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PPTextParagraphStyle : NSObject
 @property (nonatomic, class, readonly) PPTextParagraphStyle *defaultParagraphStyle;
+@property (nonatomic, assign) CGFloat fontSize;
 @property (nonatomic, assign) CGFloat paragraphSpacingAfter;
 @property (nonatomic, assign) CGFloat paragraphSpacingBefore;
 @property (nonatomic, assign) NSTextAlignment alignment;

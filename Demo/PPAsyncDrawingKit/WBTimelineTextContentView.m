@@ -191,18 +191,17 @@
 
 - (NSArray *)highlightRangesForTextRenderer:(PPTextRenderer *)textRenderer
 {
-    return nil;
-//    if (textRenderer == self.titleTextRenderer) {
-//        return self.drawingContext.titleAttributedText.activeRanges;
-//    } else if (textRenderer == self.itemTextRenderer) {
-//        return self.drawingContext.textAttributedText.activeRanges;
-//    } else if (textRenderer == self.quotedItemTextRenderer) {
-//        return self.drawingContext.quotedAttributedText.activeRanges;
-//    } else if (textRenderer == self.metaInfoTextRenderer) {
-//        return self.drawingContext.metaInfoAttributedText.activeRanges;
-//    } else {
-//        return nil;
-//    }
+    if (textRenderer == self.titleTextRenderer) {
+        return self.drawingContext.titleAttributedText.highlightRanges;
+    } else if (textRenderer == self.itemTextRenderer) {
+        return self.drawingContext.textAttributedText.highlightRanges;
+    } else if (textRenderer == self.quotedItemTextRenderer) {
+        return self.drawingContext.quotedAttributedText.highlightRanges;
+    } else if (textRenderer == self.metaInfoTextRenderer) {
+        return self.drawingContext.metaInfoAttributedText.highlightRanges;
+    } else {
+        return nil;
+    }
 }
 
 - (BOOL)textRenderer:(PPTextRenderer *)textRenderer shouldInteractWithHighlightRange:(nonnull PPTextHighlightRange *)highlightRange

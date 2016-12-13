@@ -1,14 +1,18 @@
 急需工作，快要露宿街头，上海地区，邮箱：dskcpp@gmail.com
 PPAsyncDrawingKit
 ------------------------
-这是一个轻量的异步渲染框架，实现一系列 ImageView, Label, Button 等基础控件。
+这是一个轻量的异步绘制框架，实现一系列 `ImageView`, `Label`, `Button` 等基础控件，支持 `Objective-C`, `Swift`。
 
 #Features
-* 使用简单，可自定义
-* 使用多线程异步渲染，保证复杂界面的流程
-* 圆角图片在滑动界面时 FPS 保持在60
-* 解析并渲染 `AttributedString`
-* 轻量级文字排版引擎
+* 轻量
+* 接近 `UIKit` API，使用简单
+* 不阻塞线程
+* 使用多线程异步绘制，保证复杂界面的流畅
+* 文字排版，渲染 `AttributedString`
+* 异构 `TextView`，避免创建大量 `Label`
+* 高性能圆角图片
+* 保持 FPS 在低端设备上稳定在 60，减小抖动
+
 
 #Requirements
 * iOS 7.0 or later

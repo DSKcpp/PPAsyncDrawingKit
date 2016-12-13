@@ -68,9 +68,9 @@
                 UIOffset offset = [self drawingOffsetWithTextLayout:self.textLayout layoutFrame:layoutFrame];
                 PPTextHighlightRange *highlightRange = self.pressingHighlightRange;
                 if (highlightRange) {
-//                    [self enumerateEnclosingRectsForCharacterRange:activeRange.range usingBlock:^(CGRect rect, BOOL *stop) {
-//                        [self drawHighlightedBackgroundForActiveRange:activeRange rect:rect context:context];
-//                    }];
+                    [self enumerateEnclosingRectsForCharacterRange:highlightRange.range usingBlock:^(CGRect rect, BOOL *stop) {
+                        [self drawHighlightedBackgroundForHighlightRange:highlightRange rect:rect context:context];
+                    }];
                 }
             }
             CGContextSaveGState(context);
@@ -114,13 +114,13 @@
                 }
             }
         }];
-//        if (shouldInterruptBlock) {
-//            shouldInterruptBlock(stop);
-//        }
+        if (shouldInterruptBlock) {
+            shouldInterruptBlock(stop);
+        }
     }];
 }
 
-- (void)drawHighlightedBackgroundForActiveRange:(PPTextActiveRange *)activeRange rect:(CGRect)rect context:(CGContextRef)context
+- (void)drawHighlightedBackgroundForHighlightRange:(PPTextHighlightRange *)highlightRange rect:(CGRect)rect context:(CGContextRef)context
 {
     CGColorRef color;
     if (self.shadowColor) {
@@ -185,15 +185,15 @@
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     self.savedPressingActiveRange = nil;
-//    PPTextActiveRange *activeRange = self.pressingActiveRange;
-//    if (activeRange) {
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//            [self eventDelegateDidPressActiveRange:activeRange];
-//        });
-//        self.pressingActiveRange = nil;
-//        UIView *view = [self.eventDelegate contextViewForTextRenderer:self];
-//        [view setNeedsDisplay];
-//    }
+    PPTextHighlightRange *high = self.pressingHighlightRange;
+    if (high) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self eventDelegateDidPressHighlightRange:high];
+        });
+        self.pressingHighlightRange = nil;
+        UIView *view = [self.eventDelegate contextViewForTextRenderer:self];
+        [view setNeedsDisplay];
+    }
 }
 
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -276,18 +276,16 @@
 
 - (PPTextHighlightRange *)rangeInRanges:(NSArray<PPTextHighlightRange *> *)ranges forLayoutLocation:(CGPoint)location
 {
-    __block NSRange seleRange;
-
     [self.attributedString attribute:PPTextHighlightRangeAttributeName atIndex:0 longestEffectiveRange:nil inRange:NSMakeRange(0, 0)];
     __block PPTextHighlightRange *r;
     for (PPTextHighlightRange *range in ranges) {
         if ([_eventDelegate textRenderer:self shouldInteractWithHighlightRange:range]) {
-//            [self.textLayout enumerateEnclosingRectsForCharacterRange:range.range usingBlock:^(CGRect rect, BOOL *stop) {
-//                if (CGRectContainsPoint(rect, location)) {
-//                    r = range;
-//                    *stop = YES;
-//                }
-//            }];
+            [self.textLayout enumerateEnclosingRectsForCharacterRange:range.range usingBlock:^(CGRect rect, BOOL *stop) {
+                if (CGRectContainsPoint(rect, location)) {
+                    r = range;
+                    *stop = YES;
+                }
+            }];
             if (r) {
                 return r;
             }
@@ -296,10 +294,10 @@
     return nil;
 }
 
-- (void)eventDelegateDidPressActiveRange:(PPTextActiveRange *)activeRange
+- (void)eventDelegateDidPressHighlightRange:(PPTextHighlightRange *)highlightRange
 {
-    if (_eventDelegate) {
-        [_eventDelegate textRenderer:self didPressHighlightRange:activeRange];
+    if ([_eventDelegate respondsToSelector:@selector(textRenderer:didPressHighlightRange:)]) {
+        [_eventDelegate textRenderer:self didPressHighlightRange:highlightRange];
     }
 }
 @end

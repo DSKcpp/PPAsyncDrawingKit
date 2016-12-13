@@ -21,11 +21,13 @@
         _timelineItem = timelineItem;
         NSString *itemText = timelineItem.text;
         WBTimelineAttributedTextParser *parser = [WBTimelineAttributedTextParser textParserWithTimelineItem:timelineItem];
+        PPTextParagraphStyle *paragraphStyle = [PPTextParagraphStyle defaultParagraphStyle];
         if (itemText) {
             _textAttributedText = [[NSMutableAttributedString alloc] initWithString:itemText];
             [_textAttributedText pp_setFont:[UIFont systemFontOfSize:16.0f]];
-            [_textAttributedText pp_setTextParagraphStyle:[PPTextParagraphStyle defaultParagraphStyle]];
             [_textAttributedText pp_setColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0f]];
+            paragraphStyle.fontSize = 16.0f;
+            [_textAttributedText pp_setTextParagraphStyle:paragraphStyle];
             [parser parserWithAttributedString:_textAttributedText];
         }
         if (timelineItem.retweeted_status) {
@@ -40,6 +42,8 @@
                 [_quotedAttributedText pp_setFont:[UIFont systemFontOfSize:15.0f]];
                 [_quotedAttributedText pp_setTextParagraphStyle:[PPTextParagraphStyle defaultParagraphStyle]];
                 [_quotedAttributedText pp_setColor:[UIColor colorWithRed:0.388235 green:0.388235 blue:0.388235 alpha:1.0f]];
+                paragraphStyle.fontSize = 15.0f;
+                [_quotedAttributedText pp_setTextParagraphStyle:paragraphStyle];
                 [parser parserWithAttributedString:_quotedAttributedText];
             }
         }
@@ -49,11 +53,15 @@
             [_titleAttributedText pp_setFont:[UIFont systemFontOfSize:16.0f]];
             [_titleAttributedText pp_setTextParagraphStyle:[PPTextParagraphStyle defaultParagraphStyle]];
             [_titleAttributedText pp_setColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0f]];
+            paragraphStyle.fontSize = 16.0f;
+            [_titleAttributedText pp_setTextParagraphStyle:paragraphStyle];
         }
         _metaInfoAttributedText = [[NSMutableAttributedString alloc] initWithString:[self source]];
         [_metaInfoAttributedText pp_setFont:[UIFont systemFontOfSize:12.0f]];
         [_metaInfoAttributedText pp_setTextParagraphStyle:[PPTextParagraphStyle defaultParagraphStyle]];
         [_metaInfoAttributedText pp_setColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0f]];
+        paragraphStyle.fontSize = 12.0f;
+        [_metaInfoAttributedText pp_setTextParagraphStyle:paragraphStyle];
         [parser parserWithAttributedString:_metaInfoAttributedText];
     }
     return self;

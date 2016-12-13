@@ -43,8 +43,8 @@ static inline __nullable CGPathRef CreateCGPath(CGRect rect, CGFloat cornerRadiu
 
 @interface NSObject (PPAsyncDrawingKit)
 - (nullable id)pp_objectWithAssociatedKey:(void * __nonnull)key;
-- (void)pp_setObject:(id)object forAssociatedKey:( void *)key retained:(BOOL)retained;
-- (void)pp_setObject:(id)object forAssociatedKey:( void *)key associationPolicy:(objc_AssociationPolicy)policy;
+- (void)pp_setObject:(id)object forAssociatedKey:(void *)key retained:(BOOL)retained;
+- (void)pp_setObject:(id)object forAssociatedKey:(void *)key associationPolicy:(objc_AssociationPolicy)policy;
 @end
 
 @interface NSMutableDictionary (PPAsyncDrawingKit)

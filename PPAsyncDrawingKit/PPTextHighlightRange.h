@@ -21,6 +21,7 @@ UIKIT_EXTERN NSString * const PPTextAttachmentAttributeName;
 
 @interface PPTextHighlightRange : NSObject
 @property (nullable, nonatomic, strong) NSMutableDictionary<NSString *, id> *attributes;
+@property (nonatomic, assign) NSRange range;
 - (void)setTextColor:(nullable UIColor *)textColor;
 - (void)setFont:(nullable UIFont *)font;
 - (void)setBorder:(nullable PPTextBorder *)border;

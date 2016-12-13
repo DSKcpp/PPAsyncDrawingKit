@@ -11,6 +11,13 @@
 
 @implementation PPButtonInfo @end
 
+@interface PPButton ()
+@property (nonatomic, copy) NSString *renderedTitle;
+@property (nonatomic, strong) UIImage *renderedImage;
+@property (nonatomic, strong) UIImage *renderedBackgroundImage;
+@property (nonatomic, assign) CGSize renderedBoundsSize;
+@end
+
 @implementation PPButton
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -74,14 +81,41 @@
 
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(NSDictionary *)userInfo
 {
-    CGContextSaveGState(context);
-    CGContextSetInterpolationQuality(context, 1);
+    NSUInteger drawingCount= self.drawingCount;
     PPButtonInfo *buttonInfo = self.buttonInfo;
-    [buttonInfo.image drawInRect:self.imageFrame];
-    [buttonInfo.backgroundImage drawInRect:self.backgroundFrame];
-    self.titleFrame = CGRectMake(0, 0, 100, 32);
-    [buttonInfo.title pp_drawInRect:self.titleFrame withFont:buttonInfo.titleFont textColor:buttonInfo.titleColor lineBreakMode:NSLineBreakByWordWrapping];
-    CGContextRestoreGState(context);
+    if (buttonInfo) {
+        [self updateSubviewFrames];
+        if (drawingCount == self.drawingCount) {
+            UIImage *backgroundImage = buttonInfo.backgroundImage;
+            UIImage *image = buttonInfo.image;
+            UIColor *titleColor = buttonInfo.titleColor;
+            NSString *title = buttonInfo.title;
+            UIFont *titleFont = buttonInfo.titleFont;
+            CGRect backgroundFrame = self.backgroundFrame;
+            CGRect imageFrame = self.imageFrame;
+            CGRect titleFrame = self.titleFrame;
+            if (drawingCount == self.drawingCount) {
+                CGContextSaveGState(context);
+                CGContextSetInterpolationQuality(context, kCGInterpolationNone);
+                [backgroundImage drawInRect:backgroundFrame];
+                if (drawingCount == self.drawingCount) {
+                    [image drawInRect:imageFrame];
+                    if (title) {
+                        [title pp_drawInRect:titleFrame withFont:titleFont textColor:titleColor lineBreakMode:NSLineBreakByWordWrapping];
+                    } else {
+                        
+                    }
+                    if (drawingCount == self.drawingCount) {
+                        CGContextRestoreGState(context);
+                        _renderedImage = image;
+                        _renderedTitle = title;
+                        _renderedBackgroundImage = backgroundImage;
+//                        _renderedBoundsSize = 
+                    }
+                }
+            }
+        }
+    }
     return YES;
 }
 
@@ -154,7 +188,6 @@
             
         });
     }
-    
 }
 
 - (void)updateImage:(UIImage *)image
@@ -184,6 +217,26 @@
 - (void)setNeedsUpdateFrame
 {
     self.needsUpdateFrame = YES;
+}
+
+- (void)updateSubviewFrames
+{
+    if (_needsUpdateFrame) {
+        [self actualUpdateSubviewFrames];
+    }
+}
+
+- (void)actualUpdateSubviewFrames
+{
+    CGRect bounds = self.bounds;
+    UIEdgeInsets contentEdgeInsets = _contentEdgeInsets;
+    CGFloat x = CGRectGetMinX(bounds);
+    CGFloat y = CGRectGetMinY(bounds);
+    CGFloat width = CGRectGetWidth(bounds);
+    CGFloat height = CGRectGetHeight(bounds);
+    self.backgroundFrame = CGRectZero;
+    self.imageFrame = CGRectZero;
+    self.titleFrame = CGRectMake(20, 0, 0, 0);
 }
 
 - (void)didCommitBoundsSizeChange { }
