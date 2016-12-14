@@ -35,18 +35,21 @@
     CGFloat width = [UIScreen mainScreen].bounds.size.width / 3.0f;
     CGFloat height = [WBTimelinePreset sharedInstance].actionButtonsHeight;
     
+    UIColor *titleColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0];
     _retweetButton = [[PPButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
-    [_retweetButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [_retweetButton setTitleColor:titleColor forState:UIControlStateNormal];
     [_retweetButton setImage:[UIImage imageNamed:@"timeline_icon_retweet"] forState:UIControlStateNormal];
     _retweetButton.buttonInfo.titleFont = [UIFont systemFontOfSize:12.0f];
     [self addSubview:_retweetButton];
     _commentButton = [[PPButton alloc] initWithFrame:CGRectMake(width, 0, width, height)];
-    [_commentButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-    [_retweetButton setImage:[UIImage imageNamed:@"timeline_icon_comment"] forState:UIControlStateNormal];
+    [_commentButton setTitleColor:titleColor forState:UIControlStateNormal];
+    
+    [_commentButton setImage:[UIImage imageNamed:@"timeline_icon_comment"] forState:UIControlStateNormal];
     _commentButton.buttonInfo.titleFont = [UIFont systemFontOfSize:12.0f];
     [self addSubview:_commentButton];
     _likeButton = [[PPButton alloc] initWithFrame:CGRectMake(width * 2.0f, 0, width, height)];
-    [_likeButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [_likeButton setTitleColor:titleColor forState:UIControlStateNormal];
+    
     [_likeButton setImage:[UIImage imageNamed:@"timeline_icon_unlike"] forState:UIControlStateNormal];
     _likeButton.buttonInfo.titleFont = [UIFont systemFontOfSize:12.0f];
     [self addSubview:_likeButton];
@@ -54,11 +57,28 @@
 
 - (void)setTimelineItem:(WBTimelineItem *)timelineItem
 {
-    NSString *retweetCount = [NSString stringWithFormat:@"%zd", timelineItem.reposts_count];
+    NSString *retweetCount;
+    if (timelineItem.reposts_count > 0) {
+        retweetCount = [NSString stringWithFormat:@"%zd", timelineItem.reposts_count];
+    } else {
+        retweetCount = @"转发";
+    }
     [_retweetButton setTitle:retweetCount forState:UIControlStateNormal];
-    NSString *commentCount = [NSString stringWithFormat:@"%zd", timelineItem.comments_count];
+    
+    NSString *commentCount;
+    if (timelineItem.comments_count > 0) {
+        commentCount = [NSString stringWithFormat:@"%zd", timelineItem.comments_count];
+    } else {
+        commentCount = @"评论";
+    }
     [_commentButton setTitle:commentCount forState:UIControlStateNormal];
-    NSString *likeCount = [NSString stringWithFormat:@"%zd", timelineItem.attitudes_count];
+    
+    NSString *likeCount;
+    if (timelineItem.attitudes_count > 0) {
+        likeCount = [NSString stringWithFormat:@"%zd", timelineItem.attitudes_count];
+    } else {
+        likeCount = @"赞" ;
+    }
     [_likeButton setTitle:likeCount forState:UIControlStateNormal];
 }
 

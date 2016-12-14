@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL heightSensitiveLayout;
 @property (nullable, nonatomic, weak) id <PPTextRendererDelegate> renderDelegate;
 @property (nullable, nonatomic, weak) id <PPTextLayoutDelegate> layoutDelegate;
-@property (nullable, nonatomic, strong) PPTextActiveRange *savedPressingActiveRange;
+@property (nullable, nonatomic, strong) PPTextHighlightRange *savedPressingHighlightRange;
 @property (nullable, nonatomic, strong) PPTextHighlightRange *pressingHighlightRange;
 @property (nonatomic, assign) CGPoint drawingOrigin;
 @property (nonatomic, assign) CGFloat shadowBlur;

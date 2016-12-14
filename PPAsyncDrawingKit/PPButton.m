@@ -234,9 +234,13 @@
     CGFloat y = CGRectGetMinY(bounds);
     CGFloat width = CGRectGetWidth(bounds);
     CGFloat height = CGRectGetHeight(bounds);
-    self.backgroundFrame = CGRectZero;
-    self.imageFrame = CGRectZero;
-    self.titleFrame = CGRectMake(20, 0, 0, 0);
+    self.backgroundFrame = self.bounds;
+    CGSize imageSize = _buttonInfo.image.size;
+        CGSize titleSize = [_buttonInfo.title pp_sizeWithFont:_buttonInfo.titleFont constrainedToSize:CGSizeMake(width - imageSize.width, height) lineBreakMode:NSLineBreakByWordWrapping];
+    CGFloat totalW = imageSize.width + titleSize.width;
+    CGFloat left = (width - totalW) / 2.0f;
+    self.imageFrame = CGRectMake(left, height / 2.0f - imageSize.height / 2.0f, imageSize.width, imageSize.height);
+    self.titleFrame = CGRectMake(CGRectGetMaxX(self.imageFrame), height / 2.0f - titleSize.height / 2.0f, titleSize.width, titleSize.height);
 }
 
 - (void)didCommitBoundsSizeChange { }

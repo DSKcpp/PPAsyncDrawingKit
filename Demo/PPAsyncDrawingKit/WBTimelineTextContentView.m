@@ -150,21 +150,6 @@
     return userInfo;
 }
 
-- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    
-}
-
-- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    [self.respondTextRenderer touchesEnded:touches withEvent:event];
-}
-
-- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    
-}
-
 - (void)checkNeedToDrawUnionAreaHightlightedFeedback:(id)arg1
 {
     
@@ -209,8 +194,10 @@
     return YES;
 }
 
-- (void)textRenderer:(PPTextRenderer *)textRenderer didPressActiveRange:(PPTextActiveRange *)activeRange
+- (void)textRenderer:(PPTextRenderer *)textRenderer didPressHighlightRange:(PPTextHighlightRange *)highlightRange
 {
-    NSLog(@"%@", activeRange.content);
+    NSString *text = [textRenderer.attributedString attributedSubstringFromRange:highlightRange.range].string;
+    NSLog(@"didPress: %@", text);
 }
+
 @end

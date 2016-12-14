@@ -12,8 +12,17 @@
 #import "PPTextAttachment.h"
 #import "NSAttributedString+PPAsyncDrawingKit.h"
 
+struct PPTextRendererEventDelegateHas {
+    BOOL didPressHighlightRange;
+    BOOL highlightRangesForTextRenderer;
+    BOOL contextViewForTextRenderer;
+    BOOL shouldInteractWithHighlightRange;
+};
+typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
+
 @interface PPTextRenderer ()
 @property (nonatomic, assign) CGPoint touchesBeginPoint;
+@property (nonatomic, assign) PPTextRendererEventDelegateHas eventDelegateHas;
 @end
 
 @implementation PPTextRenderer
@@ -31,6 +40,15 @@
         _textLayout = [[PPTextLayout alloc] init];
     }
     return _textLayout;
+}
+
+- (void)setEventDelegate:(id<PPTextRendererEventDelegate>)eventDelegate
+{
+    _eventDelegate = eventDelegate;
+    _eventDelegateHas.contextViewForTextRenderer = [eventDelegate respondsToSelector:@selector(contextViewForTextRenderer:)];
+    _eventDelegateHas.didPressHighlightRange = [eventDelegate respondsToSelector:@selector(textRenderer:didPressHighlightRange:)];
+    _eventDelegateHas.highlightRangesForTextRenderer = [eventDelegate respondsToSelector:@selector(highlightRangesForTextRenderer:)];
+    _eventDelegateHas.shouldInteractWithHighlightRange = [eventDelegate respondsToSelector:@selector(textRenderer:shouldInteractWithHighlightRange:)];
 }
 
 - (NSAttributedString *)attributedString
@@ -159,8 +177,8 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    if (self.eventDelegateContextView) {
-        UIView *touchView = self.eventDelegateContextView;
+    UIView *touchView = self.eventDelegateContextView;
+    if (touchView) {
         NSSet<UITouch *> * _touches = [event touchesForView:touchView];
         UITouch *touch = _touches.anyObject;
         CGPoint point = CGPointZero;
@@ -179,26 +197,43 @@
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    
+    UIView *touchView = self.eventDelegateContextView;
+    UITouch *touch = touches.anyObject;
+    CGPoint point = CGPointZero;
+    if (touch) {
+        point = [touch locationInView:touchView];
+    }
+    CGPoint touchesBeginPoint = _touchesBeginPoint;
+//    if (point.x > touchesBeginPoint.x) {
+//        
+//    }
+    if (_pressingHighlightRange) {
+        _savedPressingHighlightRange = _pressingHighlightRange;
+        [touchView setNeedsDisplay];
+    }
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    self.savedPressingActiveRange = nil;
+    _savedPressingHighlightRange = nil;
     PPTextHighlightRange *high = self.pressingHighlightRange;
     if (high) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self eventDelegateDidPressHighlightRange:high];
         });
         self.pressingHighlightRange = nil;
-        UIView *view = [self.eventDelegate contextViewForTextRenderer:self];
-        [view setNeedsDisplay];
+        UIView *touchView = self.eventDelegateContextView;
+        [touchView setNeedsDisplay];
     }
 }
 
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    
+    _savedPressingHighlightRange = nil;
+    if (_pressingHighlightRange) {
+        _pressingHighlightRange = nil;
+        [self.eventDelegateContextView setNeedsDisplay];
+    }
 }
 
 - (CGRect)frame
@@ -260,7 +295,7 @@
 @implementation PPTextRenderer (Events)
 - (UIView *)eventDelegateContextView
 {
-    if (_eventDelegate) {
+    if (_eventDelegateHas.contextViewForTextRenderer) {
         return [_eventDelegate contextViewForTextRenderer:self];
     }
     return nil;
@@ -268,10 +303,17 @@
 
 - (NSArray *)eventDelegateActiveRanges
 {
-    if ([_eventDelegate respondsToSelector:@selector(highlightRangesForTextRenderer:)]) {
+    if (_eventDelegateHas.highlightRangesForTextRenderer) {
         return [_eventDelegate highlightRangesForTextRenderer:self];
     }
     return nil;
+}
+
+- (void)eventDelegateDidPressHighlightRange:(PPTextHighlightRange *)highlightRange
+{
+    if (_eventDelegateHas.didPressHighlightRange) {
+        [_eventDelegate textRenderer:self didPressHighlightRange:highlightRange];
+    }
 }
 
 - (PPTextHighlightRange *)rangeInRanges:(NSArray<PPTextHighlightRange *> *)ranges forLayoutLocation:(CGPoint)location
@@ -294,12 +336,6 @@
     return nil;
 }
 
-- (void)eventDelegateDidPressHighlightRange:(PPTextHighlightRange *)highlightRange
-{
-    if ([_eventDelegate respondsToSelector:@selector(textRenderer:didPressHighlightRange:)]) {
-        [_eventDelegate textRenderer:self didPressHighlightRange:highlightRange];
-    }
-}
 @end
 
 @implementation PPTextRenderer (Debug)
