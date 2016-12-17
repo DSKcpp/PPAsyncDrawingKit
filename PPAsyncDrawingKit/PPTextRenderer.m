@@ -261,8 +261,7 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 {
     if (block) {
         [self.textLayout enumerateEnclosingRectsForCharacterRange:range usingBlock:^(CGRect rect, BOOL * _Nonnull stop) {
-            CGRect _rect = [self convertRectFromLayout:rect];
-            block(_rect, stop);
+            block([self convertRectFromLayout:rect], stop);
         }];
     }
 }
@@ -318,7 +317,6 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 
 - (PPTextHighlightRange *)rangeInRanges:(NSArray<PPTextHighlightRange *> *)ranges forLayoutLocation:(CGPoint)location
 {
-    [self.attributedString attribute:PPTextHighlightRangeAttributeName atIndex:0 longestEffectiveRange:nil inRange:NSMakeRange(0, 0)];
     __block PPTextHighlightRange *r;
     for (PPTextHighlightRange *range in ranges) {
         if ([_eventDelegate textRenderer:self shouldInteractWithHighlightRange:range]) {

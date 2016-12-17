@@ -73,7 +73,6 @@
     minimumLineSpacingStyle.valueSize = sizeof(CGFloat);
     minimumLineSpacingStyle.spec = kCTParagraphStyleSpecifierMinimumLineSpacing;
     
-    
     CTParagraphStyleSetting writedicStyle;
     CTWritingDirection writedic = kCTWritingDirectionLeftToRight;
     writedicStyle.value = &writedic;

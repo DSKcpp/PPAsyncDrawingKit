@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "WBTimelineItem.h"
 #import "PPImageView.h"
+#import "PPButton.h"
 
 @class WBTimelineTableViewCellDrawingContext;
 @class WBTimelineTextContentView;
@@ -44,5 +45,12 @@
 + (CGFloat)heightOfTimelineItem:(WBTimelineItem *)timelineItem withContentWidth:(CGFloat)width;
 + (WBTimelineTableViewCellDrawingContext *)validDrawingContextOfTimelineItem:(WBTimelineItem *)timelineItem withContentWidth:(CGFloat)width;
 - (instancetype)initWithWidth:(CGFloat)width;
+- (void)setTimelineItem:(WBTimelineItem *)timelineItem;
+@end
+
+@interface WBTimelineActionButtonsView : UIView
+@property (nonatomic, strong, readonly) PPButton *retweetButton;
+@property (nonatomic, strong, readonly) PPButton *commentButton;
+@property (nonatomic, strong, readonly) PPButton *likeButton;
 - (void)setTimelineItem:(WBTimelineItem *)timelineItem;
 @end

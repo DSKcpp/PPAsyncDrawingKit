@@ -37,6 +37,13 @@
     return 64.0f;
 }
 
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    if (self = [super initWithFrame:frame]) {
+        
+    }
+    return self;
+}
 @end
 
 @implementation WBTimelineLargeCardTextView

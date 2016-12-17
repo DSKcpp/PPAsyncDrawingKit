@@ -85,11 +85,9 @@ static inline CGRect YYEmojiGetGlyphBoundingRectWithFontSize(CGFloat fontSize) {
                 NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:title];
                 [attrString pp_setFont:[UIFont systemFontOfSize:16.0f]];
                 [attrString pp_setColor:rangeColor];
-                PPTextHighlightRange *highlight = [[PPTextHighlightRange alloc] init];
+                PPTextHighlightRange *highlight = [PPTextHighlightRange rangeWithRange:range];
                 [highlight setBorder:highlightBorder];
                 [attrString pp_setTextHighlightRange:highlight inRange:NSMakeRange(0, attrString.length)];
-//                UIImage *image =  [[WBEmoticonManager sharedMangaer] imageWithEmotionName:@"[doge]"];
-//                if (image) {
                 CGFloat fontSize = 16.0f;
                 CGFloat ascent = fontSize * 0.86;
                 CGFloat descent = fontSize * 0.14;
@@ -121,28 +119,28 @@ static inline CGRect YYEmojiGetGlyphBoundingRectWithFontSize(CGFloat fontSize) {
     
     // At
     [string pp_enumerateStringsMatchedByRegex:@"@([\\x{4e00}-\\x{9fa5}A-Za-z0-9_\\-]+)" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
-        PPTextHighlightRange *highlight = [[PPTextHighlightRange alloc] init];
+        PPTextHighlightRange *highlight = [PPTextHighlightRange rangeWithRange:capturedRange];
         [highlight setBorder:highlightBorder];
         [attributedString pp_setTextHighlightRange:highlight inRange:capturedRange];
         [attributedString pp_setColor:rangeColor inRange:capturedRange];
     }];
     // Topic
     [string pp_enumerateStringsMatchedByRegex:@"#([^#]+?)#" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
-        PPTextHighlightRange *highlight = [[PPTextHighlightRange alloc] init];
+        PPTextHighlightRange *highlight = [PPTextHighlightRange rangeWithRange:capturedRange];
         [highlight setBorder:highlightBorder];
         [attributedString pp_setTextHighlightRange:highlight inRange:capturedRange];
         [attributedString pp_setColor:rangeColor inRange:capturedRange];
     }];
     // Email
     [string pp_enumerateStringsMatchedByRegex:@"([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,6})" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
-        PPTextHighlightRange *highlight = [[PPTextHighlightRange alloc] init];
+        PPTextHighlightRange *highlight = [PPTextHighlightRange rangeWithRange:capturedRange];
         [highlight setBorder:highlightBorder];
         [attributedString pp_setTextHighlightRange:highlight inRange:capturedRange];
         [attributedString pp_setColor:rangeColor inRange:capturedRange];
     }];
     // URL
     [string pp_enumerateStringsMatchedByRegex:@"(?i)https?://[a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)+([-A-Z0-9a-z_\\$\\.\\+!\\*\(\\)/,:;@&=\?~#%]*)*" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
-        PPTextHighlightRange *highlight = [[PPTextHighlightRange alloc] init];
+        PPTextHighlightRange *highlight = [PPTextHighlightRange rangeWithRange:capturedRange];
         [highlight setBorder:highlightBorder];
         [attributedString pp_setTextHighlightRange:highlight inRange:capturedRange];
         [attributedString pp_setColor:rangeColor inRange:capturedRange];

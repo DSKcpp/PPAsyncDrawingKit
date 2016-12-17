@@ -10,7 +10,6 @@
 #import "WBTimelineTableViewCellDrawingContext.h"
 #import "WBTimelineTextContentView.h"
 #import "WBTimelineScreenNameLabel.h"
-#import "WBTimelineActionButtonsView.h"
 #import "UIView+Frame.h"
 #import "UIImage+Color.h"
 #import "WBTimelineImageContentView.h"
@@ -206,4 +205,89 @@
         self.textContentView.largeCardView.frame = drawingContext.largeFrame;
     }
 }
+@end
+
+@interface WBTimelineActionButtonsView ()
+@property (nonatomic, strong) UIView *bottomLine;
+@end
+
+@implementation WBTimelineActionButtonsView
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    if (self = [super initWithFrame:frame]) {
+        self.backgroundColor = [UIColor whiteColor];
+        [self initActionButtons];
+        self.bottomLine = [[UIView alloc] init];
+        self.bottomLine.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
+        [self addSubview:self.bottomLine];
+    }
+    return self;
+}
+
+- (void)initActionButtons
+{
+    CGFloat width = [UIScreen mainScreen].bounds.size.width / 3.0f;
+    CGFloat height = [WBTimelinePreset sharedInstance].actionButtonsHeight;
+    
+    UIColor *titleColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0];
+    _retweetButton = [[PPButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+    [_retweetButton setTitleColor:titleColor forState:UIControlStateNormal];
+    [_retweetButton setImage:[UIImage imageNamed:@"timeline_icon_retweet"] forState:UIControlStateNormal];
+    _retweetButton.buttonInfo.titleFont = [UIFont systemFontOfSize:12.0f];
+    [self addSubview:_retweetButton];
+    _commentButton = [[PPButton alloc] initWithFrame:CGRectMake(width, 0, width, height)];
+    [_commentButton setTitleColor:titleColor forState:UIControlStateNormal];
+    
+    [_commentButton setImage:[UIImage imageNamed:@"timeline_icon_comment"] forState:UIControlStateNormal];
+    _commentButton.buttonInfo.titleFont = [UIFont systemFontOfSize:12.0f];
+    [self addSubview:_commentButton];
+    _likeButton = [[PPButton alloc] initWithFrame:CGRectMake(width * 2.0f, 0, width, height)];
+    [_likeButton setTitleColor:titleColor forState:UIControlStateNormal];
+    
+    [_likeButton setImage:[UIImage imageNamed:@"timeline_icon_unlike"] forState:UIControlStateNormal];
+    _likeButton.buttonInfo.titleFont = [UIFont systemFontOfSize:12.0f];
+    [self addSubview:_likeButton];
+    
+    for (NSInteger i = 0; i < 2; i++) {
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"timeline_card_bottom_line"]];
+        imageView.highlightedImage = [UIImage imageNamed:@"timeline_card_bottom_line_highlighted"];
+        imageView.frame = CGRectMake((i + 1) * width, 0, 0.5f, [WBTimelinePreset sharedInstance].actionButtonsHeight);
+        [self addSubview:imageView];
+    }
+}
+
+- (void)setTimelineItem:(WBTimelineItem *)timelineItem
+{
+    NSString *retweetCount;
+    if (timelineItem.reposts_count > 0) {
+        retweetCount = [NSString stringWithFormat:@"%zd", timelineItem.reposts_count];
+    } else {
+        retweetCount = @"转发";
+    }
+    [_retweetButton setTitle:retweetCount forState:UIControlStateNormal];
+    
+    NSString *commentCount;
+    if (timelineItem.comments_count > 0) {
+        commentCount = [NSString stringWithFormat:@"%zd", timelineItem.comments_count];
+    } else {
+        commentCount = @"评论";
+    }
+    [_commentButton setTitle:commentCount forState:UIControlStateNormal];
+    
+    NSString *likeCount;
+    if (timelineItem.attitudes_count > 0) {
+        likeCount = [NSString stringWithFormat:@"%zd", timelineItem.attitudes_count];
+    } else {
+        likeCount = @"赞" ;
+    }
+    [_likeButton setTitle:likeCount forState:UIControlStateNormal];
+}
+
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+    self.bottomLine.frame = CGRectMake(0, frame.size.height - 0.5f, self.width, 0.5f);
+}
+
 @end

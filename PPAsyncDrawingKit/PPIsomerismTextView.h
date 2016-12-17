@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PPIsomerismTextView : PPAsyncDrawingView <PPTextRendererEventDelegate>
+@interface PPIsomerismTextView : PPAsyncDrawingView
 
 @property (nullable, nonatomic, strong) NSArray<PPTextRenderer *> *textRenderers;
 @property (nullable, nonatomic, strong) PPTextRenderer *respondTextRenderer;

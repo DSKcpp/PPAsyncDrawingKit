@@ -25,7 +25,6 @@
 		865CF71A1DFAA6EB003DCA01 /* PPIsomerismTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 865CF7191DFAA6EB003DCA01 /* PPIsomerismTextView.m */; };
 		865CF7211DFC8B53003DCA01 /* NSDate+PPASDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 865CF7201DFC8B53003DCA01 /* NSDate+PPASDK.m */; };
 		867F77A21DB77C7C004FCEBA /* PPWebImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 867F77A11DB77C7C004FCEBA /* PPWebImageView.m */; };
-		869AFD131DDC5C7600842C6C /* WBTimelineActionButtonsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 869AFD121DDC5C7600842C6C /* WBTimelineActionButtonsView.m */; };
 		869AFD161DDC5F7F00842C6C /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 869AFD151DDC5F7F00842C6C /* UIView+Frame.m */; };
 		869AFD1C1DDC674900842C6C /* UIImage+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 869AFD1B1DDC674900842C6C /* UIImage+Color.m */; };
 		86A98D2C1D92E446008F0A7E /* PPUIControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A98D2B1D92E446008F0A7E /* PPUIControl.m */; };
@@ -125,8 +124,6 @@
 		865CF7201DFC8B53003DCA01 /* NSDate+PPASDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+PPASDK.m"; sourceTree = "<group>"; };
 		867F77A01DB77C7C004FCEBA /* PPWebImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPWebImageView.h; sourceTree = "<group>"; };
 		867F77A11DB77C7C004FCEBA /* PPWebImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPWebImageView.m; sourceTree = "<group>"; };
-		869AFD111DDC5C7600842C6C /* WBTimelineActionButtonsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTimelineActionButtonsView.h; sourceTree = "<group>"; };
-		869AFD121DDC5C7600842C6C /* WBTimelineActionButtonsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTimelineActionButtonsView.m; sourceTree = "<group>"; };
 		869AFD141DDC5F7F00842C6C /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
 		869AFD151DDC5F7F00842C6C /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
 		869AFD1A1DDC674900842C6C /* UIImage+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Color.h"; sourceTree = "<group>"; };
@@ -410,8 +407,6 @@
 				86EF6AA91DB12F1A006464CE /* WBTimelineTableViewCell.m */,
 				86AED6701DD491FE00887F3B /* WBTimelineScreenNameLabel.h */,
 				86AED6711DD491FE00887F3B /* WBTimelineScreenNameLabel.m */,
-				869AFD111DDC5C7600842C6C /* WBTimelineActionButtonsView.h */,
-				869AFD121DDC5C7600842C6C /* WBTimelineActionButtonsView.m */,
 				86FCDA931DDC7B3200CB2563 /* WBTimelineImageContentView.h */,
 				86FCDA941DDC7B3200CB2563 /* WBTimelineImageContentView.m */,
 				86FCDA991DDDA7A600CB2563 /* WBTimelineImageView.h */,
@@ -437,10 +432,10 @@
 				861EB1D51DB11563005C07C7 /* PPTextRenderer.m */,
 				86EF6AAF1DB13677006464CE /* PPTextLayout.h */,
 				86EF6AB01DB13677006464CE /* PPTextLayout.m */,
-				86EFEF271DC100030003E078 /* PPTextLayoutLine.h */,
-				86EFEF281DC100030003E078 /* PPTextLayoutLine.m */,
 				86EF6AB21DB136B8006464CE /* PPTextLayoutFrame.h */,
 				86EF6AB31DB136B8006464CE /* PPTextLayoutFrame.m */,
+				86EFEF271DC100030003E078 /* PPTextLayoutLine.h */,
+				86EFEF281DC100030003E078 /* PPTextLayoutLine.m */,
 				86EF6ABB1DB36CCD006464CE /* PPTextAttributed.h */,
 				86EF6ABC1DB36CCD006464CE /* PPTextAttributed.m */,
 				86EF6ABE1DB36E78006464CE /* PPTextStorage.h */,
@@ -683,7 +678,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				869AFD131DDC5C7600842C6C /* WBTimelineActionButtonsView.m in Sources */,
 				86EFEF261DBF9D800003E078 /* YYFPSLabel.m in Sources */,
 				863952AE1D3FBA1400904204 /* PPAsyncDrawingView.m in Sources */,
 				86FCDAD21DDDA9B700CB2563 /* SDWebImagePrefetcher.m in Sources */,

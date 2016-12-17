@@ -14,6 +14,20 @@ NSString * const PPTextBorderAttributeName = @"PPTextBorder";
 NSString * const PPTextAttachmentAttributeName = @"PPTextAttachment";
 
 @implementation PPTextHighlightRange
+
++ (instancetype)rangeWithRange:(NSRange)range
+{
+    return [[self alloc] initWithRange:range];
+}
+
+- (instancetype)initWithRange:(NSRange)range
+{
+    if (self = [super init]) {
+        _range = range;
+    }
+    return self;
+}
+
 - (void)_setAttribute:(NSString *)name value:(id)value
 {
     if (value) {

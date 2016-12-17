@@ -228,7 +228,6 @@ static char highlightRangesKey;
 {
     range = [self pp_effectiveRangeWithRange:range];
     if (textHighlightRange) {
-        textHighlightRange.range = range;
         [self addAttribute:PPTextHighlightRangeAttributeName value:textHighlightRange range:range];
         [self.highlightRangeMap setObject:textHighlightRange forKey:[self _rangeToString:range]];
     } else {
