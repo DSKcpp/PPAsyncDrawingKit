@@ -8,6 +8,7 @@
 
 #import "PPAsyncDrawingView.h"
 #import "PPTextRenderer.h"
+#import "NSAttributedString+PPAsyncDrawingKit.h"
 
 @class PPTextLayout;
 
@@ -17,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL pendingAttachmentUpdates;
 @property (nonatomic, strong) PPTextLayout *textLayout;
 @property (nullable, nonatomic, copy) NSString *text;
+@property (null_resettable, nonatomic, strong) UIFont *font;
+@property (null_resettable, nonatomic, strong) UIColor *textColor;
 @property (nullable, nonatomic, strong) NSMutableAttributedString *attributedString;
 @property (nullable, nonatomic, strong) PPTextRenderer *textRenderer;
 @property (nonatomic, assign) NSRange visibleStringRange;

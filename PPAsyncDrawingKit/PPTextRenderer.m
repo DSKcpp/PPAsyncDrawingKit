@@ -81,6 +81,9 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
     if (context) {
         NSAttributedString *attributedString = self.attributedString;
         if (attributedString.length > 0) {
+            if (!CGRectIsNull(visibleRect)) {
+                self.textLayout.size = visibleRect.size;
+            }
             PPTextLayoutFrame *layoutFrame = self.textLayout.layoutFrame;
             if (layoutFrame) {
                 UIOffset offset = [self drawingOffsetWithTextLayout:self.textLayout layoutFrame:layoutFrame];

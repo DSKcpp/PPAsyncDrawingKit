@@ -11,7 +11,13 @@
 #import <objc/runtime.h>
 #import "PPTextAttributed.h"
 
+@interface PPLabel ()
+@property (nonatomic, assign) BOOL needUpdateAttribtues;
+@end
+
 @implementation PPLabel
+@synthesize font = _font;
+@synthesize textColor = _textColor;
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -46,7 +52,7 @@
 {
     NSAttributedString *attributedString = userInfo[@"attributedString"];
     if (attributedString) {
-//        [self _updateTextRendererWithAttributedString:attributedString];
+        [self _updateTextRendererWithAttributedString:attributedString];
 //        self.pendingAttachmentUpdates
         [self.textRenderer drawInContext:context visibleRect:rect placeAttachments:YES shouldInterruptBlock:nil];
     }
@@ -73,29 +79,68 @@
     self.textRenderer.textLayout.maximumNumberOfLines = numberOfLines;
 }
 
-//- (void)setText:(PPTextAttributed *)text
-//{
-//    if (_text != text) {
-//        _text = text;
-//        [self _updateTextRendererWithAttributedString:text.attributedString];
-//        self.contentsChangedAfterLastAsyncDrawing = YES;
-//        [self setNeedsDisplay];
-//        self.pendingAttachmentUpdates = YES;
-//        [[NSNotificationCenter defaultCenter] postNotificationName:@"PPCoreTextInternalViewAttributedStringDidUpdateNotification" object:self];
-//    }
-//}
+- (void)setText:(NSString *)text
+{
+    if (_text != text) {
+        _text = text;
+        NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:text];
+        [self _updateTextRendererWithAttributedString:attributedString];
+        self.contentsChangedAfterLastAsyncDrawing = YES;
+        [self setNeedsDisplay];
+        self.pendingAttachmentUpdates = YES;
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"PPCoreTextInternalViewAttributedStringDidUpdateNotification" object:self];
+    }
+}
 
-//- (void)_updateTextRendererWithAttributedString:(NSAttributedString *)attributedString
-//{
-//    if (self.textRenderer.attributedString != attributedString) {
-//        self.textRenderer.attributedString = attributedString;
-//    }
-//}
-//
-//- (void)_updateTextRendererWithCurrentAttributedString
-//{
-//    [self _updateTextRendererWithAttributedString:self.text.attributedString];
-//}
+- (UIFont *)font
+{
+    if (!_font) {
+        return [UIFont systemFontOfSize:15.0f];
+    }
+    return _font;
+}
+
+- (void)setFont:(UIFont *)font
+{
+    if (_font != font) {
+        _font = font;
+        _needUpdateAttribtues = YES;
+    }
+}
+
+- (UIColor *)textColor
+{
+    if (!_textColor) {
+        return [UIColor blackColor];
+    }
+    return _textColor;
+}
+
+- (void)setTextColor:(UIColor *)textColor
+{
+    if (_textColor != textColor) {
+        _textColor = textColor;
+        _needUpdateAttribtues = YES;
+    }
+}
+
+- (void)_updateTextRendererWithAttributedString:(NSAttributedString *)attributedString
+{
+    if (self.textRenderer.attributedString != attributedString) {
+        if (_needUpdateAttribtues) {
+            NSMutableAttributedString *attrStrM = (NSMutableAttributedString *)attributedString;
+            [attrStrM pp_setFont:self.font];
+            [attrStrM pp_setColor:self.textColor];
+            _needUpdateAttribtues = NO;
+        }
+        self.textRenderer.attributedString = attributedString;
+    }
+}
+
+- (void)_updateTextRendererWithCurrentAttributedString
+{
+    [self _updateTextRendererWithAttributedString:self.attributedString];
+}
 
 - (NSInteger)lineIndexForPoint:(CGPoint)point
 {
