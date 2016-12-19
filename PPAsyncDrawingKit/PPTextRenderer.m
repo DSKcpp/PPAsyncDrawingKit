@@ -87,6 +87,9 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
             PPTextLayoutFrame *layoutFrame = self.textLayout.layoutFrame;
             if (layoutFrame) {
                 UIOffset offset = [self drawingOffsetWithTextLayout:self.textLayout layoutFrame:layoutFrame];
+                if ([PPTextRenderer debugModeEnabled]) {
+                    [self debugModeDrawLineFramesWithLayoutFrame:layoutFrame context:context offset:offset];
+                }
                 PPTextHighlightRange *highlightRange = self.pressingHighlightRange;
                 if (highlightRange) {
                     [self enumerateEnclosingRectsForCharacterRange:highlightRange.range usingBlock:^(CGRect rect, BOOL *stop) {
@@ -340,7 +343,7 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 @end
 
 @implementation PPTextRenderer (Debug)
-static BOOL textRendererDebugModeEnabled = NO;
+static BOOL textRendererDebugModeEnabled = YES;
 + (BOOL)debugModeEnabled
 {
     return textRendererDebugModeEnabled;
@@ -375,11 +378,28 @@ static BOOL textRendererDebugModeEnabled = NO;
 
 - (void)debugModeDrawLineFramesWithLayoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context offset:(UIOffset)offset
 {
-    if (self.textLayout) {
+    CGPoint origin = self.drawingOrigin;
+    CGSize size = self.textLayout.size;
+    CGContextSaveGState(context);
+    CGContextSetAlpha(context, 0.2f);
+    CGContextSetFillColorWithColor(context, [UIColor grayColor].CGColor);
+    CGContextFillRect(context, CGRectMake(origin.x, origin.y, size.width, size.height));
+    CGContextRestoreGState(context);
+    
+    [layoutFrame.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
+        CGRect rect = [self convertRectFromLayout:line.fragmentRect];
+        CGContextSaveGState(context);
+        CGContextSetAlpha(context, 0.2f);
+        CGContextSetFillColorWithColor(context, [UIColor greenColor].CGColor);
+        rect.origin.y -= line.lineMetrics.ascent;
+        CGContextFillRect(context, rect);
         
-    } else {
-        
-    }
+        CGContextSetAlpha(context, 1.0f);
+        CGContextSetFillColorWithColor(context, [UIColor redColor].CGColor);
+        CGContextFillRect(context, CGRectMake(line.baselineOrigin.x + origin.x, line.baselineOrigin.y + origin.y, rect.size.width, 0.5f));
+        CGContextRestoreGState(context);
+    }];
+    
 }
 
 @end

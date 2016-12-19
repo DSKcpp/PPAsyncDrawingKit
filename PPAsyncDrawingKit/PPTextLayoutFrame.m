@@ -106,10 +106,16 @@
             __block CGFloat y = 0;
             [self.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
 //                if (range.location >= line.stringRange.location && (range.location + range.length) <= line.stringRange.location + line.stringRange.length) {
-                CGFloat left = [line offsetXForCharacterAtIndex:range.location];
-                CGFloat right = [line offsetXForCharacterAtIndex:range.location + range.length];
-                CGRect rect = CGRectMake(left, (line.fragmentRect.size.height + 1) * idx, right - left, line.fragmentRect.size.height);
-                block(rect, stop);
+                NSRange lineRange = line.stringRange;
+                if (range.location >= lineRange.location) {
+                    if (range.length + range.location <= lineRange.length + lineRange.location) {
+                        CGFloat left = [line offsetXForCharacterAtIndex:range.location];
+                        CGFloat right = [line offsetXForCharacterAtIndex:range.location + range.length];
+                        CGRect rect = CGRectMake(left, (line.fragmentRect.size.height + 1) * idx, right - left, line.fragmentRect.size.height);
+                        block(rect, stop);
+                    }
+                }
+
 //                }
             }];
         }
