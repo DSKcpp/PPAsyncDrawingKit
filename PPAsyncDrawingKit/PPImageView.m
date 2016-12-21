@@ -11,16 +11,13 @@
 #import "PPAsyncDrawingKitUtilities.h"
 
 @implementation PPImageView
-{
-    CGPathRef roundPathRef;
-    CGPathRef borderPathRef;
-}
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
         self.roundedCorners = UIRectCornerAllCorners;
         self.showsCornerRadius = YES;
+        self.showsBorderCornerRadius = YES;
         self.userInteractionEnabled = NO;
         [self setBackgroundColor:[UIColor clearColor]];
         self.borderWidth = 0.0f;
@@ -49,8 +46,8 @@
 - (instancetype)initWithCachedRoundPath:(CGPathRef)roundPath borderPath:(CGPathRef)borderPath
 {
     if (self = [self init]) {
-        roundPathRef = CGPathRetain(roundPath);
-        borderPathRef = CGPathRetain(borderPath);
+        self.roundPathRef = CGPathRetain(roundPath);
+        self.borderPathRef = CGPathRetain(borderPath);
         self.updatePathWhenViewSizeChanges = NO;
     }
     return self;
@@ -71,19 +68,18 @@
         return;
     }
     _roundedCorners = roundedCorners;
-    CGPathRelease(roundPathRef);
-    roundPathRef = nil;
+    CGPathRelease(self.roundPathRef);
+    self.roundPathRef = nil;
 }
 
 - (void)setCornerRadius:(CGFloat)cornerRadius
 {
     if (cornerRadius <= 0) {
-        CGPathRelease(roundPathRef);
-        roundPathRef = nil;
+        CGPathRelease(self.roundPathRef);
+        self.roundPathRef = nil;
         [self setNeedsDisplay];
     }
     self.layer.cornerRadius = cornerRadius;
-    self.internalMaskView.layer.cornerRadius = cornerRadius;
 }
 
 - (void)setShowsBorderCornerRadius:(BOOL)showsBorderCornerRadius
@@ -92,17 +88,9 @@
         return;
     }
     _showsBorderCornerRadius = showsBorderCornerRadius;
-    CGPathRelease(borderPathRef);
-    borderPathRef = nil;
+    CGPathRelease(_borderPathRef);
+    _borderPathRef = nil;
     [self setNeedsDisplay];
-}
-
-- (void)setMaskColor:(UIColor *)maskColor
-{
-    if (_maskColor != maskColor) {
-        _maskColor = maskColor;
-        [self setNeedsDisplay];
-    }
 }
 
 - (void)setBorderWidth:(CGFloat)borderWidth
@@ -162,35 +150,6 @@
     }
 }
 
-- (void)setGradientColors:(NSArray<UIColor *> *)gradientColors
-{
-    if (_gradientColors != gradientColors) {
-        _gradientColors = gradientColors;
-        self.gradientColorsUpdated = YES;
-        [self setNeedsDisplay];
-    }
-}
-
-- (void)setGradientColorRect:(CGRect)gradientColorRect
-{
-    if (!CGRectEqualToRect(_gradientColorRect, gradientColorRect)) {
-        [self setNeedsDisplay];
-    }
-}
-
-- (void)setImageContentFrame:(CGRect)imageContentFrame
-{
-    if (!CGRectEqualToRect(_imageContentFrame, imageContentFrame)) {
-        _imageContentFrame = imageContentFrame;
-    }
-}
-
-- (void)setFrame:(CGRect)frame
-{
-    [super setFrame:frame];
-//    self.imageContentFrame = CGRectMake(0, 0, frame.size.width, frame.size.height);
-}
-
 - (void)displayLayer:(CALayer *)layer
 {
     [super displayLayer:layer];
@@ -198,55 +157,49 @@
 
 - (NSDictionary *)currentDrawingUserInfo
 {
-    return [self drawingComponentDictionary];
-}
-
-- (NSDictionary *)drawingComponentDictionary
-{
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
     [userInfo pp_setSafeObject:self.image forKey:@"image"];
     [userInfo pp_setSafeObject:self.fillColor forKey:@"fillColor"];
-    [userInfo pp_setSafeObject:self.gradientColors forKey:@"gradientColors"];
-    [userInfo pp_setSafeObject:self.maskColor forKey:@"maskColor"];
-    if (!CGRectEqualToRect(CGRectZero, self.gradientColorRect)) {
-        [userInfo pp_setSafeObject:[NSValue valueWithCGRect:self.gradientColorRect] forKey:@"gradientColorRect"];
-    }
     if (self.showsCornerRadius) {
         CGPathRef path = CreateCGPath(self.bounds, self.cornerRadius, self.roundedCorners);
-        roundPathRef = path;
+        _roundPathRef = path;
         [userInfo pp_setSafeObject:(__bridge id _Nonnull)(path) forKey:@"roundPath"];
     }
     if (self.showsBorderCornerRadius) {
         
-    }
-    if (!CGRectIsEmpty(self.imageContentFrame)) {
-        [userInfo pp_setSafeObject:[NSValue valueWithCGRect:self.imageContentFrame] forKey:@"imageFrame"];
     }
     return userInfo;
 }
 
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(NSDictionary *)userInfo
 {
-    [self drawWithContext:context inRect:rect withComponents:userInfo];
-    return YES;
-}
-
-- (void)drawWithContext:(CGContextRef)context inRect:(CGRect)rect withComponents:(NSDictionary *)components
-{
     if (self.showsCornerRadius) {
-        CGPathRef path = (__bridge CGPathRef)(components[@"roundPath"]);
+        CGPathRef path = (__bridge CGPathRef)(userInfo[@"roundPath"]);
         if (path) {
             CGContextAddPath(context, path);
             CGContextClip(context);
         }
     }
-    UIColor *fillColor = components[@"fillColor"];
+    UIColor *fillColor = userInfo[@"fillColor"];
     if (fillColor) {
         CGContextSetFillColorWithColor(context, fillColor.CGColor);
         CGContextFillRect(context, rect);
     }
-    UIImage *image = components[@"image"];
+    
+//        if (self.showsBorderCornerRadius) {
+//            if (path) {
+//                CGContextAddPath(context, path);
+//                CGContextSetLineWidth(context, self.borderWidth);
+//                CGContextSetStrokeColorWithColor(context, self.borderColor.CGColor);
+//                CGContextStrokePath(context);
+//            }
+//        }
+//    }
+
+
+    UIImage *image = userInfo[@"image"];
     [image pp_drawInRect:rect contentMode:self.contentMode withContext:context];
+    return YES;
 }
 
 - (void)drawingDidFinishAsynchronously:(BOOL)async success:(BOOL)success
@@ -254,14 +207,6 @@
     if (!success) {
         return;
     }
-    [self imageDrawingFinished];
-}
-
-- (void)imageDrawingFinished { }
-
-- (id)maskView
-{
-    return self.maskView;
 }
 
 @end

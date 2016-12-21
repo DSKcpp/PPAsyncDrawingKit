@@ -9,6 +9,9 @@
 #import "PPImageCache.h"
 #import <CommonCrypto/CommonCrypto.h>
 
+#define kPPImageCacheMaxAge 604800.0f
+#define kPPImageCacheMaxMemorySize 20971520
+
 static NSString *_PPNSStringMD5(NSString *string) {
     if (!string) return nil;
     NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
@@ -45,11 +48,11 @@ static NSString *_PPNSStringMD5(NSString *string) {
 - (instancetype)init
 {
     if (self = [super init]) {
-        NSString *name = [NSString stringWithFormat:@"io.github.dskcpp.PPAsyncDrawingKit.imageCache"];
+        NSString *name = @"io.github.dskcpp.PPAsyncDrawingKit.imageCache";
         self.cache = [[NSCache alloc] init];
         self.cache.name = name;
-        self.maxCacheAge = 604800.0f;
-        self.maxMemorySize = 20971520;
+        self.maxCacheAge = kPPImageCacheMaxAge;
+        self.maxMemorySize = kPPImageCacheMaxMemorySize;
         self.createDate = [NSDate date];
         self.memoryMutableDict = [NSMutableDictionary dictionaryWithCapacity:2];
         _cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"ImageCache"];
@@ -97,88 +100,113 @@ static NSString *_PPNSStringMD5(NSString *string) {
 
 - (UIImage *)imageForURL:(NSString *)URL
 {
-    return [self imageForURL:URL storageType:0];
+    return [self imageForURL:URL isPermanent:NO];
 }
 
-- (UIImage *)imageForURL:(NSString *)URL storageType:(NSInteger)storageType
+- (UIImage *)imageForURL:(NSString *)URL taskKey:(NSString *)taskKey
 {
-    return [self imageForURL:URL isPermanent:NO storageType:storageType];
-}
-
-- (UIImage *)imageForURL:(NSString *)URL storageType:(NSInteger)storageType taskKey:(id)taskKey
-{
-    return [self imageForURL:URL isPermanent:NO storageType:storageType taskKey:taskKey];
+    return [self imageForURL:URL isPermanent:NO taskKey:taskKey];
 }
 
 - (UIImage *)imageForURL:(NSString *)URL isPermanent:(BOOL)permanent
 {
-    return [self imageForURL:URL isPermanent:permanent storageType:4];
+    return [self imageForURL:URL isPermanent:permanent taskKey:nil];
 }
 
-- (UIImage *)imageForURL:(NSString *)URL isPermanent:(BOOL)permanent storageType:(NSUInteger)storageType
+- (UIImage *)imageForURL:(NSString *)URL isPermanent:(BOOL)permanent taskKey:(NSString *)taskKey
 {
-    return [self imageForURL:URL isPermanent:permanent storageType:storageType taskKey:nil];
+    [self.readingTaskLock lock];
+    BOOL taskConstains = [self.currentReadingTaskKeys containsObject:taskKey];
+    [self.readingTaskLock unlock];
+    
+    if ((!URL || taskKey) && !taskConstains) {
+//        [self removeFromCurrentReadingTaskKeys:taskKey];
+    }
+
+    BOOL cache = [self imageCachedForURL:URL];
+    if (cache) {
+        UIImage *image = [_cache objectForKey:[self keyWithURL:URL]];
+        if (!image) {
+            image = [UIImage imageWithContentsOfFile:[_cachePath stringByAppendingPathComponent:[self keyWithURL:URL]]];
+        }
+        return image;
+    }
+    return nil;
 }
 
-- (UIImage *)imageForURL:(NSString *)URL isPermanent:(BOOL)permanent storageType:(NSUInteger)storageType taskKey:(id)taskKey
+- (BOOL)imageCachedForURL:(NSString *)URL
 {
-    return [[UIImage alloc] init];
+    NSString *key = [self keyWithURL:URL];
+    UIImage *image = [_cache objectForKey:key];
+    if (image) {
+        return YES;
+    } else {
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        return [fileManager fileExistsAtPath:[_cachePath stringByAppendingPathComponent:key]];
+    }
 }
 
-- (void)cacheImage:(UIImage *)image forURL:(NSString *)URL
+- (void)storeImage:(UIImage *)image forURL:(NSString *)URL
 {
+    if (!image || !URL) {
+        return;
+    }
+    
     CGSize size = image.size;
     NSString *key = [self keyWithURL:URL];
     NSUInteger cost = 1;
     [_cache setObject:image forKey:key cost:cost];
 }
 
-- (void)cacheImage:(UIImage *)image data:(NSData *)data forURL:(NSString *)URL cacheType:(PPImageCacheType)cacheType
+- (void)storeImage:(UIImage *)image data:(NSData *)data forURL:(NSString *)URL toDisk:(BOOL)toDisk
 {
-    [self cacheImage:image data:data forURL:URL cacheType:cacheType storageType:0];
-}
-
-- (void)cacheImage:(UIImage *)image data:(NSData *)data forURL:(NSString *)URL cacheType:(PPImageCacheType)cacheType storageType:(NSInteger)storageType
-{
-    if (URL) {
-        if (cacheType & PPImageCacheTypeMemory) {
-            [self cacheImage:image forURL:URL];
-        }
-        if (cacheType & PPImageCacheTypeDisk) {
-            NSData *_data = data;
-            if (_data == nil) {
-                _data = UIImageJPEGRepresentation(image, 1.0);
-            }
-            dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                [self cacheImageData:_data forURL:URL storageType:storageType];
-            });
-        }
+    if (!URL) {
+        return;
     }
-}
-
-- (void)cacheImageData:(NSData *)data forURL:(NSString *)URL
-{
-    [self cacheImageData:data forURL:URL storageType:0];
-}
-
-- (void)cacheImageData:(NSData *)data forURL:(NSString *)URL storageType:(NSInteger)storageType
-{
-    if (data && URL) {
-        dispatch_async(_ioQueue, ^{
-            NSFileManager *fileManager = [[NSFileManager alloc] init];
-            NSString *path = [self folderPath:storageType];
-            if (![fileManager fileExistsAtPath:path]) {
-                [fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    if (image) {
+        [self storeImage:image forURL:URL];
+    }
+    if (toDisk) {
+        NSData *_data = data;
+        if (_data == nil) {
+            if (!image) {
+                return;
             }
-            path = [path stringByAppendingPathComponent:[self keyWithURL:URL]];
-            [fileManager createFileAtPath:path contents:data attributes:nil];
+            _data = UIImageJPEGRepresentation(image, 1.0);
+        }
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [self storeImageDataToDisk:_data forURL:URL];
         });
     }
+}
+
+- (void)storeImageDataToDisk:(NSData *)imageData forURL:(NSString *)URL;
+{
+    if (!imageData || !URL) {
+        return;
+    }
+
+    dispatch_async(_ioQueue, ^{
+        NSFileManager *fileManager = [[NSFileManager alloc] init];
+        NSString *path = _cachePath;
+        if (![fileManager fileExistsAtPath:path]) {
+            [fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+        path = [path stringByAppendingPathComponent:[self keyWithURL:URL]];
+        [fileManager createFileAtPath:path contents:imageData attributes:nil];
+    });
 }
 
 - (NSUInteger)cacheSize
 {
     NSDirectoryEnumerator<NSString *> *files = [[NSFileManager defaultManager] enumeratorAtPath:_cachePath];
-    return 1;
+    NSUInteger totalCacheSize = 0;
+    for (NSString *file in files) {
+        NSDictionary<NSFileAttributeKey, id> * attr = [[NSFileManager defaultManager] attributesOfItemAtPath:file error:nil];
+        totalCacheSize += [attr[@"fileSize"] integerValue];
+    }
+    return totalCacheSize;
 }
+
 @end

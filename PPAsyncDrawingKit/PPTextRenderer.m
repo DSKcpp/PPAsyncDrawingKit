@@ -362,18 +362,6 @@ static BOOL textRendererDebugModeEnabled = YES;
 + (void)setDebugModeEnabled:(BOOL)enabled
 {
     textRendererDebugModeEnabled = enabled;
-    [self debugModeSetEverythingNeedsDisplay];
-    [CATransaction flush];
-}
-
-+ (void)debugModeSetEverythingNeedsDisplay
-{
-    
-}
-
-+ (void)debugModeSetEverythingNeedsDisplayForView:(id)view
-{
-    
 }
 
 - (void)debugModeDrawLineFramesWithLayoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context offset:(UIOffset)offset
@@ -381,7 +369,7 @@ static BOOL textRendererDebugModeEnabled = YES;
     CGPoint origin = self.drawingOrigin;
     CGSize size = self.textLayout.size;
     CGContextSaveGState(context);
-    CGContextSetAlpha(context, 0.2f);
+    CGContextSetAlpha(context, 0.1f);
     CGContextSetFillColorWithColor(context, [UIColor grayColor].CGColor);
     CGContextFillRect(context, CGRectMake(origin.x, origin.y, size.width, size.height));
     CGContextRestoreGState(context);
@@ -389,8 +377,8 @@ static BOOL textRendererDebugModeEnabled = YES;
     [layoutFrame.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
         CGRect rect = [self convertRectFromLayout:line.fragmentRect];
         CGContextSaveGState(context);
-        CGContextSetAlpha(context, 0.2f);
-        CGContextSetFillColorWithColor(context, [UIColor greenColor].CGColor);
+        CGContextSetAlpha(context, 0.1f);
+        CGContextSetFillColorWithColor(context, [UIColor blueColor].CGColor);
         rect.origin.y -= line.lineMetrics.ascent;
         CGContextFillRect(context, rect);
         

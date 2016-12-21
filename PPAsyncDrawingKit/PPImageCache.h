@@ -17,7 +17,7 @@ typedef NS_OPTIONS(NSUInteger, PPImageCacheType) {
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PPImageCache : NSObject
-@property (class, strong, readonly) PPImageCache *sharedCache;
+@property (nonatomic, class, strong, readonly) PPImageCache *sharedCache;
 @property (nonatomic, strong) NSRecursiveLock *readingTaskLock;
 @property (nonatomic, strong) NSMutableArray *currentReadingTaskKeys;
 @property (nonatomic, assign) NSUInteger maxMemorySize;
@@ -33,27 +33,21 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSString *)keyWithURL:(NSString *)URL;
 
 - (nullable UIImage *)imageForURL:(NSString *)URL;
-- (nullable UIImage *)imageForURL:(NSString *)URL storageType:(NSInteger)storageType;
-- (nullable UIImage *)imageForURL:(NSString *)URL storageType:(NSInteger)storageType taskKey:(id)taskKey;
+- (nullable UIImage *)imageForURL:(NSString *)URL taskKey:(nullable NSString *)taskKey;
 - (nullable UIImage *)imageForURL:(NSString *)URL isPermanent:(BOOL)permanent;
-- (nullable UIImage *)imageForURL:(NSString *)URL isPermanent:(BOOL)permanent storageType:(NSUInteger)storageType;
-- (nullable UIImage *)imageForURL:(NSString *)URL isPermanent:(BOOL)permanent storageType:(NSUInteger)storageType taskKey:(id)taskKey;
+- (nullable UIImage *)imageForURL:(NSString *)URL isPermanent:(BOOL)permanent taskKey:(nullable NSString *)taskKey;
 
-- (void)cacheImage:(UIImage *)image forURL:(NSString *)URL;
-- (void)cacheImage:(UIImage *)image data:(nullable NSData *)data forURL:(NSString *)URL cacheType:(PPImageCacheType)cacheType;
-- (void)cacheImage:(UIImage *)image data:(nullable NSData *)data forURL:(NSString *)URL cacheType:(PPImageCacheType)cacheType storageType:(NSInteger)storageType;
-- (void)cacheImageData:(NSData *)data forURL:(NSString *)URL;
-- (void)cacheImageData:(NSData *)data forURL:(NSString *)URL storageType:(NSInteger)storageType;
+- (void)storeImage:(UIImage *)image forURL:(NSString *)URL;
+- (void)storeImage:(nullable UIImage *)image data:(nullable NSData *)data forURL:(NSString *)URL toDisk:(BOOL)toDisk;
+- (void)storeImageDataToDisk:(NSData *)imageData forURL:(NSString *)URL;
 
-- (BOOL)imageHasDiskCachedForURL:(NSString *)URL;
 - (BOOL)imageCachedForURL:(NSString *)URL;
-- (BOOL)imageCachedForURL:(NSString *)URL type:(NSInteger)type;
+- (BOOL)imageHasDiskCachedForURL:(NSString *)URL;
 
 - (void)imageForURL:(id)arg1 callback:(void(^)(void))arg2;
 - (id)diskCachePathForImageURL:(id)arg1 withType:(long long)arg2;
 - (id)diskCachePathForImageURL:(id)arg1;
-- (NSString *)folderPath:(long long)arg1;
-- (void)removeFromCurrentReadingTaskKeys:(id)arg1;
+- (void)removeFromCurrentReadingTaskKeys:(NSString *)arg1;
 - (void)addToCurrentReadingTaskKeys:(id)arg1;
 
 

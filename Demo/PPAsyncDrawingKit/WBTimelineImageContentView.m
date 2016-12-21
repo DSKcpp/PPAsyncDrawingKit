@@ -7,10 +7,8 @@
 //
 
 #import "WBTimelineImageContentView.h"
-#import "WBTimelineImageView.h"
-#import "WBTimelineItem.h"
-#import "PPImageView+WebCache.h"
 #import "WBTimelinePreset.h"
+#import "PPImageView+WebCache.h"
 
 @implementation WBTimelineImageContentView
 
@@ -97,10 +95,15 @@
             imageView.frame = CGRectMake(col * (preset.gridImageSize + 2.5), row * (preset.gridImageSize + 2.5), preset.gridImageSize, preset.gridImageSize);
         }
         NSString *url = _pictures[i].bmiddle.url;
-        [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"avatar"]];
+        [imageView setImageURL:url placeholderImage:[UIImage imageNamed:@"avatar"]];
         [self addSubview:imageView];
         [self.imageViews addObject:imageView];
     }
 }
 
 @end
+
+@implementation WBTimelineImageView
+
+@end
+

@@ -7,17 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@class WBTimelineItem;
-@class WBTimelineContentImageViewLayouter;
-@class WBTimelineImageView;
-@class WBTimelinePicture;
+#import "PPImageView.h"
+#import "WBTimelineItem.h"
 
 @protocol WBTimelineImageContentViewDelegate <NSObject>
 @optional
 //- (UIViewController *)timelineImageContentView:(WBTimelineImageContentView *)arg1 peekingViewControllerForPicture:(WBTimelinePicture *)arg2;
 //- (void)timelineImageContentView:(WBTimelineImageContentView *)arg1 pictureSizeDidChange:(WBTimelinePicture *)arg2;
 //- (void)timelineImageContentView:(WBTimelineImageContentView *)arg1 didSelectPicture:(WBTimelinePicture *)arg2;
+@end
+
+@interface WBTimelineImageView : PPImageView
+@property (nonatomic, strong) WBTimelineItem *timelineItem;
 @end
 
 @interface WBTimelineImageContentView : UIView
@@ -30,7 +31,6 @@
 @property (nonatomic, strong) WBTimelineItem *timelineItem;
 @property (nonatomic, assign) NSRange picsArrayShowRange;
 @property (nonatomic, assign) BOOL allowShowPicNumFlag;
-@property (nonatomic, strong) WBTimelineContentImageViewLayouter *layouter;
 @property (nonatomic, assign) CGRect imageLayerFrame;
 @property (nonatomic, assign) BOOL highlighted;
 @property (nonatomic, strong) NSArray<WBTimelinePicture *> *pictures;

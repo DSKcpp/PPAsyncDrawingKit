@@ -102,12 +102,10 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface PPTextRenderer (Debug)
++ (BOOL)debugModeEnabled;
 + (void)disableDebugMode;
 + (void)enableDebugMode;
 + (void)setDebugModeEnabled:(BOOL)enabled;
-+ (BOOL)debugModeEnabled;
-+ (void)debugModeSetEverythingNeedsDisplay;
-+ (void)debugModeSetEverythingNeedsDisplayForView:(id)view;
 - (void)debugModeDrawLineFramesWithLayoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context offset:(UIOffset)offset;
 @end
 

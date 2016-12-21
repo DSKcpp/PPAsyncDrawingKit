@@ -14,7 +14,6 @@
 #import "NSAttributedString+PPAsyncDrawingKit.h"
 #import "PPTextHighlightRange.h"
 #import "WBTimelineItem.h"
-#import "SDWebImageManager.h"
 
 static inline CGFloat YYEmojiGetAscentWithFontSize(CGFloat fontSize) {
     if (fontSize < 16) {

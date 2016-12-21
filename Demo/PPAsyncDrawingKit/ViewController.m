@@ -12,6 +12,7 @@
 #import "TextViewController.h"
 #import "PPAsyncDrawingKitUtilities.h"
 #import "YYFPSLabel.h"
+#import "PPImageCache.h"
 
 @implementation ViewController
 
@@ -21,6 +22,10 @@
     
     YYFPSLabel *fpsLabel = [[YYFPSLabel alloc] initWithFrame:CGRectMake(0, 44, 80, 30)];
     [self.navigationController.navigationBar addSubview:fpsLabel];
+    
+    [[PPImageCache sharedCache] storeImage:[UIImage imageNamed:@"avatar"] data:nil forURL:@"https://dskcpp.github.io" toDisk:YES];
+    UIImage *image = [[PPImageCache sharedCache] imageForURL:@"https://dskcpp.github.io"];
+    NSLog(@"%@", image);
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

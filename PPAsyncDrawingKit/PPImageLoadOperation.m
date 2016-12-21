@@ -57,7 +57,6 @@
 
 - (void)start
 {
-    self.storageType = 0;
     self.lastNotifiedProgress = 0;
     if (self.cancelled) {
         self.finished = YES;
@@ -65,7 +64,7 @@
         [self.delegate imageLoadCompleted:self image:nil data:nil error:error isCache:NO];
     } else {
         self.executing = YES;
-        UIImage *image = [[PPImageCache sharedCache] imageForURL:_imageURL isPermanent:self.isPermenant storageType:self.storageType];
+        UIImage *image = [[PPImageCache sharedCache] imageForURL:_imageURL isPermanent:self.isPermenant];
         if (!image) {
             image = [UIImage imageWithContentsOfFile:_imageURL];
         }

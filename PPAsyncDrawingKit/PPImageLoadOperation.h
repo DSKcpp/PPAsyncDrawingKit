@@ -31,7 +31,6 @@
 @property(nonatomic) BOOL isPermenant;
 @property(nonatomic) float minNotifiProgressInterval;
 @property(readonly, nonatomic) float progress;
-@property(nonatomic) NSUInteger storageType;
 @property(retain, nonatomic) NSDictionary *requestHttpHeaders;
 @property(retain, nonatomic) NSDictionary *responseHttpHeaders;
 @property(nonatomic) long long expectedSize;

@@ -27,6 +27,7 @@ There are two ways to use PPAsyncDrawingKit in your project:
 
 ###Installation with CocoaPods
 ####Podfile
+`not impl`
 ``` Ruby
 pod 'PPAsyncDrawingKit'
 ```
