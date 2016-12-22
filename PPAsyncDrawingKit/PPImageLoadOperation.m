@@ -15,8 +15,6 @@
 @end
 
 @implementation PPImageLoadOperation
-@synthesize finished = _finished;
-@synthesize executing = _executing;
 
 + (NSThread *)networkRequestThread
 {
@@ -32,7 +30,11 @@
 + (void)networkRequestThreadEntryPoint
 {
     @autoreleasepool {
-        [[NSRunLoop currentRunLoop] run];
+        NSThread *currentThread = [NSThread currentThread];
+        currentThread.name = @"PPImageLoadOperation";
+        NSRunLoop *currentRunloop = [NSRunLoop currentRunLoop];
+        [currentRunloop addPort:[NSMachPort port] forMode:NSDefaultRunLoopMode];
+        [currentRunloop run];
     }
 }
 
@@ -50,6 +52,11 @@
     return self;
 }
 
+- (void)main
+{
+    
+}
+
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<%@: %p, %@>", self.class, self, _imageURL];
@@ -63,9 +70,9 @@
         NSError *error = [NSError errorWithDomain:@"PPImageRequestErrorDomainCanceled" code:1001 userInfo:nil];
         [self.delegate imageLoadCompleted:self image:nil data:nil error:error isCache:NO];
     } else {
-        self.executing = YES;
+//        self.executing = YES;
         UIImage *image = [[PPImageCache sharedCache] imageForURL:_imageURL isPermanent:self.isPermenant];
-        if (!image) {
+        if (!image && [_imageURL hasPrefix:@"/"]) {
             image = [UIImage imageWithContentsOfFile:_imageURL];
         }
         if (image) {
@@ -105,5 +112,8 @@
     if (!self.connection) {
         self.loadedSize = 0;
     }
+    NSURL *URL = [NSURL URLWithString:_imageURL];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:URL cachePolicy:0 timeoutInterval:60];
+    
 }
 @end

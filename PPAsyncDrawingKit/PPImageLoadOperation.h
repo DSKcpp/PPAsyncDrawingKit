@@ -11,17 +11,23 @@
 
 @class PPImageLoadOperation;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol PPImageLoadOperationDelegate <NSObject>
 
-- (NSString *)pathOfFileForOperation:(PPImageLoadOperation *)arg1;
-- (NSString *)pathOfTemFileForOperation:(PPImageLoadOperation *)arg1;
-- (void)imageLoadCompleted:(PPImageLoadOperation *)arg1 image:(UIImage *)arg2 data:(NSData *)arg3 error:(NSError *)arg4 isCache:(BOOL)arg5;
+- (NSString *)pathOfFileForOperation:(PPImageLoadOperation *)imageLoadOperation;
+- (NSString *)pathOfTemFileForOperation:(PPImageLoadOperation *)imageLoadOperation;
+- (void)imageLoadCompleted:(PPImageLoadOperation *)imageLoadOperation
+                     image:(nullable UIImage *)image
+                      data:(nullable NSData *)data
+                     error:(nullable NSError *)error
+                   isCache:(BOOL)isCache;
 
 @optional
 - (void)replaceOperationCurrentRequestBeforeStart:(NSMutableURLRequest *)arg1;
-- (void)imageLoadOperation:(PPImageLoadOperation *)arg1 didReceivedSize:(NSUInteger)receivedSize expectedSize:(NSUInteger)expectedSize;
+- (void)imageLoadOperation:(PPImageLoadOperation *)imageLoadOperation didReceivedSize:(NSUInteger)receivedSize expectedSize:(NSUInteger)expectedSize;
 - (BOOL)imageLoadOperationShouldHandleProgressImage:(PPImageLoadOperation *)arg1;
-- (NSString *)permenantPathOfFileForOperation:(PPImageLoadOperation *)arg1;
+- (NSString *)permenantPathOfFileForOperation:(PPImageLoadOperation *)imageLoadOperation;
 
 @end
 
@@ -34,8 +40,8 @@
 @property(retain, nonatomic) NSDictionary *requestHttpHeaders;
 @property(retain, nonatomic) NSDictionary *responseHttpHeaders;
 @property(nonatomic) long long expectedSize;
-@property(nonatomic, assign, readonly, getter=isFinished) BOOL finished;
-@property(nonatomic, assign, readonly, getter=isExecuting) BOOL executing;
+//@property(nonatomic, assign, readonly, getter=isFinished) BOOL finished;
+//@property(nonatomic, assign, readonly, getter=isExecuting) BOOL executing;
 @property(retain, nonatomic) NSURLConnection *connection;
 @property(nonatomic, weak) id<PPImageLoadOperationDelegate> delegate;
 @property(readonly, copy, nonatomic) NSString *imageURL;
@@ -63,3 +69,5 @@
 - (void)connectionDidStart;
 - (void)reloadConnection;
 @end
+
+NS_ASSUME_NONNULL_END

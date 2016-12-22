@@ -10,21 +10,24 @@
 #import <UIKit/UIKit.h>
 #import "PPWebImageManager.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface PPImageLoadRequest : NSObject
-@property(nonatomic) BOOL isPermenant;
-@property(nonatomic) BOOL cancelForOwnerDealloc;
-@property(nonatomic) CGFloat minNotifiProgressInterval;
-@property(nonatomic) long long options;
-@property(nonatomic, weak) id owner;
-@property(nonatomic) long long storageType;
-@property(retain, nonatomic) NSArray *alternativeUrls;
-@property(retain, nonatomic) NSError *error;
-@property(retain, nonatomic) NSData *data;
-@property(retain, nonatomic) UIImage *image;
-@property(nonatomic, copy, readonly) NSString *imageURL;
-@property(nonatomic, copy) PPImageLoadCompleteBlock completedBlock;
-@property(nonatomic, copy) PPImageLoadProgressBlock progressBlock;
-@property(nonatomic) float progress;
+@property (nonatomic, assign) BOOL isPermenant;
+@property (nonatomic, assign) BOOL cancelForOwnerDealloc;
+@property (nonatomic, assign) CGFloat minNotifiProgressInterval;
+@property (nonatomic, assign) NSInteger options;
+@property (nonatomic, weak) id owner;
+@property (nullable, nonatomic, strong) NSArray *alternativeUrls;
+@property (nullable, nonatomic, strong) NSError *error;
+@property (nullable, nonatomic, strong) NSData *data;
+@property (nullable, nonatomic, strong) UIImage *image;
+@property (nonatomic, copy, readonly) NSString *identifier;
+@property (nonatomic, copy, readonly) NSString *imageURL;
+@property (nonatomic, copy) PPImageLoadCompleteBlock completedBlock;
+@property (nonatomic, copy) PPImageLoadProgressBlock progressBlock;
+@property (nonatomic, assign) float progress;
+
 - (instancetype)initWithURL:(NSString *)URL;
 - (void)didReceiveDataSize:(NSUInteger)dataSize expectedSize:(NSUInteger)expectedSize;
 - (NSInteger)retryCount;
@@ -36,3 +39,5 @@
 - (void)requestDidFinish;
 - (void)requestDidCancel;
 @end
+
+NS_ASSUME_NONNULL_END

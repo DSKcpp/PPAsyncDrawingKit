@@ -11,7 +11,6 @@
 @interface PPImageLoadRequest ()
 @property (nonatomic, assign) BOOL finished;
 @property (nonatomic, assign) float lastNotifiedProgress;
-@property (nonatomic, assign) NSInteger retryCount;
 @end
 
 @implementation PPImageLoadRequest

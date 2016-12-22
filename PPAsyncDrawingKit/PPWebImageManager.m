@@ -13,7 +13,6 @@
 @interface PPWebImageManager ()
 @property (nonatomic, strong) NSMutableDictionary<NSString *, PPImageLoadRequest *> *requests;
 @property (nonatomic, strong) NSOperationQueue *loadQueue;
-@property (nonatomic, strong) NSOperationQueue *highPriorityQueue;
 @property (nonatomic, strong) PPImageCache *cache;
 @end
 
@@ -34,7 +33,6 @@
         self.requests = @[].mutableCopy;
         self.loadQueue = [[NSOperationQueue alloc] init];
         self.loadQueue.maxConcurrentOperationCount = 5;
-        self.highPriorityQueue = [[NSOperationQueue alloc] init];
         self.cache = [PPImageCache sharedCache];
     }
     return self;
@@ -47,12 +45,12 @@
 
 - (PPImageLoadRequest *)loadImage:(NSString *)imageURL progress:(PPImageLoadProgressBlock)progress complete:(nonnull PPImageLoadCompleteBlock)complete
 {
-    return [self loadImage:imageURL delegate:nil progress:progress complete:complete];
+    return [self loadImage:imageURL delegate:self progress:progress complete:complete];
 }
 
 - (PPImageLoadRequest *)loadImage:(NSString *)imageURL progress:(PPImageLoadProgressBlock)progress complete:(nonnull PPImageLoadCompleteBlock)complete isPermenant:(BOOL)permenant
 {
-    return [self loadImage:imageURL delegate:nil alternativeUrls:nil progress:progress complete:complete autoCancel:YES options:0 isPermenant:permenant];
+    return [self loadImage:imageURL delegate:self alternativeUrls:nil progress:progress complete:complete autoCancel:YES options:0 isPermenant:permenant];
 }
 
 - (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id)delegate progress:(PPImageLoadProgressBlock)progress complete:(nonnull PPImageLoadCompleteBlock)complete
@@ -100,7 +98,6 @@
         request.owner = delegate;
         request.cancelForOwnerDealloc = autoCancel;
         request.options = options;
-        request.storageType = cacheType;
         request.isPermenant = permenant;
         [self addRequest:request];
         return request;
@@ -111,16 +108,34 @@
 
 - (void)addRequest:(PPImageLoadRequest *)request
 {
-    
+//    PPImageLoadRequest *r = [self.requests objectForKey:request.imageURL];
+    PPImageLoadOperation *o = [self operationForURL:request.imageURL];
+    if (o) {
+        
+    } else {
+        PPImageLoadOperation *opertation = [PPImageLoadOperation operationWithURL:request.imageURL];
+        opertation.delegate = request.owner;
+        [_loadQueue addOperation:opertation];
+    }
     if (request.alternativeUrls.count) {
         
     }
-    dispatch_async(self.imageLoadQueue, ^{
-        PPImageLoadRequest *request = [self.requests objectForKey:request.imageURL];
-        if (request == nil) {
-            
+//    dispatch_async(self.imageLoadQueue, ^{
+//        PPImageLoadRequest *request = [self.requests objectForKey:request.imageURL];
+//        if (request == nil) {
+//            
+//        }
+//    });
+}
+
+- (PPImageLoadOperation *)operationForURL:(NSString *)URL
+{
+    for (PPImageLoadOperation *operation in _loadQueue.operations) {
+        if ([operation.imageURL isEqualToString:URL]) {
+            return operation;
         }
-    });
+    }
+    return nil;
 }
 
 - (PPImageCache *)cache
@@ -128,4 +143,8 @@
     return self.cache;
 }
 
+- (void)imageLoadCompleted:(PPImageLoadOperation *)imageLoadOperation image:(UIImage *)image data:(NSData *)data error:(NSError *)error isCache:(BOOL)isCache
+{
+    NSLog(@"%@", image);
+}
 @end
