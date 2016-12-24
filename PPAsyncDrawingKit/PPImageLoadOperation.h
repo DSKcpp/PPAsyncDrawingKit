@@ -14,9 +14,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol PPImageLoadOperationDelegate <NSObject>
-
 - (NSString *)pathOfFileForOperation:(PPImageLoadOperation *)imageLoadOperation;
-- (NSString *)pathOfTemFileForOperation:(PPImageLoadOperation *)imageLoadOperation;
 - (void)imageLoadCompleted:(PPImageLoadOperation *)imageLoadOperation
                      image:(nullable UIImage *)image
                       data:(nullable NSData *)data
@@ -31,20 +29,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface PPImageLoadOperation : NSOperation
-@property(retain, nonatomic) NSOutputStream *outStream;
+@interface PPImageLoadOperation : NSOperation <NSURLConnectionDelegate, NSURLConnectionDataDelegate, NSURLConnectionDownloadDelegate>
 @property(nonatomic) long long loadedSize;
-@property(nonatomic) BOOL isPermenant;
 @property(nonatomic) float minNotifiProgressInterval;
 @property(readonly, nonatomic) float progress;
-@property(retain, nonatomic) NSDictionary *requestHttpHeaders;
+@property(nonatomic, strong) NSDictionary *requestHttpHeaders;
 @property(retain, nonatomic) NSDictionary *responseHttpHeaders;
 @property(nonatomic) long long expectedSize;
 //@property(nonatomic, assign, readonly, getter=isFinished) BOOL finished;
 //@property(nonatomic, assign, readonly, getter=isExecuting) BOOL executing;
-@property(retain, nonatomic) NSURLConnection *connection;
-@property(nonatomic, weak) id<PPImageLoadOperationDelegate> delegate;
-@property(readonly, copy, nonatomic) NSString *imageURL;
+@property (nonatomic, weak) id<PPImageLoadOperationDelegate> delegate;
+@property (nonatomic, copy, readonly) NSString *imageURL;
+@property (nullable, nonatomic, strong, readonly) NSURLSessionDownloadTask *downloadTask;
 
 + (instancetype)operationWithURL:(NSString *)URL;
 + (NSThread *)networkRequestThread;
@@ -54,18 +50,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)postLogWithImageSize:(long long)arg1 isSuccess:(BOOL)arg2 error:(id)arg3;
 - (struct __SecTrust *)changeHostForTrust:(struct __SecTrust *)arg1 hostName:(struct __CFString *)arg2;
-- (void)connection:(id)arg1 willSendRequestForAuthenticationChallenge:(id)arg2;
-- (id)connection:(id)arg1 willCacheResponse:(id)arg2;
-- (void)connection:(id)arg1 didFailWithError:(id)arg2;
-- (void)connectionDidFinishLoading:(id)arg1;
-- (void)connection:(id)arg1 didReceiveData:(id)arg2;
-- (void)connection:(id)arg1 didReceiveResponse:(id)arg2;
 - (id)finalImage:(BOOL *)arg1;
 - (id)progressImage:(BOOL)arg1;
 - (double)resizesImageWithMaxNumberOfPixels;
 - (BOOL)isConcurrent;
-- (void)setExecuting:(BOOL)arg1;
-- (void)setFinished:(BOOL)arg1;
 - (void)connectionDidStart;
 - (void)reloadConnection;
 @end

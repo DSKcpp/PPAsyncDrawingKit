@@ -17,9 +17,10 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void(^PPImageLoadCompleteBlock)(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error);
 typedef void(^PPImageLoadProgressBlock)(NSUInteger receivedSize, NSUInteger expectedSize, NSString * _Nullable targetURL);
 
-@interface PPWebImageManager : NSObject <PPImageLoadOperationDelegate>
+@interface PPWebImageManager : NSObject <PPImageLoadOperationDelegate, NSURLSessionDelegate>
 @property (nonatomic, class, strong, readonly) PPWebImageManager *sharedManager;
 @property (nonatomic, strong) dispatch_queue_t imageLoadQueue;
+
 - (nullable PPImageLoadRequest *)loadImage:(NSString *)imageURL
                                   complete:(PPImageLoadCompleteBlock)complete;
 
@@ -56,7 +57,6 @@ typedef void(^PPImageLoadProgressBlock)(NSUInteger receivedSize, NSUInteger expe
                                   complete:(PPImageLoadCompleteBlock)complete
                                 autoCancel:(BOOL)autoCancel
                                    options:(long long)options
-                               isPermenant:(BOOL)permenant
                                  cacheType:(PPImageCacheType)cacheType;
 
 - (nullable PPImageLoadRequest *)loadImage:(NSString *)imageURL
@@ -72,8 +72,7 @@ typedef void(^PPImageLoadProgressBlock)(NSUInteger receivedSize, NSUInteger expe
                                   progress:(nullable PPImageLoadProgressBlock)progress
                                   complete:(PPImageLoadCompleteBlock)complete
                                 autoCancel:(BOOL)autoCancel
-                                   options:(long long)options
-                               isPermenant:(BOOL)permenant;
+                                   options:(long long)options;
 
 - (nullable PPImageLoadRequest *)loadImage:(NSString *)imageURL
                                   delegate:(nullable id)delegate

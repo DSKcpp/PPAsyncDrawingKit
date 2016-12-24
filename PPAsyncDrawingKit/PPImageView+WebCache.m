@@ -7,10 +7,16 @@
 //
 
 #import "PPImageView+WebCache.h"
+#import "PPWebImageManager.h"
 
 @implementation PPImageView (WebCache)
 - (void)setImageURL:(NSString *)URL placeholderImage:(UIImage *)placeholderImage
 {
-    
+    [[PPWebImageManager sharedManager] loadImage:URL complete:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error) {
+        NSLog(@"%@", image);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.image = image;
+        });
+    }];
 }
 @end

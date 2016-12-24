@@ -30,7 +30,7 @@
 - (instancetype)init
 {
     if (self = [super init]) {
-        self.requests = @[].mutableCopy;
+        self.requests = @{}.mutableCopy;
         self.loadQueue = [[NSOperationQueue alloc] init];
         self.loadQueue.maxConcurrentOperationCount = 5;
         self.cache = [PPImageCache sharedCache];
@@ -116,6 +116,7 @@
         PPImageLoadOperation *opertation = [PPImageLoadOperation operationWithURL:request.imageURL];
         opertation.delegate = request.owner;
         [_loadQueue addOperation:opertation];
+        [self.requests setObject:request forKey:request.imageURL];
     }
     if (request.alternativeUrls.count) {
         
@@ -145,6 +146,9 @@
 
 - (void)imageLoadCompleted:(PPImageLoadOperation *)imageLoadOperation image:(UIImage *)image data:(NSData *)data error:(NSError *)error isCache:(BOOL)isCache
 {
-    NSLog(@"%@", image);
+    PPImageLoadRequest *request = [self.requests objectForKey:imageLoadOperation.imageURL];
+    if (request.completedBlock) {
+        request.completedBlock(image, data, error);
+    }
 }
 @end

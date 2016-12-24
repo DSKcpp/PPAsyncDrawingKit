@@ -26,10 +26,10 @@
     
     [[PPImageCache sharedCache] storeImage:[UIImage imageNamed:@"avatar"] data:nil forURL:@"https://dskcpp.github.io" toDisk:YES];
     UIImage *image = [[PPImageCache sharedCache] imageForURL:@"https://dskcpp.github.io"];
-    NSLog(@"%@", image);
+//    NSLog(@"%@", image);
     
-    [[PPWebImageManager sharedManager] loadImage:@"http://tva1.sinaimg.cn/crop.2.0.1121.1121.180/b8b73ba1jw8fanyj1io8qj20v90v5goo.jpg" complete:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error) {
-        
+    [[PPWebImageManager sharedManager] loadImage:@"http://ww2.sinaimg.cn/large/62cc3323gw1fb22c4thosj21jk0rs1kx.jpg" complete:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error) {
+        NSLog(@"%@", image);
     }];
 }
 
