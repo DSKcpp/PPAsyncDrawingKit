@@ -9,14 +9,20 @@
 #import "PPImageLoadOperation.h"
 #import "PPImageCache.h"
 #import "PPWebImageManager.h"
+#import "PPImage.h"
+#import "PPImageLoadRequest.h"
 
 @interface PPImageLoadOperation () <NSURLSessionDelegate, NSURLSessionDownloadDelegate>
 @property (nonatomic, assign) float lastNotifiedProgress;
 @property (nonatomic, assign) NSTimeInterval startTime;
 @property (nonatomic, strong) NSURLSession *session;
+@property (nonatomic, strong) UIImage *resultImage;
+@property (nonatomic, strong) NSData *resultData;
 @end
 
 @implementation PPImageLoadOperation
+@synthesize finished = _finished;
+@synthesize executing = _executing;
 
 + (NSThread *)networkRequestThread
 {
@@ -70,18 +76,18 @@
 {
     self.lastNotifiedProgress = 0;
     if (self.cancelled) {
-//        self.finished = YES;
+        self.finished = YES;
         NSError *error = [NSError errorWithDomain:@"PPImageRequestErrorDomainCanceled" code:1001 userInfo:nil];
         [self.delegate imageLoadCompleted:self image:nil data:nil error:error isCache:NO];
     } else {
-//        self.executing = YES;
+        self.executing = YES;
         UIImage *image = [[PPImageCache sharedCache] imageForURL:_imageURL];
         if (!image && [_imageURL hasPrefix:@"/"]) {
             image = [UIImage imageWithContentsOfFile:_imageURL];
         }
         if (image) {
             dispatch_async(dispatch_get_main_queue(), ^{
-//                self.finished = YES;
+                self.finished = YES;
                 _progress = 1.0f;
                 if ([self.delegate respondsToSelector:@selector(imageLoadOperation:didReceivedSize:expectedSize:)]) {
                     [self.delegate imageLoadOperation:self didReceivedSize:0 expectedSize:0];
@@ -98,42 +104,44 @@
 {
     if (!self.finished) {
         [super cancel];
-//        _downloadTask 
-//        if (connection) {
-//            [connection cancel];
-////            self.finished = YES;
-//        }
     }
+}
+
+- (BOOL)isFinished
+{
+    return _finished;
+}
+
+- (void)setFinished:(BOOL)finished
+{
+    [self willChangeValueForKey:@"isFinished"];
+    _finished = finished;
+    [self setExecuting:NO];
+    [self cancel];
+    [self didChangeValueForKey:@"isFinished"];
+}
+
+- (BOOL)isExecuting
+{
+    return _executing;
+}
+
+- (void)setExecuting:(BOOL)executing
+{
+    [self willChangeValueForKey:@"isExecuting"];
+    _executing = executing;
+    [self didChangeValueForKey:@"isExecuting"];
 }
 
 - (void)reloadConnection
 {
-//    [self.connection cancel];
-//    self.connection = nil;
-//    if (!self.connection) {
-//        self.loadedSize = 0;
-//    }
-//    if (!self.connection) {
-//        NSURL *URL = [NSURL URLWithString:_imageURL];
-//        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:URL cachePolicy:0 timeoutInterval:60];
-//        self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
-//    }
-//    if (self.connection) {
-//        NSThread *requestThread = [[self class] networkRequestThread];
-//        [self performSelector:@selector(connectionDidStart)
-//                     onThread:requestThread
-//                   withObject:nil
-//                waitUntilDone:NO
-//                        modes:@[NSRunLoopCommonModes]];
-//    }
     _downloadTask = [_session downloadTaskWithURL:[NSURL URLWithString:_imageURL]];
-    NSThread *requestThread = [[self class] networkRequestThread];
+    NSThread *requestThread = [PPImageLoadOperation networkRequestThread];
     [self performSelector:@selector(connectionDidStart)
                  onThread:requestThread
                withObject:nil
             waitUntilDone:NO
                     modes:@[NSRunLoopCommonModes]];
-    [_downloadTask resume];
 }
 
 - (void)connectionDidStart
@@ -143,28 +151,26 @@
             _startTime = [[NSDate date] timeIntervalSince1970];
             [_downloadTask resume];
         }
-//        if (self.connection) {
-//            self.startTime = [[NSDate date] timeIntervalSince1970];
-//            [self.connection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-//            [self.connection start];
-//        }
     }
 }
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
 {
-    
+    if (error) {
+        NSLog(@"%@", error);
+    }
+    if ([_delegate respondsToSelector:@selector(imageLoadCompleted:image:data:error:isCache:)]) {
+        [_delegate imageLoadCompleted:self image:_resultImage data:_resultData error:error isCache:NO];
+        self.finished = YES;
+    }
 }
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
 {
     NSString *file = [[PPImageCache sharedCache].cachePath stringByAppendingPathComponent:downloadTask.response.suggestedFilename];
     [[NSFileManager defaultManager] moveItemAtURL:location toURL:[NSURL fileURLWithPath:file] error:nil];
-    NSData *data = [NSData dataWithContentsOfFile:file];
-    UIImage *image = [UIImage imageWithData:data];
-    if ([_delegate respondsToSelector:@selector(imageLoadCompleted:image:data:error:isCache:)]) {
-        [_delegate imageLoadCompleted:self image:image data:data error:nil isCache:NO];
-    }
+    _resultData = [NSData dataWithContentsOfFile:file];
+    _resultImage = [PPImage imageWithData:_resultData];
 }
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
@@ -179,4 +185,8 @@
     
 }
 
+- (void)dealloc
+{
+    
+}
 @end

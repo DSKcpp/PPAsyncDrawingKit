@@ -11,9 +11,9 @@
 #import "PPImageCache.h"
 
 @interface PPWebImageManager ()
-@property (nonatomic, strong) NSMutableDictionary<NSString *, PPImageLoadRequest *> *requests;
 @property (nonatomic, strong) NSOperationQueue *loadQueue;
 @property (nonatomic, strong) PPImageCache *cache;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, PPImageLoadRequest *> *requests;
 @end
 
 @implementation PPWebImageManager
@@ -65,7 +65,7 @@
 
 - (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id)delegate progress:(PPImageLoadProgressBlock)progress complete:(nonnull PPImageLoadCompleteBlock)complete autoCancel:(BOOL)autoCancel cacheType:(PPImageCacheType)cacheType
 {
-    return [self loadImage:imageURL delegate:delegate alternativeUrls:nil progress:progress complete:complete autoCancel:autoCancel cacheType:cacheType];
+    return [self loadImage:imageURL delegate:delegate progress:progress complete:complete autoCancel:autoCancel cacheType:cacheType];
 }
 
 - (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id)delegate alternativeUrls:(id)alternativeUrls progress:(PPImageLoadProgressBlock)progress complete:(nonnull PPImageLoadCompleteBlock)complete autoCancel:(BOOL)autoCancel
@@ -94,7 +94,6 @@
         PPImageLoadRequest *request = [[PPImageLoadRequest alloc] initWithURL:imageURL];
         request.completedBlock = complete;
         request.progressBlock = progress;
-        request.alternativeUrls = alternativeUrls;
         request.owner = delegate;
         request.cancelForOwnerDealloc = autoCancel;
         request.options = options;
@@ -108,25 +107,26 @@
 
 - (void)addRequest:(PPImageLoadRequest *)request
 {
-//    PPImageLoadRequest *r = [self.requests objectForKey:request.imageURL];
-    PPImageLoadOperation *o = [self operationForURL:request.imageURL];
-    if (o) {
-        
+    UIImage *image = [_cache imageForURL:request.imageURL isPermanent:NO taskKey:request.imageURL];
+    if (image) {
+        request.image = image;
+        request.progress = 1.0f;
+        [request requestDidFinish];
     } else {
-        PPImageLoadOperation *opertation = [PPImageLoadOperation operationWithURL:request.imageURL];
-        opertation.delegate = request.owner;
-        [_loadQueue addOperation:opertation];
-        [self.requests setObject:request forKey:request.imageURL];
+        PPImageLoadRequest *r = [self.requests objectForKey:request.imageURL];
+        if (!r) {
+            [self.requests setObject:request forKey:request.imageURL];
+        }
+        PPImageLoadOperation *o = [self operationForURL:request.imageURL];
+        if (o) {
+            NSLog(@"%@", o);
+        } else {
+            PPImageLoadOperation *opertation = [PPImageLoadOperation operationWithURL:request.imageURL];
+            opertation.minNotifiProgressInterval = 1;
+            opertation.delegate = request.owner;
+            [_loadQueue addOperation:opertation];
+        }
     }
-    if (request.alternativeUrls.count) {
-        
-    }
-//    dispatch_async(self.imageLoadQueue, ^{
-//        PPImageLoadRequest *request = [self.requests objectForKey:request.imageURL];
-//        if (request == nil) {
-//            
-//        }
-//    });
 }
 
 - (PPImageLoadOperation *)operationForURL:(NSString *)URL
@@ -146,9 +146,21 @@
 
 - (void)imageLoadCompleted:(PPImageLoadOperation *)imageLoadOperation image:(UIImage *)image data:(NSData *)data error:(NSError *)error isCache:(BOOL)isCache
 {
-    PPImageLoadRequest *request = [self.requests objectForKey:imageLoadOperation.imageURL];
-    if (request.completedBlock) {
-        request.completedBlock(image, data, error);
+    if (image && !isCache) {
+        [_cache storeImage:image data:data forURL:imageLoadOperation.imageURL toDisk:YES];
     }
+    if (!error) {
+        
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        PPImageLoadRequest *request = [self.requests objectForKey:imageLoadOperation.imageURL];
+        if (request.imageURL.length) {
+            [_requests removeObjectForKey:request.imageURL];
+        }
+        request.image = image;
+        request.data = data;
+        request.error = error;
+        [request requestDidFinish];
+    });
 }
 @end

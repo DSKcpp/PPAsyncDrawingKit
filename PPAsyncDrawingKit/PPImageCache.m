@@ -125,9 +125,10 @@ static NSString *_PPNSStringMD5(NSString *string) {
 
     BOOL cache = [self imageCachedForURL:URL];
     if (cache) {
-        UIImage *image = [_cache objectForKey:[self keyWithURL:URL]];
+        NSString *key = [self keyWithURL:URL];
+        UIImage *image = [_cache objectForKey:key];
         if (!image) {
-            image = [UIImage imageWithContentsOfFile:[_cachePath stringByAppendingPathComponent:[self keyWithURL:URL]]];
+            image = [UIImage imageWithContentsOfFile:[_cachePath stringByAppendingPathComponent:key]];
         }
         return image;
     }
