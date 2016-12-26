@@ -18,7 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PPImageCache : NSObject
 @property (nonatomic, class, strong, readonly) PPImageCache *sharedCache;
-@property (nonatomic, strong) NSRecursiveLock *readingTaskLock;
 @property (nonatomic, strong) NSMutableArray *currentReadingTaskKeys;
 @property (nonatomic, assign) NSUInteger maxMemorySize;
 @property (nonatomic, assign) NSUInteger maxCacheSize;
@@ -56,14 +55,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (id)tempPathForImageURL:(id)arg1;
 - (id)tempForlderPath;
 - (long long)checkAllFolderSize;
-- (id)getCachePathsWithType:(long long)arg1 withTemp:(BOOL)arg2;
-- (void)cleanDiskForce;
-- (void)removeDiskCachesAuto:(long long)arg1;
-- (void)cleanDiskCache:(BOOL)arg1;
-- (void)clearDisk;
+- (void)cleanDiskCache;
 - (void)cleanMemoryCache;
-- (void)receiveMemoryWarning:(NSNotification *)notification;
-- (void)checkAndAutoClean;
 @end
 
 NS_ASSUME_NONNULL_END

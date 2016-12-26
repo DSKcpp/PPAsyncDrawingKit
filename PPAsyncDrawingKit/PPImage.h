@@ -13,6 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PPImage : UIImage
 @property (nonatomic, assign ,readonly) BOOL isWebP;
++ (nullable UIImage *)animatedGIFWithData:(nullable NSData *)data;
+
+- (BOOL)isGIF;
 @end
 
 NS_ASSUME_NONNULL_END

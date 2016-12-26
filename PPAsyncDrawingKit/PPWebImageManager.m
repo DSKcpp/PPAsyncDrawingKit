@@ -121,10 +121,10 @@
         if (o) {
             NSLog(@"%@", o);
         } else {
-            PPImageLoadOperation *opertation = [PPImageLoadOperation operationWithURL:request.imageURL];
-            opertation.minNotifiProgressInterval = 1;
-            opertation.delegate = request.owner;
-            [_loadQueue addOperation:opertation];
+            PPImageLoadOperation *operation = [PPImageLoadOperation operationWithURL:request.imageURL];
+            operation.minNotifiProgressInterval = 1;
+            operation.delegate = request.owner;
+            [_loadQueue addOperation:operation];
         }
     }
 }

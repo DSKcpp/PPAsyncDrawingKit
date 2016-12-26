@@ -29,6 +29,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
 @interface PPImageCache ()
 @property (nonatomic, strong) NSCache *cache;
 @property (nonatomic, strong) dispatch_queue_t ioQueue;
+@property (nonatomic, strong) NSRecursiveLock *readingTaskLock;
 @property (nonatomic, strong) NSDate *createDate;
 @property (nonatomic, strong) NSMutableDictionary *memoryMutableDict;
 @property (nonatomic, strong) NSArray *resourceKeys;
@@ -49,24 +50,23 @@ static NSString *_PPNSStringMD5(NSString *string) {
 {
     if (self = [super init]) {
         NSString *name = @"io.github.dskcpp.PPAsyncDrawingKit.imageCache";
-        self.cache = [[NSCache alloc] init];
-        self.cache.name = name;
-        self.maxCacheAge = kPPImageCacheMaxAge;
-        self.maxMemorySize = kPPImageCacheMaxMemorySize;
-        self.createDate = [NSDate date];
-        self.memoryMutableDict = [NSMutableDictionary dictionaryWithCapacity:2];
+        _cache = [[NSCache alloc] init];
+        _cache.name = name;
+        _maxCacheAge = kPPImageCacheMaxAge;
+        _maxMemorySize = kPPImageCacheMaxMemorySize;
+        _createDate = [NSDate date];
+        _memoryMutableDict = [NSMutableDictionary dictionaryWithCapacity:2];
         _cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"ImageCache"];
         NSFileManager *fileManager = [NSFileManager defaultManager];
         if ([fileManager fileExistsAtPath:_cachePath]) {
             [fileManager createDirectoryAtPath:_cachePath withIntermediateDirectories:YES attributes:nil error:nil];
         }
-        self.ioQueue = dispatch_queue_create("io.github.dskcpp.PPAsyncDrawingKit.imageCache.ioQueue", nil);
-        self.readingTaskLock = [[NSRecursiveLock alloc] init];
-        self.currentReadingTaskKeys = [NSMutableArray array];
-        self.resourceKeys = @[NSURLIsDirectoryKey, NSURLContentModificationDateKey, NSURLFileAllocatedSizeKey];
+        _ioQueue = dispatch_queue_create("io.github.dskcpp.PPAsyncDrawingKit.imageCache.ioQueue", DISPATCH_QUEUE_SERIAL);
+        _readingTaskLock = [[NSRecursiveLock alloc] init];
+        _currentReadingTaskKeys = [NSMutableArray array];
+        _resourceKeys = @[NSURLIsDirectoryKey, NSURLContentModificationDateKey, NSURLFileAllocatedSizeKey];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveMemoryWarning:) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkAndAutoClean) name:UIApplicationWillEnterForegroundNotification object:nil];
-        [self checkAndAutoClean];
     }
     return self;
 }
@@ -82,12 +82,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
 
 - (void)receiveMemoryWarning:(NSNotification *)notification
 {
-    
-}
-
-- (void)checkAndAutoClean
-{
-    
+    [self cleanMemoryCache];
 }
 
 - (NSString *)keyWithURL:(NSString *)URL
@@ -201,13 +196,29 @@ static NSString *_PPNSStringMD5(NSString *string) {
 
 - (NSUInteger)cacheSize
 {
-    NSDirectoryEnumerator<NSString *> *files = [[NSFileManager defaultManager] enumeratorAtPath:_cachePath];
-    NSUInteger totalCacheSize = 0;
-    for (NSString *file in files) {
-        NSDictionary<NSFileAttributeKey, id> * attr = [[NSFileManager defaultManager] attributesOfItemAtPath:file error:nil];
-        totalCacheSize += [attr[@"fileSize"] integerValue];
-    }
+    __block NSUInteger totalCacheSize = 0;
+    dispatch_sync(_ioQueue, ^{
+        NSDirectoryEnumerator<NSString *> *files = [[NSFileManager defaultManager] enumeratorAtPath:_cachePath];
+        for (NSString *fileName in files) {
+            NSString *filePath = [_cachePath stringByAppendingPathComponent:fileName];
+            NSDictionary<NSFileAttributeKey, id> * attr = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil];
+            totalCacheSize += [attr fileSize];
+        }
+    });
     return totalCacheSize;
 }
 
+- (void)cleanDiskCache
+{
+    dispatch_async(_ioQueue, ^{
+        NSFileManager *fileManager = [[NSFileManager alloc] init];
+        [fileManager removeItemAtPath:_cachePath error:nil];
+        [fileManager createDirectoryAtPath:_cachePath withIntermediateDirectories:YES attributes:nil error:nil];
+    });
+}
+
+- (void)cleanMemoryCache
+{
+    [_cache removeAllObjects];
+}
 @end

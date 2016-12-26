@@ -55,16 +55,9 @@
 {
     if (self = [super init]) {
         _imageURL = URL;
-        NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
-        _session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:[[NSOperationQueue alloc] init]];
         self.minNotifiProgressInterval = 0.05f;
     }
     return self;
-}
-
-- (void)main
-{
-    
 }
 
 - (NSString *)description
@@ -80,31 +73,53 @@
         NSError *error = [NSError errorWithDomain:@"PPImageRequestErrorDomainCanceled" code:1001 userInfo:nil];
         [self.delegate imageLoadCompleted:self image:nil data:nil error:error isCache:NO];
     } else {
+        NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+        sessionConfig.timeoutIntervalForRequest = 15;
+        _session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
         self.executing = YES;
-        UIImage *image = [[PPImageCache sharedCache] imageForURL:_imageURL];
-        if (!image && [_imageURL hasPrefix:@"/"]) {
-            image = [UIImage imageWithContentsOfFile:_imageURL];
-        }
-        if (image) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                self.finished = YES;
-                _progress = 1.0f;
-                if ([self.delegate respondsToSelector:@selector(imageLoadOperation:didReceivedSize:expectedSize:)]) {
-                    [self.delegate imageLoadOperation:self didReceivedSize:0 expectedSize:0];
-                }
-                [self.delegate imageLoadCompleted:self image:image data:nil error:nil isCache:YES];
-            });
-        } else {
-            [self reloadConnection];
-        }
+        [self reloadConnection];
     }
+    
+//        UIImage *image = [[PPImageCache sharedCache] imageForURL:_imageURL];
+//        if (!image && [_imageURL hasPrefix:@"/"]) {
+//            image = [UIImage imageWithContentsOfFile:_imageURL];
+//        }
+//        if (image) {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                self.finished = YES;
+//                [self cancel];
+//                _progress = 1.0f;
+//                if ([self.delegate respondsToSelector:@selector(imageLoadOperation:didReceivedSize:expectedSize:)]) {
+//                    [self.delegate imageLoadOperation:self didReceivedSize:0 expectedSize:0];
+//                }
+//                [self.delegate imageLoadCompleted:self image:image data:nil error:nil isCache:YES];
+//            });
+//        } else {
+//            [self reloadConnection];
+//        }
+//    }
 }
 
 - (void)cancel
 {
     if (!self.finished) {
         [super cancel];
+        if (_downloadTask) {
+            [_downloadTask cancel];
+        }
+        if (_executing) {
+            self.executing = NO;
+        }
+        if (!_finished) {
+            self.finished = YES;
+        }
     }
+    [self reset];
+}
+
+- (void)reset
+{
+    [_session invalidateAndCancel];
 }
 
 - (BOOL)isFinished
@@ -116,8 +131,6 @@
 {
     [self willChangeValueForKey:@"isFinished"];
     _finished = finished;
-    [self setExecuting:NO];
-    [self cancel];
     [self didChangeValueForKey:@"isFinished"];
 }
 
@@ -162,6 +175,8 @@
     if ([_delegate respondsToSelector:@selector(imageLoadCompleted:image:data:error:isCache:)]) {
         [_delegate imageLoadCompleted:self image:_resultImage data:_resultData error:error isCache:NO];
         self.finished = YES;
+        self.executing = NO;
+        [self reset];
     }
 }
 
