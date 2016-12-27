@@ -47,13 +47,15 @@
 - (void)updateLayoutSize
 {
     if (self.lineFragments.count) {
-        __block CGFloat height = 0.0f;
-        __block CGFloat width = 0.0f;
+        __block CGRect rect = CGRectZero;
         [self.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
-            height = MAX(height, CGRectGetMaxY(line.fragmentRect));
-            width = MAX(width, line.fragmentRect.size.width);
+            if (idx == 0) {
+                rect = line.fragmentRect;
+            } else {
+                rect = CGRectUnion(rect, line.fragmentRect);
+            }
         }];
-        self.layoutSize = CGSizeMake(width, height);
+        self.layoutSize = rect.size;
     }
 }
 

@@ -33,8 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable UIImage *)imageForURL:(NSString *)URL;
 - (nullable UIImage *)imageForURL:(NSString *)URL taskKey:(nullable NSString *)taskKey;
-- (nullable UIImage *)imageForURL:(NSString *)URL isPermanent:(BOOL)permanent;
-- (nullable UIImage *)imageForURL:(NSString *)URL isPermanent:(BOOL)permanent taskKey:(nullable NSString *)taskKey;
 
 - (void)storeImage:(UIImage *)image forURL:(NSString *)URL;
 - (void)storeImage:(nullable UIImage *)image data:(nullable NSData *)data forURL:(NSString *)URL toDisk:(BOOL)toDisk;

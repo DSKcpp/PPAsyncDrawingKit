@@ -179,6 +179,13 @@ static char highlightRangesKey;
         [self removeAttribute:name range:range];
     }
 }
+
+- (void)pp_setKerning:(CGFloat)kerning inRange:(NSRange)range
+{
+    CFNumberRef number = CFNumberCreate(kCFAllocatorDefault,kCFNumberCGFloatType,&kerning);
+    [self setAttribute:(id)kCTKernAttributeName value:(__bridge id _Nullable)(number) range:range];
+}
+
 - (void)pp_setColor:(UIColor *)color
 {
     [self pp_setColor:color inRange:[self pp_stringRange]];

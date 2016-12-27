@@ -107,7 +107,7 @@
 
 - (void)addRequest:(PPImageLoadRequest *)request
 {
-    UIImage *image = [_cache imageForURL:request.imageURL isPermanent:NO taskKey:request.imageURL];
+    UIImage *image = [_cache imageForURL:request.imageURL taskKey:request.imageURL];
     if (image) {
         request.image = image;
         request.progress = 1.0f;
@@ -119,7 +119,12 @@
         }
         PPImageLoadOperation *o = [self operationForURL:request.imageURL];
         if (o) {
-            NSLog(@"%@", o);
+            o.completionBlock = ^(void) {
+                UIImage *image = [_cache imageForURL:request.imageURL taskKey:request.imageURL];
+                request.image = image;
+                request.progress = 1.0f;
+                [request requestDidFinish];
+            };
         } else {
             PPImageLoadOperation *operation = [PPImageLoadOperation operationWithURL:request.imageURL];
             operation.minNotifiProgressInterval = 1;

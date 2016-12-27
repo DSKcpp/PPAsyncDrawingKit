@@ -171,7 +171,6 @@ static inline CGRect YYEmojiGetGlyphBoundingRectWithFontSize(CGFloat fontSize) {
             clipLength += range.length - emoticonAttrString.length;
         }
     }
-
     return YES;
 }
 

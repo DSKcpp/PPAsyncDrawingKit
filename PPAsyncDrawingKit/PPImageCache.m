@@ -66,7 +66,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
         _currentReadingTaskKeys = [NSMutableArray array];
         _resourceKeys = @[NSURLIsDirectoryKey, NSURLContentModificationDateKey, NSURLFileAllocatedSizeKey];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveMemoryWarning:) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkAndAutoClean) name:UIApplicationWillEnterForegroundNotification object:nil];
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkAndAutoClean) name:UIApplicationWillEnterForegroundNotification object:nil];
     }
     return self;
 }
@@ -95,20 +95,10 @@ static NSString *_PPNSStringMD5(NSString *string) {
 
 - (UIImage *)imageForURL:(NSString *)URL
 {
-    return [self imageForURL:URL isPermanent:NO];
+    return [self imageForURL:URL taskKey:nil];
 }
 
 - (UIImage *)imageForURL:(NSString *)URL taskKey:(NSString *)taskKey
-{
-    return [self imageForURL:URL isPermanent:NO taskKey:taskKey];
-}
-
-- (UIImage *)imageForURL:(NSString *)URL isPermanent:(BOOL)permanent
-{
-    return [self imageForURL:URL isPermanent:permanent taskKey:nil];
-}
-
-- (UIImage *)imageForURL:(NSString *)URL isPermanent:(BOOL)permanent taskKey:(NSString *)taskKey
 {
     [self.readingTaskLock lock];
     BOOL taskConstains = [self.currentReadingTaskKeys containsObject:taskKey];
