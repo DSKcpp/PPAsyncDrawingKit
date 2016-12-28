@@ -192,7 +192,7 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
             point = [touch locationInView:touchView];
         }
         point = [self convertPointToLayout:point];
-        PPTextHighlightRange *range = [self rangeInRanges:[self eventDelegateActiveRanges] forLayoutLocation:point];
+        PPTextHighlightRange *range = [self rangeInRanges:nil forLayoutLocation:point];
         if (range) {
             self.pressingHighlightRange = range;
             [touchView setNeedsDisplay];
@@ -306,14 +306,6 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
     return nil;
 }
 
-- (NSArray *)eventDelegateActiveRanges
-{
-    if (_eventDelegateHas.highlightRangesForTextRenderer) {
-        return [_eventDelegate highlightRangesForTextRenderer:self];
-    }
-    return nil;
-}
-
 - (void)eventDelegateDidPressHighlightRange:(PPTextHighlightRange *)highlightRange
 {
     if (_eventDelegateHas.didPressHighlightRange) {
@@ -324,26 +316,26 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 - (PPTextHighlightRange *)rangeInRanges:(NSArray<PPTextHighlightRange *> *)ranges forLayoutLocation:(CGPoint)location
 {
     __block PPTextHighlightRange *r;
-    for (PPTextHighlightRange *range in ranges) {
-        if ([_eventDelegate textRenderer:self shouldInteractWithHighlightRange:range]) {
-            [self.textLayout enumerateEnclosingRectsForCharacterRange:range.range usingBlock:^(CGRect rect, BOOL *stop) {
+    __weak typeof(self) weakSelf = self;
+    [self.attributedString enumerateAttribute:PPTextHighlightRangeAttributeName inRange:[self.attributedString pp_stringRange] options:kNilOptions usingBlock:^(id  _Nullable value, NSRange range, BOOL * _Nonnull stop) {
+        if (value) {
+            [weakSelf.textLayout enumerateEnclosingRectsForCharacterRange:range usingBlock:^(CGRect rect, BOOL * _Nonnull sstop) {
                 if (CGRectContainsPoint(rect, location)) {
-                    r = range;
+                    r = value;
+                    r.range = range;
+                    *sstop = YES;
                     *stop = YES;
                 }
             }];
-            if (r) {
-                return r;
-            }
         }
-    }
-    return nil;
+    }];
+    return r;
 }
 
 @end
 
 @implementation PPTextRenderer (Debug)
-static BOOL textRendererDebugModeEnabled = YES;
+static BOOL textRendererDebugModeEnabled = NO;
 + (BOOL)debugModeEnabled
 {
     return textRendererDebugModeEnabled;

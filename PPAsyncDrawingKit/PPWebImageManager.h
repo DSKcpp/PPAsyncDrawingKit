@@ -30,24 +30,24 @@ typedef void(^PPImageLoadProgressBlock)(NSUInteger receivedSize, NSUInteger expe
 
 
 - (nullable PPImageLoadRequest *)loadImage:(NSString *)imageURL
-                                  delegate:(nullable id)delegate
+                                  delegate:(nullable id<PPImageLoadOperationDelegate>)delegate
                                   progress:(nullable PPImageLoadProgressBlock)progress
                                   complete:(PPImageLoadCompleteBlock)complete;
 
 - (nullable PPImageLoadRequest *)loadImage:(NSString *)imageURL
-                                  delegate:(nullable id)delegate
+                                  delegate:(nullable id<PPImageLoadOperationDelegate>)delegate
                                   progress:(nullable PPImageLoadProgressBlock)progress
                                   complete:(PPImageLoadCompleteBlock)complete
                                 autoCancel:(BOOL)autoCancel;
 
 - (nullable PPImageLoadRequest *)loadImage:(NSString *)imageURL
-                                  delegate:(nullable id)delegate
+                                  delegate:(nullable id<PPImageLoadOperationDelegate>)delegate
                                   progress:(nullable PPImageLoadProgressBlock)progress
                                   complete:(PPImageLoadCompleteBlock)complete
                                  cacheType:(PPImageCacheType)cacheType;
 
 - (nullable PPImageLoadRequest *)loadImage:(NSString *)imageURL
-                                  delegate:(nullable id)delegate
+                                  delegate:(nullable id<PPImageLoadOperationDelegate>)delegate
                                   progress:(nullable PPImageLoadProgressBlock)progress
                                   complete:(PPImageLoadCompleteBlock)complete
                                 autoCancel:(BOOL)autoCancel
@@ -55,21 +55,21 @@ typedef void(^PPImageLoadProgressBlock)(NSUInteger receivedSize, NSUInteger expe
                                  cacheType:(PPImageCacheType)cacheType;
 
 - (nullable PPImageLoadRequest *)loadImage:(NSString *)imageURL
-                                  delegate:(nullable id)delegate
+                                  delegate:(nullable id<PPImageLoadOperationDelegate>)delegate
                                   progress:(nullable PPImageLoadProgressBlock)progress
                                   complete:(PPImageLoadCompleteBlock)complete
                                 autoCancel:(BOOL)autoCancel
                                    options:(long long)options;
 
 - (nullable PPImageLoadRequest *)loadImage:(NSString *)imageURL
-                                  delegate:(nullable id)delegate
+                                  delegate:(nullable id<PPImageLoadOperationDelegate>)delegate
                                   progress:(PPImageLoadProgressBlock)progress
                                   complete:(PPImageLoadCompleteBlock)complete
                                 autoCancel:(BOOL)autoCancel
                                  cacheType:(PPImageCacheType)cacheType;
 
-
 - (nullable PPImageLoadOperation *)operationForURL:(NSString *)URL;
+
 - (void)cancelRequestForDelegate:(id)arg1;
 - (void)cancelRequestForUrl:(id)arg1;
 - (void)cancelRequest:(id)arg1;

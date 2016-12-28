@@ -40,7 +40,6 @@
             if (quotedItemText.length > 0) {
                 _quotedAttributedText = [[NSMutableAttributedString alloc] initWithString:quotedItemText];
                 [_quotedAttributedText pp_setFont:[UIFont systemFontOfSize:15.0f]];
-                [_quotedAttributedText pp_setTextParagraphStyle:[PPTextParagraphStyle defaultParagraphStyle]];
                 [_quotedAttributedText pp_setColor:[UIColor colorWithRed:0.388235 green:0.388235 blue:0.388235 alpha:1.0f]];
                 paragraphStyle.fontSize = 15.0f;
                 [_quotedAttributedText pp_setTextParagraphStyle:paragraphStyle];
@@ -51,15 +50,11 @@
             NSString *title = timelineItem.title.text;
             _titleAttributedText = [[NSMutableAttributedString alloc] initWithString:title];
             [_titleAttributedText pp_setFont:[UIFont systemFontOfSize:16.0f]];
-            [_titleAttributedText pp_setTextParagraphStyle:[PPTextParagraphStyle defaultParagraphStyle]];
             [_titleAttributedText pp_setColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0f]];
             paragraphStyle.fontSize = 16.0f;
             [_titleAttributedText pp_setTextParagraphStyle:paragraphStyle];
         }
-        _metaInfoAttributedText = [[NSMutableAttributedString alloc] initWithString:[self source]];
-        [_metaInfoAttributedText pp_setFont:[UIFont systemFontOfSize:12.0f]];
-        [_metaInfoAttributedText pp_setTextParagraphStyle:[PPTextParagraphStyle defaultParagraphStyle]];
-        [_metaInfoAttributedText pp_setColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0f]];
+        _metaInfoAttributedText = [self source];
         paragraphStyle.fontSize = 12.0f;
         [_metaInfoAttributedText pp_setTextParagraphStyle:paragraphStyle];
         [parser parserWithAttributedString:_metaInfoAttributedText];
@@ -67,15 +62,18 @@
     return self;
 }
 
-- (NSString *)source
+- (NSMutableAttributedString *)source
 {
     NSString *createTime = [self stringWithTimelineDate:_timelineItem.created_at];
     NSMutableString *sourceText = [NSMutableString string];
-    // 时间
+    
     if (createTime.length) {
         [sourceText appendFormat:@"%@", createTime];
         [sourceText appendString:@"  "];
     }
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:sourceText];
+    [attrString pp_setFont:[UIFont systemFontOfSize:12.0f]];
+    [attrString pp_setColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0f]];
     
     if (_timelineItem.source.length) {
         NSString *source = _timelineItem.source;
@@ -95,17 +93,17 @@
             text = [_timelineItem.source substringWithRange:textResult.range];
         }
         if (href.length && text.length) {
-            [sourceText appendFormat:@"来自%@", text];
-            return sourceText;
-//            NSMutableAttributedString *from = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"来自 %@", text]];
-//            from.font = [UIFont systemFontOfSize:kWBCellSourceFontSize];
-//            from.color = kWBCellTimeNormalColor;
-//            if (_status.sourceAllowClick > 0) {
-//                NSRange range = NSMakeRange(3, text.length);
-//                [from setColor:kWBCellTextHighlightColor range:range];
+            NSMutableAttributedString *from = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"来自%@", text]];
+            [from pp_setFont:[UIFont systemFontOfSize:12.0f]];
+            [from pp_setColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0f]];
+            if (_timelineItem.source_allowclick > 0) {
+                NSRange range = NSMakeRange(2, text.length);
+                PPTextHighlightRange *high = [[PPTextHighlightRange alloc] init];
+                [from pp_setTextHighlightRange:high inRange:range];
+                [from pp_setColor:[UIColor colorWithRed:80/255.0f green:125/255.0f blue:174/255.0f alpha:1.0f] inRange:range];
+//                attrString pp_setTextHighlightRange:high inRange:<#(NSRange)#>
 //                YYTextBackedString *backed = [YYTextBackedString stringWithString:href];
 //                [from setTextBackedString:backed range:range];
-//                
 //                YYTextBorder *border = [YYTextBorder new];
 //                border.insets = UIEdgeInsetsMake(-2, 0, -2, 0);
 //                border.fillColor = kWBCellTextHighlightBackgroundColor;
@@ -114,11 +112,11 @@
 //                if (href) highlight.userInfo = @{kWBLinkHrefName : href};
 //                [highlight setBackgroundBorder:border];
 //                [from setTextHighlight:highlight range:range];
-//            }
-            
+            }
+            [attrString appendAttributedString:from];
         }
     }
-    return @"";
+    return attrString;
 }
 
 - (NSString *)stringWithTimelineDate:(NSDate *)date {

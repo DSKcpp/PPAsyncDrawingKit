@@ -38,57 +38,42 @@
     return self;
 }
 
-- (PPImageLoadRequest *)loadImage:(NSString *)imageURL complete:(nonnull PPImageLoadCompleteBlock)complete
+- (PPImageLoadRequest *)loadImage:(NSString *)imageURL complete:(PPImageLoadCompleteBlock)complete
 {
-    return [self loadImage:imageURL progress:nil complete:complete];
+    return [self loadImage:imageURL delegate:self progress:nil complete:complete autoCancel:YES options:0 cacheType:PPImageCacheTypeAll];
 }
 
-- (PPImageLoadRequest *)loadImage:(NSString *)imageURL progress:(PPImageLoadProgressBlock)progress complete:(nonnull PPImageLoadCompleteBlock)complete
+- (PPImageLoadRequest *)loadImage:(NSString *)imageURL progress:(PPImageLoadProgressBlock)progress complete:(PPImageLoadCompleteBlock)complete
 {
-    return [self loadImage:imageURL delegate:self progress:progress complete:complete];
+    return [self loadImage:imageURL delegate:self progress:progress complete:complete autoCancel:YES options:0 cacheType:PPImageCacheTypeAll];
 }
 
-- (PPImageLoadRequest *)loadImage:(NSString *)imageURL progress:(PPImageLoadProgressBlock)progress complete:(nonnull PPImageLoadCompleteBlock)complete isPermenant:(BOOL)permenant
+- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id<PPImageLoadOperationDelegate>)delegate progress:(PPImageLoadProgressBlock)progress complete:(PPImageLoadCompleteBlock)complete
 {
-    return [self loadImage:imageURL delegate:self alternativeUrls:nil progress:progress complete:complete autoCancel:YES options:0 isPermenant:permenant];
+    return [self loadImage:imageURL delegate:delegate progress:progress complete:complete autoCancel:YES options:0 cacheType:PPImageCacheTypeAll];
 }
 
-- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id)delegate progress:(PPImageLoadProgressBlock)progress complete:(nonnull PPImageLoadCompleteBlock)complete
+- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id<PPImageLoadOperationDelegate>)delegate progress:(PPImageLoadProgressBlock)progress complete:(PPImageLoadCompleteBlock)complete cacheType:(PPImageCacheType)cacheType
 {
-    return [self loadImage:imageURL delegate:delegate progress:progress complete:complete autoCancel:YES];
+    return [self loadImage:imageURL delegate:delegate progress:progress complete:complete autoCancel:YES options:0 cacheType:cacheType];
 }
 
-- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id)delegate progress:(PPImageLoadProgressBlock)progress complete:(nonnull PPImageLoadCompleteBlock)complete autoCancel:(BOOL)autoCancel
+- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id<PPImageLoadOperationDelegate>)delegate progress:(PPImageLoadProgressBlock)progress complete:(PPImageLoadCompleteBlock)complete autoCancel:(BOOL)autoCancel
 {
-    return [self loadImage:imageURL delegate:delegate alternativeUrls:nil progress:progress complete:complete autoCancel:autoCancel];
+    return [self loadImage:imageURL delegate:delegate progress:progress complete:complete autoCancel:autoCancel options:0 cacheType:PPImageCacheTypeAll];
 }
 
-- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id)delegate progress:(PPImageLoadProgressBlock)progress complete:(nonnull PPImageLoadCompleteBlock)complete autoCancel:(BOOL)autoCancel cacheType:(PPImageCacheType)cacheType
+- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id<PPImageLoadOperationDelegate>)delegate progress:(PPImageLoadProgressBlock)progress complete:(PPImageLoadCompleteBlock)complete autoCancel:(BOOL)autoCancel options:(long long)options
 {
-    return [self loadImage:imageURL delegate:delegate progress:progress complete:complete autoCancel:autoCancel cacheType:cacheType];
+    return [self loadImage:imageURL delegate:delegate progress:progress complete:complete autoCancel:autoCancel options:options cacheType:PPImageCacheTypeAll];
 }
 
-- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id)delegate alternativeUrls:(id)alternativeUrls progress:(PPImageLoadProgressBlock)progress complete:(nonnull PPImageLoadCompleteBlock)complete autoCancel:(BOOL)autoCancel
+- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id<PPImageLoadOperationDelegate>)delegate progress:(PPImageLoadProgressBlock)progress complete:(PPImageLoadCompleteBlock)complete autoCancel:(BOOL)autoCancel cacheType:(PPImageCacheType)cacheType
 {
-    return [self loadImage:imageURL delegate:delegate alternativeUrls:alternativeUrls progress:progress complete:complete autoCancel:autoCancel options:0];
+    return [self loadImage:imageURL delegate:delegate progress:progress complete:complete autoCancel:autoCancel options:0 cacheType:cacheType];
 }
 
-- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id)delegate alternativeUrls:(id)alternativeUrls progress:(PPImageLoadProgressBlock)progress complete:(nonnull PPImageLoadCompleteBlock)complete autoCancel:(BOOL)autoCancel options:(long long)options
-{
-    return [self loadImage:imageURL delegate:delegate alternativeUrls:alternativeUrls progress:progress complete:complete autoCancel:autoCancel options:options isPermenant:NO];
-}
-
-- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id)delegate alternativeUrls:(id)alternativeUrls progress:(PPImageLoadProgressBlock)progress complete:(nonnull PPImageLoadCompleteBlock)complete autoCancel:(BOOL)autoCancel options:(long long)options isPermenant:(BOOL)permenant
-{
-    return [self loadImage:imageURL delegate:delegate alternativeUrls:alternativeUrls progress:progress complete:complete autoCancel:autoCancel options:options isPermenant:permenant cacheType:kNilOptions];
-}
-
-- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id)delegate alternativeUrls:(id)alternativeUrls progress:(PPImageLoadProgressBlock)progress complete:(nonnull PPImageLoadCompleteBlock)complete autoCancel:(BOOL)autoCancel options:(long long)options cacheType:(PPImageCacheType)cacheType
-{
-    return [self loadImage:imageURL delegate:delegate alternativeUrls:alternativeUrls progress:progress complete:complete autoCancel:autoCancel options:options isPermenant:NO cacheType:cacheType];
-}
-
-- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id)delegate alternativeUrls:(id)alternativeUrls progress:(PPImageLoadProgressBlock)progress complete:(nonnull PPImageLoadCompleteBlock)complete autoCancel:(BOOL)autoCancel options:(long long)options isPermenant:(BOOL)permenant cacheType:(PPImageCacheType)cacheType
+- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id<PPImageLoadOperationDelegate>)delegate progress:(PPImageLoadProgressBlock)progress complete:(PPImageLoadCompleteBlock)complete autoCancel:(BOOL)autoCancel options:(long long)options cacheType:(PPImageCacheType)cacheType
 {
     if (imageURL.length) {
         PPImageLoadRequest *request = [[PPImageLoadRequest alloc] initWithURL:imageURL];
@@ -97,13 +82,13 @@
         request.owner = delegate;
         request.cancelForOwnerDealloc = autoCancel;
         request.options = options;
-        request.isPermenant = permenant;
         [self addRequest:request];
         return request;
     } else {
         return nil;
     }
 }
+
 
 - (void)addRequest:(PPImageLoadRequest *)request
 {

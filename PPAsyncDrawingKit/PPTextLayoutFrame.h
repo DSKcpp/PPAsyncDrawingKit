@@ -19,11 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) PPTextLayout *layout;
 @property (nonatomic, assign) CGSize layoutSize;
 @property (nonatomic, assign) PPFontMetrics baselineMetrics;
-@property (nonatomic, strong) NSArray<PPTextLayoutLine *> *lineFragments;
+@property (nullable, nonatomic, strong) NSArray<PPTextLayoutLine *> *lineFragments;
 
 - (instancetype)initWithCTFrame:(CTFrameRef)frame layout:(PPTextLayout *)layout;
 - (void)setupWithCTFrame:(CTFrameRef)frame;
-- (void)updateLayoutSize;
 - (id)textLayout:(PPTextLayout *)layout truncateLine:(CTLineRef)truncateLine atIndex:(NSUInteger)index truncated:(BOOL)truncated;
 - (CGFloat)textLayout:(PPTextLayout *)layout maximumWidthForTruncatedLine:(CTLineRef)maximumWidthForTruncatedLine atIndex:(NSUInteger)index;
 @end

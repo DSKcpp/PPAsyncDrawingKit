@@ -82,11 +82,6 @@ static inline CGRect YYEmojiGetGlyphBoundingRectWithFontSize(CGFloat fontSize) {
                     break;
                 }
                 NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:title];
-                [attrString pp_setFont:[UIFont systemFontOfSize:16.0f]];
-                [attrString pp_setColor:rangeColor];
-                PPTextHighlightRange *highlight = [PPTextHighlightRange rangeWithRange:range];
-                [highlight setBorder:highlightBorder];
-                [attrString pp_setTextHighlightRange:highlight inRange:NSMakeRange(0, attrString.length)];
                 CGFloat fontSize = 16.0f;
                 CGFloat ascent = fontSize * 0.86;
                 CGFloat descent = fontSize * 0.14;
@@ -99,7 +94,7 @@ static inline CGRect YYEmojiGetGlyphBoundingRectWithFontSize(CGFloat fontSize) {
                 contentInsets.left += fontSize * scale;
                 contentInsets.right += fontSize * scale;
                 size = CGSizeMake(fontSize - fontSize * scale * 2, fontSize - fontSize * scale * 2);
-                NSURL *URL = [WBTimelineAttributedTextParser defaultURLForImageURL:urlStruct.url_type_pic];
+//                NSURL *URL = [WBTimelineAttributedTextParser defaultURLForImageURL:urlStruct.url_type_pic];
                 UIImage *image = [UIImage imageNamed:@"timeline_card_small_web"];
                 WBUITextAttachment *attachment = [WBUITextAttachment attachmentWithContents:image type:0 contentSize:size];
                 attachment.replacementText = urlStruct.short_url;
@@ -111,35 +106,40 @@ static inline CGRect YYEmojiGetGlyphBoundingRectWithFontSize(CGFloat fontSize) {
                 NSAttributedString *emojiAttributeString = [NSAttributedString pp_attributedStringWithTextAttachment:attachment attributes:emojiAttributes];
                 [attrString insertAttributedString:emojiAttributeString atIndex:0];
 //                }
+                [attrString pp_setFont:[UIFont systemFontOfSize:16.0f]];
+                [attrString pp_setColor:rangeColor];
                 [attributedString replaceCharactersInRange:range withAttributedString:attrString];
+                PPTextHighlightRange *highlight = [[PPTextHighlightRange alloc] init];
+                [highlight setBorder:highlightBorder];
+                [attributedString pp_setTextHighlightRange:highlight inRange:NSMakeRange(range.location, attrString.length)];
             } while (1);
         }
     }
     
     // At
     [string pp_enumerateStringsMatchedByRegex:@"@([\\x{4e00}-\\x{9fa5}A-Za-z0-9_\\-]+)" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
-        PPTextHighlightRange *highlight = [PPTextHighlightRange rangeWithRange:capturedRange];
+        PPTextHighlightRange *highlight = [[PPTextHighlightRange alloc] init];
         [highlight setBorder:highlightBorder];
         [attributedString pp_setTextHighlightRange:highlight inRange:capturedRange];
         [attributedString pp_setColor:rangeColor inRange:capturedRange];
     }];
     // Topic
     [string pp_enumerateStringsMatchedByRegex:@"#([^#]+?)#" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
-        PPTextHighlightRange *highlight = [PPTextHighlightRange rangeWithRange:capturedRange];
+        PPTextHighlightRange *highlight = [[PPTextHighlightRange alloc] init];
         [highlight setBorder:highlightBorder];
         [attributedString pp_setTextHighlightRange:highlight inRange:capturedRange];
         [attributedString pp_setColor:rangeColor inRange:capturedRange];
     }];
     // Email
     [string pp_enumerateStringsMatchedByRegex:@"([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,6})" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
-        PPTextHighlightRange *highlight = [PPTextHighlightRange rangeWithRange:capturedRange];
+        PPTextHighlightRange *highlight = [[PPTextHighlightRange alloc] init];
         [highlight setBorder:highlightBorder];
         [attributedString pp_setTextHighlightRange:highlight inRange:capturedRange];
         [attributedString pp_setColor:rangeColor inRange:capturedRange];
     }];
     // URL
     [string pp_enumerateStringsMatchedByRegex:@"(?i)https?://[a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)+([-A-Z0-9a-z_\\$\\.\\+!\\*\(\\)/,:;@&=\?~#%]*)*" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
-        PPTextHighlightRange *highlight = [PPTextHighlightRange rangeWithRange:capturedRange];
+        PPTextHighlightRange *highlight = [[PPTextHighlightRange alloc] init];
         [highlight setBorder:highlightBorder];
         [attributedString pp_setTextHighlightRange:highlight inRange:capturedRange];
         [attributedString pp_setColor:rangeColor inRange:capturedRange];

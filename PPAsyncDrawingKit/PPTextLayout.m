@@ -48,34 +48,55 @@
 
 - (PPTextLayoutFrame *)createLayoutFrame
 {
+    PPTextLayoutFrame *textLayoutFrame;
     if (self.attributedString.length > 0) {
-        CGRect rect = CGRectMake(0, 0, self.size.width, self.size.height);
-        UIBezierPath *path = [UIBezierPath bezierPathWithRect:rect];
-        CGAffineTransform transform = CGAffineTransformIdentity;
+        CGMutablePathRef mutablePath;
         CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((CFAttributedStringRef)self.attributedString);
-        CTFrameRef frame;
-        if (self.exclusionPaths.count != 0) {
-            [self.exclusionPaths enumerateObjectsUsingBlock:^(UIBezierPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                [path appendPath:obj.copy];
-                [path applyTransform:transform];
-            }];
-            path.usesEvenOddFillRule = YES;
-            frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, self.attributedString.length), path.CGPath, NULL);
+        if (self.exclusionPaths.count) {
+            
         } else {
-            CGMutablePathRef mutablePath = CGPathCreateMutable();
+            mutablePath = CGPathCreateMutable();
+            CGRect rect = CGRectMake(0, 0, self.size.width, self.size.height);
+            CGAffineTransform transform = CGAffineTransformIdentity;
             CGPathAddRect(mutablePath, &transform, rect);
-            frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, self.attributedString.length), mutablePath, NULL);
-            CGPathRelease(mutablePath);
         }
+        CTFrameRef frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, self.attributedString.length), mutablePath, NULL);
+        CGPathRelease(mutablePath);
         CFRelease(framesetter);
         if (frame) {
-            PPTextLayoutFrame *textLayoutFrame = [[PPTextLayoutFrame alloc] initWithCTFrame:frame layout:self];
-            return textLayoutFrame;
+            textLayoutFrame = [[PPTextLayoutFrame alloc] initWithCTFrame:frame layout:self];
+            CFRelease(frame);
         }
-        return nil;
-    } else {
-        return nil;
     }
+    return textLayoutFrame;
+//    if (self.attributedString.length > 0) {
+//        CGRect rect = CGRectMake(0, 0, self.size.width, self.size.height);
+//        UIBezierPath *path = [UIBezierPath bezierPathWithRect:rect];
+//        CGAffineTransform transform = CGAffineTransformIdentity;
+//        CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((CFAttributedStringRef)self.attributedString);
+//        CTFrameRef frame;
+//        if (self.exclusionPaths.count != 0) {
+//            [self.exclusionPaths enumerateObjectsUsingBlock:^(UIBezierPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//                [path appendPath:obj.copy];
+//                [path applyTransform:transform];
+//            }];
+//            path.usesEvenOddFillRule = YES;
+//            frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, self.attributedString.length), path.CGPath, NULL);
+//        } else {
+//            CGMutablePathRef mutablePath = CGPathCreateMutable();
+//            CGPathAddRect(mutablePath, &transform, rect);
+//            frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, self.attributedString.length), mutablePath, NULL);
+//            CGPathRelease(mutablePath);
+//        }
+//        CFRelease(framesetter);
+//        if (frame) {
+//            PPTextLayoutFrame *textLayoutFrame = [[PPTextLayoutFrame alloc] initWithCTFrame:frame layout:self];
+//            return textLayoutFrame;
+//        }
+//        return nil;
+//    } else {
+//        return nil;
+//    }
 }
 
 - (void)setNeedsLayout

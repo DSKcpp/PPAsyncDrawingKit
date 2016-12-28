@@ -38,7 +38,6 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface NSMutableAttributedString (PPExtendedAttributedString)
-@property (nonatomic, strong, readonly) NSArray<PPTextHighlightRange *> *highlightRanges;
 @property (nonatomic, strong) UIFont *pp_font;
 @property (nonatomic, assign) CGFloat pp_lineHeight;
 @property (nonatomic, assign) CGFloat pp_kerning;

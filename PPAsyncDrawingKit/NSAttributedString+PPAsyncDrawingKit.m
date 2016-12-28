@@ -125,34 +125,15 @@
     attr[(NSString *)kCTRunDelegateAttributeName] = (__bridge id)runDelegate;
     unichar objectReplacementChar = 0xFFFC;
     NSString *content = [NSString stringWithCharacters:&objectReplacementChar length:1];
-    return [[[self class] alloc] initWithString:content attributes:attr];
+    CFRelease(runDelegate);
+    return [[NSAttributedString alloc] initWithString:content attributes:attr];
 }
 @end
 
 @interface NSMutableAttributedString (PPExtendedAttributedString)
-@property (nonatomic, strong) NSMutableDictionary<NSString *, PPTextHighlightRange *> *highlightRangeMap;
 @end
 
 @implementation NSMutableAttributedString (PPExtendedAttributedString)
-static char highlightRangesKey;
-
-- (NSArray<PPTextHighlightRange *> *)highlightRanges
-{
-    return self.highlightRangeMap.allValues;
-}
-
-- (NSMutableDictionary<NSString *,PPTextHighlightRange *> *)highlightRangeMap
-{
-    if (![self pp_objectWithAssociatedKey:&highlightRangesKey]) {
-        self.highlightRangeMap = [NSMutableDictionary dictionary];
-    }
-    return [self pp_objectWithAssociatedKey:&highlightRangesKey];
-}
-
-- (void)setHighlightRangeMap:(NSMutableDictionary<NSString *,PPTextHighlightRange *> *)highlightRangeMap
-{
-    [self pp_setObject:highlightRangeMap forAssociatedKey:&highlightRangesKey retained:YES];
-}
 
 - (NSRange)pp_effectiveRangeWithRange:(NSRange)range
 {
@@ -233,14 +214,7 @@ static char highlightRangesKey;
 
 - (void)pp_setTextHighlightRange:(PPTextHighlightRange *)textHighlightRange inRange:(NSRange)range
 {
-    range = [self pp_effectiveRangeWithRange:range];
-    if (textHighlightRange) {
-        [self addAttribute:PPTextHighlightRangeAttributeName value:textHighlightRange range:range];
-        [self.highlightRangeMap setObject:textHighlightRange forKey:[self _rangeToString:range]];
-    } else {
-        [self removeAttribute:PPTextHighlightRangeAttributeName range:range];
-        [self.highlightRangeMap removeObjectForKey:[self _rangeToString:range]];
-    }
+    [self setAttribute:PPTextHighlightRangeAttributeName value:textHighlightRange range:range];
 }
 
 - (void)pp_setTextParagraphStyle:(PPTextParagraphStyle *)textParagraphStyle

@@ -29,7 +29,6 @@
 @property (nonatomic, strong) WBTimelineLargeCardView *largeCardView;
 @property (nonatomic, assign) BOOL disableTextLinkHighlight;
 @property (nonatomic, strong) PPTextRenderer *metaInfoTextRenderer;
-@property (nonatomic, strong) PPTextRenderer *respondTextRenderer;
 @property (nonatomic, strong) PPTextRenderer *titleTextRenderer;
 @property (nonatomic, strong) PPTextRenderer *quotedItemTextRenderer;
 @property (nonatomic, strong) PPTextRenderer *itemTextRenderer;

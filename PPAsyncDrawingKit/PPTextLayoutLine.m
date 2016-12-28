@@ -26,6 +26,7 @@
         _baselineOrigin = origin;
         _layout = layout;
         if (lineRef) {
+            CFRetain(lineRef);
             _lineRef = lineRef;
             CFRange range = CTLineGetStringRange(lineRef);
             _stringRange = PPNSRangeFromCFRange(range);

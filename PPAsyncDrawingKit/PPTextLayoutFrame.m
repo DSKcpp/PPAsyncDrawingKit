@@ -26,7 +26,6 @@
 - (void)setupWithCTFrame:(CTFrameRef)frame
 {
     NSInteger maxLines = self.layout.maximumNumberOfLines;
-
     CFArrayRef lineRefs = CTFrameGetLines(frame);
     if (maxLines == 0) {
         maxLines = CFArrayGetCount(lineRefs);
@@ -34,36 +33,25 @@
     CGPoint origins[maxLines];
     CTFrameGetLineOrigins(frame, CFRangeMake(0, 0), origins);
     NSMutableArray *lines = [NSMutableArray array];
-    
+    CGRect rect = CGRectZero;
     for (NSInteger i = 0; i < maxLines; i++) {
         CTLineRef lineRef = CFArrayGetValueAtIndex(lineRefs, i);
         PPTextLayoutLine *line = [[PPTextLayoutLine alloc] initWithCTLine:lineRef origin:origins[i] layout:self.layout];
         [lines addObject:line];
+        if (i == 0) {
+            rect = line.fragmentRect;
+        } else {
+            rect = CGRectUnion(rect, line.fragmentRect);
+        }
     }
     self.lineFragments = [NSArray arrayWithArray:lines];
-    [self updateLayoutSize];
-}
-
-- (void)updateLayoutSize
-{
-    if (self.lineFragments.count) {
-        __block CGRect rect = CGRectZero;
-        [self.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
-            if (idx == 0) {
-                rect = line.fragmentRect;
-            } else {
-                rect = CGRectUnion(rect, line.fragmentRect);
-            }
-        }];
-        self.layoutSize = rect.size;
-    }
+    self.layoutSize = rect.size;
 }
 
 - (id)textLayout:(PPTextLayout *)layout truncateLine:(CTLineRef)truncateLine atIndex:(NSUInteger)index truncated:(BOOL)truncated
 {
     return nil;
 }
-
 
 - (CGFloat)textLayout:(PPTextLayout *)layout maximumWidthForTruncatedLine:(CTLineRef)maximumWidthForTruncatedLine atIndex:(NSUInteger)index
 {

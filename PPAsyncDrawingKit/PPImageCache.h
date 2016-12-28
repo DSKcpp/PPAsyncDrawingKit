@@ -9,9 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-typedef NS_OPTIONS(NSUInteger, PPImageCacheType) {
-    PPImageCacheTypeDisk = 1 << 0,
-    PPImageCacheTypeMemory = 1 << 1
+typedef NS_ENUM(NSUInteger, PPImageCacheType) {
+    PPImageCacheTypeNone,
+    PPImageCacheTypeDisk,
+    PPImageCacheTypeMemory,
+    PPImageCacheTypeAll
 };
 
 NS_ASSUME_NONNULL_BEGIN
@@ -33,6 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable UIImage *)imageForURL:(NSString *)URL;
 - (nullable UIImage *)imageForURL:(NSString *)URL taskKey:(nullable NSString *)taskKey;
+- (void)imageForURL:(NSString *)URL callback:(void(^)(UIImage * _Nullable image, PPImageCacheType cacheType))callback;
 
 - (void)storeImage:(UIImage *)image forURL:(NSString *)URL;
 - (void)storeImage:(nullable UIImage *)image data:(nullable NSData *)data forURL:(NSString *)URL toDisk:(BOOL)toDisk;
@@ -41,12 +44,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)imageCachedForURL:(NSString *)URL;
 - (BOOL)imageHasDiskCachedForURL:(NSString *)URL;
 
-- (void)imageForURL:(id)arg1 callback:(void(^)(void))arg2;
-- (id)diskCachePathForImageURL:(id)arg1 withType:(long long)arg2;
-- (id)diskCachePathForImageURL:(id)arg1;
-- (void)removeFromCurrentReadingTaskKeys:(NSString *)arg1;
-- (void)addToCurrentReadingTaskKeys:(id)arg1;
-
+- (NSString *)diskCachePathForImageURL:(NSString *)imageURL;
+- (void)addToCurrentReadingTaskKeys:(NSString *)TaskKeys;
+- (void)removeFromCurrentReadingTaskKeys:(NSString *)TaskKeys;
 
 - (id)permenantPathForImageURL:(id)arg1;
 - (id)permenantForlderPath;
