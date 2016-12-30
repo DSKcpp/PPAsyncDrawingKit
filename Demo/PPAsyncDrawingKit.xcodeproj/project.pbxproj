@@ -22,6 +22,9 @@
 		8651C4FE1DC1FD3F0092569A /* PPButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8651C4FD1DC1FD3F0092569A /* PPButton.m */; };
 		86553B451DEC813E00ED22A4 /* PPTextActiveRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 86553B441DEC813E00ED22A4 /* PPTextActiveRange.m */; };
 		86553B841DF2CCF900ED22A4 /* WBUITextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 86553B831DF2CCF800ED22A4 /* WBUITextAttachment.m */; };
+		8659A9101E15BCF200BC9F91 /* WBWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8659A90F1E15BCF200BC9F91 /* WBWebViewController.m */; };
+		8659A9131E15BEF700BC9F91 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8659A9121E15BEF700BC9F91 /* WebKit.framework */; };
+		8659A9161E15C6EF00BC9F91 /* PPTextHighlightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8659A9151E15C6EF00BC9F91 /* PPTextHighlightViewController.m */; };
 		865CF7171DFA8BE2003DCA01 /* WBTimelineLargeCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 865CF7161DFA8BE2003DCA01 /* WBTimelineLargeCardView.m */; };
 		865CF71A1DFAA6EB003DCA01 /* PPIsomerismTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 865CF7191DFAA6EB003DCA01 /* PPIsomerismTextView.m */; };
 		865CF7211DFC8B53003DCA01 /* NSDate+PPASDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 865CF7201DFC8B53003DCA01 /* NSDate+PPASDK.m */; };
@@ -101,6 +104,11 @@
 		86553B441DEC813E00ED22A4 /* PPTextActiveRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextActiveRange.m; sourceTree = "<group>"; };
 		86553B821DF2CCF800ED22A4 /* WBUITextAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBUITextAttachment.h; sourceTree = "<group>"; };
 		86553B831DF2CCF800ED22A4 /* WBUITextAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBUITextAttachment.m; sourceTree = "<group>"; };
+		8659A90E1E15BCF200BC9F91 /* WBWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBWebViewController.h; sourceTree = "<group>"; };
+		8659A90F1E15BCF200BC9F91 /* WBWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBWebViewController.m; sourceTree = "<group>"; };
+		8659A9121E15BEF700BC9F91 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		8659A9141E15C6EF00BC9F91 /* PPTextHighlightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextHighlightViewController.h; sourceTree = "<group>"; };
+		8659A9151E15C6EF00BC9F91 /* PPTextHighlightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextHighlightViewController.m; sourceTree = "<group>"; };
 		865CF7151DFA8BE2003DCA01 /* WBTimelineLargeCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTimelineLargeCardView.h; sourceTree = "<group>"; };
 		865CF7161DFA8BE2003DCA01 /* WBTimelineLargeCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTimelineLargeCardView.m; sourceTree = "<group>"; };
 		865CF7181DFAA6EB003DCA01 /* PPIsomerismTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPIsomerismTextView.h; sourceTree = "<group>"; };
@@ -199,6 +207,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8659A9131E15BEF700BC9F91 /* WebKit.framework in Frameworks */,
 				86D7C2551DE41E7F001D88E8 /* WebP.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -260,6 +269,8 @@
 			children = (
 				861F1C521DB126650002BE2E /* WBTimelineViewController.h */,
 				861F1C531DB126650002BE2E /* WBTimelineViewController.m */,
+				8659A90E1E15BCF200BC9F91 /* WBWebViewController.h */,
+				8659A90F1E15BCF200BC9F91 /* WBWebViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -283,6 +294,14 @@
 				8651C4FD1DC1FD3F0092569A /* PPButton.m */,
 			);
 			name = Button;
+			sourceTree = "<group>";
+		};
+		8659A9111E15BEF700BC9F91 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8659A9121E15BEF700BC9F91 /* WebKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		86A98D301D92F495008F0A7E /* Core */ = {
@@ -442,6 +461,7 @@
 				863952A71D3FBA1400904204 /* PPAsyncDrawingKit */,
 				86EB758C1D2393CC005F14A1 /* PPAsyncDrawingKit-Demo */,
 				86EB758B1D2393CC005F14A1 /* Products */,
+				8659A9111E15BEF700BC9F91 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -489,6 +509,8 @@
 			children = (
 				86EF6AAC1DB132F9006464CE /* TextViewController.h */,
 				86EF6AAD1DB132F9006464CE /* TextViewController.m */,
+				8659A9141E15C6EF00BC9F91 /* PPTextHighlightViewController.h */,
+				8659A9151E15C6EF00BC9F91 /* PPTextHighlightViewController.m */,
 			);
 			name = Text;
 			sourceTree = "<group>";
@@ -612,6 +634,7 @@
 				8651C4FE1DC1FD3F0092569A /* PPButton.m in Sources */,
 				863ADA8F1DC47F1300AC582D /* PPTextAttachment.m in Sources */,
 				86D7C2621DE45812001D88E8 /* PPFlavoredRange.m in Sources */,
+				8659A9101E15BCF200BC9F91 /* WBWebViewController.m in Sources */,
 				86553B841DF2CCF900ED22A4 /* WBUITextAttachment.m in Sources */,
 				861EB1CD1DB10F0B005C07C7 /* ImageViewTableViewController.m in Sources */,
 				869AFD1C1DDC674900842C6C /* UIImage+Color.m in Sources */,
@@ -630,6 +653,7 @@
 				86FCDA981DDC7BD200CB2563 /* WBTimelineContentImageViewLayouter.m in Sources */,
 				86D7C2691DE6743B001D88E8 /* PPWebImageManager.m in Sources */,
 				869AFD161DDC5F7F00842C6C /* UIView+Frame.m in Sources */,
+				8659A9161E15C6EF00BC9F91 /* PPTextHighlightViewController.m in Sources */,
 				861EB1D61DB11563005C07C7 /* PPTextRenderer.m in Sources */,
 				86EF6AD91DB390F8006464CE /* PPAsyncDrawingKitUtilities.m in Sources */,
 				86D7C26C1DE677C2001D88E8 /* PPImageLoadOperation.m in Sources */,

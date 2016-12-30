@@ -41,6 +41,12 @@
 @end
 
 @implementation WBTimelineTitle
++ (NSDictionary *)modelContainerPropertyGenericClass {
+    return @{@"structs" : [WBTImelineTitleStruct class]};
+}
+@end
+
+@implementation WBTImelineTitleStruct
 
 @end
 

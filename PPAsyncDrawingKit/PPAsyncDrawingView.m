@@ -7,6 +7,7 @@
 //
 
 #import "PPAsyncDrawingView.h"
+#import <libkern/OSAtomic.h>
 
 static BOOL asyncDrawingDisabled = NO;
 
@@ -62,12 +63,13 @@ static BOOL asyncDrawingDisabled = NO;
 - (void)displayLayer:(CALayer *)layer
 {
     if (layer) {
+        __weak typeof(self) weakSelf = self;
         [self _displayLayer:(PPAsyncDrawingViewLayer *)layer rect:layer.bounds drawingStarted:^(BOOL async) {
-            [self drawingWillStartAsynchronously:async];
-        } drawingFinished:^(BOOL async, BOOL success) {
-            [self drawingDidFinishAsynchronously:async success:success];
-        } drawingInterrupted:^(BOOL async, BOOL success) {
-            [self drawingDidFinishAsynchronously:async success:success];
+            [weakSelf drawingWillStartAsynchronously:async];
+        } drawingFinished:^(BOOL async) {
+            [weakSelf drawingDidFinishAsynchronously:async success:YES];
+        } drawingInterrupted:^(BOOL async) {
+            [weakSelf drawingDidFinishAsynchronously:async success:NO];
         }];
     }
 }
@@ -76,7 +78,7 @@ static BOOL asyncDrawingDisabled = NO;
 
 - (void)drawingDidFinishAsynchronously:(BOOL)async success:(BOOL)success { }
 
-- (void)_displayLayer:(PPAsyncDrawingViewLayer *)layer rect:(CGRect)rect drawingStarted:(void (^)(BOOL))drawingStarted drawingFinished:(void (^)(BOOL, BOOL))drawingFinished drawingInterrupted:(void (^)(BOOL, BOOL))drawingInterrupted
+- (void)_displayLayer:(PPAsyncDrawingViewLayer *)layer rect:(CGRect)rect drawingStarted:(void (^)(BOOL))drawingStarted drawingFinished:(void (^)(BOOL))drawingFinished drawingInterrupted:(void (^)(BOOL))drawingInterrupted
 {
     BOOL asynchronously = NO;
     if ([layer drawsCurrentContentAsynchronously]) {
@@ -88,61 +90,94 @@ static BOOL asyncDrawingDisabled = NO;
     [layer increaseDrawingCount];
     NSInteger drawCount = [layer drawingCount];
     NSDictionary *userInfo = [self currentDrawingUserInfo];
-    BOOL (^isCancel)() = ^BOOL() {
-        return drawCount != [layer drawingCount];
-    };
-    dispatch_queue_t queue;
-    if (asynchronously) {
-        if (!layer.reserveContentsBeforeNextDrawingComplete) {
-            [layer setContents:nil];
-        }
-        queue = self.drawQueue;
-    } else if ([NSThread isMainThread]) {
-        queue = dispatch_get_main_queue();
-    } else {
-        queue = dispatch_get_main_queue();
-    }
-    dispatch_async(queue, ^{
-        if (drawingStarted) {
-            drawingStarted(YES);
-        }
-        if (isCancel()) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                drawingFinished(YES, NO);
-            });
+    
+    void (^drawingContents)() = ^(void) {
+        if (drawCount != [layer drawingCount]) {
+            drawingInterrupted(asynchronously);
             return;
         }
         CGSize size = layer.bounds.size;
         CGFloat scale = layer.contentsScale;
-        UIGraphicsBeginImageContextWithOptions(size, layer.isOpaque, scale);
+        BOOL isOpaque = layer.isOpaque;
+        UIGraphicsBeginImageContextWithOptions(size, isOpaque, scale);
         CGContextRef context = UIGraphicsGetCurrentContext();
         CGContextSaveGState(context);
-        UIColor *backgroundColor = self.backgroundColor;
-        if (backgroundColor) {
-            CGContextSetFillColorWithColor(context, backgroundColor.CGColor);
-            CGContextFillRect(context, CGRectMake(0, 0, size.width * scale, size.height * scale));
-        }
-        [self drawInRect:CGRectMake(0, 0, size.width, size.height) withContext:context asynchronously:asynchronously userInfo:userInfo];
-        CGContextRestoreGState(context);
-        CGImageRef imageRef = CGBitmapContextCreateImage(context);
-        UIImage *image = [UIImage imageWithCGImage:imageRef];
-        UIGraphicsEndImageContext();
-        CGImageRelease(imageRef);
-        if (isCancel()) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                drawingFinished(YES, NO);
-            });
+        if (drawCount != [layer drawingCount]) {
+            CGContextRestoreGState(context);
+            UIGraphicsEndImageContext();
+            drawingInterrupted(asynchronously);
             return;
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (isCancel()) {
-                drawingFinished(YES, NO);
-            } else {
-                self.layer.contents = (__bridge id _Nullable)(image.CGImage);
-                drawingFinished(YES, YES);
+        UIColor *backgroundColor = self.backgroundColor;
+        if (backgroundColor) {
+            if (backgroundColor != [UIColor clearColor]) {
+                CGContextSetFillColorWithColor(context, backgroundColor.CGColor);
+                CGContextFillRect(context, CGRectMake(0, 0, size.width * scale, size.height * scale));
             }
+        }
+        BOOL drawingSuccess = [self drawInRect:CGRectMake(0, 0, size.width, size.height)
+                                   withContext:context asynchronously:asynchronously
+                                      userInfo:userInfo];
+        
+        CGContextRestoreGState(context);
+        if (!drawingSuccess) {
+            UIGraphicsEndImageContext();
+            drawingInterrupted(asynchronously);
+            return;
+        }
+        if (drawCount != [layer drawingCount]) {
+            UIGraphicsEndImageContext();
+            drawingInterrupted(asynchronously);
+            return;
+        }
+        
+        CGImageRef imageRef = CGBitmapContextCreateImage(context);
+        UIImage *image;
+        if (imageRef) {
+            image = [UIImage imageWithCGImage:imageRef];
+            CGImageRelease(imageRef);
+        }
+        UIGraphicsEndImageContext();
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (drawCount != [layer drawingCount]) {
+                drawingInterrupted(asynchronously);
+                return;
+            }
+            layer.contents = (__bridge id _Nullable)(image.CGImage);
+            layer.contentsChangedAfterLastAsyncDrawing = NO;
+            layer.reserveContentsBeforeNextDrawingComplete = NO;
+
+            if (layer.fadeDuration > 0) {
+                layer.opacity = 0.0f;
+                [UIView animateWithDuration:layer.fadeDuration delay:0 options:kNilOptions animations:^{
+                    layer.opacity = 1.0f;
+                } completion:nil];
+            }
+            drawingFinished(asynchronously);
         });
-    });
+    };
+    
+    drawingStarted(asynchronously);
+    if (asynchronously) {
+        if (!layer.reserveContentsBeforeNextDrawingComplete) {
+            layer.contents = nil;
+        }
+        dispatch_async(self.drawQueue, drawingContents);
+    } else {
+        if ([NSThread isMainThread]) {
+            drawingContents();
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (self.serializesDrawingOperations) {
+                    dispatch_sync(self.drawQueue, ^{
+                        drawingContents();
+                    });
+                } else {
+                    drawingContents();
+                }
+            });
+        }
+    }
 }
 
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async
@@ -283,7 +318,7 @@ static BOOL asyncDrawingDisabled = NO;
 
 - (void)increaseDrawingCount
 {
-    _drawingCount += 1;
+    OSAtomicIncrement32(&_drawingCount);
 }
 
 - (void)setNeedsDisplay

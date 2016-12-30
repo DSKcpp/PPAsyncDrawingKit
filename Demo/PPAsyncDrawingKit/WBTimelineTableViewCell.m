@@ -7,7 +7,6 @@
 //
 
 #import "WBTimelineTableViewCell.h"
-#import "WBTimelineContentView.h"
 #import "WBTimelineTextContentView.h"
 
 @implementation WBTimelineTableViewCell
@@ -22,6 +21,11 @@
         [self.contentView addSubview:self.timelineContentView];
     }
     return self;
+}
+
+- (WBTimelineItem *)timelineItem
+{
+    return self.timelineContentView.timelineItem;
 }
 
 - (void)setTimelineItem:(WBTimelineItem *)timelineItem

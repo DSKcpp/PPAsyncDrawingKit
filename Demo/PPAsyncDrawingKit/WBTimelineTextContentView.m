@@ -106,7 +106,7 @@
 - (void)setDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext
 {
     _drawingContext = drawingContext;
-    self.contentsChangedAfterLastAsyncDrawing = YES;
+//    self.contentsChangedAfterLastAsyncDrawing = YES;
     [self setNeedsDisplay];
 }
 
@@ -196,8 +196,8 @@
 
 - (void)textRenderer:(PPTextRenderer *)textRenderer didPressHighlightRange:(PPTextHighlightRange *)highlightRange
 {
-//    NSString *text = [textRenderer.attributedString attributedSubstringFromRange:highlightRange.range].string;
-//    NSLog(@"didPress: %@", text);
+    NSString *text = [textRenderer.attributedString attributedSubstringFromRange:highlightRange.range].string;
+    NSLog(@"didPress: %@", text);
 }
 
 @end

@@ -21,10 +21,25 @@
 {
     [super viewDidLoad];
     
-    YYFPSLabel *fpsLabel = [[YYFPSLabel alloc] initWithFrame:CGRectMake(0, 44, 80, 30)];
-    [self.navigationController.navigationBar addSubview:fpsLabel];
+    CGFloat height = 35.0f;
     
-    [[PPImageCache sharedCache] cleanDiskCache];
+    UIView *toolBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, height)];
+    toolBarView.backgroundColor = [UIColor whiteColor];
+    
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    [window addSubview:toolBarView];
+    YYFPSLabel *fpsLabel = [[YYFPSLabel alloc] initWithFrame:CGRectMake(12, 2.5, 60, 30)];
+    [toolBarView addSubview:fpsLabel];
+    
+    UILabel *asyncLabel = [[UILabel alloc] initWithFrame:CGRectMake(84, 2.5, 30, 30)];
+    asyncLabel.text = @"Async";
+    [toolBarView addSubview:asyncLabel];
+    
+    UISwitch *asyncSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(100, 2.5, 0, 0)];
+//    [asyncSwitch addTarget:self action:@selector(s) forControlEvents:UIControlEventValueChanged];
+    [toolBarView addSubview:asyncSwitch];
+    
+//    [[PPImageCache sharedCache] cleanDiskCache];
 //    NSUInteger size =  [[PPImageCache sharedCache] cacheSize];
 //    NSLog(@"%zd", size);
 //    [[PPImageCache sharedCache] storeImage:[UIImage imageNamed:@"avatar"] data:nil forURL:@"https://dskcpp.github.io" toDisk:YES];

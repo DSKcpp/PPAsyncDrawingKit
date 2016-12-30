@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL contentsChangedAfterLastAsyncDrawing;
 @property (nonatomic, assign) NSInteger drawingPolicy;
 @property (nonatomic, assign) NSTimeInterval fadeDuration;
-@property (nonatomic, assign, readonly) NSInteger drawingCount;
+@property (nonatomic, assign, readonly) int32_t drawingCount;
 
 - (void)increaseDrawingCount;
 - (BOOL)drawsCurrentContentAsynchronously;

@@ -7,11 +7,10 @@
 //
 
 #import "TextViewController.h"
-#import "PPLabel.h"
-#import "PPTextAttributed.h"
+#import "PPTextHighlightViewController.h"
 
 @interface TextViewController ()
-
+@property (nonatomic, strong) NSArray *titles;
 @end
 
 @implementation TextViewController
@@ -20,15 +19,31 @@
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     
-    PPLabel *label = [[PPLabel alloc] initWithFrame:CGRectMake(0, 128, self.view.frame.size.width, 200)];
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"#纽约漫展#  漫威副总带AC娘@陈一发儿  逛漫展！http:\\\\t.cn\\RVLYKtI 我们有幸还被邀请进入了漫威的Secret Room [哆啦A梦吃惊] #acfun#"];
-    label.textColor = [UIColor redColor];
-    label.font = [UIFont systemFontOfSize:15.0f];
-    label.attributedString = attributedString;
-    [self.view addSubview:label];
+    _titles = @[@"Highlieht"];
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return _titles.count;
+}
 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *identifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+    }
+    cell.textLabel.text = _titles[indexPath.row];
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    PPTextHighlightViewController *vc = [[PPTextHighlightViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 @end

@@ -11,8 +11,9 @@
 #import "YYModel.h"
 #import "WBTimelineTableViewCell.h"
 #import "WBTimelineContentView.h"
+#import "WBWebViewController.h"
 
-@interface WBTimelineViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface WBTimelineViewController () <UITableViewDelegate, UITableViewDataSource, WBTimelineTableViewCellDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray<WBTimelineItem *> *timelineItems;
 @end
@@ -82,6 +83,7 @@
     }
     WBTimelineItem *item = _timelineItems[indexPath.row];
     [cell setTimelineItem:item];
+    cell.delegate = self;
     return cell;
 }
 
@@ -91,4 +93,14 @@
     return [WBTimelineContentView heightOfTimelineItem:timelineItem withContentWidth:tableView.bounds.size.width];
 }
 
+- (void)tableViewCell:(WBTimelineTableViewCell *)tableViewCell didPressHighlightRange:(PPTextHighlightRange *)highlightRange
+{
+    WBTimelineItem *timelineItem = tableViewCell.timelineItem;
+    WBTImelineTitleStruct *titleStruct = timelineItem.title.structs.firstObject;
+//    NSURL *URL = [NSURL URLWithString:@"http://m.weibo.cn/p/index?containerid=2308691054009064_-_mix"];
+    NSURL *URL = [NSURL URLWithString:@"http://m.weibo.cn/u/2123664205"];
+    WBWebViewController *webViewController = [[WBWebViewController alloc] initWithURL:URL];
+    [self.navigationController pushViewController:webViewController animated:YES];
+    
+}
 @end

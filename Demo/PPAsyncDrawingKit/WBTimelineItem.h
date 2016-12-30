@@ -109,10 +109,16 @@
 @property (nonatomic, copy) NSString *url;
 @end
 
+@interface WBTImelineTitleStruct : NSObject
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *scheme;
+@end
+
 @interface WBTimelineTitle : NSObject
 @property (nonatomic, copy) NSString *text;
 @property (nonatomic, assign) NSInteger base_color;
 @property (nonatomic, copy) NSString *icon_url;
+@property (nonatomic, strong) NSArray<WBTImelineTitleStruct *> *structs;
 @end
 
 @interface WBURLStruct : NSObject

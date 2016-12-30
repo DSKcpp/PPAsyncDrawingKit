@@ -8,11 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "WBTimelineItem.h"
+#import "WBTimelineContentView.h"
+#import "PPTextHighlightRange.h"
 
-@class WBTimelineContentView;
+@class WBTimelineTableViewCell;
+
+@protocol WBTimelineTableViewCellDelegate <NSObject>
+- (void)tableViewCell:(WBTimelineTableViewCell *)tableViewCell didPressHighlightRange:(PPTextHighlightRange *)highlightRange;
+@end
 
 @interface WBTimelineTableViewCell : UITableViewCell
 @property (nonatomic, strong) WBTimelineItem *timelineItem;
 @property (nonatomic, strong) WBTimelineContentView *timelineContentView;
 @property (nonatomic, assign) CGFloat timelineContainerWidth;
+@property (nonatomic, weak) id<WBTimelineTableViewCellDelegate> delegate;
 @end
