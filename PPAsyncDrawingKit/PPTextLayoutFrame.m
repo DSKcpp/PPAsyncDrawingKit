@@ -29,36 +29,48 @@
     CFArrayRef lineRefs = CTFrameGetLines(frame);
     CFIndex lineCount = CFArrayGetCount(lineRefs);
     NSMutableArray *lines = [NSMutableArray array];
-    CGRect rect = CGRectZero;
+//    CGRect rect = CGRectZero;
     if (lineCount > 0) {
-        CGPoint *origins = malloc(lineCount * sizeof(CGPoint));
+//        CGPoint *origins = malloc(lineCount * sizeof(CGPoint));
+        CGPoint origins[lineCount];
         CTFrameGetLineOrigins(frame, CFRangeMake(0, lineCount), origins);
         
         for (NSInteger i = 0; i < lineCount; i++) {
             CTLineRef lineRef = CFArrayGetValueAtIndex(lineRefs, i);
-            PPTextLayoutLine *line;
             if (maxLines == 0) {
-                line = [[PPTextLayoutLine alloc] initWithCTLine:lineRef origin:origins[i] layout:self.layout];
+                PPTextLayoutLine *line = [[PPTextLayoutLine alloc] initWithCTLine:lineRef origin:origins[i] layout:self.layout];
                 [lines addObject:line];
             } else if (maxLines - 1 != 0) {
+//                CTLineRef truncateLine = [self textLayout:_layout truncateLine:lineRef atIndex:maxLines - 1 truncated:YES];
+//                PPTextLayoutLine *line = [[PPTextLayoutLine alloc] initWithCTLine:truncateLine origin:origins[i] layout:_layout];
+//                [lines addObject:line];
+            } else {
                 CTLineRef truncateLine = [self textLayout:_layout truncateLine:lineRef atIndex:maxLines - 1 truncated:YES];
-                line = [[PPTextLayoutLine alloc] initWithCTLine:truncateLine origin:origins[i] layout:self.layout];
+                PPTextLayoutLine *line = [[PPTextLayoutLine alloc] initWithCTLine:truncateLine origin:origins[i] layout:_layout];
                 [lines addObject:line];
-            } else {
-                CTLineRef truncateLine = [self textLayout:_layout truncateLine:lineRef atIndex:0 truncated:YES];
-                line = [[PPTextLayoutLine alloc] initWithCTLine:truncateLine origin:origins[i] layout:self.layout];
-                [lines addObject:line];
-            }
-            if (i == 0) {
-                rect = line.fragmentRect;
-            } else {
-                rect = CGRectUnion(rect, line.fragmentRect);
             }
         }
     }
     self.lineFragments = [NSArray arrayWithArray:lines];
-    self.layoutSize = rect.size;
+//    self.layoutSize = rect.size;
+    [self updateLayoutSize];
 }
+
+- (void)updateLayoutSize
+{
+    if (_lineFragments.count) {
+        __block CGRect rect = CGRectZero;
+        [_lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
+            if (idx == 0) {
+                rect = line.fragmentRect;
+            } else {
+                rect = CGRectUnion(rect, line.fragmentRect);
+            }
+        }];
+        self.layoutSize = rect.size;
+    }
+}
+
 
 - (CTLineRef)textLayout:(PPTextLayout *)layout truncateLine:(CTLineRef)truncateLine atIndex:(NSUInteger)index truncated:(BOOL)truncated
 {
@@ -96,7 +108,7 @@
         CFRelease(lineRef);
         return resuleLineRef;
     }
-    return truncateLine;
+    return nil;
 }
 
 - (CGFloat)textLayout:(PPTextLayout *)layout maximumWidthForTruncatedLine:(CTLineRef)maximumWidthForTruncatedLine atIndex:(NSUInteger)index

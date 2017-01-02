@@ -164,6 +164,7 @@
         CGPathRef path = CreateCGPath(self.bounds, self.cornerRadius, self.roundedCorners);
         _roundPathRef = path;
         [userInfo pp_setSafeObject:(__bridge id _Nonnull)(path) forKey:@"roundPath"];
+        CGPathRelease(path);
     }
     if (self.showsBorderCornerRadius) {
         
