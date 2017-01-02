@@ -78,7 +78,6 @@
 {
     if (self = [super initWithFrame:frame]) {
         [self setBackgroundColor:[UIColor clearColor]];
-        self.reserveContentsBeforeNextDrawingComplete = YES;
         self.itemTextRenderer = [[PPTextRenderer alloc] init];
         self.itemTextRenderer.renderDelegate = self;
         self.itemTextRenderer.eventDelegate = self;
@@ -106,7 +105,7 @@
 - (void)setDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext
 {
     _drawingContext = drawingContext;
-//    self.contentsChangedAfterLastAsyncDrawing = YES;
+    self.contentsChangedAfterLastAsyncDrawing = YES;
     [self setNeedsDisplay];
 }
 

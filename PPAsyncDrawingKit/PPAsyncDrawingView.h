@@ -40,6 +40,10 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface PPAsyncDrawingViewLayer : CALayer
+
+/**
+ 下一次 Drawing 完成之前是否要保留当前的 Contnets
+ */
 @property (nonatomic, assign) BOOL reserveContentsBeforeNextDrawingComplete;
 @property (nonatomic, assign) BOOL contentsChangedAfterLastAsyncDrawing;
 @property (nonatomic, assign) NSInteger drawingPolicy;

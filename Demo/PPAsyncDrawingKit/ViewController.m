@@ -31,11 +31,13 @@
     YYFPSLabel *fpsLabel = [[YYFPSLabel alloc] initWithFrame:CGRectMake(12, 2.5, 60, 30)];
     [toolBarView addSubview:fpsLabel];
     
-    UILabel *asyncLabel = [[UILabel alloc] initWithFrame:CGRectMake(84, 2.5, 30, 30)];
-    asyncLabel.text = @"Async";
+    UILabel *asyncLabel = [[UILabel alloc] initWithFrame:CGRectMake(84, 5, 0, 0)];
+    asyncLabel.text = @"Async:";
+    asyncLabel.font = [UIFont systemFontOfSize:14.0f];
+    [asyncLabel sizeToFit];
     [toolBarView addSubview:asyncLabel];
     
-    UISwitch *asyncSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(100, 2.5, 0, 0)];
+    UISwitch *asyncSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(130, 2.5, 0, 0)];
 //    [asyncSwitch addTarget:self action:@selector(s) forControlEvents:UIControlEventValueChanged];
     [toolBarView addSubview:asyncSwitch];
     

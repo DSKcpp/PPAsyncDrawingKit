@@ -25,52 +25,35 @@
 
 - (void)setupWithCTFrame:(CTFrameRef)frame
 {
-//    NSInteger maxLines = self.layout.maximumNumberOfLines;
-//    CFArrayRef lineRefs = CTFrameGetLines(frame);
-//    CFIndex lineCount = CFArrayGetCount(lineRefs);
-//    NSMutableArray *lines = [NSMutableArray array];
-//    CGRect rect = CGRectZero;
-//    if (lineCount > 0) {
-//        CGPoint *origins = malloc(lineCount * sizeof(CGPoint));
-//        CTFrameGetLineOrigins(frame, CFRangeMake(0, lineCount), origins);
-//        
-//        for (NSInteger i = 0; i < lineCount; i++) {
-//            CTLineRef lineRef = CFArrayGetValueAtIndex(lineRefs, i);
-//            if (maxLines == 0) {
-//                PPTextLayoutLine *line = [[PPTextLayoutLine alloc] initWithCTLine:lineRef origin:origins[i] layout:self.layout];
-//                [lines addObject:line];
-//                if (i == 0) {
-//                    rect = line.fragmentRect;
-//                } else {
-//                    rect = CGRectUnion(rect, line.fragmentRect);
-//                }
-//            } else if (maxLines - 1 != 0) {
-//                NSLog(@"%zd", self.layout.maximumNumberOfLines);
-//            } else {
-//                NSLog(@"%zd", self.layout.maximumNumberOfLines);
-//            }
-//
-//        }
-//    }
-//    self.lineFragments = [NSArray arrayWithArray:lines];
-//    self.layoutSize = rect.size;
     NSInteger maxLines = self.layout.maximumNumberOfLines;
     CFArrayRef lineRefs = CTFrameGetLines(frame);
-    if (maxLines == 0) {
-        maxLines = CFArrayGetCount(lineRefs);
-    }
-    CGPoint origins[maxLines];
-    CTFrameGetLineOrigins(frame, CFRangeMake(0, 0), origins);
+    CFIndex lineCount = CFArrayGetCount(lineRefs);
     NSMutableArray *lines = [NSMutableArray array];
     CGRect rect = CGRectZero;
-    for (NSInteger i = 0; i < maxLines; i++) {
-        CTLineRef lineRef = CFArrayGetValueAtIndex(lineRefs, i);
-        PPTextLayoutLine *line = [[PPTextLayoutLine alloc] initWithCTLine:lineRef origin:origins[i] layout:self.layout];
-        [lines addObject:line];
-        if (i == 0) {
-            rect = line.fragmentRect;
-        } else {
-            rect = CGRectUnion(rect, line.fragmentRect);
+    if (lineCount > 0) {
+        CGPoint *origins = malloc(lineCount * sizeof(CGPoint));
+        CTFrameGetLineOrigins(frame, CFRangeMake(0, lineCount), origins);
+        
+        for (NSInteger i = 0; i < lineCount; i++) {
+            CTLineRef lineRef = CFArrayGetValueAtIndex(lineRefs, i);
+            PPTextLayoutLine *line;
+            if (maxLines == 0) {
+                line = [[PPTextLayoutLine alloc] initWithCTLine:lineRef origin:origins[i] layout:self.layout];
+                [lines addObject:line];
+            } else if (maxLines - 1 != 0) {
+                CTLineRef truncateLine = [self textLayout:_layout truncateLine:lineRef atIndex:maxLines - 1 truncated:YES];
+                line = [[PPTextLayoutLine alloc] initWithCTLine:truncateLine origin:origins[i] layout:self.layout];
+                [lines addObject:line];
+            } else {
+                CTLineRef truncateLine = [self textLayout:_layout truncateLine:lineRef atIndex:0 truncated:YES];
+                line = [[PPTextLayoutLine alloc] initWithCTLine:truncateLine origin:origins[i] layout:self.layout];
+                [lines addObject:line];
+            }
+            if (i == 0) {
+                rect = line.fragmentRect;
+            } else {
+                rect = CGRectUnion(rect, line.fragmentRect);
+            }
         }
     }
     self.lineFragments = [NSArray arrayWithArray:lines];
@@ -79,23 +62,41 @@
 
 - (CTLineRef)textLayout:(PPTextLayout *)layout truncateLine:(CTLineRef)truncateLine atIndex:(NSUInteger)index truncated:(BOOL)truncated
 {
-//    if (truncateLine) {
-//        CFRange stringRange = CTLineGetStringRange(truncateLine);
-//        if (layout) {
-//            
-//        }
-//        CGFloat maxWidth = [self textLayout:layout maximumWidthForTruncatedLine:truncateLine atIndex:index];
-//        CGFloat width = CTLineGetTypographicBounds(truncateLine, 0, 0, 0);
-//        NSAttributedString *attributedString = layout.attributedString;
-//        NSDictionary<NSString *, id> *attributes = [attributedString attributesAtIndex:index effectiveRange:nil];
-//        NSArray *keys = @[(id)kCTForegroundColorAttributeName, (id)kCTFontAttributeName, (id)kCTParagraphStyleAttributeName];
-//        attributes = [attributes dictionaryWithValuesForKeys:keys];
-//        [attributes enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+    if (truncateLine) {
+        CFRange stringRange = CTLineGetStringRange(truncateLine);
+        CGFloat maxWidth = [self textLayout:layout maximumWidthForTruncatedLine:truncateLine atIndex:index];
+        CGFloat width = CTLineGetTypographicBounds(truncateLine, NULL, NULL, NULL);
+        if (width < maxWidth) {
+            return truncateLine;
+        }
+        NSAttributedString *attributedString = layout.attributedString;
+        NSDictionary<NSString *, id> *truncateTokenAttributes = [attributedString attributesAtIndex:stringRange.location effectiveRange:nil];
+        NSArray *keys = @[(id)kCTForegroundColorAttributeName, (id)kCTFontAttributeName, (id)kCTParagraphStyleAttributeName];
+        truncateTokenAttributes = [truncateTokenAttributes dictionaryWithValuesForKeys:keys];
+//        [truncateTokenAttributes enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
 //            
 //        }];
-//        NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:@"" attributes:attributes];
-//    }
-    return nil;
+        NSAttributedString *tokenAttrStr;
+        if (layout.truncationString) {
+            tokenAttrStr = layout.truncationString;
+        } else {
+            tokenAttrStr = [[NSAttributedString alloc] initWithString:@"\u2026" attributes:truncateTokenAttributes];
+        }
+        CTLineRef truncationToken = CTLineCreateWithAttributedString((CFAttributedStringRef)tokenAttrStr);
+        NSMutableAttributedString *resultAttrStr = [attributedString attributedSubstringFromRange:PPNSRangeFromCFRange(stringRange)].mutableCopy;
+        [resultAttrStr appendAttributedString:tokenAttrStr];
+        
+        CTLineRef lineRef = CTLineCreateWithAttributedString((CFAttributedStringRef)resultAttrStr);
+        
+        CTLineRef resuleLineRef = CTLineCreateTruncatedLine(lineRef, maxWidth, kCTLineTruncationEnd, truncationToken);
+        CFRelease(truncationToken);
+        if (!resuleLineRef) {
+            resuleLineRef = CFRetain(lineRef);
+        }
+        CFRelease(lineRef);
+        return resuleLineRef;
+    }
+    return truncateLine;
 }
 
 - (CGFloat)textLayout:(PPTextLayout *)layout maximumWidthForTruncatedLine:(CTLineRef)maximumWidthForTruncatedLine atIndex:(NSUInteger)index
