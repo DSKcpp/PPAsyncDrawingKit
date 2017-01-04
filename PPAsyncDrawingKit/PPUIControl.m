@@ -41,6 +41,34 @@
     _targetActions = nil;
 }
 
+- (void)setHighlighted:(BOOL)highlighted
+{
+    if (_highlighted != highlighted) {
+        [self _stateWillChange];
+        _highlighted = highlighted;
+        [self _stateDidChange];
+    }
+}
+
+- (void)setEnabled:(BOOL)enabled
+{
+    if (_enabled != enabled) {
+        [self _stateWillChange];
+        _enabled = enabled;
+        [self _stateDidChange];
+        self.userInteractionEnabled = enabled;
+    }
+}
+
+- (void)setSelected:(BOOL)selected
+{
+    if (_selected != selected) {
+        [self _stateWillChange];
+        _selected = selected;
+        [self _stateDidChange];
+    }
+}
+
 - (void)addTarget:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents
 {
     if (action) {
@@ -173,10 +201,7 @@
     [self _sendActionsForControlEvents:controlEvents withEvent:nil];
 }
 
-- (void)_stateWillChange
-{
-    
-}
+- (void)_stateWillChange { }
 
 - (void)_stateDidChange
 {

@@ -12,9 +12,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, PPAsyncDrawingType) {
+    PPAsyncDrawingTypeNone,
+    PPAsyncDrawingTypeSync,
+    PPAsyncDrawingTypeAsync
+};
+
 @interface PPAsyncDrawingView : UIView
 
 @property (nonatomic, weak) PPAsyncDrawingViewLayer *drawingLayer;
+@property (nonatomic, class, assign) BOOL asyncDrawingDisabledGlobally;
 @property (nonatomic, assign, readonly) BOOL padingRedraw;
 @property (nonatomic, assign) BOOL serializesDrawingOperations;
 @property (nonatomic, assign) NSInteger dispatchPriority;
@@ -22,12 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSTimeInterval fadeDuration;
 @property (nonatomic, assign) BOOL reserveContentsBeforeNextDrawingComplete;
 @property (nonatomic, assign) BOOL contentsChangedAfterLastAsyncDrawing;
-@property (nonatomic, assign) NSInteger drawingPolicy;
+@property (nonatomic, assign) PPAsyncDrawingType drawingPolicy;
 @property (nonatomic, assign) NSUInteger drawingCount;
 @property (nonatomic, assign, readonly) BOOL alwaysUsesOffscreenRendering;
-
-+ (BOOL)asyncDrawingDisabledGlobally;
-+ (void)setDisablesAsyncDrawingGlobally:(BOOL)asyncDrawingDisabledGlobally;
 
 - (void)interruptDrawingWhenPossible;
 - (dispatch_queue_t)drawQueue;
@@ -37,16 +41,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)drawInRect:(CGRect)rect withContext:(nullable CGContextRef)context asynchronously:(BOOL)async;
 - (BOOL)drawInRect:(CGRect)rect withContext:(nullable CGContextRef)context asynchronously:(BOOL)async userInfo:(nullable NSDictionary *)userInfo;
 - (nullable NSDictionary *)currentDrawingUserInfo;
+- (void)setNeedsDisplayAsync;
 @end
 
 @interface PPAsyncDrawingViewLayer : CALayer
 
 /**
- 下一次 Drawing 完成之前是否要保留当前的 Contnets
+ 下一次 Drawing 完成之前是否要保留之前的 Contnets，默认 NO
  */
 @property (nonatomic, assign) BOOL reserveContentsBeforeNextDrawingComplete;
 @property (nonatomic, assign) BOOL contentsChangedAfterLastAsyncDrawing;
-@property (nonatomic, assign) NSInteger drawingPolicy;
+@property (nonatomic, assign) PPAsyncDrawingType drawingPolicy;
 @property (nonatomic, assign) NSTimeInterval fadeDuration;
 @property (nonatomic, assign, readonly) int32_t drawingCount;
 

@@ -128,7 +128,7 @@
         bottomLineView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
         _itemContentBgImageView = [[WBColorImageView alloc] init];
         _itemContentBgImageView.userInteractionEnabled = YES;
-        [_itemContentBgImageView setBackgroundColor:[UIColor whiteColor] boolOwn:YES];
+        [_itemContentBgImageView setBackgroundColor:[UIColor whiteColor]];
         _itemContentBgImageView.highLightBackgroundColor = [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1.0];
         _itemContentBgImageView.topLineView = topLineView;
         _itemContentBgImageView.bottomLineView = bottomLineView;
@@ -207,6 +207,26 @@
         self.textContentView.largeCardView.frame = drawingContext.largeFrame;
     }
 }
+
+- (void)setHighlighted:(BOOL)highlighted
+{
+    if (_highlighted != highlighted) {
+        _highlighted = highlighted;
+        [self setSelectionColor:highlighted];
+        [_quotedItemBorderButton setHighlighted:highlighted];
+        [self setNeedsDisplay];
+    }
+}
+
+- (void)setSelectionColor:(BOOL)highlighted
+{
+    [_itemContentBgImageView setHighlighted:highlighted];
+    [_itemTypeBgImageView setHighlighted:highlighted];
+    [_textContentView setHighlighted:highlighted];
+    [_avatarView setHighlighted:highlighted];
+    [_actionButtonsView setButtonsHighlighted:highlighted];
+}
+
 @end
 
 @interface WBTimelineActionButtonsView ()
@@ -233,22 +253,26 @@
     CGFloat height = [WBTimelinePreset sharedInstance].actionButtonsHeight;
     
     UIColor *titleColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0];
+    UIColor *bgColor = [UIColor colorWithRed:240/255.0f green:240/255.0f blue:240/255.0f alpha:1.0f];
     _retweetButton = [[PPButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
     [_retweetButton setTitleColor:titleColor forState:UIControlStateNormal];
     [_retweetButton setImage:[UIImage imageNamed:@"timeline_icon_retweet"] forState:UIControlStateNormal];
-    _retweetButton.buttonInfo.titleFont = [UIFont systemFontOfSize:12.0f];
+    [_retweetButton setBackgroundImage:[self imageFromColor:bgColor] forState:UIControlStateHighlighted];
+    _retweetButton.titleFont = [UIFont systemFontOfSize:12.0f];
     [self addSubview:_retweetButton];
+    
     _commentButton = [[PPButton alloc] initWithFrame:CGRectMake(width, 0, width, height)];
     [_commentButton setTitleColor:titleColor forState:UIControlStateNormal];
-    
     [_commentButton setImage:[UIImage imageNamed:@"timeline_icon_comment"] forState:UIControlStateNormal];
-    _commentButton.buttonInfo.titleFont = [UIFont systemFontOfSize:12.0f];
+    [_commentButton setBackgroundImage:[self imageFromColor:bgColor] forState:UIControlStateHighlighted];
+    _commentButton.titleFont = [UIFont systemFontOfSize:12.0f];
     [self addSubview:_commentButton];
+    
     _likeButton = [[PPButton alloc] initWithFrame:CGRectMake(width * 2.0f, 0, width, height)];
     [_likeButton setTitleColor:titleColor forState:UIControlStateNormal];
-    
     [_likeButton setImage:[UIImage imageNamed:@"timeline_icon_unlike"] forState:UIControlStateNormal];
-    _likeButton.buttonInfo.titleFont = [UIFont systemFontOfSize:12.0f];
+    [_likeButton setBackgroundImage:[self imageFromColor:bgColor] forState:UIControlStateHighlighted];
+    _likeButton.titleFont = [UIFont systemFontOfSize:12.0f];
     [self addSubview:_likeButton];
     
     for (NSInteger i = 0; i < 2; i++) {
@@ -257,6 +281,18 @@
         imageView.frame = CGRectMake((i + 1) * width, 0, 0.5f, [WBTimelinePreset sharedInstance].actionButtonsHeight);
         [self addSubview:imageView];
     }
+}
+
+- (UIImage *)imageFromColor:(UIColor *)color
+{
+    CGRect rect = CGRectMake(0, 0, 1, 1);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, color.CGColor);
+    CGContextFillRect(context, rect);
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
 }
 
 - (void)setTimelineItem:(WBTimelineItem *)timelineItem
@@ -284,6 +320,13 @@
         likeCount = @"赞" ;
     }
     [_likeButton setTitle:likeCount forState:UIControlStateNormal];
+}
+
+- (void)setButtonsHighlighted:(BOOL)highlighted
+{
+    _retweetButton.highlighted = highlighted;
+    _commentButton.highlighted = highlighted;
+    _likeButton.highlighted = highlighted;
 }
 
 - (void)setFrame:(CGRect)frame

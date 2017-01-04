@@ -23,6 +23,19 @@
     return self;
 }
 
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
+{
+    [super setHighlighted:highlighted animated:animated];
+    if (!self.isSelected) {
+        [self setSelectionColor:self.isHighlighted];
+    }
+}
+
+- (void)setSelectionColor:(BOOL)highlighted
+{
+    [_timelineContentView setSelectionColor:highlighted];
+}
+
 - (WBTimelineItem *)timelineItem
 {
     return self.timelineContentView.timelineItem;
@@ -31,12 +44,6 @@
 - (void)setTimelineItem:(WBTimelineItem *)timelineItem
 {
     self.timelineContentView.timelineItem = timelineItem;
-}
-
-- (void)prepareForReuse
-{
-    [super prepareForReuse];
-//    [self.timelineContentView.textContentView setNeedsDisplay];
 }
 
 @end

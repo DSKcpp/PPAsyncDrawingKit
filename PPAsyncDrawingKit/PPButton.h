@@ -10,11 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class PPButtonInfo;
-
 @interface PPButton : PPUIControl
-
-@property (nonatomic, strong) PPButtonInfo *buttonInfo;
 @property (nonatomic, assign) CGRect backgroundFrame;
 @property (nonatomic, assign) CGRect imageFrame;
 @property (nonatomic, assign) CGRect titleFrame;
@@ -28,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) UIEdgeInsets titleEdgeInsets;
 @property (nonatomic, strong, readonly) UILabel *titleLabel;
 @property (nonatomic, assign) BOOL needsUpdateFrame;
+@property (nonatomic, assign) UIControlState trackingState;
+@property (nonatomic, strong) UIFont *titleFont;
 
 - (NSString *)stringOfState:(UIControlState)state;
 - (nullable UIColor *)titleColorForState:(UIControlState)state;
@@ -61,14 +59,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)configure;
 - (instancetype)initWithCoder:(NSCoder *)aDecoder;
 - (instancetype)initWithFrame:(CGRect)frame;
-@end
-
-@interface PPButtonInfo : NSObject
-@property (nonatomic, strong) UIFont *titleFont;
-@property (nonatomic, strong) UIColor *titleColor;
-@property (nonatomic, copy) NSString *title;
-@property (nonatomic, strong) UIImage *backgroundImage;
-@property (nonatomic, strong) UIImage *image;
 @end
 
 NS_ASSUME_NONNULL_END

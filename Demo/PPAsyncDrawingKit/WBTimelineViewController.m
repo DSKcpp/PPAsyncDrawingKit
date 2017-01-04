@@ -92,6 +92,11 @@
     return [WBTimelineContentView heightOfTimelineItem:timelineItem withContentWidth:tableView.bounds.size.width];
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
 - (void)tableViewCell:(WBTimelineTableViewCell *)tableViewCell didPressHighlightRange:(PPTextHighlightRange *)highlightRange
 {
     WBTimelineItem *timelineItem = tableViewCell.timelineItem;

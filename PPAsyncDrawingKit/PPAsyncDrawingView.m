@@ -9,19 +9,8 @@
 #import "PPAsyncDrawingView.h"
 #import <libkern/OSAtomic.h>
 
-static BOOL asyncDrawingDisabled = NO;
-
 @implementation PPAsyncDrawingView
-
-+ (BOOL)asyncDrawingDisabledGlobally
-{
-    return asyncDrawingDisabled;
-}
-
-+ (void)setDisablesAsyncDrawingGlobally:(BOOL)asyncDrawingDisabledGlobally
-{
-    asyncDrawingDisabled = asyncDrawingDisabledGlobally;
-}
+static BOOL asyncDrawingDisabled = NO;
 
 + (Class)layerClass
 {
@@ -224,6 +213,16 @@ static BOOL asyncDrawingDisabled = NO;
 }
 
 #pragma mark - getter and setter
++ (BOOL)asyncDrawingDisabledGlobally
+{
+    return asyncDrawingDisabled;
+}
+
++ (void)setAsyncDrawingDisabledGlobally:(BOOL)asyncDrawingDisabledGlobally
+{
+    asyncDrawingDisabled = asyncDrawingDisabledGlobally;
+}
+
 - (NSTimeInterval)fadeDuration
 {
     return self.drawingLayer.fadeDuration;
@@ -254,12 +253,12 @@ static BOOL asyncDrawingDisabled = NO;
     [self.drawingLayer setContentsChangedAfterLastAsyncDrawing:contentsChangedAfterLastAsyncDrawing];
 }
 
-- (NSInteger)drawingPolicy
+- (PPAsyncDrawingType)drawingPolicy
 {
     return self.drawingLayer.drawingPolicy;
 }
 
-- (void)setDrawingPolicy:(NSInteger)drawingPolicy
+- (void)setDrawingPolicy:(PPAsyncDrawingType)drawingPolicy
 {
     [self.drawingLayer setDrawingPolicy:drawingPolicy];
 }
@@ -335,10 +334,9 @@ static BOOL asyncDrawingDisabled = NO;
 
 - (BOOL)drawsCurrentContentAsynchronously
 {
-    NSUInteger drawingPolicy = self.drawingPolicy;
-    if (drawingPolicy == 2) {
+    if (_drawingPolicy == PPAsyncDrawingTypeAsync) {
         return YES;
-    } else if (drawingPolicy == 1) {
+    } else if (_drawingPolicy == PPAsyncDrawingTypeSync) {
         return NO;
     } else {
         return self.contentsChangedAfterLastAsyncDrawing;

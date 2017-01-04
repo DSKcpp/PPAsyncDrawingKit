@@ -39,13 +39,14 @@
 @property (nonatomic, strong) WBTimelineImageContentView *photoImageView;
 @property (nonatomic, strong) WBColorImageView *itemTypeBgImageView;
 @property (nonatomic, strong) PPImageView *titleIcon;
-
+@property (nonatomic, assign) BOOL highlighted;
 @property (nonatomic, assign) CGFloat contentWidth;
 
 + (CGFloat)heightOfTimelineItem:(WBTimelineItem *)timelineItem withContentWidth:(CGFloat)width;
 + (WBTimelineTableViewCellDrawingContext *)validDrawingContextOfTimelineItem:(WBTimelineItem *)timelineItem withContentWidth:(CGFloat)width;
 - (instancetype)initWithWidth:(CGFloat)width;
 - (void)setTimelineItem:(WBTimelineItem *)timelineItem;
+- (void)setSelectionColor:(BOOL)highlighted;
 @end
 
 @interface WBTimelineActionButtonsView : UIView
@@ -53,4 +54,5 @@
 @property (nonatomic, strong, readonly) PPButton *commentButton;
 @property (nonatomic, strong, readonly) PPButton *likeButton;
 - (void)setTimelineItem:(WBTimelineItem *)timelineItem;
+- (void)setButtonsHighlighted:(BOOL)highlighted;
 @end

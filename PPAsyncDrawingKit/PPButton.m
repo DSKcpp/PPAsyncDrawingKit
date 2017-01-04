@@ -9,16 +9,34 @@
 #import "PPButton.h"
 #import "NSString+PPAsyncDrawingKit.h"
 
+@interface PPButtonInfo : NSObject
+@property (nonatomic, strong) UIFont *titleFont;
+@property (nonatomic, strong) UIColor *titleColor;
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, strong) UIImage *backgroundImage;
+@property (nonatomic, strong) UIImage *image;
+@end
+
 @implementation PPButtonInfo @end
 
 @interface PPButton ()
+@property (nonatomic, strong) PPButtonInfo *buttonInfo;
 @property (nonatomic, copy) NSString *renderedTitle;
 @property (nonatomic, strong) UIImage *renderedImage;
 @property (nonatomic, strong) UIImage *renderedBackgroundImage;
 @property (nonatomic, assign) CGSize renderedBoundsSize;
+@property (nonatomic, assign) BOOL privateTracking;
 @end
 
 @implementation PPButton
+{
+    struct {
+        BOOL titleChange;
+        BOOL imageChange;
+        BOOL backgroundImageChange;
+        BOOL boundsSizeChange;
+    } _pending;
+}
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -34,6 +52,33 @@
         [self configure];
     }
     return self;
+}
+
+- (void)setHighlighted:(BOOL)highlighted
+{
+    if (self.isHighlighted != highlighted) {
+        [super setHighlighted:highlighted];
+        _privateTracking = highlighted;
+        if (_trackingState == UIControlStateHighlighted) {
+            [self updateContentsAndRelayout:NO];
+        }
+    }
+}
+
+- (void)setEnabled:(BOOL)enabled
+{
+    if (self.isEnabled != enabled) {
+        [super setEnabled:enabled];
+        CGFloat alpha;
+        if (!enabled || self.state == UIControlStateDisabled) {
+            _trackingState = UIControlStateDisabled;
+            alpha = 0.5f;
+        } else {
+            _trackingState = UIControlStateNormal;
+            alpha = 1.0f;
+        }
+        self.alpha = alpha;
+    }
 }
 
 - (void)configure
@@ -90,7 +135,7 @@
             UIImage *image = buttonInfo.image;
             UIColor *titleColor = buttonInfo.titleColor;
             NSString *title = buttonInfo.title;
-            UIFont *titleFont = buttonInfo.titleFont;
+            UIFont *titleFont = _titleFont;
             CGRect backgroundFrame = self.backgroundFrame;
             CGRect imageFrame = self.imageFrame;
             CGRect titleFrame = self.titleFrame;
@@ -137,13 +182,16 @@
 - (void)setBackgroundImage:(UIImage *)backgroundImage forState:(UIControlState)state
 {
     NSString *stateString = [self stringOfState:state];
-    if (backgroundImage) {
-        [self.backgroundImages setObject:backgroundImage forKey:stateString];
-    } else {
-        [self.backgroundImages removeObjectForKey:stateString];
-    }
-    if (self.state == state) {
-        [self updateBackgroundImage:backgroundImage];
+    UIImage *img = _backgroundImages[stateString];
+    if (img != backgroundImage) {
+        if (backgroundImage) {
+            [self.backgroundImages setObject:backgroundImage forKey:stateString];
+        } else {
+            [self.backgroundImages removeObjectForKey:stateString];
+        }
+        if (self.state == state) {
+            [self updateBackgroundImage:backgroundImage];
+        }
     }
 }
 
@@ -179,6 +227,30 @@
     }
 }
 
+- (UIImage *)imageForState:(UIControlState)state
+{
+    NSString *stateKey = [self stringOfState:state];
+    return _images[stateKey];
+}
+
+- (NSString *)titleForState:(UIControlState)state
+{
+    NSString *stateKey = [self stringOfState:state];
+    return _titles[stateKey];
+}
+
+- (UIImage *)backgroundImageForState:(UIControlState)state
+{
+    NSString *stateKey = [self stringOfState:state];
+    return _backgroundImages[stateKey];
+}
+
+- (UIColor *)titleColorForState:(UIControlState)state
+{
+    NSString *stateKey = [self stringOfState:state];
+    return _titleColors[stateKey];
+}
+
 - (void)updateTitle:(NSString *)title
 {
     if (![self.buttonInfo.title isEqualToString:title]) {
@@ -200,8 +272,20 @@
 
 - (void)updateBackgroundImage:(UIImage *)backgroundImage
 {
-    if (self.buttonInfo.backgroundImage != backgroundImage) {
-        self.buttonInfo.backgroundImage = backgroundImage;
+    PPButtonInfo *buttonInfo = _buttonInfo;
+    if (buttonInfo.backgroundImage != backgroundImage) {
+        buttonInfo.backgroundImage = backgroundImage;
+        if (!_pending.imageChange) {
+            _pending.imageChange = YES;
+            [self setNeedsUpdateFrame];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIImage *bgImg = buttonInfo.backgroundImage;
+                if (bgImg != _renderedBackgroundImage) {
+                    [self setNeedsUpdateFrame];
+                    [self setNeedsDisplayAsync];
+                }
+            });
+        }
     }
 }
 
@@ -214,9 +298,60 @@
     [self setNeedsDisplay];
 }
 
+- (void)updateButtonInfo
+{
+    NSString *stateKey = [self stringOfState:_trackingState];
+    NSString *normalStateKey = [self stringOfState:UIControlStateNormal];
+    UIImage *backgroundImage = _backgroundImages[stateKey];
+    if (backgroundImage) {
+        
+    } else {
+        if (_trackingState == UIControlStateHighlighted) {
+            backgroundImage = _backgroundImages[normalStateKey];
+            [self setNeedsUpdateFrame];
+        }
+    }
+    
+    UIImage *image = _images[stateKey];
+    BOOL imageIfNil = image == nil;
+    if (!image) {
+        imageIfNil = _trackingState == UIControlStateHighlighted;
+    }
+    if (imageIfNil) {
+        image = _images[normalStateKey];
+        [self setNeedsUpdateFrame];
+    }
+    
+    UIColor *titleColor = _titleColors[stateKey];
+    BOOL titleColorIfNil = titleColor == nil;
+    if (!titleColor) {
+        titleColorIfNil = _trackingState == UIControlStateHighlighted;
+    }
+    if (titleColorIfNil) {
+        titleColor = _titleColors[normalStateKey];
+    }
+    
+    NSString *title = _titles[stateKey];
+    BOOL titleIfNil = title == nil;
+    if (!title) {
+        titleIfNil = _trackingState == UIControlStateHighlighted;
+    }
+    if (titleIfNil) {
+        title = _titles[normalStateKey];
+        [self setNeedsUpdateFrame];
+    }
+    
+    PPButtonInfo *buttonInfo = _buttonInfo;
+    buttonInfo.backgroundImage = backgroundImage;
+    buttonInfo.image = image;
+    buttonInfo.title = title;
+    buttonInfo.titleColor = titleColor;
+    buttonInfo.titleFont = _titleFont;
+}
+
 - (void)setNeedsUpdateFrame
 {
-    self.needsUpdateFrame = YES;
+    _needsUpdateFrame = YES;
 }
 
 - (void)updateSubviewFrames
@@ -236,11 +371,70 @@
     CGFloat height = CGRectGetHeight(bounds);
     self.backgroundFrame = self.bounds;
     CGSize imageSize = _buttonInfo.image.size;
-        CGSize titleSize = [_buttonInfo.title pp_sizeWithFont:_buttonInfo.titleFont constrainedToSize:CGSizeMake(width - imageSize.width, height) lineBreakMode:NSLineBreakByWordWrapping];
+        CGSize titleSize = [_buttonInfo.title pp_sizeWithFont:_titleFont constrainedToSize:CGSizeMake(width - imageSize.width, height) lineBreakMode:NSLineBreakByWordWrapping];
     CGFloat totalW = imageSize.width + titleSize.width;
     CGFloat left = (width - totalW) / 2.0f;
     self.imageFrame = CGRectMake(left, height / 2.0f - imageSize.height / 2.0f, imageSize.width, imageSize.height);
     self.titleFrame = CGRectMake(CGRectGetMaxX(self.imageFrame), height / 2.0f - titleSize.height / 2.0f, titleSize.width, titleSize.height);
+}   
+
+- (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
+{
+    _privateTracking = YES;
+    _trackingState = UIControlStateHighlighted;
+    [self updateContentsAndRelayout:NO];
+    return YES;
+}
+
+
+- (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
+{
+    CGPoint point;
+    if (touch) {
+        point = [touch locationInView:self];
+    }
+    BOOL isCancel = CGRectContainsPoint(self.bounds, point);
+    if (!isCancel) {
+        [self sendActionsForControlEvents:UIControlEventTouchCancel];
+        [self cancelTrackingWithEvent:event];
+    }
+    return isCancel;
+}
+
+- (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
+{
+    [self shouldDelayHighlighted];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        _trackingState = UIControlStateNormal;
+        [self updateContentsAndRelayout:NO];
+        _privateTracking = NO;
+    });
+}
+
+- (void)cancelTrackingWithEvent:(UIEvent *)event
+{
+    [self shouldDelayHighlighted];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        _trackingState = UIControlStateNormal;
+        [self updateContentsAndRelayout:NO];
+        _privateTracking = NO;
+    });
+}
+
+- (void)didMoveToWindow
+{
+    [super didMoveToWindow];
+    if (self.window) {
+        [self setNeedsDisplay];
+    }
+}
+
+- (void)didMoveToSuperview
+{
+    [super didMoveToSuperview];
+    if (self.superview) {
+        [self setNeedsDisplay];
+    }
 }
 
 - (void)didCommitBoundsSizeChange { }
@@ -265,4 +459,3 @@
     }
 }
 @end
-

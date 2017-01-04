@@ -14,6 +14,9 @@
 #import "YYFPSLabel.h"
 #import "PPImageCache.h"
 #import "PPWebImageManager.h"
+#import "PPAsyncDrawingView.h"
+#import "UIView+Frame.h"
+#import "PPTextRenderer.h"
 
 @implementation ViewController
 
@@ -23,23 +26,48 @@
     
     CGFloat height = 35.0f;
     
-    UIView *toolBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, height)];
+    UIView *toolBarView = [[UIView alloc] init];
+    toolBarView.bottom = self.view.bottom - height;
+    toolBarView.size = CGSizeMake(self.view.width, height);
     toolBarView.backgroundColor = [UIColor whiteColor];
     
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     [window addSubview:toolBarView];
-    YYFPSLabel *fpsLabel = [[YYFPSLabel alloc] initWithFrame:CGRectMake(12, 2.5, 60, 30)];
+    YYFPSLabel *fpsLabel = [[YYFPSLabel alloc] initWithFrame:CGRectMake(10.0f, 0, 60, 20)];
+    fpsLabel.centerY = toolBarView.height / 2.0f;
     [toolBarView addSubview:fpsLabel];
     
-    UILabel *asyncLabel = [[UILabel alloc] initWithFrame:CGRectMake(84, 5, 0, 0)];
+    UILabel *asyncLabel = [[UILabel alloc] init];
     asyncLabel.text = @"Async:";
     asyncLabel.font = [UIFont systemFontOfSize:14.0f];
     [asyncLabel sizeToFit];
+    asyncLabel.centerY = fpsLabel.centerY;
+    asyncLabel.left = fpsLabel.right + 10.0f;
     [toolBarView addSubview:asyncLabel];
     
-    UISwitch *asyncSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(130, 2.5, 0, 0)];
-//    [asyncSwitch addTarget:self action:@selector(s) forControlEvents:UIControlEventValueChanged];
+    UISwitch *asyncSwitch = [[UISwitch alloc] init];
+    asyncSwitch.centerY = fpsLabel.centerY;
+    asyncSwitch.left = asyncLabel.right;
+    [asyncSwitch.layer setValue:@(0.8) forKeyPath:@"transform.scale"];
+    [asyncSwitch setOn:![PPAsyncDrawingView asyncDrawingDisabledGlobally] animated:YES];
+    [asyncSwitch addTarget:self action:@selector(setAsyncDrawingDisabledGlobally:) forControlEvents:UIControlEventValueChanged];
     [toolBarView addSubview:asyncSwitch];
+    
+    UILabel *textDebugLabel = [[UILabel alloc] init];
+    textDebugLabel.text = @"Text DEBUG:";
+    textDebugLabel.font = [UIFont systemFontOfSize:14.0f];
+    [textDebugLabel sizeToFit];
+    textDebugLabel.centerY = fpsLabel.centerY;
+    textDebugLabel.left = asyncSwitch.right + 10.0f;
+    [toolBarView addSubview:textDebugLabel];
+    
+    UISwitch *textDebugSwitch = [[UISwitch alloc] init];
+    textDebugSwitch.centerY = fpsLabel.centerY;
+    textDebugSwitch.left = textDebugLabel.right;
+    [textDebugSwitch.layer setValue:@(0.8) forKeyPath:@"transform.scale"];
+    [textDebugSwitch setOn:[PPTextRenderer debugModeEnabled] animated:YES];
+    [textDebugSwitch addTarget:self action:@selector(setTextRendererDebug:) forControlEvents:UIControlEventValueChanged];
+    [toolBarView addSubview:textDebugSwitch];
     
 //    [[PPImageCache sharedCache] cleanDiskCache];
 //    NSUInteger size =  [[PPImageCache sharedCache] cacheSize];
@@ -51,6 +79,16 @@
 //    [[PPWebImageManager sharedManager] loadImage:@"http://ww2.sinaimg.cn/large/62cc3323gw1fb22c4thosj21jk0rs1kx.jpg" complete:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error) {
 //        NSLog(@"%@", image);
 //    }];
+}
+
+- (void)setAsyncDrawingDisabledGlobally:(UISwitch *)switchButton
+{
+    [PPAsyncDrawingView setAsyncDrawingDisabledGlobally:!switchButton.isOn];
+}
+
+- (void)setTextRendererDebug:(UISwitch *)switchButton
+{
+    [PPTextRenderer setDebugModeEnabled:switchButton.isOn];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
