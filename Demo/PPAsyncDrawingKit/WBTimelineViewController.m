@@ -45,7 +45,7 @@
     [self.view addSubview:_tableView];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"WBTimeLineJSON.json" ofType:@""];
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"WBTimelineJSON" ofType:@"json"];
         WBCardsModel *cards = [WBCardsModel yy_modelWithJSON:[NSData dataWithContentsOfFile:path]];
         CGFloat width = _tableView.bounds.size.width;
         [cards.cards enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(WBCardModel * _Nonnull card, NSUInteger idx, BOOL * _Nonnull stop) {

@@ -58,10 +58,12 @@
 {
     if (self.isHighlighted != highlighted) {
         [super setHighlighted:highlighted];
-        _privateTracking = highlighted;
-        if (_trackingState == UIControlStateHighlighted) {
+//        if (_privateTracking == NO) {
+//            if (_trackingState == UIControlStateHighlighted) {
+//                
+//            }
             [self updateContentsAndRelayout:NO];
-        }
+//        }
     }
 }
 
@@ -101,7 +103,7 @@
     self.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     PPButtonInfo *buttonInfo = [PPButtonInfo new];
-    buttonInfo.titleFont = self.titleLabel.font;
+    buttonInfo.titleFont = _titleFont;
     self.buttonInfo = buttonInfo;
     self.titleEdgeInsets = UIEdgeInsetsZero;
     self.contentEdgeInsets = UIEdgeInsetsZero;
@@ -126,6 +128,7 @@
 
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(NSDictionary *)userInfo
 {
+    return YES;
     NSUInteger drawingCount= self.drawingCount;
     PPButtonInfo *buttonInfo = self.buttonInfo;
     if (buttonInfo) {
@@ -167,16 +170,23 @@
 - (void)setTitle:(NSString *)title forState:(UIControlState)state
 {
     NSString *stateString = [self stringOfState:state];
-    if (title) {
-        [self.titles setObject:title forKey:stateString];
-    } else {
-        [self.titles removeObjectForKey:stateString];
+    NSString *currentTitle = _titles[stateString];
+    if ((title || currentTitle) && ![title isEqualToString:currentTitle]) {
+        if (title) {
+            [self.titles setObject:title forKey:stateString];
+        } else {
+            [self.titles removeObjectForKey:stateString];
+        }
+        if (self.state == state) {
+            [self updateTitle:title];
+        } else {
+            BOOL stateEqualNormal = state == UIControlStateNormal;
+            if (!self.state) {
+                
+            }
+        }
     }
-    if (self.state == state) {
-        [self updateTitle:title];
-    } else {
-        
-    }
+
 }
 
 - (void)setBackgroundImage:(UIImage *)backgroundImage forState:(UIControlState)state
@@ -220,7 +230,7 @@
         self.contentsChangedAfterLastAsyncDrawing = YES;
         [self setNeedsUpdateFrame];
         if (self.state == state) {
-            self.titleLabel.textColor = color;
+//            self.titleLabel.textColor = color;
             self.buttonInfo.titleColor = color;
             [self asyncSetNeedsDisplay];
         }
@@ -253,12 +263,19 @@
 
 - (void)updateTitle:(NSString *)title
 {
-    if (![self.buttonInfo.title isEqualToString:title]) {
-        self.buttonInfo.title = title;
-        [self setNeedsUpdateFrame];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-        });
+    PPButtonInfo *buttonInfo = _buttonInfo;
+    if (![buttonInfo.title isEqualToString:title]) {
+        buttonInfo.title = title;
+//        if (!_pending.titleChange) {
+            _pending.titleChange = YES;
+            [self setNeedsUpdateFrame];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (![buttonInfo.title isEqualToString:_renderedTitle]) {
+                    [self setNeedsUpdateFrame];
+                    [self setNeedsDisplayAsync];
+                }
+            });
+//        }
     }
 }
 
@@ -275,8 +292,8 @@
     PPButtonInfo *buttonInfo = _buttonInfo;
     if (buttonInfo.backgroundImage != backgroundImage) {
         buttonInfo.backgroundImage = backgroundImage;
-        if (!_pending.imageChange) {
-            _pending.imageChange = YES;
+//        if (!_pending.backgroundImageChange) {
+            _pending.backgroundImageChange = YES;
             [self setNeedsUpdateFrame];
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIImage *bgImg = buttonInfo.backgroundImage;
@@ -285,7 +302,7 @@
                     [self setNeedsDisplayAsync];
                 }
             });
-        }
+//        }
     }
 }
 
@@ -376,6 +393,7 @@
     CGFloat left = (width - totalW) / 2.0f;
     self.imageFrame = CGRectMake(left, height / 2.0f - imageSize.height / 2.0f, imageSize.width, imageSize.height);
     self.titleFrame = CGRectMake(CGRectGetMaxX(self.imageFrame), height / 2.0f - titleSize.height / 2.0f, titleSize.width, titleSize.height);
+    _needsUpdateFrame = NO;
 }   
 
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event

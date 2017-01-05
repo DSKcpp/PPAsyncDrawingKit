@@ -22,7 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) UIEdgeInsets imageEdgeInsets;
 @property (nonatomic, assign) UIEdgeInsets contentEdgeInsets;
 @property (nonatomic, assign) UIEdgeInsets titleEdgeInsets;
-@property (nonatomic, strong, readonly) UILabel *titleLabel;
 @property (nonatomic, assign) BOOL needsUpdateFrame;
 @property (nonatomic, assign) UIControlState trackingState;
 @property (nonatomic, strong) UIFont *titleFont;
@@ -44,10 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)updateTitle:(NSString *)title;
 
 - (BOOL)canBecomeFirstResponder;
-- (CGRect)imageRectForContentRect:(CGRect)arg1;
-- (CGRect)titleRectForContentRect:(CGRect)arg1;
-- (CGRect)contentRectForBounds:(CGRect)arg1;
-- (CGRect)backgroundRectForBounds:(CGRect)arg1;
 - (void)setNeedsUpdateFrame;
 - (void)updateSubviewFrames;
 - (void)actualUpdateSubviewFrames;

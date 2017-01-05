@@ -32,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addRefrence:(id)arg1;
 
 - (nullable NSString *)keyWithURL:(NSString *)URL;
+- (NSString *)cachePathForKey:(NSString *)key;
 
 - (nullable UIImage *)imageForURL:(NSString *)URL;
 - (nullable UIImage *)imageForURL:(NSString *)URL taskKey:(nullable NSString *)taskKey;

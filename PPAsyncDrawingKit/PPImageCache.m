@@ -92,6 +92,11 @@ static NSString *_PPNSStringMD5(NSString *string) {
     return nil;
 }
 
+- (NSString *)cachePathForKey:(NSString *)key
+{
+    return [_cachePath stringByAppendingPathComponent:key];
+}
+
 - (UIImage *)imageForURL:(NSString *)URL
 {
     return [self imageForURL:URL taskKey:nil];
@@ -112,7 +117,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
         NSString *key = [self keyWithURL:URL];
         UIImage *image = [_cache objectForKey:key];
         if (!image) {
-            image = [UIImage imageWithContentsOfFile:[_cachePath stringByAppendingPathComponent:key]];
+            image = [UIImage imageWithContentsOfFile:[self cachePathForKey:key]];
         }
         return image;
     }
@@ -132,7 +137,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
         });
     } else {
         dispatch_async(_ioQueue, ^{
-            UIImage *image = [PPImage imageWithContentsOfFile:[_cachePath stringByAppendingPathComponent:key]];
+            UIImage *image = [PPImage imageWithContentsOfFile:[self cachePathForKey:key]];
             if (image) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     callback(image, PPImageCacheTypeDisk);
@@ -154,7 +159,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
         return YES;
     } else {
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        return [fileManager fileExistsAtPath:[_cachePath stringByAppendingPathComponent:key]];
+        return [fileManager fileExistsAtPath:[self cachePathForKey:key]];
     }
 }
 
@@ -162,12 +167,12 @@ static NSString *_PPNSStringMD5(NSString *string) {
 {
     NSString *key = [self keyWithURL:URL];
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    return [fileManager fileExistsAtPath:[_cachePath stringByAppendingPathComponent:key]];
+    return [fileManager fileExistsAtPath:[self cachePathForKey:key]];
 }
 
 - (NSString *)diskCachePathForImageURL:(NSString *)imageURL
 {
-    return [_cachePath stringByAppendingPathComponent:[self keyWithURL:imageURL]];
+    return [self cachePathForKey:[self keyWithURL:imageURL]];
 }
 
 - (void)storeImage:(UIImage *)image forURL:(NSString *)URL
@@ -217,7 +222,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
         if (![fileManager fileExistsAtPath:path]) {
             [fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
         }
-        path = [path stringByAppendingPathComponent:[self keyWithURL:URL]];
+        path = [self cachePathForKey:[self keyWithURL:URL]];
         [fileManager createFileAtPath:path contents:imageData attributes:nil];
     });
 }
@@ -242,7 +247,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
     dispatch_sync(_ioQueue, ^{
         NSDirectoryEnumerator<NSString *> *files = [[NSFileManager defaultManager] enumeratorAtPath:_cachePath];
         for (NSString *fileName in files) {
-            NSString *filePath = [_cachePath stringByAppendingPathComponent:fileName];
+            NSString *filePath = [self cachePathForKey:fileName];
             NSDictionary<NSFileAttributeKey, id> * attr = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil];
             totalCacheSize += [attr fileSize];
         }

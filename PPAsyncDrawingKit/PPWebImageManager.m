@@ -89,10 +89,22 @@
     }
 }
 
+- (dispatch_queue_t)imageLoadQueue
+{
+    if (!_imageLoadQueue) {
+        _imageLoadQueue = dispatch_queue_create("io.github.dskcpp.imageLoad", NULL);
+    }
+    return _imageLoadQueue;
+}
 
 - (void)addRequest:(PPImageLoadRequest *)request
 {
-    UIImage *image = [_cache imageForURL:request.imageURL taskKey:request.imageURL];
+    __block UIImage *image;
+    
+    dispatch_sync(self.imageLoadQueue, ^{
+        image = [_cache imageForURL:request.imageURL taskKey:request.imageURL];
+    });
+    
     if (image) {
         request.image = image;
         request.progress = 1.0f;

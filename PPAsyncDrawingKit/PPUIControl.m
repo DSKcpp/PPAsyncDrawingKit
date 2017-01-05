@@ -205,7 +205,7 @@
 
 - (void)_stateDidChange
 {
-    if (self.redrawsAutomaticallyWhenStateChange) {
+    if (_redrawsAutomaticallyWhenStateChange) {
         [self setNeedsDisplay];
     }
 }
