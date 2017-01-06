@@ -128,7 +128,6 @@
 
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(NSDictionary *)userInfo
 {
-    return YES;
     NSUInteger drawingCount= self.drawingCount;
     PPButtonInfo *buttonInfo = self.buttonInfo;
     if (buttonInfo) {

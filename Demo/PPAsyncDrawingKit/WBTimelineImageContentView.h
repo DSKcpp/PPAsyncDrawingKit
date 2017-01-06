@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PPImageView.h"
 #import "WBTimelineItem.h"
+#import "PPWebImageView.h"
 
 @protocol WBTimelineImageContentViewDelegate <NSObject>
 @optional
@@ -17,7 +17,7 @@
 //- (void)timelineImageContentView:(WBTimelineImageContentView *)arg1 didSelectPicture:(WBTimelinePicture *)arg2;
 @end
 
-@interface WBTimelineImageView : PPImageView
+@interface WBTimelineImageView : PPWebImageView
 @property (nonatomic, strong) WBTimelineItem *timelineItem;
 @end
 

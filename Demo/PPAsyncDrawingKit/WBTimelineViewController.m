@@ -12,6 +12,7 @@
 #import "WBTimelineTableViewCell.h"
 #import "WBTimelineContentView.h"
 #import "WBWebViewController.h"
+#import "PPImageCache.h"
 
 @interface WBTimelineViewController () <UITableViewDelegate, UITableViewDataSource, WBTimelineTableViewCellDelegate>
 @property (nonatomic, strong) UITableView *tableView;
@@ -44,6 +45,14 @@
     _tableView.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1];
     [self.view addSubview:_tableView];
     
+    UILabel *loadingLabel = [[UILabel alloc] init];
+    loadingLabel.text = @"Loading...";
+    loadingLabel.textColor = [UIColor whiteColor];
+    loadingLabel.backgroundColor = [UIColor grayColor];
+    [loadingLabel sizeToFit];
+    loadingLabel.center = self.view.center;
+    [self.view addSubview:loadingLabel];
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSString *path = [[NSBundle mainBundle] pathForResource:@"WBTimelineJSON" ofType:@"json"];
         WBCardsModel *cards = [WBCardsModel yy_modelWithJSON:[NSData dataWithContentsOfFile:path]];
@@ -57,15 +66,17 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
             self.navigationItem.rightBarButtonItem.enabled = YES;
+            loadingLabel.hidden = YES;
         });
     });
 }
 
 - (void)insertTimelineItem
 {
-    WBTimelineItem *obj = [_timelineItems objectAtIndex:arc4random() % _timelineItems.count];
-    [_timelineItems insertObject:obj atIndex:0];
-    [_tableView reloadData];
+//    WBTimelineItem *obj = [_timelineItems objectAtIndex:arc4random() % _timelineItems.count];
+//    [_timelineItems insertObject:obj atIndex:0];
+//    [_tableView reloadData];
+    [[PPImageCache sharedCache] cleanMemoryCache];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

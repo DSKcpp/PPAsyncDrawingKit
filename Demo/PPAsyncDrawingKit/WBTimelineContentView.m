@@ -14,7 +14,6 @@
 #import "UIImage+Color.h"
 #import "WBTimelineImageContentView.h"
 #import "WBTimelinePreset.h"
-#import "PPImageView+WebCache.h"
 
 @implementation WBColorImageView
 
@@ -162,7 +161,7 @@
 - (void)createAvatarView
 {
     WBTimelinePreset *preset = [WBTimelinePreset sharedInstance];
-    _avatarView = [[PPImageView alloc] initWithFrame:CGRectMake(preset.leftSpacing, 0, preset.avatarSize, preset.avatarSize)];
+    _avatarView = [[PPWebImageView alloc] initWithFrame:CGRectMake(preset.leftSpacing, 0, preset.avatarSize, preset.avatarSize)];
     _avatarView.cornerRadius = preset.avatarCornerRadius;
     _avatarView.borderColor = [UIColor blackColor];
     _avatarView.borderWidth = 0.5f;
@@ -201,8 +200,7 @@
         self.photoImageView.pictures = timelineItem.pic_infos.allValues;
         self.avatarView.frame = drawingContext.avatarFrame;
         self.quotedItemBorderButton.frame = drawingContext.quotedContentBackgroundViewFrame;
-        NSString *url = timelineItem.user.avatar_large;
-        [self.avatarView setImageURL:url placeholderImage:[UIImage imageNamed:@"avatar"]];
+        [self.avatarView setImageURL:timelineItem.user.avatar_large placeholderImage:[UIImage imageNamed:@"avatar"]];
         [self.actionButtonsView setTimelineItem:timelineItem];
         self.textContentView.largeCardView.frame = drawingContext.largeFrame;
     }

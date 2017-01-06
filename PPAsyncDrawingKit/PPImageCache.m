@@ -54,7 +54,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
         _cache = [[NSCache alloc] init];
         _cache.name = name;
         _maxCacheAge = kPPImageCacheMaxAge;
-        _maxMemorySize = kPPImageCacheMaxMemorySize;
+        self.maxMemorySize = kPPImageCacheMaxMemorySize;
         _createDate = [NSDate date];
         _memoryMutableDict = [NSMutableDictionary dictionaryWithCapacity:2];
         _cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"ImageCache"];
@@ -72,6 +72,14 @@ static NSString *_PPNSStringMD5(NSString *string) {
 //        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkAndAutoClean) name:UIApplicationWillEnterForegroundNotification object:nil];
     }
     return self;
+}
+
+- (void)setMaxMemorySize:(NSUInteger)maxMemorySize
+{
+    if (_maxMemorySize != maxMemorySize) {
+        _maxMemorySize = maxMemorySize;
+        _cache.totalCostLimit = maxMemorySize;
+    }
 }
 
 - (void)dealloc
@@ -182,7 +190,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
     }
     NSString *key = [self keyWithURL:URL];
     NSUInteger cost = image.size.height * image.size.width;
-    if (cost <= 1024 * 1024) {
+    if (cost <= 1024 * 1024) { // 1MB
         [_cache setObject:image forKey:key cost:cost];
     }
 }

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "WBTimelineItem.h"
-#import "PPImageView.h"
+#import "PPWebImageView.h"
 #import "PPButton.h"
 
 @class WBTimelineTableViewCellDrawingContext;
@@ -30,7 +30,7 @@
 
 @interface WBTimelineContentView : UIView
 @property (nonatomic, strong) WBTimelineItem *timelineItem;
-@property (nonatomic, strong) PPImageView *avatarView;
+@property (nonatomic, strong) PPWebImageView *avatarView;
 @property (nonatomic, strong) WBTimelineScreenNameLabel *nameLabel;
 @property (nonatomic, strong) WBTimelineTextContentView *textContentView;
 @property (nonatomic, strong) WBTimelineActionButtonsView *actionButtonsView;

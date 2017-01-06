@@ -8,7 +8,6 @@
 
 #import "WBTimelineImageContentView.h"
 #import "WBTimelinePreset.h"
-#import "PPImageView+WebCache.h"
 
 @implementation WBTimelineImageContentView
 

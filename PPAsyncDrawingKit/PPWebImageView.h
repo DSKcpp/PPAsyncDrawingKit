@@ -7,6 +7,15 @@
 //
 
 #import "PPImageView.h"
+#import "PPWebImageManager.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+//typedef NS_ENUM(NSUInteger, PPWebImageViewLoadState) {
+//    PPWebImageViewLoadState,
+//    PPWebImageViewLoadState,
+//    PPWebImageViewLoadState,
+//};
 
 @interface PPWebImageView : PPImageView
 @property (nonatomic, strong) UIImageView *livePhotoImageView;
@@ -30,7 +39,7 @@
 @property (copy, nonatomic) id imageDidFinishDownloadBlock;
 @property (copy, nonatomic) id buildAlternativeImageUrlsBlock;
 @property (nonatomic, assign) BOOL ignoreImageMask;
-@property (nonatomic, copy) NSString *imageUrl;
+@property (nonatomic, copy) NSString *imageURL;
 @property (nonatomic, assign, readonly) BOOL imageLoaded;
 - (void)viewWillAppear:(BOOL)animated;
 - (void)viewDidDisappear:(BOOL)animated;
@@ -43,11 +52,11 @@
 - (void)setGifImage:(id)arg1;
 - (void)setFrame:(CGRect)frame;
 
-- (void)loadImageWithPath:(NSString *)path localCacheFileAsyncFirst:(BOOL)arg2;
-- (void)setImageUrl:(NSString *)url placeholderImage:(UIImage *)placeholderImage;
-- (void)setImageUrl:(NSString *)url flagImageUrl:(id)arg2;
-- (void)setImageUrl:(NSString *)url flagImageUrl:(id)arg2 placeholderImage:(UIImage *)placeholderImage;
-- (void)setImageUrl:(NSString *)url flagImageUrl:(id)arg2 placeholderImage:(UIImage *)placeholderImage localCacheFileAsyncFirst:(BOOL)arg4;
+- (void)loadImageWithPath:(NSString *)path localCacheFileAsyncFirst:(BOOL)localCacheFileAsyncFirst;
+
+- (void)setImageURL:(NSString *)imageURL;
+- (void)setImageURL:(NSString *)imageURL placeholderImage:(nullable UIImage *)placeholderImage;
+- (void)setImageURL:(NSString *)imageURL placeholderImage:(nullable UIImage *)placeholderImage localCacheFileAsyncFirst:(BOOL)localCacheFileAsyncFirst;
 
 - (void)offsetFlagImageViewPos:(CGSize)arg1;
 - (void)resetMaskColor;
@@ -66,3 +75,5 @@
 @interface PPWebImageView (PPRoundRectImage)
 - (void)pp_setRoundRectImageWithURL:(NSURL *)url placeholder:(UIImage *)placeholder cropSize:(CGSize)cropSize;
 @end
+
+NS_ASSUME_NONNULL_END

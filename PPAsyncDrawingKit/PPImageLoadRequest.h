@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly) NSString *identifier;
 @property (nonatomic, copy, readonly) NSString *imageURL;
 @property (nonatomic, copy) PPImageLoadCompleteBlock completedBlock;
-@property (nonatomic, copy) PPImageLoadProgressBlock progressBlock;
+@property (nullable, nonatomic, copy) PPImageLoadProgressBlock progressBlock;
 @property (nonatomic, assign) float progress;
 
 - (instancetype)initWithURL:(NSString *)URL;

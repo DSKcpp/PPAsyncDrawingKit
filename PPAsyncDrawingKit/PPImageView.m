@@ -120,26 +120,9 @@
         }
     } else {
         self.contentsChangedAfterLastAsyncDrawing = YES;
-        if ([image isKindOfClass:[NSData class]]) {
-            
-        } else {
-            if ([image isKindOfClass:[UIImage class]]) {
-                
-            } else {
-                
-            }
-        }
         _image = image;
         [self setNeedsDisplay];
     }
-//    self.useUIImageView = YES;
-//    if (_image == image) {
-//
-//    } else {
-//        [self setContentsChangedAfterLastAsyncDrawing:YES];
-//        _image = image;
-//        [self setNeedsDisplay];
-//    }
 }
 
 - (void)setFillColor:(UIColor *)fillColor

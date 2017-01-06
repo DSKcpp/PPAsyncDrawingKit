@@ -20,38 +20,41 @@
     return self;
 }
 
-- (void)setImageUrl:(NSString *)imageUrl
+- (void)setImageURL:(NSString *)imageURL
 {
-    [self setImageUrl:imageUrl flagImageUrl:nil];
+    [self setImageURL:imageURL placeholderImage:nil];
 }
 
-- (void)setImageUrl:(NSString *)url flagImageUrl:(id)arg2
+- (void)setImageURL:(NSString *)imageURL placeholderImage:(UIImage *)placeholderImage
 {
-    [self setImageUrl:url flagImageUrl:arg2 placeholderImage:nil];
+    [self setImageURL:imageURL placeholderImage:placeholderImage localCacheFileAsyncFirst:YES];
 }
 
-- (void)setImageUrl:(NSString *)url flagImageUrl:(id)arg2 placeholderImage:(UIImage *)placeholderImage
+- (void)setImageURL:(NSString *)imageURL placeholderImage:(UIImage *)placeholderImage localCacheFileAsyncFirst:(BOOL)localCacheFileAsyncFirst
 {
-    [self setImageUrl:url flagImageUrl:arg2 placeholderImage:placeholderImage localCacheFileAsyncFirst:YES];
-}
-
-- (void)setImageUrl:(NSString *)url flagImageUrl:(id)arg2 placeholderImage:(UIImage *)placeholderImage localCacheFileAsyncFirst:(BOOL)arg4
-{
-    if ([_imageUrl isEqualToString:url]) {
-        
-    } else {
-        
+    if (![_imageURL isEqualToString:imageURL]) {
+        self.image = placeholderImage;
+        [self cancelCurrentImageLoading];
+        _imageURL = imageURL;
+        [self loadImageWithPath:imageURL localCacheFileAsyncFirst:localCacheFileAsyncFirst];
     }
 }
 
-- (void)setImageUrl:(NSString *)url placeholderImage:(UIImage *)placeholderImage
+- (void)loadImageWithPath:(NSString *)path localCacheFileAsyncFirst:(BOOL)localCacheFileAsyncFirst
 {
-    [self setImageUrl:url flagImageUrl:nil placeholderImage:placeholderImage];
+    [[PPWebImageManager sharedManager] loadImage:path delegate:self progress:^(NSUInteger receivedSize, NSUInteger expectedSize, NSString * _Nullable targetURL) {
+        float progress = receivedSize / expectedSize;
+        NSLog(@"%f", progress);
+    } complete:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error) {
+        if (image) {
+            self.image = image;
+        }
+    } autoCancel:YES options:0 cacheType:PPImageCacheTypeAll];
+
 }
 
-- (void)loadImageWithPath:(id)arg1 localCacheFileAsyncFirst:(BOOL)arg2
+- (void)cancelCurrentImageLoading
 {
-    
+    [[PPWebImageManager sharedManager] cancelRequestForDelegate:self];
 }
-
 @end

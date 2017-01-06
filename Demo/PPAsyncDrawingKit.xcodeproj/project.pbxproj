@@ -17,7 +17,6 @@
 		861F1C541DB126650002BE2E /* WBTimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 861F1C531DB126650002BE2E /* WBTimelineViewController.m */; };
 		863952AE1D3FBA1400904204 /* PPAsyncDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 863952A91D3FBA1400904204 /* PPAsyncDrawingView.m */; };
 		863ADA8F1DC47F1300AC582D /* PPTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 863ADA8E1DC47F1300AC582D /* PPTextAttachment.m */; };
-		863C1D871E0AB5570075C98E /* PPImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 863C1D861E0AB5570075C98E /* PPImageView+WebCache.m */; };
 		8651C4FE1DC1FD3F0092569A /* PPButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8651C4FD1DC1FD3F0092569A /* PPButton.m */; };
 		86553B451DEC813E00ED22A4 /* PPTextActiveRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 86553B441DEC813E00ED22A4 /* PPTextActiveRange.m */; };
 		86553B841DF2CCF900ED22A4 /* WBUITextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 86553B831DF2CCF800ED22A4 /* WBUITextAttachment.m */; };
@@ -95,8 +94,6 @@
 		863952A91D3FBA1400904204 /* PPAsyncDrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAsyncDrawingView.m; sourceTree = "<group>"; };
 		863ADA8D1DC47F1300AC582D /* PPTextAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextAttachment.h; sourceTree = "<group>"; };
 		863ADA8E1DC47F1300AC582D /* PPTextAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextAttachment.m; sourceTree = "<group>"; };
-		863C1D851E0AB5570075C98E /* PPImageView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PPImageView+WebCache.h"; sourceTree = "<group>"; };
-		863C1D861E0AB5570075C98E /* PPImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PPImageView+WebCache.m"; sourceTree = "<group>"; };
 		8651C4FC1DC1FD3F0092569A /* PPButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPButton.h; sourceTree = "<group>"; };
 		8651C4FD1DC1FD3F0092569A /* PPButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPButton.m; sourceTree = "<group>"; };
 		86553B431DEC813E00ED22A4 /* PPTextActiveRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextActiveRange.h; sourceTree = "<group>"; };
@@ -359,8 +356,6 @@
 			children = (
 				86AED6601DD1DB2C00887F3B /* UIImage+PPAsyncDrawingKit.h */,
 				86AED6611DD1DB2C00887F3B /* UIImage+PPAsyncDrawingKit.m */,
-				863C1D851E0AB5570075C98E /* PPImageView+WebCache.h */,
-				863C1D861E0AB5570075C98E /* PPImageView+WebCache.m */,
 				86A044F61E0FF097000A52A9 /* PPImage+WebP.h */,
 				86A044F71E0FF097000A52A9 /* PPImage+WebP.m */,
 				86A044F91E103083000A52A9 /* NSData+PPImageContentType.h */,
@@ -610,7 +605,6 @@
 				86A98D2C1D92E446008F0A7E /* PPUIControl.m in Sources */,
 				86AED6621DD1DB2C00887F3B /* UIImage+PPAsyncDrawingKit.m in Sources */,
 				865CF7211DFC8B53003DCA01 /* NSDate+PPASDK.m in Sources */,
-				863C1D871E0AB5570075C98E /* PPImageView+WebCache.m in Sources */,
 				861EB1DB1DB11E28005C07C7 /* WBTimelineItem.m in Sources */,
 				86EF6AAE1DB132F9006464CE /* TextViewController.m in Sources */,
 				86AED6691DD46E5A00887F3B /* WBTimelineContentView.m in Sources */,
