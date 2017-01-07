@@ -72,6 +72,7 @@
         NSUInteger picCount = drawingContext.timelineItem.pic_infos.count;
         if (picCount == 0) {
             drawingContext.photoFrame = CGRectZero;
+            totalHeight += 10.0f;
         } else if (picCount == 1) {
             CGFloat width = preset.verticalImageWidth;
             CGFloat height = preset.verticalImageHeight;

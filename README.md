@@ -6,7 +6,7 @@ PPAsyncDrawingKit
 #Features
 * 使用多线程技术进行绘制，保证复杂界面的流畅
 * 不阻塞线程
-* 轻量，接近 `UIKit` API，使用简单
+* 使用简单
 * 排版，渲染 `AttributedString`
 * 异构 `TextView`，避免创建大量 `Label`
 * 高性能圆角图片
@@ -18,6 +18,12 @@ PPAsyncDrawingKit
 * Xcode 7.3 or later
 
 #How To Use
+not impl
+
+#Demo
+将业务逻辑一样的文字渲染到一个 `View` 上，根据传入的多个 `AttributedString`，进行渲染。
+左边只有一个 `View`。
+![](http://ww4.sinaimg.cn/large/9bffd8f9gw1fbi1ji8hbyj21kw0u67fm.jpg)
 
 #Installation
 There are two ways to use PPAsyncDrawingKit in your project:
