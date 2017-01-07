@@ -170,7 +170,7 @@
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
 {
     if (error) {
-        NSLog(@"%@", error);
+        
     }
     if ([_delegate respondsToSelector:@selector(imageLoadCompleted:image:data:error:isCache:)]) {
         [_delegate imageLoadCompleted:self image:_resultImage data:_resultData error:error isCache:NO];

@@ -13,8 +13,10 @@ PPAsyncDrawingKit
 * 保持 FPS 在低端设备上稳定在 60，减小抖动
 
 #TODO
-* Label 点击和计算有一些BUG
-* 多线程奇怪BUG
+* 目前没有注释，过些日子补上
+* Label 点击和计算有一些 BUG
+* 多线程奇怪 BUG
+* 一些小功能等待实现
 
 #Requirements
 * iOS 7.0 or later
