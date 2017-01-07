@@ -8,7 +8,6 @@
 
 #import "PPTextHighlightViewController.h"
 #import "PPLabel.h"
-#import "PPTextAttributed.h"
 
 @interface PPTextHighlightViewController ()
 

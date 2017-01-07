@@ -9,7 +9,6 @@
 #import "PPLabel.h"
 #import "PPTextRenderer.h"
 #import <objc/runtime.h>
-#import "PPTextAttributed.h"
 
 @interface PPLabel ()
 @property (nonatomic, assign) BOOL needUpdateAttribtues;
@@ -166,6 +165,21 @@
 //{
 //    [super setFrame:frame];
 //}
+
+- (NSArray<PPTextHighlightRange *> *)highlightRangesForTextRenderer:(PPTextRenderer *)textRenderer
+{
+    return nil;
+}
+
+- (UIView *)contextViewForTextRenderer:(PPTextRenderer *)textRenderer
+{
+    return self;
+}
+
+- (void)textRenderer:(PPTextRenderer *)textRenderer didPressHighlightRange:(PPTextHighlightRange *)highlightRange
+{
+    
+}
 
 - (void)dealloc
 {

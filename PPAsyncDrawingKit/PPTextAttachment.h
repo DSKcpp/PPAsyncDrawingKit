@@ -36,27 +36,4 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)updateContentSizeWithOptions:(id)arg1;
 @end
 
-static void PPRunDelegateDeallocCallback(void *ref) { }
-
-static CGFloat PPRunDelegateGetAscentCallback(void *ref) {
-    PPTextAttachment *attachment = (__bridge PPTextAttachment *)(ref);
-    if ([attachment isKindOfClass:[PPTextAttachment class]]) {
-        CGFloat height = [attachment ascentForLayout];
-        return height;
-    }
-    return 0.0f;
-}
-
-static CGFloat PPRunDelegateGetWidthCallback(void *ref) {
-    PPTextAttachment *attachment = (__bridge PPTextAttachment *)(ref);
-    if ([attachment isKindOfClass:[PPTextAttachment class]]) {
-        return [attachment placeholderSize].width;
-    }
-    return 0.0f;
-}
-
-static CGFloat PPRunDelegateGetDecentCallback(void *ref) {
-    return 0;
-}
-
 NS_ASSUME_NONNULL_END

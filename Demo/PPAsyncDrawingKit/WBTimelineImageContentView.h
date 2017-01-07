@@ -39,14 +39,7 @@
 @property (nonatomic, assign) BOOL enableAsyncDrawing;
 @property (nonatomic, strong) NSMutableArray<WBTimelineImageView *> *imageViews;
 @property (nonatomic, assign) BOOL forceHidden;
-- (id)previewingContext:(id)arg1 viewControllerForLocation:(CGPoint)arg2;
-- (BOOL)previewingContextShouldBeginPreview:(id)arg1;
-- (BOOL)shouldPresentVideoTimeline;
-- (CGRect)frameForIndex:(long long)arg1 count:(long long)arg2;
 - (void)addToIdleContentImageViewAry:(WBTimelineImageView *)imageView;
 - (WBTimelineImageView *)dequeueReusableImageView;
-- (id)imageViewForImageURL:(id)arg1 reusing:(BOOL)arg2;
-- (id)imageViewForImageURL:(id)arg1;
 - (void)reloadImageViews;
-- (void)setHidden:(BOOL)hidden;
 @end

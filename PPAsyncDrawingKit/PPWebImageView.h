@@ -43,13 +43,9 @@ typedef void(^PPWebImageBlock)(void);
 @property (nonatomic, assign) BOOL ignoreImageMask;
 @property (nonatomic, copy) NSString *imageURL;
 @property (nonatomic, assign, readonly) BOOL imageLoaded;
-- (void)viewWillAppear:(BOOL)animated;
-- (void)viewDidDisappear:(BOOL)animated;
-- (void)imageDrawingFinished;
-- (void)changePlaceholderImage:(id)arg1;
-- (void)cancelCurrentImageLoading;
 
-- (void)setFrame:(CGRect)frame;
+- (void)imageDrawingFinished;
+- (void)cancelCurrentImageLoading;
 
 - (void)loadImageWithPath:(NSString *)path localCacheFileAsyncFirst:(BOOL)localCacheFileAsyncFirst;
 
@@ -61,24 +57,6 @@ typedef void(^PPWebImageBlock)(void);
 - (void)setFinalImage:(UIImage *)image;
 - (void)setFinalImage:(UIImage *)image isGIf:(BOOL)isGIf;
 - (void)setGifImage:(UIImage *)image;
-
-- (void)offsetFlagImageViewPos:(CGSize)arg1;
-- (void)resetMaskColor;
-- (void)setBorderWidth:(CGFloat)borderWidth;
-- (void)markAsLoaded;
-- (BOOL)hiddenFlagImageView;
-- (void)setHiddenFlagImageView:(BOOL)arg1;
-- (BOOL)redrawsAutomaticallyWhenStateChange;
-- (void)setHighlighted:(BOOL)highlighted;
-
-@end
-
-@interface PPWebImageView (LoadImage)
-- (void)loadImageWithImageUrl:(NSURL *)url placeholderImage:(UIImage *)placeholderImage;
-@end
-
-@interface PPWebImageView (PPRoundRectImage)
-- (void)pp_setRoundRectImageWithURL:(NSURL *)url placeholder:(UIImage *)placeholder cropSize:(CGSize)cropSize;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -50,16 +50,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) CGSize layoutSize;
 @property (nonatomic, assign, readonly) NSUInteger containingLineCount;
 @property (nonatomic, assign, readonly) NSRange containingStringRange;
-@property (nonatomic, assign, readonly) BOOL layoutUpToDate;
 - (CGRect)boundingRectForCharacterRange:(NSRange)range;
 - (CGPoint)locationForCharacterAtIndex:(NSUInteger)index;
-- (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(void(^)(void))block;
+- (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(nullable void(^)(CGRect rect, BOOL *stop))block;
 - (void)enumerateEnclosingRectsForCharacterRange:(NSRange)range usingBlock:(void (^)(CGRect rect, BOOL *stop))block;
-- (void)enumerateLineFragmentsForCharacterRange:(NSRange)arg1 usingBlock:(void(^)(void))block;
-- (CGRect)firstSelectionRectForCharacterRange:(NSRange)arg1;
-- (PPFontMetrics)lineFragmentMetricsForLineAtIndex:(NSUInteger)index effectiveRange:(NSRange)range;
-- (CGRect)lineFragmentRectForCharacterAtIndex:(NSUInteger)arg1 effectiveRange:(NSRange)range;
-- (CGRect)lineFragmentRectForLineAtIndex:(NSUInteger)arg1 effectiveRange:(NSRange)range;
+- (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(void(^)(void))block;
+- (CGRect)firstSelectionRectForCharacterRange:(NSRange)range;
+- (PPFontMetrics)lineFragmentMetricsForLineAtIndex:(NSUInteger)index effectiveRange:(nullable NSRangePointer)range;
+- (CGRect)lineFragmentRectForCharacterAtIndex:(NSUInteger)index effectiveRange:(nullable NSRangePointer)range;
+- (CGRect)lineFragmentRectForLineAtIndex:(NSUInteger)index effectiveRange:(nullable NSRangePointer)range;
 - (NSUInteger)lineFragmentIndexForCharacterAtIndex:(NSUInteger)index;
 - (NSRange)containingStringRangeWithLineLimited:(NSUInteger)lineLimited;
 @end

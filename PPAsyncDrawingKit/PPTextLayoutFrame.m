@@ -125,9 +125,9 @@
 @implementation PPTextLayoutFrame (LayoutResult)
 - (CGRect)firstSelectionRectForCharacterRange:(NSRange)range
 {
-    [self enumerateSelectionRectsForCharacterRange:range usingBlock:^{
-        
-    }];
+//    [self enumerateSelectionRectsForCharacterRange:range usingBlock:^{
+//        
+//    }];
     return CGRectZero;
 }
 
@@ -170,12 +170,13 @@
     }
 }
 
-- (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(void (^)(void))block
+- (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(nullable void (^)(CGRect, BOOL * _Nonnull))block
 {
-//    [self enumerateEnclosingRectsForCharacterRange:range usingBlock:^{
-//        
-//    }];
-    return CGRectZero;
+    CGRect rects = CGRectZero;
+    [self enumerateEnclosingRectsForCharacterRange:range usingBlock:^(CGRect rect, BOOL * _Nonnull stop) {
+        CGRectUnion(rects, rect);
+    }];
+    return rects;
 }
 
 @end

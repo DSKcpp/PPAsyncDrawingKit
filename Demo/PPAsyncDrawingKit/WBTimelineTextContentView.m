@@ -10,7 +10,6 @@
 #import "WBTimelineTableViewCellDrawingContext.h"
 #import "PPTextRenderer.h"
 #import "WBTimelineItem.h"
-#import "PPTextAttributed.h"
 #import "NSAttributedString+PPAsyncDrawingKit.h"
 #import "WBTimelineContentImageViewLayouter.h"
 #import "WBTimelinePreset.h"

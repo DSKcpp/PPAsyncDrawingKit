@@ -24,7 +24,6 @@ PPAsyncDrawingKit
 
 #How To Use
 not impl
-
 #Demo
 将业务逻辑一样的文字渲染到一个 `View` 上，根据传入的多个 `AttributedString`，进行渲染。
 左边只有一个 `View`。

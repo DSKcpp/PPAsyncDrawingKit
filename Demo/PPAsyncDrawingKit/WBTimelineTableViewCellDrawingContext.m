@@ -7,7 +7,6 @@
 //
 
 #import "WBTimelineTableViewCellDrawingContext.h"
-#import "PPTextAttributed.h"
 #import "WBTimelineItem.h"
 #import "WBTimelineAttributedTextParser.h"
 #import "WBTimelinePreset.h"

@@ -7,12 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PPTextAttributed.h"
 #import "WBTimelineItem.h"
 
-@interface WBTimelineAttributedTextParser : NSObject <PPTextParser>
+@interface WBTimelineAttributedTextParser : NSObject
 
 @property (nonatomic, strong) WBTimelineItem *timelineItem;
-
 + (instancetype)textParserWithTimelineItem:(WBTimelineItem *)timelineItem;
+- (BOOL)parserWithAttributedString:(NSMutableAttributedString *)attributedString;
 @end

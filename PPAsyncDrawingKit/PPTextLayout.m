@@ -69,34 +69,6 @@
         }
     }
     return textLayoutFrame;
-//    if (self.attributedString.length > 0) {
-//        CGRect rect = CGRectMake(0, 0, self.size.width, self.size.height);
-//        UIBezierPath *path = [UIBezierPath bezierPathWithRect:rect];
-//        CGAffineTransform transform = CGAffineTransformIdentity;
-//        CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((CFAttributedStringRef)self.attributedString);
-//        CTFrameRef frame;
-//        if (self.exclusionPaths.count != 0) {
-//            [self.exclusionPaths enumerateObjectsUsingBlock:^(UIBezierPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//                [path appendPath:obj.copy];
-//                [path applyTransform:transform];
-//            }];
-//            path.usesEvenOddFillRule = YES;
-//            frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, self.attributedString.length), path.CGPath, NULL);
-//        } else {
-//            CGMutablePathRef mutablePath = CGPathCreateMutable();
-//            CGPathAddRect(mutablePath, &transform, rect);
-//            frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, self.attributedString.length), mutablePath, NULL);
-//            CGPathRelease(mutablePath);
-//        }
-//        CFRelease(framesetter);
-//        if (frame) {
-//            PPTextLayoutFrame *textLayoutFrame = [[PPTextLayoutFrame alloc] initWithCTFrame:frame layout:self];
-//            return textLayoutFrame;
-//        }
-//        return nil;
-//    } else {
-//        return nil;
-//    }
 }
 
 - (void)setNeedsLayout
@@ -138,6 +110,14 @@
     }
 }
 
+@end
+
+@implementation PPTextLayout (LayoutResult)
+- (NSUInteger)containingLineCount
+{
+    return self.layoutFrame.lineFragments.count;
+}
+
 - (CGFloat)layoutHeight
 {
     return self.layoutSize.height;
@@ -151,9 +131,7 @@
         return CGSizeZero;
     }
 }
-@end
 
-@implementation PPTextLayout (LayoutResult)
 - (NSRange)containingStringRange
 {
     return [self containingStringRangeWithLineLimited:0];
@@ -175,9 +153,70 @@
     return range;
 }
 
+- (CGPoint)locationForCharacterAtIndex:(NSUInteger)index
+{
+    CGRect rect = [self boundingRectForCharacterRange:NSMakeRange(index, 0)];
+    CGFloat x = CGRectGetMaxX(rect);
+    CGFloat y = CGRectGetMaxY(rect);
+    return CGPointMake(x, y);
+}
+
+- (CGRect)firstSelectionRectForCharacterRange:(NSRange)range
+{
+    return [self.layoutFrame firstSelectionRectForCharacterRange:range];
+}
+
+- (CGRect)boundingRectForCharacterRange:(NSRange)range
+{
+    return [self enumerateSelectionRectsForCharacterRange:range usingBlock:nil];
+}
+
+- (NSUInteger)lineFragmentIndexForCharacterAtIndex:(NSUInteger)index
+{
+    return [self.layoutFrame lineFragmentIndexForCharacterAtIndex:index];
+}
+
+- (CGRect)lineFragmentRectForCharacterAtIndex:(NSUInteger)index effectiveRange:(NSRangePointer)range
+{
+    NSUInteger idx = [self lineFragmentIndexForCharacterAtIndex:index];
+    return [self lineFragmentRectForLineAtIndex:idx effectiveRange:range];
+}
+
+- (CGRect)lineFragmentRectForLineAtIndex:(NSUInteger)index effectiveRange:(NSRangePointer)range
+{
+    NSArray<PPTextLayoutLine *> *lineFragments = self.layoutFrame.lineFragments;
+    if (lineFragments.count >= index) {
+        PPTextLayoutLine *line = lineFragments[index];
+        return line.fragmentRect;
+    } else {
+        return CGRectNull;
+    }
+}
+
+- (PPFontMetrics)lineFragmentMetricsForLineAtIndex:(NSUInteger)index effectiveRange:(NSRangePointer)range
+{
+    PPFontMetrics font;
+    NSArray<PPTextLayoutLine *> *lineFragments = self.layoutFrame.lineFragments;
+    if (lineFragments.count >= index) {
+        PPTextLayoutLine *line = lineFragments[index];
+        font = line.lineMetrics;
+    }
+    return font;
+}
+
+- (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(nullable void (^)(CGRect, BOOL * _Nonnull))block
+{
+    return [self.layoutFrame enumerateSelectionRectsForCharacterRange:range usingBlock:block];
+}
+
 - (void)enumerateEnclosingRectsForCharacterRange:(NSRange)range usingBlock:(nonnull void (^)(CGRect, BOOL * _Nonnull))block
 {
     [self.layoutFrame enumerateEnclosingRectsForCharacterRange:range usingBlock:block];
+}
+
+- (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(void (^)(void))block
+{
+    [self.layoutFrame enumerateLineFragmentsForCharacterRange:range usingBlock:block];
 }
 @end
 
@@ -190,5 +229,19 @@
 - (CGPoint)convertPointFromCoreText:(CGPoint)point
 {
     return CGPointMake(point.x, self.size.height - point.y);
+}
+
+- (CGRect)convertRectToCoreText:(CGRect)rect
+{
+    CGPoint point = [self convertPointToCoreText:rect.origin];
+    rect.origin = point;
+    return rect;
+}
+
+- (CGRect)convertRectFromCoreText:(CGRect)rect
+{
+    CGPoint point = [self convertPointFromCoreText:rect.origin];
+    rect.origin = point;
+    return rect;
 }
 @end

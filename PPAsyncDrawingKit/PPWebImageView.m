@@ -101,6 +101,11 @@
     }
 }
 
+- (void)imageDrawingFinished
+{
+    
+}
+
 - (void)cancelCurrentImageLoading
 {
     [[PPWebImageManager sharedManager] cancelRequestForDelegate:self];

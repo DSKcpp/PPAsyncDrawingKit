@@ -43,19 +43,6 @@
 @property (nonatomic, weak) id<WBTimelineLargeCardViewDelegate> delegate;
 @property (nonatomic, strong) WBTimelinePageInfo *pageInfo;
 
-- (id)previewingContext:(id)arg1 viewControllerForLocation:(CGPoint)arg2;
-- (id)mediaParametersForType:(id)arg1;
-- (void)didPressVideoCard;
-- (void)didPressCardView:(id)arg1 pageURL:(id)arg2;
-- (void)setHighlighted:(BOOL)arg1;
-- (id)pageInfoIdentifier;
-
-- (void)commonButtonView:(id)arg1 handleCommonButtonModelMayBeChanged:(id)arg2;
-- (void)updateViewWithPageInfo:(id)arg1;
-- (void)loadWithTimelineItem:(id)arg1;
-- (void)loadWithPageInfo:(id)arg1 forPageID:(id)arg2;
-- (void)_updateCardViewClassWithPageInfo:(id)arg1;
-- (void)setButtonParaDict:(id)arg1;
 - (instancetype)initWithFrame:(CGRect)frame;
 @end
 

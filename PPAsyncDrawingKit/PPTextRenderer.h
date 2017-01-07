@@ -60,25 +60,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)drawInContext:(CGContextRef)context;
 - (void)draw;
 
-#pragma mark - LayoutResult
-- (NSUInteger)characterIndexForPoint:(CGPoint)point;
-- (NSRange)characterRangeForBoundingRect:(CGRect)rect;
-- (CGRect)boundingRectForCharacterRange:(NSRange)range;
-- (CGPoint)locationForCharacterAtIndex:(NSUInteger)index;
-- (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(void(^)(void))block;
-- (void)enumerateEnclosingRectsForCharacterRange:(NSRange)range usingBlock:(void(^)(CGRect rect, BOOL *stop))block;
-- (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(void(^)(void))block;
-- (CGRect)firstSelectionRectForCharacterRange:(NSRange)range;
-- (CGRect)lineFragmentRectForCharacterAtIndex:(NSUInteger)index effectiveRange:(NSRange)effectiveRange;
-- (CGRect)lineFragmentRectForLineAtIndex:(NSUInteger)index effectiveRange:(NSRange)effectiveRange;
-- (NSUInteger)lineFragmentIndexForCharacterAtIndex:(NSUInteger)index;
-
-@property (nonatomic, assign, readonly) CGFloat layoutHeight;
-@property (nonatomic, assign, readonly) CGSize layoutSize;
-@property (nonatomic, assign, readonly) NSUInteger layoutLineCount;
-@property (nonatomic, assign, readonly) NSRange layoutStringRange;
-@property (nonatomic, assign, readonly) BOOL layoutUpToDate;
-
 #pragma mark - Events
 @property (nullable, nonatomic, weak) id<PPTextRendererEventDelegate> eventDelegate;
 @end
@@ -98,6 +79,25 @@ NS_ASSUME_NONNULL_BEGIN
 - (CGRect)convertRectFromLayout:(CGRect)rect;
 - (CGPoint)convertPointToLayout:(CGPoint)point;
 - (CGPoint)convertPointFromLayout:(CGPoint)point;
+@end
+
+@interface PPTextRenderer (LayoutResult)
+@property (nonatomic, assign, readonly) CGFloat layoutHeight;
+@property (nonatomic, assign, readonly) CGSize layoutSize;
+@property (nonatomic, assign, readonly) NSUInteger layoutLineCount;
+@property (nonatomic, assign, readonly) NSRange layoutStringRange;
+
+- (NSUInteger)characterIndexForPoint:(CGPoint)point;
+- (NSRange)characterRangeForBoundingRect:(CGRect)rect;
+- (CGRect)boundingRectForCharacterRange:(NSRange)range;
+- (CGPoint)locationForCharacterAtIndex:(NSUInteger)index;
+- (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(nullable void(^)(CGRect rect, BOOL *stop))block;
+- (void)enumerateEnclosingRectsForCharacterRange:(NSRange)range usingBlock:(void(^)(CGRect rect, BOOL *stop))block;
+- (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(void(^)(void))block;
+- (CGRect)firstSelectionRectForCharacterRange:(NSRange)range;
+- (CGRect)lineFragmentRectForCharacterAtIndex:(NSUInteger)index effectiveRange:(nullable NSRangePointer)effectiveRange;
+- (CGRect)lineFragmentRectForLineAtIndex:(NSUInteger)index effectiveRange:(nullable NSRangePointer)effectiveRange;
+- (NSUInteger)lineFragmentIndexForCharacterAtIndex:(NSUInteger)index;
 @end
 
 @interface PPTextRenderer (Debug)

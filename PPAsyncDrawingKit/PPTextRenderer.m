@@ -263,14 +263,91 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
     }
 }
 
+
+@end
+
+@implementation PPTextRenderer (LayoutResult)
+- (CGSize)layoutSize
+{
+    return self.textLayout.layoutSize;
+}
+
+- (CGFloat)layoutHeight
+{
+    return self.textLayout.layoutHeight;
+}
+
+- (NSUInteger)layoutLineCount
+{
+    return self.textLayout.containingLineCount;
+}
+
+- (NSRange)layoutStringRange
+{
+    return [self.textLayout containingStringRange];
+}
+
+- (CGPoint)locationForCharacterAtIndex:(NSUInteger)index
+{
+    return [self.textLayout locationForCharacterAtIndex:index];
+}
+
+- (NSUInteger)characterIndexForPoint:(CGPoint)point
+{
+    return [self.textLayout characterIndexForPoint:point];
+}
+
+- (CGRect)lineFragmentRectForLineAtIndex:(NSUInteger)index effectiveRange:(NSRangePointer)effectiveRange
+{
+    return [self.textLayout lineFragmentRectForLineAtIndex:index effectiveRange:effectiveRange];
+}
+
+- (NSUInteger)lineFragmentIndexForCharacterAtIndex:(NSUInteger)index
+{
+    return [self.textLayout lineFragmentIndexForCharacterAtIndex:index];
+}
+
+- (CGRect)boundingRectForCharacterRange:(NSRange)range
+{
+    return [self.textLayout boundingRectForCharacterRange:range];
+}
+
+- (NSRange)characterRangeForBoundingRect:(CGRect)rect
+{
+    return [self.textLayout characterRangeForBoundingRect:rect];
+}
+
+- (CGRect)lineFragmentRectForCharacterAtIndex:(NSUInteger)index effectiveRange:(NSRangePointer)effectiveRange
+{
+    return [self.textLayout lineFragmentRectForCharacterAtIndex:index effectiveRange:effectiveRange];
+}
+
+- (CGRect)firstSelectionRectForCharacterRange:(NSRange)range
+{
+    return [self.textLayout firstSelectionRectForCharacterRange:range];
+}
+
+- (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(nullable void (^)(CGRect, BOOL * _Nonnull))block
+{
+    return [self.textLayout enumerateSelectionRectsForCharacterRange:range usingBlock:^(CGRect rect, BOOL * _Nonnull stop) {
+        if (block) block([self convertRectFromLayout:rect], stop);
+    }];
+}
+
+- (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(void (^)(void))block
+{
+    [self.textLayout enumerateLineFragmentsForCharacterRange:range usingBlock:^{
+//        if (block) block([self convertRectFromLayout:rect], stop);
+    }];
+}
+
 - (void)enumerateEnclosingRectsForCharacterRange:(NSRange)range usingBlock:(void (^)(CGRect , BOOL *))block
 {
-    if (block) {
-        [self.textLayout enumerateEnclosingRectsForCharacterRange:range usingBlock:^(CGRect rect, BOOL * _Nonnull stop) {
-            block([self convertRectFromLayout:rect], stop);
-        }];
-    }
+    [self.textLayout enumerateEnclosingRectsForCharacterRange:range usingBlock:^(CGRect rect, BOOL * _Nonnull stop) {
+        if (block) block([self convertRectFromLayout:rect], stop);
+    }];
 }
+
 @end
 
 @implementation PPTextRenderer (Coordinates)
@@ -286,6 +363,16 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
     return CGPointMake(point.x + drawingOrigin.x, point.y + drawingOrigin.y);
 }
 
+- (CGRect)convertRectToLayout:(CGRect)rect
+{
+    if (CGRectIsNull(rect)) {
+        
+    } else {
+        rect.origin = [self convertPointToLayout:rect.origin];
+    }
+    return rect;
+}
+
 - (CGRect)convertRectFromLayout:(CGRect)rect
 {
     if (CGRectIsNull(rect)) {
@@ -295,6 +382,7 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
     }
     return rect;
 }
+
 @end
 
 @implementation PPTextRenderer (Events)

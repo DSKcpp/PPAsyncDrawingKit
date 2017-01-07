@@ -11,6 +11,29 @@
 #import "PPTextAttachment.h"
 #import "PPAsyncDrawingKitUtilities.h"
 
+static void PPRunDelegateDeallocCallback(void *ref) { }
+
+static CGFloat PPRunDelegateGetAscentCallback(void *ref) {
+    PPTextAttachment *attachment = (__bridge PPTextAttachment *)(ref);
+    if ([attachment isKindOfClass:[PPTextAttachment class]]) {
+        CGFloat height = [attachment ascentForLayout];
+        return height;
+    }
+    return 0.0f;
+}
+
+static CGFloat PPRunDelegateGetWidthCallback(void *ref) {
+    PPTextAttachment *attachment = (__bridge PPTextAttachment *)(ref);
+    if ([attachment isKindOfClass:[PPTextAttachment class]]) {
+        return [attachment placeholderSize].width;
+    }
+    return 0.0f;
+}
+
+static CGFloat PPRunDelegateGetDecentCallback(void *ref) {
+    return 0;
+}
+
 @implementation NSAttributedString (PPAsyncDrawingKit)
 - (NSRange)pp_stringRange
 {

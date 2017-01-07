@@ -32,8 +32,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
 @property (nonatomic, strong) dispatch_queue_t ioQueue;
 @property (nonatomic, strong) NSRecursiveLock *readingTaskLock;
 @property (nonatomic, strong) NSDate *createDate;
-@property (nonatomic, strong) NSMutableDictionary *memoryMutableDict;
-@property (nonatomic, strong) NSArray *resourceKeys;
+@property (nonatomic, strong) NSMutableArray *currentReadingTaskKeys;
 @end
 
 @implementation PPImageCache
@@ -56,7 +55,6 @@ static NSString *_PPNSStringMD5(NSString *string) {
         _maxCacheAge = kPPImageCacheMaxAge;
         self.maxMemorySize = kPPImageCacheMaxMemorySize;
         _createDate = [NSDate date];
-        _memoryMutableDict = [NSMutableDictionary dictionaryWithCapacity:2];
         _cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"ImageCache"];
         _ioQueue = dispatch_queue_create("io.github.dskcpp.PPAsyncDrawingKit.imageCache.ioQueue", DISPATCH_QUEUE_SERIAL);
         
@@ -67,7 +65,6 @@ static NSString *_PPNSStringMD5(NSString *string) {
         
         _readingTaskLock = [[NSRecursiveLock alloc] init];
         _currentReadingTaskKeys = [NSMutableArray array];
-        _resourceKeys = @[NSURLIsDirectoryKey, NSURLContentModificationDateKey, NSURLFileAllocatedSizeKey];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveMemoryWarning:) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
 //        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkAndAutoClean) name:UIApplicationWillEnterForegroundNotification object:nil];
     }
@@ -173,13 +170,10 @@ static NSString *_PPNSStringMD5(NSString *string) {
 
 - (BOOL)imageCachedForURL:(NSString *)URL
 {
-    NSString *key = [self keyWithURL:URL];
-    UIImage *image = [_cache objectForKey:key];
-    if (image) {
+    if ([self imageFromMemoryCacheForURL:URL]) {
         return YES;
     } else {
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        return [fileManager fileExistsAtPath:[self cachePathForKey:key]];
+        return [self imageHasDiskCachedForURL:URL];
     }
 }
 
