@@ -12,6 +12,9 @@ PPAsyncDrawingKit
 * 高性能圆角图片
 * 保持 FPS 在低端设备上稳定在 60，减小抖动
 
+#TODO
+* Label 点击和计算有一些BUG
+* 多线程奇怪BUG
 
 #Requirements
 * iOS 7.0 or later
