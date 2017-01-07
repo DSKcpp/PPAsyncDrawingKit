@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 //    PPWebImageViewLoadState,
 //};
 
+typedef void(^PPWebImageBlock)(void);
+
 @interface PPWebImageView : PPImageView
 @property (nonatomic, strong) UIImageView *livePhotoImageView;
 @property (nonatomic, copy) NSString *currentReadingTaskKey;
@@ -33,23 +35,20 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL imageChangedAfterFadeinAnimation;
 @property (nonatomic, strong, readonly) NSString *flagImageUrl;
 @property (nonatomic, assign) BOOL isAnimationWhenFinalImageReceived;
-@property (copy, nonatomic) id imageDidFinishSaveToDiskBlock;
-@property (copy, nonatomic) id imageDidBeginDownloadBlock;
-@property (copy, nonatomic) id imageDidFinishLoadFromDiskBlock;
-@property (copy, nonatomic) id imageDidFinishDownloadBlock;
-@property (copy, nonatomic) id buildAlternativeImageUrlsBlock;
+@property (copy, nonatomic) PPWebImageBlock imageDidFinishSaveToDiskBlock;
+@property (copy, nonatomic) PPWebImageBlock imageDidBeginDownloadBlock;
+@property (copy, nonatomic) PPWebImageBlock imageDidFinishLoadFromDiskBlock;
+@property (copy, nonatomic) PPWebImageBlock imageDidFinishDownloadBlock;
+@property (copy, nonatomic) PPWebImageBlock buildAlternativeImageUrlsBlock;
 @property (nonatomic, assign) BOOL ignoreImageMask;
 @property (nonatomic, copy) NSString *imageURL;
 @property (nonatomic, assign, readonly) BOOL imageLoaded;
 - (void)viewWillAppear:(BOOL)animated;
 - (void)viewDidDisappear:(BOOL)animated;
 - (void)imageDrawingFinished;
-- (void)setFinalFlagImage:(id)arg1;
-- (void)setFinalImage:(id)arg1;
 - (void)changePlaceholderImage:(id)arg1;
 - (void)cancelCurrentImageLoading;
-- (void)setContentMode:(long long)arg1;
-- (void)setGifImage:(id)arg1;
+
 - (void)setFrame:(CGRect)frame;
 
 - (void)loadImageWithPath:(NSString *)path localCacheFileAsyncFirst:(BOOL)localCacheFileAsyncFirst;
@@ -57,6 +56,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setImageURL:(NSString *)imageURL;
 - (void)setImageURL:(NSString *)imageURL placeholderImage:(nullable UIImage *)placeholderImage;
 - (void)setImageURL:(NSString *)imageURL placeholderImage:(nullable UIImage *)placeholderImage localCacheFileAsyncFirst:(BOOL)localCacheFileAsyncFirst;
+
+- (void)setImageLoaderImage:(UIImage *)image URL:(NSString *)URL;
+- (void)setFinalImage:(UIImage *)image;
+- (void)setFinalImage:(UIImage *)image isGIf:(BOOL)isGIf;
+- (void)setGifImage:(UIImage *)image;
 
 - (void)offsetFlagImageViewPos:(CGSize)arg1;
 - (void)resetMaskColor;
@@ -66,6 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setHiddenFlagImageView:(BOOL)arg1;
 - (BOOL)redrawsAutomaticallyWhenStateChange;
 - (void)setHighlighted:(BOOL)highlighted;
+
 @end
 
 @interface PPWebImageView (LoadImage)

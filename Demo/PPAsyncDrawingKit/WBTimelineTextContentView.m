@@ -43,26 +43,48 @@
     drawingContext.textFrame = CGRectMake(preset.leftSpacing, totalHeight, maxWidth, height);
     totalHeight += height;
     if (drawingContext.hasQuoted) {
+        CGFloat qouteHeight = 0;
         CGFloat height = [drawingContext.quotedAttributedText pp_heightConstrainedToWidth:maxWidth];
         drawingContext.quotedFrame = CGRectMake(preset.leftSpacing, CGRectGetMaxY(drawingContext.textFrame) + 10, maxWidth, height);
-        totalHeight += height + 20;
-        drawingContext.quotedContentBackgroundViewFrame = CGRectMake(0, CGRectGetMinY(drawingContext.quotedFrame) - 5, drawingContext.contentWidth, CGRectGetHeight(drawingContext.quotedFrame) + 5);
-    }
-    NSUInteger picCount = drawingContext.timelineItem.pic_infos.count;
-    if (picCount == 0) {
-        drawingContext.photoFrame = CGRectZero;
-    } else if (picCount == 1) {
-        CGFloat width = preset.verticalImageWidth;
-        CGFloat height = preset.verticalImageHeight;
-        drawingContext.photoFrame = CGRectMake(preset.leftSpacing, totalHeight + 10, width, height);
-        totalHeight += height + 20.0f;
+        qouteHeight += height + 10;
+        totalHeight += height + 10;
+        
+        NSUInteger picCount = drawingContext.timelineItem.retweeted_status.pic_infos.count;
+        if (picCount == 0) {
+            drawingContext.photoFrame = CGRectZero;
+        } else if (picCount == 1) {
+            CGFloat width = preset.verticalImageWidth;
+            CGFloat height = preset.verticalImageHeight;
+            drawingContext.photoFrame = CGRectMake(preset.leftSpacing, totalHeight + 10, width, height);
+            qouteHeight += height + 10.0f;
+            totalHeight += height + 10.0f;
+        } else {
+            NSUInteger rows = ceilf(picCount / 3.0f);
+            CGFloat height = rows * preset.gridImageSize;
+            drawingContext.photoFrame = CGRectMake(preset.leftSpacing, totalHeight + 10, maxWidth, height);
+            qouteHeight += height + 10.0f;
+            totalHeight += height + 10.0f;
+        }
+        qouteHeight += 10.0f;
+        totalHeight += 10.0f;
+        drawingContext.quotedContentBackgroundViewFrame = CGRectMake(0, CGRectGetMinY(drawingContext.quotedFrame) - 5, drawingContext.contentWidth, qouteHeight + 5);
     } else {
-        NSUInteger rows = ceilf(picCount / 3.0f);
-        CGFloat height = rows * preset.gridImageSize;
-        drawingContext.photoFrame = CGRectMake(preset.leftSpacing, totalHeight + 10, maxWidth, height);
-        totalHeight += height + 20.0f;
+        NSUInteger picCount = drawingContext.timelineItem.pic_infos.count;
+        if (picCount == 0) {
+            drawingContext.photoFrame = CGRectZero;
+        } else if (picCount == 1) {
+            CGFloat width = preset.verticalImageWidth;
+            CGFloat height = preset.verticalImageHeight;
+            drawingContext.photoFrame = CGRectMake(preset.leftSpacing, totalHeight + 10, width, height);
+            totalHeight += height + 20.0f;
+        } else {
+            NSUInteger rows = ceilf(picCount / 3.0f);
+            CGFloat height = rows * preset.gridImageSize;
+            drawingContext.photoFrame = CGRectMake(preset.leftSpacing, totalHeight + 10, maxWidth, height);
+            totalHeight += height + 20.0f;
+        }
     }
-    
+
     if (drawingContext.timelineItem.page_info) {
 //        drawingContext.largeFrame = CGRectMake(preset.leftSpacing, totalHeight, maxWidth, 71.0f);
 //        totalHeight += 71.0f;

@@ -141,7 +141,7 @@
 - (NSDictionary *)currentDrawingUserInfo
 {
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    [userInfo pp_setSafeObject:self.image forKey:@"image"];
+    [userInfo pp_setSafeObject:_image forKey:@"image"];
     [userInfo pp_setSafeObject:self.fillColor forKey:@"fillColor"];
     if (self.showsCornerRadius) {
         CGPathRef path = CreateCGPath(self.bounds, self.cornerRadius, self.roundedCorners);
@@ -180,9 +180,8 @@
 //        }
 //    }
 
-
     UIImage *image = userInfo[@"image"];
-    [image pp_drawInRect:rect contentMode:self.contentMode withContext:context];
+    [image pp_drawInRect:rect contentMode:_contentMode withContext:context];
     return YES;
 }
 

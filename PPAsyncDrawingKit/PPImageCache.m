@@ -125,11 +125,23 @@ static NSString *_PPNSStringMD5(NSString *string) {
         NSString *key = [self keyWithURL:URL];
         UIImage *image = [_cache objectForKey:key];
         if (!image) {
-            image = [UIImage imageWithContentsOfFile:[self cachePathForKey:key]];
+            image = [PPImage imageWithContentsOfFile:[self cachePathForKey:key]];
         }
         return image;
     }
     return nil;
+}
+
+- (UIImage *)imageFromMemoryCacheForURL:(NSString *)URL
+{
+    NSString *key = [self keyWithURL:URL];
+    return [_cache objectForKey:key];
+}
+
+- (UIImage *)imageFromDiskCacheForURL:(NSString *)URL
+{
+    NSString *key = [self keyWithURL:URL];
+    return [PPImage imageWithContentsOfFile:[self cachePathForKey:key]];
 }
 
 - (void)imageForURL:(NSString *)URL callback:(nonnull void (^)(UIImage * _Nullable, PPImageCacheType))callback
@@ -137,15 +149,15 @@ static NSString *_PPNSStringMD5(NSString *string) {
     if (!callback) {
         return;
     }
-    NSString *key = [self keyWithURL:URL];
-    UIImage *image = [_cache objectForKey:key];
+    
+    UIImage *image = [self imageFromMemoryCacheForURL:URL];
     if (image) {
         dispatch_async(dispatch_get_main_queue(), ^{
             callback(image, PPImageCacheTypeMemory);
         });
     } else {
         dispatch_async(_ioQueue, ^{
-            UIImage *image = [PPImage imageWithContentsOfFile:[self cachePathForKey:key]];
+            UIImage *image = [self imageFromDiskCacheForURL:URL];
             if (image) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     callback(image, PPImageCacheTypeDisk);

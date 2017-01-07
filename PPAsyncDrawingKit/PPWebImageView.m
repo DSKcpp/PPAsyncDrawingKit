@@ -37,20 +37,68 @@
         [self cancelCurrentImageLoading];
         _imageURL = imageURL;
         [self loadImageWithPath:imageURL localCacheFileAsyncFirst:localCacheFileAsyncFirst];
+    } else {
+        
     }
 }
 
 - (void)loadImageWithPath:(NSString *)path localCacheFileAsyncFirst:(BOOL)localCacheFileAsyncFirst
 {
-    [[PPWebImageManager sharedManager] loadImage:path delegate:self progress:^(NSUInteger receivedSize, NSUInteger expectedSize, NSString * _Nullable targetURL) {
-        float progress = receivedSize / expectedSize;
-        NSLog(@"%f", progress);
-    } complete:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error) {
+    if (!path.length) {
+        return;
+    }
+    
+    void(^setImage)(UIImage *image) = ^(UIImage *image) {
         if (image) {
-            self.image = image;
+            [self setImageLoaderImage:image URL:path];
+            if (_imageDidFinishLoadFromDiskBlock) {
+                _imageDidFinishLoadFromDiskBlock();
+            }
+        } else {
+            if (_imageLoadQueue) {
+                [PPWebImageManager sharedManager].imageLoadQueue = _imageLoadQueue;
+            } else {
+                
+            }
+            [[PPWebImageManager sharedManager] loadImage:path delegate:self progress:^(NSUInteger receivedSize, NSUInteger expectedSize, NSString * _Nullable targetURL) {
+                
+            } complete:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error) {
+                if (image) {
+                    [self setImageLoaderImage:image URL:path];
+                }
+                if (_imageDidFinishDownloadBlock) {
+                    _imageDidFinishDownloadBlock();
+                }
+            } autoCancel:YES options:0 cacheType:PPImageCacheTypeAll];
         }
-    } autoCancel:YES options:0 cacheType:PPImageCacheTypeAll];
+    };
+    UIImage *image = [[PPImageCache sharedCache] imageFromMemoryCacheForURL:path];
+    setImage(image);
+}
 
+- (void)setImageLoaderImage:(UIImage *)image URL:(NSString *)URL
+{
+    if ([self.imageURL isEqualToString:URL]) {
+        [self setFinalImage:image];
+    }
+}
+
+- (void)setFinalImage:(UIImage *)image
+{
+//    if (self.imageURL) {
+//        
+//    }
+    [self setFinalImage:image isGIf:NO];
+}
+
+- (void)setFinalImage:(UIImage *)image isGIf:(BOOL)isGIf
+{
+    self.reserveContentsBeforeNextDrawingComplete = YES;
+    if (isGIf) {
+        [self setGifImage:image];
+    } else {
+        [self setImage:image];
+    }
 }
 
 - (void)cancelCurrentImageLoading

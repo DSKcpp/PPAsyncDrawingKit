@@ -73,10 +73,9 @@
 
 - (void)insertTimelineItem
 {
-//    WBTimelineItem *obj = [_timelineItems objectAtIndex:arc4random() % _timelineItems.count];
-//    [_timelineItems insertObject:obj atIndex:0];
-//    [_tableView reloadData];
-    [[PPImageCache sharedCache] cleanMemoryCache];
+    WBTimelineItem *obj = [_timelineItems objectAtIndex:arc4random() % _timelineItems.count];
+    [_timelineItems insertObject:obj atIndex:0];
+    [_tableView reloadData];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

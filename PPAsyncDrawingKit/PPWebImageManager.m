@@ -236,4 +236,17 @@
     });
 }
 
+- (void)imageLoadOperation:(PPImageLoadOperation *)imageLoadOperation didReceivedSize:(NSUInteger)receivedSize expectedSize:(NSUInteger)expectedSize
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        @synchronized (self) {
+            NSMutableArray<PPImageLoadRequest *> *requests = _requests[imageLoadOperation.imageURL];
+            if (requests) {
+                for (PPImageLoadRequest *request in requests) {
+                    [request didReceiveDataSize:receivedSize expectedSize:expectedSize];
+                }
+            }
+        }
+    });
+}
 @end

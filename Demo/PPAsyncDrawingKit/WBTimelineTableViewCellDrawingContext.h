@@ -25,6 +25,7 @@
 @property (nonatomic, assign) CGRect titleFrame;
 @property (nonatomic, assign) CGRect textContentBackgroundViewFrame;
 @property (nonatomic, assign) CGRect textFrame;
+@property (nonatomic, assign) CGRect quotedContentRendererFrame;
 @property (nonatomic, assign) CGRect quotedContentBackgroundViewFrame;
 @property (nonatomic, assign) CGRect quotedFrame;
 @property (nonatomic, assign) CGRect actionButtonsViewFrame;

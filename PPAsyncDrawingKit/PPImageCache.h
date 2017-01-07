@@ -36,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable UIImage *)imageForURL:(NSString *)URL;
 - (nullable UIImage *)imageForURL:(NSString *)URL taskKey:(nullable NSString *)taskKey;
+- (nullable UIImage *)imageFromMemoryCacheForURL:(NSString *)URL;
+- (nullable UIImage *)imageFromDiskCacheForURL:(NSString *)URL;
 - (void)imageForURL:(NSString *)URL callback:(void(^)(UIImage * _Nullable image, PPImageCacheType cacheType))callback;
 
 - (void)storeImage:(UIImage *)image forURL:(NSString *)URL;

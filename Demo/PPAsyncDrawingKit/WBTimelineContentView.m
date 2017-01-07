@@ -197,7 +197,11 @@
         self.actionButtonsView.bottom = drawingContext.contentHeight;
         self.actionButtonsView.frame = drawingContext.actionButtonsViewFrame;
         self.photoImageView.frame = drawingContext.photoFrame;
-        self.photoImageView.pictures = timelineItem.pic_infos.allValues;
+        if (drawingContext.hasQuoted) {
+            self.photoImageView.pictures = timelineItem.retweeted_status.pic_infos.allValues;
+        } else {
+            self.photoImageView.pictures = timelineItem.pic_infos.allValues;
+        }
         self.avatarView.frame = drawingContext.avatarFrame;
         self.quotedItemBorderButton.frame = drawingContext.quotedContentBackgroundViewFrame;
         [self.avatarView setImageURL:timelineItem.user.avatar_large placeholderImage:[UIImage imageNamed:@"avatar"]];

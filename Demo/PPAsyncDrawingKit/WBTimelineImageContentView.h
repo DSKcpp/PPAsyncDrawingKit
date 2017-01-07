@@ -43,7 +43,7 @@
 - (BOOL)previewingContextShouldBeginPreview:(id)arg1;
 - (BOOL)shouldPresentVideoTimeline;
 - (CGRect)frameForIndex:(long long)arg1 count:(long long)arg2;
-- (void)addToIdleContentImageViewAry:(id)arg1;
+- (void)addToIdleContentImageViewAry:(WBTimelineImageView *)imageView;
 - (WBTimelineImageView *)dequeueReusableImageView;
 - (id)imageViewForImageURL:(id)arg1 reusing:(BOOL)arg2;
 - (id)imageViewForImageURL:(id)arg1;

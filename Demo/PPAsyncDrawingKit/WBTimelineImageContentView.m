@@ -50,7 +50,7 @@
 
 - (NSMutableArray *)imageViews
 {
-    if (_imageViews) {
+    if (!_imageViews) {
         _imageViews = [NSMutableArray array];
     }
     return _imageViews;
@@ -76,30 +76,43 @@
 
 - (void)reloadImageViews
 {
-    [self.imageViews removeAllObjects];
-    for (UIView *view in self.subviews) {
-        [view removeFromSuperview];
+    for (WBTimelineImageView *imageView in self.imageViews) {
+        imageView.hidden = YES;
+        [self addToIdleContentImageViewAry:imageView];
     }
     
     WBTimelinePreset *preset = [WBTimelinePreset sharedInstance];
+    NSMutableArray<WBTimelineImageView *> *imageViews = @[].mutableCopy;
     NSUInteger count = _pictures.count;
     NSUInteger cols = 3;
-    for (NSInteger i = 0; i < count; i++) {
-        WBTimelineImageView *imageView = [self dequeueReusableImageView];
+    
+    __weak typeof(self) weakSelf = self;
+    [_pictures enumerateObjectsUsingBlock:^(WBTimelinePicture * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        WBTimelineImageView *imageView = [weakSelf dequeueReusableImageView];
         if (count == 1) {
             imageView.frame = CGRectMake(0, 0, preset.verticalImageWidth, preset.verticalImageHeight);
         } else {
-            NSUInteger row = i / cols;
-            NSUInteger col = i % cols;
+            NSUInteger row = idx / cols;
+            NSUInteger col = idx % cols;
             imageView.frame = CGRectMake(col * (preset.gridImageSize + 2.5), row * (preset.gridImageSize + 2.5), preset.gridImageSize, preset.gridImageSize);
         }
-        NSString *url = _pictures[i].bmiddle.url;
+        NSString *url = obj.bmiddle.url;
         [imageView setImageURL:url placeholderImage:[UIImage imageNamed:@"avatar"]];
-        [self addSubview:imageView];
-        [self.imageViews addObject:imageView];
-    }
+        imageView.hidden = NO;
+        [weakSelf addSubview:imageView];
+        [imageViews addObject:imageView];
+    }];
+    [self.imageViews removeAllObjects];
+    [self.imageViews addObjectsFromArray:imageViews];
 }
 
+- (void)addToIdleContentImageViewAry:(WBTimelineImageView *)imageView
+{
+    if (!_idleContentImageViewAry) {
+        _idleContentImageViewAry = [NSMutableArray array];
+    }
+    [_idleContentImageViewAry addObject:imageView];
+}
 @end
 
 @implementation WBTimelineImageView
