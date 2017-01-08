@@ -69,7 +69,7 @@
                 if (_imageDidFinishDownloadBlock) {
                     _imageDidFinishDownloadBlock();
                 }
-            } autoCancel:YES options:0 cacheType:PPImageCacheTypeAll];
+            } autoCancel:YES cacheType:PPImageCacheTypeAll];
         }
     };
     UIImage *image = [[PPImageCache sharedCache] imageFromMemoryCacheForURL:path];

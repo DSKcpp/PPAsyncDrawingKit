@@ -44,6 +44,13 @@
 @end
 
 @implementation WBTimelineContentView
+{
+    struct {
+        BOOL trackingQuotedItemBorder;
+        BOOL trackingTitleBorder;
+    } _flags;
+}
+
 + (CGFloat)heightOfTimelineItem:(WBTimelineItem *)timelineItem withContentWidth:(CGFloat)width
 {
     WBTimelineTableViewCellDrawingContext *context = [self validDrawingContextOfTimelineItem:timelineItem withContentWidth:width];
@@ -85,7 +92,7 @@
 
 - (void)createSubviews
 {
-    [self addSubview:self.itemTypeBgImageView];
+    [self addSubview:self.titleBgImageView];
     [self addSubview:self.titleIcon];
     [self addSubview:self.itemContentBgImageView];
     [self createItemContentBackgroundView];
@@ -96,15 +103,15 @@
     [self createPhotoImageView];
 }
 
-- (WBColorImageView *)itemTypeBgImageView
+- (WBColorImageView *)titleBgImageView
 {
-    if (!_itemTypeBgImageView) {
-        _itemTypeBgImageView = [[WBColorImageView alloc] init];
-        _itemTypeBgImageView.userInteractionEnabled = YES;
-        [_itemTypeBgImageView setBackgroundColor:[UIColor whiteColor] boolOwn:YES];
+    if (!_titleBgImageView) {
+        _titleBgImageView = [[WBColorImageView alloc] init];
+        _titleBgImageView.userInteractionEnabled = YES;
+        [_titleBgImageView setBackgroundColor:[UIColor whiteColor] boolOwn:YES];
         
     }
-    return _itemTypeBgImageView;
+    return _titleBgImageView;
 }
 
 - (PPImageView *)titleIcon
@@ -164,7 +171,7 @@
     _avatarView = [[PPWebImageView alloc] initWithFrame:CGRectMake(preset.leftSpacing, 0, preset.avatarSize, preset.avatarSize)];
     _avatarView.cornerRadius = preset.avatarCornerRadius;
     _avatarView.borderColor = [UIColor blackColor];
-    _avatarView.borderWidth = 0.5f;
+    _avatarView.borderWidth = 0.1f;
     [self addSubview:_avatarView];
 }
 
@@ -187,7 +194,7 @@
         _timelineItem = timelineItem;
         WBTimelineTableViewCellDrawingContext *drawingContext = timelineItem.drawingContext;
         self.frame = CGRectMake(0, 10, self.frame.size.width, drawingContext.contentHeight);
-        self.itemTypeBgImageView.frame = drawingContext.titleBackgroundViewFrame;
+        self.titleBgImageView.frame = drawingContext.titleBackgroundViewFrame;
         self.nameLabel.user = timelineItem.user;
         self.nameLabel.frame = drawingContext.nicknameFrame;
         self.textContentView.drawingContext = drawingContext;
@@ -223,10 +230,94 @@
 - (void)setSelectionColor:(BOOL)highlighted
 {
     [_itemContentBgImageView setHighlighted:highlighted];
-    [_itemTypeBgImageView setHighlighted:highlighted];
+    [_titleBgImageView setHighlighted:highlighted];
     [_textContentView setHighlighted:highlighted];
     [_avatarView setHighlighted:highlighted];
     [_actionButtonsView setButtonsHighlighted:highlighted];
+}
+
+- (BOOL)touchesInside:(NSSet<UITouch *> *)touches rect:(CGRect)rect
+{
+    UITouch *touch = touches.anyObject;
+    CGPoint location = CGPointZero;
+    if (touch) {
+        location = [touch locationInView:self];
+    }
+    return CGRectContainsPoint(rect, location);
+}
+
+- (BOOL)touchesInsideTitleBorder:(NSSet<UITouch *> *)touches
+{
+    CGRect rect = self.timelineItem.drawingContext.titleBackgroundViewFrame;
+    return [self touchesInside:touches rect:rect];
+}
+
+- (BOOL)touchesInsideActionButtonsArea:(NSSet<UITouch *> *)touches
+{
+    CGRect rect = self.timelineItem.drawingContext.actionButtonsViewFrame;
+    return [self touchesInside:touches rect:rect];
+}
+
+- (BOOL)touchesInsideQuotedItemBorder:(NSSet<UITouch *> *)touches
+{
+    CGRect rect = self.timelineItem.drawingContext.quotedContentBackgroundViewFrame;
+    return [self touchesInside:touches rect:rect];
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    if ([self touchesInsideQuotedItemBorder:touches]) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            self.quotedItemBorderButton.highlighted = YES;
+        });
+    } else if ([self touchesInsideTitleBorder:touches]) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            self.titleBgImageView.highlighted = YES;
+        });
+    } else if ([self touchesInsideActionButtonsArea:touches]) {
+        [super touchesBegan:touches withEvent:event];
+    } else {
+        [super touchesBegan:touches withEvent:event];
+    }
+}
+
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [super touchesMoved:touches withEvent:event];
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    if (_flags.trackingQuotedItemBorder) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if ([self touchesInsideQuotedItemBorder:touches]) {
+                [self.quotedItemBorderButton sendActionsForControlEvents:UIControlEventTouchUpInside];
+            }
+            self.quotedItemBorderButton.highlighted = NO;
+        });
+    } else if (_flags.trackingTitleBorder) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if ([self touchesInsideTitleBorder:touches]) {
+//                [self.itemTypeBgImageView sendActionsForControlEvents:UIControlEventTouchUpInside];
+            }
+            self.titleBgImageView.highlighted = NO;
+        });
+    } else {
+        [super touchesEnded:touches withEvent:event];
+    }
+}
+
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    if (_flags.trackingQuotedItemBorder) {
+        self.quotedItemBorderButton.highlighted = NO;
+        _flags.trackingQuotedItemBorder = NO;
+    } else if (_flags.trackingTitleBorder) {
+        self.titleBgImageView.highlighted = NO;
+        _flags.trackingTitleBorder = NO;
+    } else {
+        [super touchesCancelled:touches withEvent:event];
+    }
 }
 
 @end

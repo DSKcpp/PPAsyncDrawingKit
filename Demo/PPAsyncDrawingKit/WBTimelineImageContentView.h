@@ -22,10 +22,6 @@
 @end
 
 @interface WBTimelineImageContentView : UIView
-+ (BOOL)isGifNewAspectEnabled;
-+ (CGRect)rectForImageLayer:(id)arg1 imageSize:(CGSize)arg2;
-+ (CGSize)sizeForImages:(id)arg1 maxWidth:(unsigned long long)arg2;
-
 @property (nonatomic, strong) NSMutableArray<WBTimelineImageView *> *idleContentImageViewAry;
 @property (nonatomic, strong) NSMutableArray<WBTimelineImageView *> *contentImageViewAry;
 @property (nonatomic, strong) WBTimelineItem *timelineItem;

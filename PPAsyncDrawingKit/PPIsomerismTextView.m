@@ -35,18 +35,33 @@
     if (touch) {
         point = [touch locationInView:self];
     }
+    BOOL pressingRange = NO;
     self.respondTextRenderer = [self rendererAtPoint:point];
     self.respondTextRenderer.eventDelegate = self;
     if (self.respondTextRenderer) {
         [self.respondTextRenderer touchesBegan:touches withEvent:event];
+        PPTextHighlightRange *range = self.respondTextRenderer.pressingHighlightRange;
+        if (range) {
+            pressingRange = YES;
+        }
     }
-    PPTextHighlightRange *range = self.respondTextRenderer.pressingHighlightRange;
+    if (!pressingRange) {
+        [super touchesBegan:touches withEvent:event];
+    }
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
+    BOOL pressingRange = NO;
     if (self.respondTextRenderer) {
         [self.respondTextRenderer touchesMoved:touches withEvent:event];
+        PPTextHighlightRange *range = self.respondTextRenderer.pressingHighlightRange;
+        if (range) {
+            pressingRange = YES;
+        }
+    }
+    if (!pressingRange) {
+        [super touchesMoved:touches withEvent:event];
     }
 }
 
@@ -54,14 +69,38 @@
 {
     if (self.respondTextRenderer) {
         [self.respondTextRenderer touchesEnded:touches withEvent:event];
+        self.respondTextRenderer = nil;
     }
+    [super touchesEnded:touches withEvent:event];
 }
 
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     if (self.respondTextRenderer) {
         [self.respondTextRenderer touchesCancelled:touches withEvent:event];
+        self.respondTextRenderer = nil;
     }
+    [super touchesCancelled:touches withEvent:event];
+}
+
+- (NSArray<PPTextHighlightRange *> *)highlightRangesForTextRenderer:(PPTextRenderer *)textRenderer
+{
+    return nil;
+}
+
+- (UIView *)contextViewForTextRenderer:(PPTextRenderer *)textRenderer
+{
+    return self;
+}
+
+- (BOOL)textRenderer:(PPTextRenderer *)textRenderer shouldInteractWithHighlightRange:(PPTextHighlightRange *)highlightRange
+{
+    return YES;
+}
+
+- (void)textRenderer:(PPTextRenderer *)textRenderer didPressHighlightRange:(PPTextHighlightRange *)highlightRange
+{
+    
 }
 
 @end

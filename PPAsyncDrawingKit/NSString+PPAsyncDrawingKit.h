@@ -17,11 +17,6 @@
 - (void)pp_enumerateStringsMatchedByRegex:(NSString *)regex usingBlock:(void (^)(NSString *capturedString, NSRange capturedRange, BOOL *stop))block;
 
 #pragma mark - Drawing
-- (CGSize)pp_drawInRect:(CGRect)rect withFont:(UIFont *)font;
-- (CGSize)pp_drawInRect:(CGRect)rect withFont:(UIFont *)font lineBreakMode:(NSLineBreakMode)lineBreakMode;
-- (CGSize)pp_drawInRect:(CGRect)rect withFont:(UIFont *)font lineBreakMode:(NSLineBreakMode)lineBreakMode alignment:(NSTextAlignment)alignment;
-- (CGSize)pp_drawInRect:(CGRect)rect withFont:(UIFont *)font lineBreakMode:(NSLineBreakMode)lineBreakMode alignment:(NSTextAlignment)alignment inContext:(CGContextRef)context;
-- (CGSize)pp_drawInRect:(CGRect)rect withFont:(UIFont *)font lineBreakMode:(NSLineBreakMode)lineBreakMode alignment:(NSTextAlignment)alignment numberOfLines:(NSUInteger)numberOfLines inContext:(CGContextRef)context;
 - (CGSize)pp_drawInRect:(CGRect)rect withFont:(UIFont *)font textColor:(UIColor *)textColor;
 - (CGSize)pp_drawInRect:(CGRect)rect withFont:(UIFont *)font textColor:(UIColor *)textColor lineBreakMode:(NSLineBreakMode)lineBreakMode;
 - (CGSize)pp_drawInRect:(CGRect)rect withFont:(UIFont *)font textColor:(UIColor *)textColor lineBreakMode:(NSLineBreakMode)lineBreakMode alignment:(NSTextAlignment)alignment;

@@ -34,10 +34,10 @@
 @property (nonatomic, strong) WBTimelineScreenNameLabel *nameLabel;
 @property (nonatomic, strong) WBTimelineTextContentView *textContentView;
 @property (nonatomic, strong) WBTimelineActionButtonsView *actionButtonsView;
+@property (nonatomic, strong) WBColorImageView *titleBgImageView;
 @property (nonatomic, strong) WBColorImageView *itemContentBgImageView;
 @property (nonatomic, strong) UIButton *quotedItemBorderButton;
 @property (nonatomic, strong) WBTimelineImageContentView *photoImageView;
-@property (nonatomic, strong) WBColorImageView *itemTypeBgImageView;
 @property (nonatomic, strong) PPImageView *titleIcon;
 @property (nonatomic, assign) BOOL highlighted;
 @property (nonatomic, assign) CGFloat contentWidth;

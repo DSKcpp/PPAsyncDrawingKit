@@ -35,6 +35,8 @@ static CGFloat PPRunDelegateGetDecentCallback(void *ref) {
 }
 
 @implementation NSAttributedString (PPAsyncDrawingKit)
+static char threadRendererKey;
+
 - (NSRange)pp_stringRange
 {
     return NSMakeRange(0, self.length);
@@ -42,11 +44,10 @@ static CGFloat PPRunDelegateGetDecentCallback(void *ref) {
 
 + (PPTextRenderer *)rendererForCurrentThread
 {
-    NSString *key = @"com.dskcpp.PPAsyncDrawingKit.thread-textrenderer";
-    PPTextRenderer *textRenderer = [[NSThread currentThread] pp_objectWithAssociatedKey:&key];
+    PPTextRenderer *textRenderer = [[NSThread currentThread] pp_objectWithAssociatedKey:&threadRendererKey];
     if (!textRenderer) {
         textRenderer = [[PPTextRenderer alloc] init];
-        [[NSThread currentThread] pp_setObject:textRenderer forAssociatedKey:&key retained:YES];
+        [[NSThread currentThread] pp_setObject:textRenderer forAssociatedKey:&threadRendererKey retained:YES];
     }
     return textRenderer;
 }

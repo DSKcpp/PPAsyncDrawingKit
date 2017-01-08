@@ -43,31 +43,6 @@
     }];
 }
 
-- (CGSize)pp_drawInRect:(CGRect)rect withFont:(UIFont *)font
-{
-    return [self pp_drawInRect:rect withFont:font lineBreakMode:NSLineBreakByWordWrapping alignment:NSTextAlignmentLeft numberOfLines:0 inContext:NULL];
-}
-
-- (CGSize)pp_drawInRect:(CGRect)rect withFont:(UIFont *)font lineBreakMode:(NSLineBreakMode)lineBreakMode
-{
-    return [self pp_drawInRect:rect withFont:font lineBreakMode:lineBreakMode alignment:NSTextAlignmentLeft numberOfLines:0 inContext:nil];
-}
-
-- (CGSize)pp_drawInRect:(CGRect)rect withFont:(UIFont *)font lineBreakMode:(NSLineBreakMode)lineBreakMode alignment:(NSTextAlignment)alignment
-{
-    return [self pp_drawInRect:rect withFont:font lineBreakMode:lineBreakMode alignment:alignment numberOfLines:0 inContext:nil];
-}
-
-- (CGSize)pp_drawInRect:(CGRect)rect withFont:(UIFont *)font lineBreakMode:(NSLineBreakMode)lineBreakMode alignment:(NSTextAlignment)alignment inContext:(CGContextRef)context
-{
-    return [self pp_drawInRect:rect withFont:font lineBreakMode:lineBreakMode alignment:alignment numberOfLines:0 inContext:context];
-}
-
-- (CGSize)pp_drawInRect:(CGRect)rect withFont:(UIFont *)font lineBreakMode:(NSLineBreakMode)lineBreakMode alignment:(NSTextAlignment)alignment numberOfLines:(NSUInteger)numberOfLines inContext:(CGContextRef)context
-{
-    return CGSizeZero;
-}
-
 - (CGSize)pp_drawInRect:(CGRect)rect withFont:(UIFont *)font textColor:(UIColor *)textColor
 {
     return [self pp_drawInRect:rect withFont:font textColor:textColor lineBreakMode:NSLineBreakByWordWrapping alignment:NSTextAlignmentLeft baselineAdjustment:UIBaselineAdjustmentAlignBaselines];

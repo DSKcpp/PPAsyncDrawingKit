@@ -79,7 +79,8 @@
         self.roundPathRef = nil;
         [self setNeedsDisplay];
     }
-    self.layer.cornerRadius = cornerRadius;
+    _cornerRadius = cornerRadius;
+    self.layer.cornerRadius = 0;
 }
 
 - (void)setShowsBorderCornerRadius:(BOOL)showsBorderCornerRadius
@@ -144,13 +145,13 @@
     [userInfo pp_setSafeObject:_image forKey:@"image"];
     [userInfo pp_setSafeObject:self.fillColor forKey:@"fillColor"];
     if (self.showsCornerRadius) {
-        CGPathRef path = CreateCGPath(self.bounds, self.cornerRadius, self.roundedCorners);
+        CGPathRef path = PPCreateRoundedCGPath(self.bounds, self.cornerRadius, self.roundedCorners);
         _roundPathRef = path;
         [userInfo pp_setSafeObject:(__bridge id _Nonnull)(path) forKey:@"roundPath"];
         CGPathRelease(path);
     }
     if (self.showsBorderCornerRadius) {
-        
+
     }
     return userInfo;
 }
@@ -170,18 +171,22 @@
         CGContextFillRect(context, rect);
     }
     
+    UIImage *image = userInfo[@"image"];
+    [image pp_drawInRect:rect contentMode:_contentMode withContext:context];
+    
 //        if (self.showsBorderCornerRadius) {
-//            if (path) {
-//                CGContextAddPath(context, path);
-//                CGContextSetLineWidth(context, self.borderWidth);
-//                CGContextSetStrokeColorWithColor(context, self.borderColor.CGColor);
-//                CGContextStrokePath(context);
-//            }
+//    CGPathRef path = PPCreateRoundedCGPath(self.bounds, self.cornerRadius, self.roundedCorners);
+    CGPathRef path = (__bridge CGPathRef)(userInfo[@"roundPath"]);
+    if (path) {
+        CGContextAddPath(context, path);
+        CGContextSetLineWidth(context, self.borderWidth);
+        CGContextSetStrokeColorWithColor(context, self.borderColor.CGColor);
+        CGContextStrokePath(context);
+    }
 //        }
 //    }
 
-    UIImage *image = userInfo[@"image"];
-    [image pp_drawInRect:rect contentMode:_contentMode withContext:context];
+
     return YES;
 }
 

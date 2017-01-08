@@ -18,7 +18,6 @@
 {
     if (self = [super init]) {
         self.cancelForOwnerDealloc = NO;
-        self.options = 0;
         _imageURL = URL;
         self.minNotifiProgressInterval = 0.05f;
     }

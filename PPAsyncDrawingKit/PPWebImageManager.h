@@ -51,21 +51,6 @@ typedef void(^PPImageLoadProgressBlock)(NSUInteger receivedSize, NSUInteger expe
                                   progress:(nullable PPImageLoadProgressBlock)progress
                                   complete:(PPImageLoadCompleteBlock)complete
                                 autoCancel:(BOOL)autoCancel
-                                   options:(long long)options
-                                 cacheType:(PPImageCacheType)cacheType;
-
-- (nullable PPImageLoadRequest *)loadImage:(NSString *)imageURL
-                                  delegate:(nullable id)delegate
-                                  progress:(nullable PPImageLoadProgressBlock)progress
-                                  complete:(PPImageLoadCompleteBlock)complete
-                                autoCancel:(BOOL)autoCancel
-                                   options:(long long)options;
-
-- (nullable PPImageLoadRequest *)loadImage:(NSString *)imageURL
-                                  delegate:(nullable id)delegate
-                                  progress:(PPImageLoadProgressBlock)progress
-                                  complete:(PPImageLoadCompleteBlock)complete
-                                autoCancel:(BOOL)autoCancel
                                  cacheType:(PPImageCacheType)cacheType;
 
 - (nullable PPImageLoadOperation *)operationForURL:(NSString *)URL;

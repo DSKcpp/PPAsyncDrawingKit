@@ -16,7 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isPermenant;
 @property (nonatomic, assign) BOOL cancelForOwnerDealloc;
 @property (nonatomic, assign) CGFloat minNotifiProgressInterval;
-@property (nonatomic, assign) NSInteger options;
 @property (nonatomic, weak) id owner;
 @property (nullable, nonatomic, strong) NSError *error;
 @property (nullable, nonatomic, strong) NSData *data;

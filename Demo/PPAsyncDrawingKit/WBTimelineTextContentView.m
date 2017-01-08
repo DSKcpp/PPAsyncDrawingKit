@@ -15,7 +15,7 @@
 #import "WBTimelinePreset.h"
 #import "PPTextActiveRange.h"
 
-@interface WBTimelineTextContentView () <PPTextRendererDelegate, PPTextRendererEventDelegate>
+@interface WBTimelineTextContentView () <PPTextRendererDelegate>
 
 @end
 

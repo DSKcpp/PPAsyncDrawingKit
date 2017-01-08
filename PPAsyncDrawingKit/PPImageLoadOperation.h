@@ -22,9 +22,9 @@ NS_ASSUME_NONNULL_BEGIN
                    isCache:(BOOL)isCache;
 
 @optional
-- (void)replaceOperationCurrentRequestBeforeStart:(NSMutableURLRequest *)arg1;
+- (void)replaceOperationCurrentRequestBeforeStart:(NSMutableURLRequest *)URLRequest;
 - (void)imageLoadOperation:(PPImageLoadOperation *)imageLoadOperation didReceivedSize:(NSUInteger)receivedSize expectedSize:(NSUInteger)expectedSize;
-- (BOOL)imageLoadOperationShouldHandleProgressImage:(PPImageLoadOperation *)arg1;
+- (BOOL)imageLoadOperationShouldHandleProgressImage:(PPImageLoadOperation *)imageLoadOperation;
 - (NSString *)permenantPathOfFileForOperation:(PPImageLoadOperation *)imageLoadOperation;
 
 @end

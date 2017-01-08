@@ -35,7 +35,7 @@ static inline void hex16ToFloat(int hex) {
     printf("%f\n",*f);
 }
 
-static inline __nullable CGPathRef CreateCGPath(CGRect rect, CGFloat cornerRadius, UIRectCorner roundedCorners) {
+static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat cornerRadius, UIRectCorner roundedCorners) {
     CGSize cornerRadii = CGSizeMake(cornerRadius, cornerRadius);
     UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:roundedCorners cornerRadii:cornerRadii];
     return CGPathCreateCopy(bezierPath.CGPath);

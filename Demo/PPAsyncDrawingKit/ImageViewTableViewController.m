@@ -20,7 +20,7 @@
             PPImageView *roundedImageView = [[PPImageView alloc] initWithFrame:CGRectMake(i * 45.0f, 5.0f, 40.0f, 40.0f)];
             roundedImageView.cornerRadius = 20.0f;
             roundedImageView.roundedCorners = UIRectCornerAllCorners;
-            roundedImageView.borderWidth = 1.0f;
+            roundedImageView.borderWidth = 0.1f;
             roundedImageView.borderColor = [UIColor blackColor];
             roundedImageView.contentMode = UIViewContentModeScaleAspectFill;
             roundedImageView.userInteractionEnabled = YES;
