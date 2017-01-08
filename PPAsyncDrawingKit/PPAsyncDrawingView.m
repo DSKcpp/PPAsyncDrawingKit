@@ -10,7 +10,7 @@
 #import <libkern/OSAtomic.h>
 
 @implementation PPAsyncDrawingView
-static BOOL asyncDrawingDisabled = NO;
+static BOOL asyncDrawingEnabled = YES;
 
 + (Class)layerClass
 {
@@ -24,9 +24,6 @@ static BOOL asyncDrawingDisabled = NO;
         self.dispatchPriority = 0;
         self.opaque = NO;
         self.layer.contentsScale = [UIScreen mainScreen].scale;
-        if ([self.layer isKindOfClass:[PPAsyncDrawingViewLayer class]]) {
-            self.drawingLayer = (PPAsyncDrawingViewLayer *)self.layer;
-        }
     }
     return self;
 }
@@ -70,12 +67,10 @@ static BOOL asyncDrawingDisabled = NO;
 - (void)_displayLayer:(PPAsyncDrawingViewLayer *)layer rect:(CGRect)rect drawingStarted:(void (^)(BOOL))drawingStarted drawingFinished:(void (^)(BOOL))drawingFinished drawingInterrupted:(void (^)(BOOL))drawingInterrupted
 {
     BOOL asynchronously = NO;
-    if ([layer drawsCurrentContentAsynchronously]) {
-        if (![PPAsyncDrawingView asyncDrawingDisabledGlobally]) {
-            asynchronously = YES;
-        }
+    if ([layer drawsCurrentContentAsynchronously] && [PPAsyncDrawingView globallyAsyncDrawingEnabled]) {
+        asynchronously = YES;
     }
-    _padingRedraw = NO;
+    
     [layer increaseDrawingCount];
     NSInteger drawCount = [layer drawingCount];
     NSDictionary *userInfo = [self currentDrawingUserInfo];
@@ -213,14 +208,19 @@ static BOOL asyncDrawingDisabled = NO;
 }
 
 #pragma mark - getter and setter
-+ (BOOL)asyncDrawingDisabledGlobally
++ (BOOL)globallyAsyncDrawingEnabled
 {
-    return asyncDrawingDisabled;
+    return asyncDrawingEnabled;
 }
 
-+ (void)setAsyncDrawingDisabledGlobally:(BOOL)asyncDrawingDisabledGlobally
++ (void)setGloballyAsyncDrawingEnabled:(BOOL)globallyAsyncDrawingEnabled
 {
-    asyncDrawingDisabled = asyncDrawingDisabledGlobally;
+    asyncDrawingEnabled = globallyAsyncDrawingEnabled;
+}
+
+- (PPAsyncDrawingViewLayer *)drawingLayer
+{
+    return (PPAsyncDrawingViewLayer *)self.layer;
 }
 
 - (NSTimeInterval)fadeDuration
@@ -261,11 +261,6 @@ static BOOL asyncDrawingDisabled = NO;
 - (void)setDrawingPolicy:(PPAsyncDrawingType)drawingPolicy
 {
     [self.drawingLayer setDrawingPolicy:drawingPolicy];
-}
-
-- (void)setDrawingCount:(NSUInteger)drawingCount
-{
-    [self.drawingLayer setDrawingPolicy:drawingCount];
 }
 
 - (NSUInteger)drawingCount

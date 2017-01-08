@@ -38,13 +38,15 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface NSMutableAttributedString (PPExtendedAttributedString)
-@property (nonatomic, assign) NSTextAlignment pp_alignment;
+@property (nonatomic, assign, readonly) NSTextAlignment pp_alignment;
 
 - (void)setAttribute:(NSString *)name value:(nullable id)value;
 - (void)setAttribute:(NSString *)name value:(nullable id)value range:(NSRange)range;
 
-- (void)pp_setAlignment:(NSTextAlignment)alignment lineBreakMode:(NSLineBreakMode)lineBreakMode lineHeight:(CGFloat)lineHeight;
+- (void)pp_setAlignment:(NSTextAlignment)alignment;
 - (void)pp_setAlignment:(NSTextAlignment)alignment lineBreakMode:(NSLineBreakMode)lineBreakMode;
+- (void)pp_setAlignment:(NSTextAlignment)alignment lineBreakMode:(NSLineBreakMode)lineBreakMode lineHeight:(CGFloat)lineHeight;
+
 - (void)pp_setLineHeight:(CGFloat)lineHeight inRange:(NSRange)range;
 - (void)pp_setKerning:(CGFloat)kerning inRange:(NSRange)range;
 - (void)pp_setBackgroundColor:(UIColor *)backgroundColor inRange:(NSRange)range;

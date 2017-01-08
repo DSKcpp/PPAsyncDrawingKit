@@ -34,6 +34,33 @@ static CGFloat PPRunDelegateGetDecentCallback(void *ref) {
     return 0;
 }
 
+static CTLineBreakMode NSLineBreakModeToCTLineBreakMode(NSLineBreakMode nsLineBreakMode) {
+    CTLineBreakMode lineBreak;
+    switch (nsLineBreakMode) {
+        case NSLineBreakByWordWrapping:
+            lineBreak = kCTLineBreakByWordWrapping;
+            break;
+        case NSLineBreakByCharWrapping:
+            lineBreak = kCTLineBreakByCharWrapping;
+            break;
+        case NSLineBreakByClipping:
+            lineBreak = kCTLineBreakByClipping;
+            break;
+        case NSLineBreakByTruncatingHead:
+            lineBreak = kCTLineBreakByTruncatingHead;
+            break;
+        case NSLineBreakByTruncatingTail:
+            lineBreak = kCTLineBreakByTruncatingTail;
+            break;
+        case NSLineBreakByTruncatingMiddle:
+            lineBreak = kCTLineBreakByTruncatingMiddle;
+            break;
+        default:
+            break;
+    }
+    return lineBreak;
+}
+
 @implementation NSAttributedString (PPAsyncDrawingKit)
 static char threadRendererKey;
 
@@ -154,11 +181,7 @@ static char threadRendererKey;
 }
 @end
 
-@interface NSMutableAttributedString (PPExtendedAttributedString)
-@end
-
 @implementation NSMutableAttributedString (PPExtendedAttributedString)
-
 - (NSRange)pp_effectiveRangeWithRange:(NSRange)range
 {
     NSUInteger max = range.location + range.length;
@@ -189,6 +212,7 @@ static char threadRendererKey;
 {
     CFNumberRef number = CFNumberCreate(kCFAllocatorDefault,kCFNumberCGFloatType,&kerning);
     [self setAttribute:(id)kCTKernAttributeName value:(__bridge id _Nullable)(number) range:range];
+    CFRelease(number);
 }
 
 - (void)pp_setColor:(UIColor *)color
@@ -259,8 +283,34 @@ static char threadRendererKey;
     }
 }
 
-- (NSString *)_rangeToString:(NSRange)range
+- (void)pp_setAlignment:(NSTextAlignment)alignment
 {
-    return [NSString stringWithFormat:@"%zd-%zd", range.location, range.length];
+    [self pp_setAlignment:alignment lineBreakMode:NSLineBreakByWordWrapping lineHeight:0.0f];
 }
+
+- (void)pp_setAlignment:(NSTextAlignment)alignment lineBreakMode:(NSLineBreakMode)lineBreakMode
+{
+    [self pp_setAlignment:alignment lineBreakMode:lineBreakMode lineHeight:0.0f];
+}
+
+- (void)pp_setAlignment:(NSTextAlignment)alignment lineBreakMode:(NSLineBreakMode)lineBreakMode lineHeight:(CGFloat)lineHeight
+{
+    CTParagraphStyleSetting aligmentStyle;
+    CTTextAlignment aligment = NSTextAlignmentToCTTextAlignment(alignment);
+    aligmentStyle.value = &aligment;
+    aligmentStyle.valueSize = sizeof(CTTextAlignment);
+    aligmentStyle.spec = kCTParagraphStyleSpecifierAlignment;
+    
+    CTParagraphStyleSetting lineBreakModelStyle;
+    CTLineBreakMode lineBreak = NSLineBreakModeToCTLineBreakMode(lineBreakMode);
+    lineBreakModelStyle.value = &lineBreak;
+    lineBreakModelStyle.valueSize = sizeof(CTLineBreakMode);
+    lineBreakModelStyle.spec = kCTParagraphStyleSpecifierLineBreakMode;
+    
+    CTParagraphStyleSetting settings[2] = {aligmentStyle};
+    CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, 2);
+    [self addAttribute:(id)kCTParagraphStyleAttributeName value:(id)paragraphStyle range:self.pp_stringRange];
+    CFRelease(paragraphStyle);
+}
+
 @end

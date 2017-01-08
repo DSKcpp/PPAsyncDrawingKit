@@ -18,11 +18,15 @@ typedef NS_ENUM(NSUInteger, PPAsyncDrawingType) {
     PPAsyncDrawingTypeAsync
 };
 
+/**
+ PPAsyncDrawingView is a base class, can not be used directly, need to use inheritance.
+ */
 @interface PPAsyncDrawingView : UIView
 
-@property (nonatomic, weak) PPAsyncDrawingViewLayer *drawingLayer;
-@property (nonatomic, class, assign) BOOL asyncDrawingDisabledGlobally;
-@property (nonatomic, assign, readonly) BOOL padingRedraw;
+/**
+ default is YES, Globally async drawing enabled.
+ */
+@property (nonatomic, class, assign) BOOL globallyAsyncDrawingEnabled;
 @property (nonatomic, assign) BOOL serializesDrawingOperations;
 @property (nonatomic, assign) NSInteger dispatchPriority;
 @property (nullable, nonatomic, assign) dispatch_queue_t dispatchDrawQueue;
@@ -30,11 +34,12 @@ typedef NS_ENUM(NSUInteger, PPAsyncDrawingType) {
 @property (nonatomic, assign) BOOL reserveContentsBeforeNextDrawingComplete;
 @property (nonatomic, assign) BOOL contentsChangedAfterLastAsyncDrawing;
 @property (nonatomic, assign) PPAsyncDrawingType drawingPolicy;
-@property (nonatomic, assign) NSUInteger drawingCount;
+@property (nonatomic, assign, readonly) NSUInteger drawingCount;
 @property (nonatomic, assign, readonly) BOOL alwaysUsesOffscreenRendering;
 
 - (void)interruptDrawingWhenPossible;
 - (dispatch_queue_t)drawQueue;
+- (PPAsyncDrawingViewLayer *)drawingLayer;
 - (void)redraw;
 - (void)drawingWillStartAsynchronously:(BOOL)async;
 - (void)drawingDidFinishAsynchronously:(BOOL)async success:(BOOL)success;

@@ -34,31 +34,50 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface PPTextRenderer : UIResponder
-@property (nonatomic, assign) CGRect frame;
+@property (nonatomic, strong) PPTextLayout *textLayout;
 @property (nonatomic, strong) NSAttributedString *attributedString;
-@property (nonatomic, assign) BOOL heightSensitiveLayout;
-@property (nullable, nonatomic, weak) id <PPTextRendererDelegate> renderDelegate;
-@property (nullable, nonatomic, weak) id <PPTextLayoutDelegate> layoutDelegate;
+@property (nullable, nonatomic, weak) id<PPTextRendererDelegate> renderDelegate;
+@property (nullable, nonatomic, weak) id<PPTextLayoutDelegate> layoutDelegate;
 @property (nullable, nonatomic, strong) PPTextHighlightRange *savedPressingHighlightRange;
 @property (nullable, nonatomic, strong) PPTextHighlightRange *pressingHighlightRange;
+@property (nonatomic, assign) CGRect frame;
 @property (nonatomic, assign) CGPoint drawingOrigin;
-@property (nonatomic, assign) CGFloat shadowBlur;
-@property (nonatomic, assign) UIOffset shadowOffset;
-@property (nonatomic, strong) UIColor *shadowColor;
-@property (nonatomic, strong) PPTextLayout *textLayout;
+
 - (UIOffset)drawingOffsetWithTextLayout:(PPTextLayout *)textLayout layoutFrame:(PPTextLayoutFrame *)layoutFrame;
-- (void)drawHighlightedBackgroundForHighlightRange:(PPTextHighlightRange *)highlightRange rect:(CGRect)rect context:(CGContextRef)context;
+
+/**
+ draw current context
+ */
+- (void)draw;
+
+/**
+ draw context
+
+ @param context the context
+ */
+- (void)drawInContext:(CGContextRef)context;
+
+/**
+ draw context, can interrupt current drawing
+
+ @param context a context
+ @param shouldInterruptBlock can interrupt current drawing
+ */
+- (void)drawInContext:(CGContextRef)context shouldInterruptBlock:(nullable void(^)(BOOL *stop))shouldInterruptBlock;
+
+
 - (void)drawAttachmentsWithAttributedString:(NSAttributedString *)attributedString
                                 layoutFrame:(PPTextLayoutFrame *)layoutFrame
                                     context:(CGContextRef)context
                             shouldInterrupt:(nullable void(^)(BOOL *stop))shouldInterruptBlock;
+
 - (void)drawInContext:(CGContextRef)context
           visibleRect:(CGRect)visibleRect
      placeAttachments:(BOOL)placeAttachments
  shouldInterruptBlock:(nullable void(^)(BOOL *stop))shouldInterruptBlock;
-- (void)drawInContext:(CGContextRef)context shouldInterruptBlock:(nullable void(^)(BOOL *stop))shouldInterruptBlock;
-- (void)drawInContext:(CGContextRef)context;
-- (void)draw;
+
+- (void)drawHighlightedBackgroundForHighlightRange:(PPTextHighlightRange *)highlightRange
+                                              rect:(CGRect)rect context:(CGContextRef)context;
 
 #pragma mark - Events
 @property (nullable, nonatomic, weak) id<PPTextRendererEventDelegate> eventDelegate;

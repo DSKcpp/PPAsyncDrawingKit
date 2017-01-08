@@ -10,25 +10,57 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- A UIControl.
- */
 @interface PPUIControl : PPAsyncDrawingView
-@property (nonatomic, assign, getter=isEnabled) BOOL enabled; // default is YES. if NO, ignores touch events and subclasses may draw differently
-@property (nonatomic, assign, getter=isSelected) BOOL selected; // default is NO may be used by some subclasses or by application
-@property (nonatomic, assign, getter=isHighlighted) BOOL highlighted; // default is NO. this gets set/cleared automatically when touch enters/exits during tracking and cleared on up
+
+/**
+ default is YES. if NO, ignores touch events
+ */
+@property (nonatomic, assign, getter=isEnabled) BOOL enabled;
+
+/**
+ default is NO may be used by some subclasses or by application
+ */
+@property (nonatomic, assign, getter=isSelected) BOOL selected;
+
+/**
+ default is NO. this gets set/cleared automatically when touch enters/exits during tracking and cleared on up
+ */
+@property (nonatomic, assign, getter=isHighlighted) BOOL highlighted;
+
 @property (nonatomic, assign, readonly, getter=isTracking) BOOL tracking;
 @property (nonatomic, assign, readonly, getter=isTouchInside) BOOL touchInside;
-@property (nonatomic, assign) BOOL redrawsAutomaticallyWhenStateChange; // default is No. if YES, set enabled / selected / highlighted auto execute [self setNeedsDisplay].
 
-@property (nonatomic, assign) UIControlContentHorizontalAlignment contentHorizontalAlignment; // how to position content hozontally inside control.
-@property (nonatomic, assign) UIControlContentVerticalAlignment contentVerticalAlignment;  // how to position content vertically inside control.
-@property (nonatomic, assign, readonly) UIControlState state; // could be more than one state (e.g. disabled|selected). synthesized from other flags.
+/**
+ default is No. if YES, set enabled / selected / highlighted auto execute [self setNeedsDisplay].
+ */
+@property (nonatomic, assign) BOOL redrawsAutomaticallyWhenStateChange;
+
+/**
+ how to position content hozontally inside control.
+ */
+@property (nonatomic, assign) UIControlContentHorizontalAlignment contentHorizontalAlignment;
+
+/**
+ how to position content vertically inside control.
+ */
+@property (nonatomic, assign) UIControlContentVerticalAlignment contentVerticalAlignment;
+
+/**
+ could be more than one state (e.g. disabled|selected). synthesized from other flags.
+ */
+@property (nonatomic, assign, readonly) UIControlState state;
 
 @property (nonatomic, assign, readonly) CGPoint touchStartPoint;
 
-@property(nonatomic, readonly) NSSet *allTargets; // get info about target & actions. this makes it possible to enumerate all target/actions by checking for each event kind
-@property(nonatomic, readonly) UIControlEvents allControlEvents;                            // list of all events that have at least one action
+/**
+  get info about target & actions. this makes it possible to enumerate all target/actions by checking for each event kind
+ */
+@property(nonatomic, readonly) NSSet *allTargets;
+
+/**
+ list of all events that have at least one action
+ */
+@property(nonatomic, readonly) UIControlEvents allControlEvents;
 
 - (void)addTarget:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents;
 - (void)removeTarget:(id)target action:(SEL)action fotControlEvents:(UIControlEvents)controlEvents;

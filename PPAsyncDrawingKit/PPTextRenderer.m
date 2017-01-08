@@ -26,41 +26,8 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 @end
 
 @implementation PPTextRenderer
-- (instancetype)init
-{
-    if (self = [super init]) {
-        self.heightSensitiveLayout = YES;
-    }
-    return self;
-}
 
-- (PPTextLayout *)textLayout
-{
-    if (!_textLayout) {
-        _textLayout = [[PPTextLayout alloc] init];
-    }
-    return _textLayout;
-}
-
-- (void)setEventDelegate:(id<PPTextRendererEventDelegate>)eventDelegate
-{
-    _eventDelegate = eventDelegate;
-    _eventDelegateHas.contextViewForTextRenderer = [eventDelegate respondsToSelector:@selector(contextViewForTextRenderer:)];
-    _eventDelegateHas.didPressHighlightRange = [eventDelegate respondsToSelector:@selector(textRenderer:didPressHighlightRange:)];
-    _eventDelegateHas.highlightRangesForTextRenderer = [eventDelegate respondsToSelector:@selector(highlightRangesForTextRenderer:)];
-    _eventDelegateHas.shouldInteractWithHighlightRange = [eventDelegate respondsToSelector:@selector(textRenderer:shouldInteractWithHighlightRange:)];
-}
-
-- (NSAttributedString *)attributedString
-{
-    return self.textLayout.attributedString;
-}
-
-- (void)setAttributedString:(NSAttributedString *)attributedString
-{
-    self.textLayout.attributedString = attributedString;
-}
-
+#pragma mark - Draw
 - (void)draw
 {
     [self drawInContext:UIGraphicsGetCurrentContext()];
@@ -146,34 +113,37 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 
 - (void)drawHighlightedBackgroundForHighlightRange:(PPTextHighlightRange *)highlightRange rect:(CGRect)rect context:(CGContextRef)context
 {
-    CGColorRef color;
-    if (self.shadowColor) {
-        color = self.shadowColor.CGColor;
-    } else {
-        color = [UIColor colorWithWhite:0.5f alpha:1.0f].CGColor;
+    PPTextBorder *textBorder = highlightRange.attributes[PPTextBorderAttributeName];
+    if (textBorder) {
+        CGColorRef color;
+        if (textBorder.fillColor) {
+            color = textBorder.fillColor.CGColor;
+        } else {
+            color = [UIColor colorWithWhite:0.5f alpha:1.0f].CGColor;
+        }
+        CGContextSetFillColorWithColor(context, color);
+        CGContextBeginPath(context);
+        CGFloat x = rect.origin.x;
+        CGFloat y = rect.origin.y;
+        CGFloat width = rect.size.width;
+        CGFloat height = rect.size.height;
+        CGFloat radius = 5.0f;
+        CGContextMoveToPoint(context, x + radius, y);
+        x += width;
+        CGContextAddLineToPoint(context, x + width - radius, y);
+        CGContextAddArc(context, x - radius, y + radius, radius,  -0.5 * M_PI, 0.0f, 0);
+        y += height;
+        CGContextAddLineToPoint(context, x, y);
+        CGContextAddArc(context, x - radius, y - radius, radius, 0, 0.5 * M_PI, 0);
+        x -= width;
+        CGContextAddLineToPoint(context, x + radius, y);
+        CGContextAddArc(context, x + radius, y - radius, radius, 0.5 * M_PI, M_PI, 0);
+        y -= height;
+        CGContextAddLineToPoint(context, x, y);
+        CGContextAddArc(context, x + radius, y + radius, radius, M_PI, 1.5 * M_PI, 0);
+        CGContextClosePath(context);
+        CGContextFillPath(context);
     }
-    CGContextSetFillColorWithColor(context, color);
-    CGContextBeginPath(context);
-    CGFloat x = rect.origin.x;
-    CGFloat y = rect.origin.y;
-    CGFloat width = rect.size.width;
-    CGFloat height = rect.size.height;
-    CGFloat radius = 5.0f;
-    CGContextMoveToPoint(context, x + radius, y);
-    x += width;
-    CGContextAddLineToPoint(context, x + width - radius, y);
-    CGContextAddArc(context, x - radius, y + radius, radius,  -0.5 * M_PI, 0.0f, 0);
-    y += height;
-    CGContextAddLineToPoint(context, x, y);
-    CGContextAddArc(context, x - radius, y - radius, radius, 0, 0.5 * M_PI, 0);
-    x -= width;
-    CGContextAddLineToPoint(context, x + radius, y);
-    CGContextAddArc(context, x + radius, y - radius, radius, 0.5 * M_PI, M_PI, 0);
-    y -= height;
-    CGContextAddLineToPoint(context, x, y);
-    CGContextAddArc(context, x + radius, y + radius, radius, M_PI, 1.5 * M_PI, 0);
-    CGContextClosePath(context);
-    CGContextFillPath(context);
 }
 
 - (UIOffset)drawingOffsetWithTextLayout:(PPTextLayout *)textLayout layoutFrame:(id)arg2
@@ -181,6 +151,7 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
     return UIOffsetZero;
 }
 
+#pragma mark - Event
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     UIView *touchView = self.eventDelegateContextView;
@@ -242,6 +213,35 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
     }
 }
 
+#pragma mark - getter & setter
+- (PPTextLayout *)textLayout
+{
+    if (!_textLayout) {
+        _textLayout = [[PPTextLayout alloc] init];
+    }
+    return _textLayout;
+}
+
+- (NSAttributedString *)attributedString
+{
+    return self.textLayout.attributedString;
+}
+
+- (void)setAttributedString:(NSAttributedString *)attributedString
+{
+    self.textLayout.attributedString = attributedString;
+}
+
+- (void)setEventDelegate:(id<PPTextRendererEventDelegate>)eventDelegate
+{
+    _eventDelegate = eventDelegate;
+    _eventDelegateHas.contextViewForTextRenderer = [eventDelegate respondsToSelector:@selector(contextViewForTextRenderer:)];
+    _eventDelegateHas.didPressHighlightRange = [eventDelegate respondsToSelector:@selector(textRenderer:didPressHighlightRange:)];
+    _eventDelegateHas.highlightRangesForTextRenderer = [eventDelegate respondsToSelector:@selector(highlightRangesForTextRenderer:)];
+    _eventDelegateHas.shouldInteractWithHighlightRange = [eventDelegate respondsToSelector:@selector(textRenderer:shouldInteractWithHighlightRange:)];
+}
+
+#pragma mark - Layout
 - (CGRect)frame
 {
     CGSize size;
@@ -262,7 +262,6 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
         
     }
 }
-
 
 @end
 

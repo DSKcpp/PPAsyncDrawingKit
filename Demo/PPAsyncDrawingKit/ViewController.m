@@ -45,8 +45,8 @@
         asyncSwitch.centerY = fpsLabel.centerY;
         asyncSwitch.left = asyncLabel.right;
         [asyncSwitch.layer setValue:@(0.8) forKeyPath:@"transform.scale"];
-        [asyncSwitch setOn:![PPAsyncDrawingView asyncDrawingDisabledGlobally] animated:YES];
-        [asyncSwitch addTarget:self action:@selector(setAsyncDrawingDisabledGlobally:) forControlEvents:UIControlEventValueChanged];
+        [asyncSwitch setOn:[PPAsyncDrawingView globallyAsyncDrawingEnabled] animated:YES];
+        [asyncSwitch addTarget:self action:@selector(setGloballyAsyncDrawingEnabled:) forControlEvents:UIControlEventValueChanged];
         [self addSubview:asyncSwitch];
         
         UILabel *textDebugLabel = [[UILabel alloc] init];
@@ -68,9 +68,9 @@
     return self;
 }
 
-- (void)setAsyncDrawingDisabledGlobally:(UISwitch *)switchButton
+- (void)setGloballyAsyncDrawingEnabled:(UISwitch *)switchButton
 {
-    [PPAsyncDrawingView setAsyncDrawingDisabledGlobally:!switchButton.isOn];
+    [PPAsyncDrawingView setGloballyAsyncDrawingEnabled:switchButton.isOn];
 }
 
 - (void)setTextRendererDebug:(UISwitch *)switchButton
