@@ -13,6 +13,8 @@
 #import "WBTimelineContentView.h"
 #import "WBWebViewController.h"
 #import "PPImageCache.h"
+#import "WBTimelineAttributedTextParser.h"
+#import "NSString+PPASDK.h"
 
 @interface WBTimelineViewController () <UITableViewDelegate, UITableViewDataSource, WBTimelineTableViewCellDelegate>
 @property (nonatomic, strong) UITableView *tableView;
@@ -109,12 +111,26 @@
 
 - (void)tableViewCell:(WBTimelineTableViewCell *)tableViewCell didPressHighlightRange:(PPTextHighlightRange *)highlightRange
 {
-    WBTimelineItem *timelineItem = tableViewCell.timelineItem;
-    WBTImelineTitleStruct *titleStruct = timelineItem.title.structs.firstObject;
-//    NSURL *URL = [NSURL URLWithString:@"http://m.weibo.cn/p/index?containerid=2308691054009064_-_mix"];
-    NSURL *URL = [NSURL URLWithString:@"http://m.weibo.cn/u/2123664205"];
-    WBWebViewController *webViewController = [[WBWebViewController alloc] initWithURL:URL];
-    [self.navigationController pushViewController:webViewController animated:YES];
+    NSDictionary *userInfo = highlightRange.userInfo;
+    if (!userInfo) {
+        return;
+    }
+    NSString *atName = userInfo[kWBLinkAt];
+    if (atName) {
+        atName = [[atName substringFromIndex:1] stringByURLEncode];
+        NSString *URL = [NSString stringWithFormat:@"http://m.weibo.cn/n/%@", atName];
+        WBWebViewController *webViewController = [[WBWebViewController alloc] initWithURL:[NSURL URLWithString:URL]];
+        [self.navigationController pushViewController:webViewController animated:YES];
+    }
     
+    NSString *topicName = userInfo[kWBLinkTopic];
+    if (topicName) {
+        topicName = [topicName substringFromIndex:1];
+        topicName = [topicName substringToIndex:topicName.length - 1];
+        topicName = [topicName stringByURLEncode];
+        NSString *URL = [NSString stringWithFormat:@"http://m.weibo.cn/k/%@", topicName];
+        WBWebViewController *webViewController = [[WBWebViewController alloc] initWithURL:[NSURL URLWithString:URL]];
+        [self.navigationController pushViewController:webViewController animated:YES];
+    }
 }
 @end

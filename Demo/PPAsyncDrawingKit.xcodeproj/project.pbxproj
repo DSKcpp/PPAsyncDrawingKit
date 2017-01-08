@@ -32,6 +32,7 @@
 		86A044F41E0FE7F5000A52A9 /* PPImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A044F31E0FE7F5000A52A9 /* PPImage.m */; };
 		86A044F81E0FF097000A52A9 /* PPImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A044F71E0FF097000A52A9 /* PPImage+WebP.m */; };
 		86A044FB1E103083000A52A9 /* NSData+PPImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A044FA1E103083000A52A9 /* NSData+PPImageContentType.m */; };
+		86A0CCF61E21EC73006C3F0A /* NSString+PPASDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A0CCF51E21EC73006C3F0A /* NSString+PPASDK.m */; };
 		86A98D2C1D92E446008F0A7E /* PPUIControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A98D2B1D92E446008F0A7E /* PPUIControl.m */; };
 		86A98D351D92F582008F0A7E /* PPImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A98D341D92F582008F0A7E /* PPImageView.m */; };
 		86AED6581DD1D63D00887F3B /* NSString+PPAsyncDrawingKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AED6571DD1D63D00887F3B /* NSString+PPAsyncDrawingKit.m */; };
@@ -122,6 +123,8 @@
 		86A044F71E0FF097000A52A9 /* PPImage+WebP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PPImage+WebP.m"; sourceTree = "<group>"; };
 		86A044F91E103083000A52A9 /* NSData+PPImageContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+PPImageContentType.h"; sourceTree = "<group>"; };
 		86A044FA1E103083000A52A9 /* NSData+PPImageContentType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+PPImageContentType.m"; sourceTree = "<group>"; };
+		86A0CCF41E21EC73006C3F0A /* NSString+PPASDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+PPASDK.h"; sourceTree = "<group>"; };
+		86A0CCF51E21EC73006C3F0A /* NSString+PPASDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PPASDK.m"; sourceTree = "<group>"; };
 		86A98D2A1D92E446008F0A7E /* PPUIControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPUIControl.h; sourceTree = "<group>"; };
 		86A98D2B1D92E446008F0A7E /* PPUIControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPUIControl.m; sourceTree = "<group>"; };
 		86A98D331D92F582008F0A7E /* PPImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPImageView.h; sourceTree = "<group>"; };
@@ -518,6 +521,8 @@
 				869AFD1B1DDC674900842C6C /* UIImage+Color.m */,
 				865CF71F1DFC8B53003DCA01 /* NSDate+PPASDK.h */,
 				865CF7201DFC8B53003DCA01 /* NSDate+PPASDK.m */,
+				86A0CCF41E21EC73006C3F0A /* NSString+PPASDK.h */,
+				86A0CCF51E21EC73006C3F0A /* NSString+PPASDK.m */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -647,6 +652,7 @@
 				86D7C26C1DE677C2001D88E8 /* PPImageLoadOperation.m in Sources */,
 				86EF6AB41DB136B8006464CE /* PPTextLayoutFrame.m in Sources */,
 				867F77A21DB77C7C004FCEBA /* PPWebImageView.m in Sources */,
+				86A0CCF61E21EC73006C3F0A /* NSString+PPASDK.m in Sources */,
 				86A044FB1E103083000A52A9 /* NSData+PPImageContentType.m in Sources */,
 				86EF6AAA1DB12F1A006464CE /* WBTimelineTableViewCell.m in Sources */,
 				86D7C25F1DE45812001D88E8 /* WBTimelineAttributedTextParser.m in Sources */,

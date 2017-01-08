@@ -12,8 +12,9 @@
 #import "WBTimelineItem.h"
 #import "NSAttributedString+PPAsyncDrawingKit.h"
 #import "WBTimelineContentImageViewLayouter.h"
-#import "WBTimelinePreset.h"
+#import "WBTimelineAttributedTextParser.h"
 #import "PPTextActiveRange.h"
+#import "WBTimelinePreset.h"
 
 @interface WBTimelineTextContentView () <PPTextRendererDelegate>
 
@@ -217,8 +218,9 @@
 
 - (void)textRenderer:(PPTextRenderer *)textRenderer didPressHighlightRange:(PPTextHighlightRange *)highlightRange
 {
-    NSString *text = [textRenderer.attributedString attributedSubstringFromRange:highlightRange.range].string;
-    NSLog(@"didPress: %@", text);
+    if ([_delegate respondsToSelector:@selector(textContentView:didPressHighlightRange:)]) {
+        [_delegate textContentView:self didPressHighlightRange:highlightRange];
+    }
 }
 
 @end

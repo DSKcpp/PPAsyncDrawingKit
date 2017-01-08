@@ -120,6 +120,7 @@ static inline CGRect YYEmojiGetGlyphBoundingRectWithFontSize(CGFloat fontSize) {
     [string pp_enumerateStringsMatchedByRegex:@"@([\\x{4e00}-\\x{9fa5}A-Za-z0-9_\\-]+)" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
         PPTextHighlightRange *highlight = [[PPTextHighlightRange alloc] init];
         [highlight setBorder:highlightBorder];
+        highlight.userInfo = @{kWBLinkAt : capturedString};
         [attributedString pp_setTextHighlightRange:highlight inRange:capturedRange];
         [attributedString pp_setColor:rangeColor inRange:capturedRange];
     }];
@@ -127,6 +128,7 @@ static inline CGRect YYEmojiGetGlyphBoundingRectWithFontSize(CGFloat fontSize) {
     [string pp_enumerateStringsMatchedByRegex:@"#([^#]+?)#" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
         PPTextHighlightRange *highlight = [[PPTextHighlightRange alloc] init];
         [highlight setBorder:highlightBorder];
+        highlight.userInfo = @{kWBLinkTopic : capturedString};
         [attributedString pp_setTextHighlightRange:highlight inRange:capturedRange];
         [attributedString pp_setColor:rangeColor inRange:capturedRange];
     }];

@@ -7,7 +7,7 @@
 //
 
 #import "WBTimelineTableViewCell.h"
-#import "WBTimelineTextContentView.h"
+#import "WBTimelineContentView.h"
 
 @implementation WBTimelineTableViewCell
 
@@ -18,6 +18,7 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         CGFloat width = [UIScreen mainScreen].bounds.size.width;
         self.timelineContentView = [[WBTimelineContentView alloc] initWithWidth:width];
+        self.timelineContentView.cell = self;
         [self.contentView addSubview:self.timelineContentView];
     }
     return self;
@@ -45,5 +46,16 @@
 {
     self.timelineContentView.timelineItem = timelineItem;
 }
+
+- (id<WBTimelineTableViewCellDelegate>)delegate
+{
+    return self.timelineContentView.delegate;
+}
+
+- (void)setDelegate:(id<WBTimelineTableViewCellDelegate>)delegate
+{
+    self.timelineContentView.delegate = delegate;
+}
+
 
 @end

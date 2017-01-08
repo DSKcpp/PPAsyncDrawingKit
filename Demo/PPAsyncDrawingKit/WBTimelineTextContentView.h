@@ -9,9 +9,14 @@
 #import "PPAsyncDrawingView.h"
 #import "WBTimelineLargeCardView.h"
 #import "PPIsomerismTextView.h"
+#import "WBTimelineTableViewCellDrawingContext.h"
 
-@class WBTimelineTableViewCellDrawingContext;
 @class WBTimelineItem;
+@class WBTimelineTextContentView;
+
+@protocol WBTimelineTextContentViewDelegate <NSObject>
+- (void)textContentView:(WBTimelineTextContentView *)textContentView didPressHighlightRange:(PPTextHighlightRange *)highlightRange;
+@end
 
 @interface WBTimelineTextContentView : PPIsomerismTextView
 @property (nonatomic, strong) NSMutableArray *attachmentViews;
@@ -35,6 +40,7 @@
 @property (nonatomic, strong) WBTimelineTableViewCellDrawingContext *drawingContext;
 @property (nonatomic, assign) BOOL enableAsyncDrawing;
 @property(readonly, nonatomic) BOOL reduceDrawingContents;
+@property (nonatomic, weak) id<WBTimelineTextContentViewDelegate> delegate;
 
 + (void)renderDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext;
 

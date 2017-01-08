@@ -9,6 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "WBTimelineItem.h"
 
+typedef NS_ENUM(NSUInteger, WBTimelineHighlightType) {
+    WBTimelineHighlightTypeAt,
+    WBTimelineHighlightTypeURL,
+    WBTimelineHighlightTypeTopic,
+    WBTimelineHighlightTypeEmail,
+    WBTimelineHighlightTypeSource
+};
+
+#define kWBLinkAt @"WBTimelineHighlightTypeAt"
+#define kWBLinkTopic @"WBTimelineHighlightTypeTopic"
+
 @interface WBTimelineAttributedTextParser : NSObject
 
 @property (nonatomic, strong) WBTimelineItem *timelineItem;

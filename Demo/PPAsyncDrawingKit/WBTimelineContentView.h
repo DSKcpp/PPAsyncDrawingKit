@@ -10,12 +10,11 @@
 #import "WBTimelineItem.h"
 #import "PPWebImageView.h"
 #import "PPButton.h"
-
-@class WBTimelineTableViewCellDrawingContext;
-@class WBTimelineTextContentView;
-@class WBTimelineScreenNameLabel;
-@class WBTimelineActionButtonsView;
-@class WBTimelineImageContentView;
+#import "WBTimelineTableViewCellDrawingContext.h"
+#import "WBTimelineScreenNameLabel.h"
+#import "WBTimelineTextContentView.h"
+#import "WBTimelineImageContentView.h"
+#import "WBTimelineTableViewCell.h"
 
 @interface WBColorImageView : UIImageView
 @property(retain, nonatomic) UIView *bottomLineView;
@@ -26,6 +25,14 @@
 - (void)setBackgroundColor:(UIColor *)backgroundColor boolOwn:(BOOL)boolOwn;
 - (void)setBackgroundColor:(UIColor *)backgroundColor;
 - (void)setHighlighted:(BOOL)highlighted;
+@end
+
+@interface WBTimelineActionButtonsView : UIView
+@property (nonatomic, strong, readonly) PPButton *retweetButton;
+@property (nonatomic, strong, readonly) PPButton *commentButton;
+@property (nonatomic, strong, readonly) PPButton *likeButton;
+- (void)setTimelineItem:(WBTimelineItem *)timelineItem;
+- (void)setButtonsHighlighted:(BOOL)highlighted;
 @end
 
 @interface WBTimelineContentView : UIView
@@ -41,6 +48,8 @@
 @property (nonatomic, strong) PPImageView *titleIcon;
 @property (nonatomic, assign) BOOL highlighted;
 @property (nonatomic, assign) CGFloat contentWidth;
+@property (nonatomic, weak) id<WBTimelineTableViewCellDelegate> delegate;
+@property (nonatomic, weak) WBTimelineTableViewCell *cell;
 
 + (CGFloat)heightOfTimelineItem:(WBTimelineItem *)timelineItem withContentWidth:(CGFloat)width;
 + (WBTimelineTableViewCellDrawingContext *)validDrawingContextOfTimelineItem:(WBTimelineItem *)timelineItem withContentWidth:(CGFloat)width;
@@ -49,10 +58,3 @@
 - (void)setSelectionColor:(BOOL)highlighted;
 @end
 
-@interface WBTimelineActionButtonsView : UIView
-@property (nonatomic, strong, readonly) PPButton *retweetButton;
-@property (nonatomic, strong, readonly) PPButton *commentButton;
-@property (nonatomic, strong, readonly) PPButton *likeButton;
-- (void)setTimelineItem:(WBTimelineItem *)timelineItem;
-- (void)setButtonsHighlighted:(BOOL)highlighted;
-@end

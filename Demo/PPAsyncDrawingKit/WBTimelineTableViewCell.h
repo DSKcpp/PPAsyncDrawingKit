@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "WBTimelineItem.h"
-#import "WBTimelineContentView.h"
 #import "PPTextHighlightRange.h"
 
 @class WBTimelineTableViewCell;
+@class WBTimelineContentView;
 
 @protocol WBTimelineTableViewCellDelegate <NSObject>
 - (void)tableViewCell:(WBTimelineTableViewCell *)tableViewCell didPressHighlightRange:(PPTextHighlightRange *)highlightRange;

@@ -7,12 +7,8 @@
 //
 
 #import "WBTimelineContentView.h"
-#import "WBTimelineTableViewCellDrawingContext.h"
-#import "WBTimelineTextContentView.h"
-#import "WBTimelineScreenNameLabel.h"
 #import "UIView+Frame.h"
 #import "UIImage+Color.h"
-#import "WBTimelineImageContentView.h"
 #import "WBTimelinePreset.h"
 
 @implementation WBColorImageView
@@ -41,6 +37,9 @@
         }
     }
 }
+@end
+
+@interface WBTimelineContentView () <WBTimelineTextContentViewDelegate>
 @end
 
 @implementation WBTimelineContentView
@@ -162,6 +161,7 @@
 {
     self.textContentView = [[WBTimelineTextContentView alloc] init];
     self.textContentView.enableAsyncDrawing = YES;
+    self.textContentView.delegate = self;
     [self addSubview:self.textContentView];
 }
 
@@ -217,6 +217,14 @@
     }
 }
 
+#pragma mark - WBTimelineContentView Delegate
+- (void)textContentView:(WBTimelineTextContentView *)textContentView didPressHighlightRange:(PPTextHighlightRange *)highlightRange
+{
+    if ([_delegate respondsToSelector:@selector(tableViewCell:didPressHighlightRange:)]) {
+        [_delegate tableViewCell:_cell didPressHighlightRange:highlightRange];
+    }
+}
+
 - (void)setHighlighted:(BOOL)highlighted
 {
     if (_highlighted != highlighted) {
@@ -268,6 +276,7 @@
 {
     if ([self touchesInsideQuotedItemBorder:touches]) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            _flags.trackingQuotedItemBorder = YES;
             self.quotedItemBorderButton.highlighted = YES;
         });
     } else if ([self touchesInsideTitleBorder:touches]) {
@@ -293,6 +302,7 @@
             if ([self touchesInsideQuotedItemBorder:touches]) {
                 [self.quotedItemBorderButton sendActionsForControlEvents:UIControlEventTouchUpInside];
             }
+            _flags.trackingQuotedItemBorder = NO;
             self.quotedItemBorderButton.highlighted = NO;
         });
     } else if (_flags.trackingTitleBorder) {
