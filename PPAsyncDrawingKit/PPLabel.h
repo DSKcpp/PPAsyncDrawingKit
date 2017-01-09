@@ -16,12 +16,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PPLabel : PPAsyncDrawingView <PPTextRendererDelegate, PPTextRendererEventDelegate>
 @property (nonatomic, assign) BOOL pendingAttachmentUpdates;
-@property (nonatomic, strong) PPTextLayout *textLayout;
+@property (nonatomic, strong, readonly) PPTextLayout *textLayout;
+@property (nonatomic, strong, readonly) PPTextRenderer *textRenderer;
 @property (nullable, nonatomic, copy) NSString *text;
 @property (null_resettable, nonatomic, strong) UIFont *font;
 @property (null_resettable, nonatomic, strong) UIColor *textColor;
 @property (nullable, nonatomic, strong) NSMutableAttributedString *attributedString;
-@property (nullable, nonatomic, strong) PPTextRenderer *textRenderer;
 @property (nonatomic, assign) NSRange visibleStringRange;
 @property (nonatomic, assign) NSInteger numberOfLines;
 

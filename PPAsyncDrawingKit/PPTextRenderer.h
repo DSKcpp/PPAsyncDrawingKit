@@ -83,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface PPTextRenderer (Events)
-- (nullable PPTextHighlightRange *)rangeInRanges:(NSArray<PPTextHighlightRange *> *)ranges forLayoutLocation:(CGPoint)location;
+- (nullable PPTextHighlightRange *)highlightRangeForLayoutLocation:(CGPoint)location;
 - (void)eventDelegateDidPressHighlightRange:(PPTextHighlightRange *)highlightRange;
 - (nullable UIView *)eventDelegateContextView;
 @end

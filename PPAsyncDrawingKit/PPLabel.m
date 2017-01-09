@@ -22,10 +22,10 @@
 {
     if (self = [super initWithFrame:frame]) {
         PPTextRenderer * textRenderer = [[PPTextRenderer alloc] init];
-        self.textRenderer = textRenderer;
         textRenderer.eventDelegate = self;
         textRenderer.renderDelegate = self;
-        self.drawingPolicy = 0;
+        _textRenderer = textRenderer;
+        self.drawingPolicy = PPAsyncDrawingTypeNone;
         [self setBackgroundColor:[UIColor clearColor]];
         self.clearsContextBeforeDrawing = NO;
         self.contentMode = UIViewContentModeRedraw;
@@ -60,22 +60,30 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    [self.textRenderer touchesBegan:touches withEvent:event];
+    [_textRenderer touchesBegan:touches withEvent:event];
+    if (!_textRenderer.pressingHighlightRange) {
+        [super touchesBegan:touches withEvent:event];
+    }
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     [self.textRenderer touchesMoved:touches withEvent:event];
+    if (!_textRenderer.pressingHighlightRange) {
+        [super touchesMoved:touches withEvent:event];
+    }
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     [self.textRenderer touchesEnded:touches withEvent:event];
+    [super touchesEnded:touches withEvent:event];
 }
 
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     [self.textRenderer touchesCancelled:touches withEvent:event];
+    [super touchesCancelled:touches withEvent:event];
 }
 
 - (BOOL)pendingAttachmentUpdates
@@ -107,14 +115,13 @@
         self.contentsChangedAfterLastAsyncDrawing = YES;
         [self setNeedsDisplay];
         self.pendingAttachmentUpdates = YES;
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"PPCoreTextInternalViewAttributedStringDidUpdateNotification" object:self];
     }
 }
 
 - (UIFont *)font
 {
     if (!_font) {
-        return [UIFont systemFontOfSize:15.0f];
+        _font = [UIFont systemFontOfSize:15.0f];
     }
     return _font;
 }
@@ -130,7 +137,7 @@
 - (UIColor *)textColor
 {
     if (!_textColor) {
-        return [UIColor blackColor];
+        _textColor = [UIColor blackColor];
     }
     return _textColor;
 }
@@ -195,9 +202,4 @@
     
 }
 
-- (void)dealloc
-{
-    self.textRenderer = nil;
-    self.text = nil;
-}
 @end

@@ -83,7 +83,7 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 
 - (void)drawAttachmentsWithAttributedString:(NSAttributedString *)attributedString layoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context shouldInterrupt:(nullable void (^)(BOOL * _Nonnull))shouldInterruptBlock
 {
-    CGFloat scale = [UIScreen mainScreen].scale;
+//    CGFloat scale = [UIScreen mainScreen].scale;
     [layoutFrame.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
         [line enumerateLayoutRunsUsingBlock:^(NSDictionary *attributes, NSRange range) {
             PPTextAttachment *textAttachment = [attributes objectForKey:PPTextAttachmentAttributeName];
@@ -162,7 +162,7 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
             point = [touch locationInView:touchView];
         }
         point = [self convertPointToLayout:point];
-        PPTextHighlightRange *range = [self rangeInRanges:nil forLayoutLocation:point];
+        PPTextHighlightRange *range = [self highlightRangeForLayoutLocation:point];
         if (range) {
             self.pressingHighlightRange = range;
             [touchView setNeedsDisplay];
@@ -398,7 +398,7 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
     }
 }
 
-- (PPTextHighlightRange *)rangeInRanges:(NSArray<PPTextHighlightRange *> *)ranges forLayoutLocation:(CGPoint)location
+- (PPTextHighlightRange *)highlightRangeForLayoutLocation:(CGPoint)location
 {
     __block PPTextHighlightRange *r;
     __weak typeof(self) weakSelf = self;
