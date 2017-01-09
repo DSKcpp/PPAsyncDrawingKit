@@ -47,7 +47,7 @@
         [attributedString appendAttributedString:attrStr];
     }
     
-    PPLabel *label = [[PPLabel alloc] init];
+    PPLabel *label = [[PPLabel  alloc] init];
     label.attributedString = attributedString;
     [attributedString pp_setAlignment:NSTextAlignmentCenter];
     label.height = [attributedString pp_sizeConstrainedToWidth:self.view.width].height + 1;

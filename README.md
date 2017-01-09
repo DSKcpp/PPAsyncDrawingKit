@@ -28,6 +28,14 @@ see `Demo\PPAsyncDrawingKit.xcodeproj`
 
 #Demo
 为了达到效果，请在真机运行 Demo。
+
+在复杂的场景下高速滑动 FPS 对比
+
+* 使用多线程进行绘制，基本能稳定在60 左右
+* 在主线程进行绘制，抖动较大，有非常明显的卡顿
+
+![](http://ww2.sinaimg.cn/large/9bffd8f9gw1fbka8hdcusj20ks0jugmz.jpg)
+
 ###PPImageView
 高性能圆角 ImageView, 滑动时FPS 稳定 60
 
