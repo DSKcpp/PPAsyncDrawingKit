@@ -16,12 +16,11 @@ PPAsyncDrawingKit
 #TODO
 * 目前没有注释，过些日子补上
 * Label 点击和计算有一些 BUG
-* 多线程奇怪 BUG
 * 一些小功能等待实现
 
 #Requirements
 * iOS 7.0 or later
-* Xcode 7.3 or later
+* Xcode 8.0 or later
 
 #How To Use
 see `Demo\PPAsyncDrawingKit.xcodeproj`
@@ -29,8 +28,9 @@ see `Demo\PPAsyncDrawingKit.xcodeproj`
 #Demo
 为了达到效果，请在真机运行 Demo。
 
-在复杂的场景下高速滑动 FPS 对比
+在复杂的场景下高速滑动 FPS 对比:
 
+* 测试环境 iPhone 5 (iOS 10.2)
 * 使用多线程进行绘制，基本能稳定在60 左右
 * 在主线程进行绘制，抖动较大，有非常明显的卡顿
 
@@ -55,7 +55,7 @@ There are two ways to use PPAsyncDrawingKit in your project:
 
 ###Installation with CocoaPods
 ####Podfile
-`not impl`
+`暂时没有上传，等基本完成和测试之后再提交`
 ``` Ruby
 pod 'PPAsyncDrawingKit'
 ```

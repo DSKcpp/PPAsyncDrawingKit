@@ -184,8 +184,6 @@ static BOOL asyncDrawingEnabled = YES;
     [self.drawingLayer increaseDrawingCount];
 }
 
-
-
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
     if (!self.alwaysUsesOffscreenRendering) {
