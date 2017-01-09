@@ -30,6 +30,7 @@ see `Demo\PPAsyncDrawingKit.xcodeproj`
 为了达到效果，请在真机运行 Demo。
 ###PPImageView
 高性能圆角 ImageView, 滑动时FPS 稳定 60
+
 ![](http://ww4.sinaimg.cn/large/9bffd8f9gw1fbk3ht0t1zj20a108btat.jpg)
 
 ###PPIsomerismTextView
