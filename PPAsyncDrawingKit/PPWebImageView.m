@@ -60,7 +60,7 @@
             } else {
                 
             }
-            [[PPWebImageManager sharedManager] loadImage:path delegate:self progress:^(NSUInteger receivedSize, NSUInteger expectedSize, NSString * _Nullable targetURL) {
+            [[PPWebImageManager sharedManager] loadImage:path delegate:self progress:^(int64_t receivedSize, int64_t expectedSize, NSString * _Nullable targetURL) {
                 
             } complete:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error) {
                 if (image) {

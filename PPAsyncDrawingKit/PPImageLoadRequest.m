@@ -61,7 +61,7 @@
     }
 }
 
-- (void)didReceiveDataSize:(NSUInteger)reveiveSize expectedSize:(NSUInteger)expectedSize
+- (void)didReceiveDataSize:(int64_t)reveiveSize expectedSize:(int64_t)expectedSize
 {
     float progress = reveiveSize / expectedSize;
     self.progress = progress;

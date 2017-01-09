@@ -9,7 +9,7 @@
 #import "WBTimelineContentView.h"
 #import "UIView+Frame.h"
 #import "UIImage+Color.h"
-#import "WBTimelinePreset.h"
+#import "WBHelper.h"
 
 @implementation WBColorImageView
 
@@ -275,12 +275,12 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     if ([self touchesInsideQuotedItemBorder:touches]) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             _flags.trackingQuotedItemBorder = YES;
             self.quotedItemBorderButton.highlighted = YES;
         });
     } else if ([self touchesInsideTitleBorder:touches]) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             self.titleBgImageView.highlighted = YES;
         });
     } else if ([self touchesInsideActionButtonsArea:touches]) {
@@ -298,7 +298,7 @@
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     if (_flags.trackingQuotedItemBorder) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             if ([self touchesInsideQuotedItemBorder:touches]) {
                 [self.quotedItemBorderButton sendActionsForControlEvents:UIControlEventTouchUpInside];
             }
@@ -306,7 +306,7 @@
             self.quotedItemBorderButton.highlighted = NO;
         });
     } else if (_flags.trackingTitleBorder) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             if ([self touchesInsideTitleBorder:touches]) {
 //                [self.itemTypeBgImageView sendActionsForControlEvents:UIControlEventTouchUpInside];
             }

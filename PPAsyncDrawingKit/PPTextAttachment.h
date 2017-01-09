@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface PPTextAttachment (Updating)
-- (BOOL)updateContentSizeWithOptions:(id)arg1;
+- (BOOL)updateContentSizeWithOptions:(id)options;
 @end
 
 NS_ASSUME_NONNULL_END

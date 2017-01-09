@@ -10,7 +10,6 @@
 #import "WBTimelineItem.h"
 #import "PPWebImageView.h"
 #import "PPButton.h"
-#import "WBTimelineTableViewCellDrawingContext.h"
 #import "WBTimelineScreenNameLabel.h"
 #import "WBTimelineTextContentView.h"
 #import "WBTimelineImageContentView.h"

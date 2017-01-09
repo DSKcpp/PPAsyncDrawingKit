@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class PPImageLoadRequest;
 
 typedef void(^PPImageLoadCompleteBlock)(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error);
-typedef void(^PPImageLoadProgressBlock)(NSUInteger receivedSize, NSUInteger expectedSize, NSString * _Nullable targetURL);
+typedef void(^PPImageLoadProgressBlock)(int64_t receivedSize, int64_t expectedSize, NSString * _Nullable targetURL);
 
 @interface PPWebImageManager : NSObject <PPImageLoadOperationDelegate, NSURLSessionDelegate>
 @property (nonatomic, class, strong, readonly) PPWebImageManager *sharedManager;

@@ -23,7 +23,7 @@
 @property (readonly, nonatomic) CGRect touchableRect;
 @property (nonatomic, assign) double currentTextBaselineOrigin;
 @property (nonatomic, assign) long long options;
-- (BOOL)pointInside:(CGPoint)arg1 withEvent:(id)arg2;
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event;
 - (void)addRemoteIcons;
 - (void)removeRemoteIcons;
 - (id)defaultIcons;

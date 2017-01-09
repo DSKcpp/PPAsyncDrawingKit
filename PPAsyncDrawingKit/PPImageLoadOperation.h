@@ -23,21 +23,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 - (void)replaceOperationCurrentRequestBeforeStart:(NSMutableURLRequest *)URLRequest;
-- (void)imageLoadOperation:(PPImageLoadOperation *)imageLoadOperation didReceivedSize:(NSUInteger)receivedSize expectedSize:(NSUInteger)expectedSize;
+- (void)imageLoadOperation:(PPImageLoadOperation *)imageLoadOperation didReceivedSize:(int64_t)receivedSize expectedSize:(int64_t)expectedSize;
 - (BOOL)imageLoadOperationShouldHandleProgressImage:(PPImageLoadOperation *)imageLoadOperation;
 - (NSString *)permenantPathOfFileForOperation:(PPImageLoadOperation *)imageLoadOperation;
 
 @end
 
 @interface PPImageLoadOperation : NSOperation <NSURLConnectionDelegate, NSURLConnectionDataDelegate, NSURLConnectionDownloadDelegate>
-@property(nonatomic) long long loadedSize;
 @property (nonatomic, assign) NSTimeInterval minNotifiProgressInterval;
-@property(readonly, nonatomic) float progress;
-@property(nonatomic, strong) NSDictionary *requestHttpHeaders;
-@property(retain, nonatomic) NSDictionary *responseHttpHeaders;
-@property(nonatomic) long long expectedSize;
-@property(nonatomic, assign, getter=isFinished) BOOL finished;
-@property(nonatomic, assign, getter=isExecuting) BOOL executing;
+@property (nonatomic, strong) NSDictionary *requestHttpHeaders;
+@property (nonatomic, strong) NSDictionary *responseHttpHeaders;
+@property (nonatomic, assign, getter=isFinished) BOOL finished;
+@property (nonatomic, assign, getter=isExecuting) BOOL executing;
 @property (nonatomic, weak) id<PPImageLoadOperationDelegate> delegate;
 @property (nonatomic, copy, readonly) NSString *imageURL;
 @property (nullable, nonatomic, strong, readonly) NSURLSessionDownloadTask *downloadTask;
@@ -47,9 +44,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)networkRequestThreadEntryPoint;
 
 - (instancetype)initWithURL:(NSString *)URL;
-
-- (void)postLogWithImageSize:(long long)arg1 isSuccess:(BOOL)arg2 error:(id)arg3;
-- (id)finalImage:(BOOL *)arg1;
 - (void)connectionDidStart;
 - (void)reloadConnection;
 @end

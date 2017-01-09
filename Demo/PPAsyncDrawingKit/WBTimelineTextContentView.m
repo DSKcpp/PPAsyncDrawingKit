@@ -7,14 +7,12 @@
 //
 
 #import "WBTimelineTextContentView.h"
-#import "WBTimelineTableViewCellDrawingContext.h"
 #import "PPTextRenderer.h"
 #import "WBTimelineItem.h"
 #import "NSAttributedString+PPAsyncDrawingKit.h"
-#import "WBTimelineContentImageViewLayouter.h"
 #import "WBTimelineAttributedTextParser.h"
 #import "PPTextActiveRange.h"
-#import "WBTimelinePreset.h"
+#import "WBHelper.h"
 
 @interface WBTimelineTextContentView () <PPTextRendererDelegate>
 
@@ -180,16 +178,6 @@
 - (void)addAttachmentViews
 {
     
-}
-
-- (UIView *)contextViewForTextRenderer:(PPTextRenderer *)arg1
-{
-    return self;
-}
-
-- (BOOL)textRenderer:(PPTextRenderer *)textRenderer shouldInteractWithHighlightRange:(nonnull PPTextHighlightRange *)highlightRange
-{
-    return YES;
 }
 
 - (void)textRenderer:(PPTextRenderer *)textRenderer didPressHighlightRange:(PPTextHighlightRange *)highlightRange

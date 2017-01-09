@@ -192,9 +192,7 @@
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
 {
-    NSString *file = [[PPImageCache sharedCache].cachePath stringByAppendingPathComponent:downloadTask.response.suggestedFilename];
-    [[NSFileManager defaultManager] moveItemAtURL:location toURL:[NSURL fileURLWithPath:file] error:nil];
-    _resultData = [NSData dataWithContentsOfFile:file];
+    _resultData = [NSData dataWithContentsOfFile:location.path];
     _resultImage = [PPImage imageWithData:_resultData];
 }
 

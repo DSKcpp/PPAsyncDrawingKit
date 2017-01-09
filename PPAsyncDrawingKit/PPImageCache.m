@@ -55,7 +55,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
         _maxCacheAge = kPPImageCacheMaxAge;
         self.maxMemorySize = kPPImageCacheMaxMemorySize;
         _createDate = [NSDate date];
-        _cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"ImageCache"];
+        _cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent:@"PPImageCache"];
         _ioQueue = dispatch_queue_create("io.github.dskcpp.PPAsyncDrawingKit.imageCache.ioQueue", DISPATCH_QUEUE_SERIAL);
         
         NSFileManager *fileManager = [NSFileManager defaultManager];

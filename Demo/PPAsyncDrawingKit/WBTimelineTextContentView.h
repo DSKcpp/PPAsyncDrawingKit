@@ -9,7 +9,6 @@
 #import "PPAsyncDrawingView.h"
 #import "WBTimelineLargeCardView.h"
 #import "PPIsomerismTextView.h"
-#import "WBTimelineTableViewCellDrawingContext.h"
 
 @class WBTimelineItem;
 @class WBTimelineTextContentView;

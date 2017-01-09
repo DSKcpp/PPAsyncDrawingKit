@@ -7,7 +7,7 @@
 //
 
 #import "WBTimelineImageContentView.h"
-#import "WBTimelinePreset.h"
+#import "WBHelper.h"
 
 @implementation WBTimelineImageContentView
 

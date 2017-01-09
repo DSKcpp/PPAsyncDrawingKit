@@ -22,12 +22,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, strong) UIImage *image;
 @property (nonatomic, copy, readonly) NSString *identifier;
 @property (nonatomic, copy, readonly) NSString *imageURL;
-@property (nonatomic, copy) PPImageLoadCompleteBlock completedBlock;
+@property (nullable, nonatomic, copy) PPImageLoadCompleteBlock completedBlock;
 @property (nullable, nonatomic, copy) PPImageLoadProgressBlock progressBlock;
 @property (nonatomic, assign) float progress;
 
 - (instancetype)initWithURL:(NSString *)URL;
-- (void)didReceiveDataSize:(NSUInteger)dataSize expectedSize:(NSUInteger)expectedSize;
+- (void)didReceiveDataSize:(int64_t)dataSize expectedSize:(int64_t)expectedSize;
 - (NSInteger)retryCount;
 - (void)start;
 - (BOOL)finished;

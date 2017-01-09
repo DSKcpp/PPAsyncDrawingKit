@@ -10,7 +10,7 @@
 #import "NSString+PPAsyncDrawingKit.h"
 #import "PPFlavoredRange.h"
 #import "WBUITextAttachment.h"
-#import "WBEmoticonManager.h"
+#import "WBHelper.h"
 #import "NSAttributedString+PPAsyncDrawingKit.h"
 #import "PPTextHighlightRange.h"
 #import "WBTimelineItem.h"

@@ -1,13 +1,26 @@
 //
-//  WBTimelinePreset.h
+//  WBHelper.h
 //  PPAsyncDrawingKit
 //
-//  Created by DSKcpp on 2016/11/20.
-//  Copyright © 2016年 DSKcpp. All rights reserved.
+//  Created by DSKcpp on 2017/1/9.
+//  Copyright © 2017年 DSKcpp. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface WBHelper : NSObject
+
+@end
+
+@interface WBEmoticonManager : NSObject
+@property (strong, class, readonly) WBEmoticonManager *sharedMangaer;
+@property (nonatomic, strong, readonly) NSDictionary *config;
+
+- (nullable UIImage *)imageWithEmotionName:(NSString *)name;
+@end
 
 @interface WBTimelinePreset : NSObject
 @property (class, strong, readonly) WBTimelinePreset *sharedInstance;
@@ -43,3 +56,6 @@
 #pragma mark - ActionButtons Area
 @property (nonatomic, assign, readonly) CGFloat actionButtonsHeight;
 @end
+
+
+NS_ASSUME_NONNULL_END
