@@ -50,9 +50,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)postLogWithImageSize:(long long)arg1 isSuccess:(BOOL)arg2 error:(id)arg3;
 - (id)finalImage:(BOOL *)arg1;
-- (id)progressImage:(BOOL)arg1;
-- (double)resizesImageWithMaxNumberOfPixels;
-- (BOOL)isConcurrent;
 - (void)connectionDidStart;
 - (void)reloadConnection;
 @end

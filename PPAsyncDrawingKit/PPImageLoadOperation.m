@@ -110,7 +110,7 @@
         if (_executing) {
             self.executing = NO;
         }
-        if (!_finished) {
+        if (self.downloadTask) {
             self.finished = YES;
         }
     }
@@ -120,6 +120,16 @@
 - (void)reset
 {
     [_session invalidateAndCancel];
+}
+
+- (BOOL)isConcurrent
+{
+    return YES;
+}
+
+- (BOOL)isAsynchronous
+{
+    return YES;
 }
 
 - (BOOL)isFinished
