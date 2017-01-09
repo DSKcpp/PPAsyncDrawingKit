@@ -20,8 +20,8 @@ static BOOL asyncDrawingEnabled = YES;
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        self.drawingPolicy = 0;
-        self.dispatchPriority = 0;
+        self.drawingPolicy = PPAsyncDrawingTypeNone;
+        self.dispatchPriority = PPAsyncDrawingDispatchQueuePriortyDefault;
         self.opaque = NO;
         self.layer.contentsScale = [UIScreen mainScreen].scale;
     }
@@ -164,6 +164,11 @@ static BOOL asyncDrawingEnabled = YES;
     }
 }
 
+- (void)redraw
+{
+    [self displayLayer:self.layer];
+}
+
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async
 {
     return YES;
@@ -179,16 +184,13 @@ static BOOL asyncDrawingEnabled = YES;
     [self.drawingLayer increaseDrawingCount];
 }
 
-- (void)redraw
-{
-    [self displayLayer:self.layer];
-}
+
 
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
     if (!self.alwaysUsesOffscreenRendering) {
         if ([NSStringFromSelector(aSelector) isEqual:@"displayLayer:"]) {
-            if (self.drawingPolicy != 1) {
+            if (self.drawingPolicy != PPAsyncDrawingTypeSync) {
                 return YES;
             }
             return NO;
@@ -304,6 +306,11 @@ static BOOL asyncDrawingEnabled = YES;
     } else {
         return dispatch_get_global_queue(self.dispatchPriority, 0);
     }
+}
+
+- (BOOL)alwaysUsesOffscreenRendering
+{
+    return YES;
 }
 
 @end

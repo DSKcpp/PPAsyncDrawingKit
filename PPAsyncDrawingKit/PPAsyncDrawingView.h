@@ -18,6 +18,13 @@ typedef NS_ENUM(NSUInteger, PPAsyncDrawingType) {
     PPAsyncDrawingTypeAsync
 };
 
+typedef NS_ENUM(NSUInteger, PPAsyncDrawingDispatchQueuePriorty) {
+    PPAsyncDrawingDispatchQueuePriortyDefault = 0,
+    PPAsyncDrawingDispatchQueuePriortyHigh = 2,
+    PPAsyncDrawingDispatchQueuePriortyLow = -2,
+    PPAsyncDrawingDispatchQueuePriortyBackground = INT16_MIN
+};
+
 /**
  PPAsyncDrawingView is a base class, can not be used directly, need to use inheritance.
  */
@@ -28,25 +35,26 @@ typedef NS_ENUM(NSUInteger, PPAsyncDrawingType) {
  */
 @property (nonatomic, class, assign) BOOL globallyAsyncDrawingEnabled;
 @property (nonatomic, assign) BOOL serializesDrawingOperations;
-@property (nonatomic, assign) NSInteger dispatchPriority;
 @property (nullable, nonatomic, assign) dispatch_queue_t dispatchDrawQueue;
 @property (nonatomic, assign) NSTimeInterval fadeDuration;
 @property (nonatomic, assign) BOOL reserveContentsBeforeNextDrawingComplete;
 @property (nonatomic, assign) BOOL contentsChangedAfterLastAsyncDrawing;
 @property (nonatomic, assign) PPAsyncDrawingType drawingPolicy;
+@property (nonatomic, assign) PPAsyncDrawingDispatchQueuePriorty dispatchPriority;
 @property (nonatomic, assign, readonly) NSUInteger drawingCount;
 @property (nonatomic, assign, readonly) BOOL alwaysUsesOffscreenRendering;
 
-- (void)interruptDrawingWhenPossible;
 - (dispatch_queue_t)drawQueue;
 - (PPAsyncDrawingViewLayer *)drawingLayer;
+- (nullable NSDictionary *)currentDrawingUserInfo;
 - (void)redraw;
 - (void)drawingWillStartAsynchronously:(BOOL)async;
 - (void)drawingDidFinishAsynchronously:(BOOL)async success:(BOOL)success;
 - (BOOL)drawInRect:(CGRect)rect withContext:(nullable CGContextRef)context asynchronously:(BOOL)async;
 - (BOOL)drawInRect:(CGRect)rect withContext:(nullable CGContextRef)context asynchronously:(BOOL)async userInfo:(nullable NSDictionary *)userInfo;
-- (nullable NSDictionary *)currentDrawingUserInfo;
+
 - (void)setNeedsDisplayAsync;
+- (void)interruptDrawingWhenPossible;
 @end
 
 @interface PPAsyncDrawingViewLayer : CALayer
