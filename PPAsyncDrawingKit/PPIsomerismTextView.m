@@ -83,11 +83,6 @@
     [super touchesCancelled:touches withEvent:event];
 }
 
-- (NSArray<PPTextHighlightRange *> *)highlightRangesForTextRenderer:(PPTextRenderer *)textRenderer
-{
-    return nil;
-}
-
 - (UIView *)contextViewForTextRenderer:(PPTextRenderer *)textRenderer
 {
     return self;

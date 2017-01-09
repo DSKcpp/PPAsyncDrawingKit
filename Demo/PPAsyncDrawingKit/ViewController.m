@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "ImageViewTableViewController.h"
 #import "WBTimelineViewController.h"
-#import "TextViewController.h"
+#import "PPTextExmaple.h"
 #import "PPAsyncDrawingKitUtilities.h"
 #import "YYFPSLabel.h"
 #import "PPImageCache.h"
@@ -108,7 +108,7 @@
         ImageViewTableViewController * viewController = [[ImageViewTableViewController alloc] init];
         [self.navigationController pushViewController:viewController animated:YES];
     } else if (indexPath.row == 1) {
-        TextViewController * viewController = [[TextViewController alloc] init];
+        PPTextExmaple * viewController = [[PPTextExmaple alloc] init];
         [self.navigationController pushViewController:viewController animated:YES];
     } else if (indexPath.row == 2) {
         WBTimelineViewController * viewController = [[WBTimelineViewController alloc] init];

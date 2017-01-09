@@ -18,7 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable PPTextRenderer *)rendererAtPoint:(CGPoint)point;
 - (void)textRenderer:(PPTextRenderer *)textRenderer didPressHighlightRange:(PPTextHighlightRange *)highlightRange;
-- (NSArray<PPTextHighlightRange *> *)highlightRangesForTextRenderer:(PPTextRenderer *)textRenderer;
 - (UIView *)contextViewForTextRenderer:(PPTextRenderer *)textRenderer;
 - (BOOL)textRenderer:(PPTextRenderer *)textRenderer shouldInteractWithHighlightRange:(PPTextHighlightRange *)highlightRange;
 @end

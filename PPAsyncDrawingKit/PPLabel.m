@@ -58,6 +58,26 @@
     return YES;
 }
 
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [self.textRenderer touchesBegan:touches withEvent:event];
+}
+
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [self.textRenderer touchesMoved:touches withEvent:event];
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [self.textRenderer touchesEnded:touches withEvent:event];
+}
+
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [self.textRenderer touchesCancelled:touches withEvent:event];
+}
+
 - (BOOL)pendingAttachmentUpdates
 {
     return YES;
@@ -153,23 +173,17 @@
 
 - (CGSize)sizeThatFits:(CGSize)size
 {
-//    if (self.attributedString) {
-//        return [self.attributedString pp_sizeConstrainedToSize:size numberOfLines:self.numberOfLines];
-//    } else {
-//        return CGSizeZero;
-//    }
-    return size;
+    if (self.attributedString) {
+        return [self.attributedString pp_sizeConstrainedToSize:size numberOfLines:self.numberOfLines];
+    } else {
+        return size;
+    }
 }
 
 //- (void)setFrame:(CGRect)frame
 //{
 //    [super setFrame:frame];
 //}
-
-- (NSArray<PPTextHighlightRange *> *)highlightRangesForTextRenderer:(PPTextRenderer *)textRenderer
-{
-    return nil;
-}
 
 - (UIView *)contextViewForTextRenderer:(PPTextRenderer *)textRenderer
 {

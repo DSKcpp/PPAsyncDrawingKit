@@ -172,15 +172,6 @@
     return userInfo;
 }
 
-- (void)checkNeedToDrawUnionAreaHightlightedFeedback:(id)arg1
-{
-    
-}
-
-- (NSUInteger)touchingOtherTouchableItemIndex:(CGPoint)point finishBlock:(void (^)(void))finishBlock
-{
-    return 0;
-}
 - (void)removeAttachmentViews
 {
     
@@ -195,21 +186,6 @@
 {
     return self;
 }
-
-//- (NSArray *)highlightRangesForTextRenderer:(PPTextRenderer *)textRenderer
-//{
-//    if (textRenderer == self.titleTextRenderer) {
-//        return self.drawingContext.titleAttributedText.highlightRanges;
-//    } else if (textRenderer == self.itemTextRenderer) {
-//        return self.drawingContext.textAttributedText.highlightRanges;
-//    } else if (textRenderer == self.quotedItemTextRenderer) {
-//        return self.drawingContext.quotedAttributedText.highlightRanges;
-//    } else if (textRenderer == self.metaInfoTextRenderer) {
-//        return self.drawingContext.metaInfoAttributedText.highlightRanges;
-//    } else {
-//        return nil;
-//    }
-//}
 
 - (BOOL)textRenderer:(PPTextRenderer *)textRenderer shouldInteractWithHighlightRange:(nonnull PPTextHighlightRange *)highlightRange
 {

@@ -14,7 +14,6 @@
 
 struct PPTextRendererEventDelegateHas {
     BOOL didPressHighlightRange;
-    BOOL highlightRangesForTextRenderer;
     BOOL contextViewForTextRenderer;
     BOOL shouldInteractWithHighlightRange;
 };
@@ -237,7 +236,6 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
     _eventDelegate = eventDelegate;
     _eventDelegateHas.contextViewForTextRenderer = [eventDelegate respondsToSelector:@selector(contextViewForTextRenderer:)];
     _eventDelegateHas.didPressHighlightRange = [eventDelegate respondsToSelector:@selector(textRenderer:didPressHighlightRange:)];
-    _eventDelegateHas.highlightRangesForTextRenderer = [eventDelegate respondsToSelector:@selector(highlightRangesForTextRenderer:)];
     _eventDelegateHas.shouldInteractWithHighlightRange = [eventDelegate respondsToSelector:@selector(textRenderer:shouldInteractWithHighlightRange:)];
 }
 

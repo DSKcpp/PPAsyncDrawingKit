@@ -28,8 +28,12 @@ see `Demo\PPAsyncDrawingKit.xcodeproj`
 
 #Demo
 为了达到效果，请在真机运行 Demo。
+###PPImageView
+高性能圆角 ImageView, 滑动时FPS 稳定 60
+![](http://ww4.sinaimg.cn/large/9bffd8f9gw1fbk3ht0t1zj20a108btat.jpg)
 
-将业务逻辑一样的文字渲染到一个 `View` 上，根据传入的多个 `AttributedString`，进行渲染。
+###PPIsomerismTextView
+利用 `CoreText` 将传入的多个 `AttributedString`，渲染到一个 `View` 上。
 
 左边只有一个 `View`。
 ![](http://ww4.sinaimg.cn/large/9bffd8f9gw1fbi1ji8hbyj21kw0u67fm.jpg)

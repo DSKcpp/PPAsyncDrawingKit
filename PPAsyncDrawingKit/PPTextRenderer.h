@@ -26,7 +26,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol PPTextRendererEventDelegate <NSObject>
 - (void)textRenderer:(PPTextRenderer *)textRenderer didPressHighlightRange:(PPTextHighlightRange *)highlightRange;
-- (NSArray<PPTextHighlightRange *> *)highlightRangesForTextRenderer:(PPTextRenderer *)textRenderer;
 - (UIView *)contextViewForTextRenderer:(PPTextRenderer *)textRenderer;
 
 @optional

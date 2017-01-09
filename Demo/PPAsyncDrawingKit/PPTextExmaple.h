@@ -1,5 +1,5 @@
 //
-//  TextViewController.h
+//  PPTextExmaple.h
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 2016/10/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TextViewController : UITableViewController
+@interface PPTextExmaple : UITableViewController
 
 @end

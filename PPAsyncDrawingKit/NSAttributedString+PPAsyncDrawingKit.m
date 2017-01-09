@@ -191,11 +191,11 @@ static char threadRendererKey;
     return range;
 }
 
-- (void)setAttribute:(NSString *)name value:(id)value {
-    [self setAttribute:name value:value range:self.pp_stringRange];
+- (void)pp_setAttribute:(NSString *)name value:(id)value {
+    [self pp_setAttribute:name value:value range:self.pp_stringRange];
 }
 
-- (void)setAttribute:(NSString *)name value:(id)value range:(NSRange)range
+- (void)pp_setAttribute:(NSString *)name value:(id)value range:(NSRange)range
 {
     if (!name) {
         return ;
@@ -208,10 +208,15 @@ static char threadRendererKey;
     }
 }
 
+- (void)pp_setKerning:(CGFloat)kerning
+{
+    [self pp_setKerning:kerning inRange:self.pp_stringRange];
+}
+
 - (void)pp_setKerning:(CGFloat)kerning inRange:(NSRange)range
 {
     CFNumberRef number = CFNumberCreate(kCFAllocatorDefault,kCFNumberCGFloatType,&kerning);
-    [self setAttribute:(id)kCTKernAttributeName value:(__bridge id _Nullable)(number) range:range];
+    [self pp_setAttribute:(id)kCTKernAttributeName value:(__bridge id _Nullable)(number) range:range];
     CFRelease(number);
 }
 
@@ -222,7 +227,7 @@ static char threadRendererKey;
 
 - (void)pp_setColor:(UIColor *)color inRange:(NSRange)range
 {
-    [self setAttribute:(id)kCTForegroundColorAttributeName value:(id)color.CGColor range:range];
+    [self pp_setAttribute:(id)kCTForegroundColorAttributeName value:(id)color.CGColor range:range];
 }
 
 - (void)pp_setFont:(UIFont *)font
@@ -232,7 +237,7 @@ static char threadRendererKey;
 
 - (void)pp_setFont:(UIFont *)font inRange:(NSRange)range
 {
-    [self setAttribute:NSFontAttributeName value:font range:range];
+    [self pp_setAttribute:NSFontAttributeName value:font range:range];
 }
 
 - (void)pp_setBackgroundColor:(UIColor *)backgroundColor inRange:(NSRange)range
@@ -252,7 +257,7 @@ static char threadRendererKey;
 
 - (void)pp_setTextRange:(PPTextActiveRange *)textRange inRange:(NSRange)range
 {
-    [self setAttribute:@"PPTextRangeAttributeName" value:textRange range:range];
+    [self pp_setAttribute:@"PPTextRangeAttributeName" value:textRange range:range];
 }
 
 - (void)pp_setTextHighlightRange:(PPTextHighlightRange *)textHighlightRange
@@ -262,7 +267,7 @@ static char threadRendererKey;
 
 - (void)pp_setTextHighlightRange:(PPTextHighlightRange *)textHighlightRange inRange:(NSRange)range
 {
-    [self setAttribute:PPTextHighlightRangeAttributeName value:textHighlightRange range:range];
+    [self pp_setAttribute:PPTextHighlightRangeAttributeName value:textHighlightRange range:range];
 }
 
 - (void)pp_setTextParagraphStyle:(PPTextParagraphStyle *)textParagraphStyle
@@ -307,10 +312,27 @@ static char threadRendererKey;
     lineBreakModelStyle.valueSize = sizeof(CTLineBreakMode);
     lineBreakModelStyle.spec = kCTParagraphStyleSpecifierLineBreakMode;
     
-    CTParagraphStyleSetting settings[2] = {aligmentStyle};
+    CTParagraphStyleSetting settings[2] = {aligmentStyle, lineBreakModelStyle};
     CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, 2);
-    [self addAttribute:(id)kCTParagraphStyleAttributeName value:(id)paragraphStyle range:self.pp_stringRange];
+    [self pp_setAttribute:(id)kCTParagraphStyleAttributeName value:(id)paragraphStyle range:self.pp_stringRange];
     CFRelease(paragraphStyle);
 }
 
+- (void)pp_setLineHeight:(CGFloat)lineHeight
+{
+    [self pp_setLineHeight:lineHeight inRange:self.pp_stringRange];
+}
+
+- (void)pp_setLineHeight:(CGFloat)lineHeight inRange:(NSRange)range
+{
+    CTParagraphStyleSetting minimumLineHeight;
+    minimumLineHeight.value = &lineHeight;
+    minimumLineHeight.valueSize = sizeof(CGFloat);
+    minimumLineHeight.spec = kCTParagraphStyleSpecifierMinimumLineHeight;
+    
+    CTParagraphStyleSetting settings[1] = {minimumLineHeight};
+    CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, 1);
+    [self pp_setAttribute:(id)kCTParagraphStyleAttributeName value:(id)paragraphStyle range:range];
+    CFRelease(paragraphStyle);
+}
 @end

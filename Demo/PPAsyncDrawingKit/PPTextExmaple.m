@@ -1,19 +1,19 @@
 //
-//  TextViewController.m
+//  PPTextExmaple.m
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 2016/10/14.
 //  Copyright © 2016年 DSKcpp. All rights reserved.
 //
 
-#import "TextViewController.h"
-#import "PPTextHighlightViewController.h"
+#import "PPTextExmaple.h"
+#import "PPTextAttributedExample.h"
 
-@interface TextViewController ()
+@interface PPTextExmaple ()
 @property (nonatomic, strong) NSArray *titles;
 @end
 
-@implementation TextViewController
+@implementation PPTextExmaple
 
 - (void)viewDidLoad
 {
@@ -21,7 +21,7 @@
     
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     
-    _titles = @[@"Highlieht"];
+    _titles = @[@"Text Attributed Example"];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -43,7 +43,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    PPTextHighlightViewController *vc = [[PPTextHighlightViewController alloc] init];
+    PPTextAttributedExample *vc = [[PPTextAttributedExample alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 @end
