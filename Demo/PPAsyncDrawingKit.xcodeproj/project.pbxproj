@@ -21,6 +21,7 @@
 		86553B841DF2CCF900ED22A4 /* WBUITextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 86553B831DF2CCF800ED22A4 /* WBUITextAttachment.m */; };
 		865857E41E230DD10047782A /* PPTextAttributedExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 865857E31E230DD10047782A /* PPTextAttributedExample.m */; };
 		865857E81E237F310047782A /* WBHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 865857E71E237F310047782A /* WBHelper.m */; };
+		865857EC1E248ED90047782A /* PPButtonExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 865857EB1E248ED90047782A /* PPButtonExample.m */; };
 		8659A9101E15BCF200BC9F91 /* WBWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8659A90F1E15BCF200BC9F91 /* WBWebViewController.m */; };
 		8659A9131E15BEF700BC9F91 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8659A9121E15BEF700BC9F91 /* WebKit.framework */; };
 		865CF7171DFA8BE2003DCA01 /* WBTimelineLargeCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 865CF7161DFA8BE2003DCA01 /* WBTimelineLargeCardView.m */; };
@@ -57,7 +58,7 @@
 		86EB759A1D2393CC005F14A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 86EB75991D2393CC005F14A1 /* Assets.xcassets */; };
 		86EB759D1D2393CC005F14A1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86EB759B1D2393CC005F14A1 /* LaunchScreen.storyboard */; };
 		86EF6AAA1DB12F1A006464CE /* WBTimelineTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6AA91DB12F1A006464CE /* WBTimelineTableViewCell.m */; };
-		86EF6AAE1DB132F9006464CE /* PPTextExmaple.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6AAD1DB132F9006464CE /* PPTextExmaple.m */; };
+		86EF6AAE1DB132F9006464CE /* PPTextExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6AAD1DB132F9006464CE /* PPTextExample.m */; };
 		86EF6AB11DB13677006464CE /* PPTextLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6AB01DB13677006464CE /* PPTextLayout.m */; };
 		86EF6AB41DB136B8006464CE /* PPTextLayoutFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6AB31DB136B8006464CE /* PPTextLayoutFrame.m */; };
 		86EF6AB71DB215F7006464CE /* PPLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6AB61DB215F7006464CE /* PPLabel.m */; };
@@ -99,6 +100,8 @@
 		865857E31E230DD10047782A /* PPTextAttributedExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextAttributedExample.m; sourceTree = "<group>"; };
 		865857E61E237F310047782A /* WBHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHelper.h; sourceTree = "<group>"; };
 		865857E71E237F310047782A /* WBHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBHelper.m; sourceTree = "<group>"; };
+		865857EA1E248ED90047782A /* PPButtonExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPButtonExample.h; sourceTree = "<group>"; };
+		865857EB1E248ED90047782A /* PPButtonExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPButtonExample.m; sourceTree = "<group>"; };
 		8659A90E1E15BCF200BC9F91 /* WBWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBWebViewController.h; sourceTree = "<group>"; };
 		8659A90F1E15BCF200BC9F91 /* WBWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBWebViewController.m; sourceTree = "<group>"; };
 		8659A9121E15BEF700BC9F91 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -166,8 +169,8 @@
 		86EB759E1D2393CC005F14A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		86EF6AA81DB12F1A006464CE /* WBTimelineTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTimelineTableViewCell.h; sourceTree = "<group>"; };
 		86EF6AA91DB12F1A006464CE /* WBTimelineTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTimelineTableViewCell.m; sourceTree = "<group>"; };
-		86EF6AAC1DB132F9006464CE /* PPTextExmaple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextExmaple.h; sourceTree = "<group>"; };
-		86EF6AAD1DB132F9006464CE /* PPTextExmaple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextExmaple.m; sourceTree = "<group>"; };
+		86EF6AAC1DB132F9006464CE /* PPTextExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextExample.h; sourceTree = "<group>"; };
+		86EF6AAD1DB132F9006464CE /* PPTextExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextExample.m; sourceTree = "<group>"; };
 		86EF6AAF1DB13677006464CE /* PPTextLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextLayout.h; sourceTree = "<group>"; };
 		86EF6AB01DB13677006464CE /* PPTextLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextLayout.m; sourceTree = "<group>"; };
 		86EF6AB21DB136B8006464CE /* PPTextLayoutFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextLayoutFrame.h; sourceTree = "<group>"; };
@@ -203,13 +206,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		861EB1CA1DB10EE3005C07C7 /* Image */ = {
+		861EB1CA1DB10EE3005C07C7 /* Image Example */ = {
 			isa = PBXGroup;
 			children = (
 				861EB1CB1DB10F0B005C07C7 /* ImageViewTableViewController.h */,
 				861EB1CC1DB10F0B005C07C7 /* ImageViewTableViewController.m */,
 			);
-			name = Image;
+			name = "Image Example";
 			sourceTree = "<group>";
 		};
 		861EB1DC1DB11E82005C07C7 /* YYModel */ = {
@@ -224,7 +227,7 @@
 			name = YYModel;
 			sourceTree = "<group>";
 		};
-		861EB1E41DB11F3B005C07C7 /* WBTimeline */ = {
+		861EB1E41DB11F3B005C07C7 /* Feeds Demo */ = {
 			isa = PBXGroup;
 			children = (
 				86D7C2711DE81AEC001D88E8 /* Parser */,
@@ -233,7 +236,7 @@
 				865857E51E237EDD0047782A /* Helper */,
 				861EB1E51DB11F56005C07C7 /* Model */,
 			);
-			name = WBTimeline;
+			name = "Feeds Demo";
 			sourceTree = "<group>";
 		};
 		861EB1E51DB11F56005C07C7 /* Model */ = {
@@ -285,6 +288,15 @@
 				865857E71E237F310047782A /* WBHelper.m */,
 			);
 			name = Helper;
+			sourceTree = "<group>";
+		};
+		865857E91E248DC00047782A /* Button Example */ = {
+			isa = PBXGroup;
+			children = (
+				865857EA1E248ED90047782A /* PPButtonExample.h */,
+				865857EB1E248ED90047782A /* PPButtonExample.m */,
+			);
+			name = "Button Example";
 			sourceTree = "<group>";
 		};
 		8659A9111E15BEF700BC9F91 /* Frameworks */ = {
@@ -462,10 +474,11 @@
 		86EB758C1D2393CC005F14A1 /* PPAsyncDrawingKit-Demo */ = {
 			isa = PBXGroup;
 			children = (
+				861EB1CA1DB10EE3005C07C7 /* Image Example */,
+				86EF6AAB1DB132C5006464CE /* Text Example */,
+				865857E91E248DC00047782A /* Button Example */,
+				861EB1E41DB11F3B005C07C7 /* Feeds Demo */,
 				86EFEF231DBF9D760003E078 /* Other */,
-				86EF6AAB1DB132C5006464CE /* Text */,
-				861EB1E41DB11F3B005C07C7 /* WBTimeline */,
-				861EB1CA1DB10EE3005C07C7 /* Image */,
 				86EB75901D2393CC005F14A1 /* AppDelegate.h */,
 				86EB75911D2393CC005F14A1 /* AppDelegate.m */,
 				86EB75931D2393CC005F14A1 /* ViewController.h */,
@@ -490,15 +503,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		86EF6AAB1DB132C5006464CE /* Text */ = {
+		86EF6AAB1DB132C5006464CE /* Text Example */ = {
 			isa = PBXGroup;
 			children = (
-				86EF6AAC1DB132F9006464CE /* PPTextExmaple.h */,
-				86EF6AAD1DB132F9006464CE /* PPTextExmaple.m */,
+				86EF6AAC1DB132F9006464CE /* PPTextExample.h */,
+				86EF6AAD1DB132F9006464CE /* PPTextExample.m */,
 				865857E21E230DD10047782A /* PPTextAttributedExample.h */,
 				865857E31E230DD10047782A /* PPTextAttributedExample.m */,
 			);
-			name = Text;
+			name = "Text Example";
 			sourceTree = "<group>";
 		};
 		86EFEF231DBF9D760003E078 /* Other */ = {
@@ -600,7 +613,7 @@
 				86AED6621DD1DB2C00887F3B /* UIImage+PPAsyncDrawingKit.m in Sources */,
 				865CF7211DFC8B53003DCA01 /* NSDate+PPASDK.m in Sources */,
 				861EB1DB1DB11E28005C07C7 /* WBTimelineItem.m in Sources */,
-				86EF6AAE1DB132F9006464CE /* PPTextExmaple.m in Sources */,
+				86EF6AAE1DB132F9006464CE /* PPTextExample.m in Sources */,
 				86AED6691DD46E5A00887F3B /* WBTimelineContentView.m in Sources */,
 				861EB1E21DB11EBD005C07C7 /* NSObject+YYModel.m in Sources */,
 				86AED66F1DD4832200887F3B /* WBTimelineTextContentView.m in Sources */,
@@ -640,6 +653,7 @@
 				861EB1D61DB11563005C07C7 /* PPTextRenderer.m in Sources */,
 				86EF6AD91DB390F8006464CE /* PPAsyncDrawingKitUtilities.m in Sources */,
 				86D7C26C1DE677C2001D88E8 /* PPImageLoadOperation.m in Sources */,
+				865857EC1E248ED90047782A /* PPButtonExample.m in Sources */,
 				86EF6AB41DB136B8006464CE /* PPTextLayoutFrame.m in Sources */,
 				867F77A21DB77C7C004FCEBA /* PPWebImageView.m in Sources */,
 				86A0CCF61E21EC73006C3F0A /* NSString+PPASDK.m in Sources */,

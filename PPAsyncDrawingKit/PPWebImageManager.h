@@ -55,13 +55,13 @@ typedef void(^PPImageLoadProgressBlock)(int64_t receivedSize, int64_t expectedSi
 
 - (nullable PPImageLoadOperation *)operationForURL:(NSString *)URL;
 
-- (void)resumeImageLoad;
-- (BOOL)imageLoadSuspended;
-- (void)suspendImageLoad;
 - (void)addRequest:(PPImageLoadRequest *)request;
 - (void)cancelRequest:(PPImageLoadRequest *)request;
 - (void)cancelRequestForDelegate:(id)delegate;
 - (void)cancelRequestForURL:(NSString *)URL;
+- (BOOL)imageLoadSuspended;
+- (void)resumeImageLoad;
+- (void)suspendImageLoad;
 - (PPImageCache *)cache;
 @end
 

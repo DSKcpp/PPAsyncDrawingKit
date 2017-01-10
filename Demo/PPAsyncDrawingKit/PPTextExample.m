@@ -1,19 +1,19 @@
 //
-//  PPTextExmaple.m
+//  PPTextExample.m
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 2016/10/14.
 //  Copyright © 2016年 DSKcpp. All rights reserved.
 //
 
-#import "PPTextExmaple.h"
+#import "PPTextExample.h"
 #import "PPTextAttributedExample.h"
 
-@interface PPTextExmaple ()
+@interface PPTextExample ()
 @property (nonatomic, strong) NSArray *titles;
 @end
 
-@implementation PPTextExmaple
+@implementation PPTextExample
 
 - (void)viewDidLoad
 {

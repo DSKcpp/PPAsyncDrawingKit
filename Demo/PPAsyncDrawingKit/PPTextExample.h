@@ -1,5 +1,5 @@
 //
-//  PPTextExmaple.h
+//  PPTextExample.h
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 2016/10/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PPTextExmaple : UITableViewController
+@interface PPTextExample : UITableViewController
 
 @end

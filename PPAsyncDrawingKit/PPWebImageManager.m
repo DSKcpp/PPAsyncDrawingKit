@@ -125,8 +125,7 @@
             }
         });
     } else {
-        [_cache addToCurrentReadingTaskKeys:request.imageURL];
-        UIImage *image = [_cache imageForURL:request.imageURL taskKey:request.imageURL];
+        UIImage *image = [_cache imageForURL:request.imageURL];
         dispatch_async(dispatch_get_main_queue(), ^{
             if (image) {
                 request.image = image;
@@ -182,6 +181,25 @@
             }
         }];
     }
+}
+
+- (void)resumeImageLoad
+{
+    if (_loadQueue.isSuspended) {
+        _loadQueue.suspended = NO;
+    }
+}
+
+- (void)suspendImageLoad
+{
+    if (!_loadQueue.isSuspended) {
+        _loadQueue.suspended = YES;
+    }
+}
+
+- (BOOL)imageLoadSuspended
+{
+    return _loadQueue.isSuspended;
 }
 
 - (PPImageLoadOperation *)operationForURL:(NSString *)URL

@@ -86,7 +86,7 @@
 - (void)configure
 {
     self.backgroundColor = [UIColor clearColor];
-    self.drawingPolicy = 0;
+    self.drawingPolicy = PPAsyncDrawingTypeNone;
     _titles = @{}.mutableCopy;
     _titleColors = @{}.mutableCopy;
     _images = @{}.mutableCopy;
@@ -462,7 +462,7 @@
         case UIControlStateNormal:
             return @"UIControlStateNormal";
         case UIControlStateHighlighted:
-            return @"UIControlStateNormal";
+            return @"UIControlStateHighlighted";
         case UIControlStateDisabled:
             return @"UIControlStateDisabled";
         case UIControlStateSelected:

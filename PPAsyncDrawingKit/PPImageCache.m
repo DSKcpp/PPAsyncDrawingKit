@@ -30,9 +30,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
 @interface PPImageCache ()
 @property (nonatomic, strong) NSCache<NSString *, UIImage *> *cache;
 @property (nonatomic, strong) dispatch_queue_t ioQueue;
-@property (nonatomic, strong) NSRecursiveLock *readingTaskLock;
 @property (nonatomic, strong) NSDate *createDate;
-@property (nonatomic, strong) NSMutableArray *currentReadingTaskKeys;
 @end
 
 @implementation PPImageCache
@@ -63,8 +61,6 @@ static NSString *_PPNSStringMD5(NSString *string) {
             [fileManager createDirectoryAtPath:_cachePath withIntermediateDirectories:YES attributes:nil error:nil];
         }
         
-        _readingTaskLock = [[NSRecursiveLock alloc] init];
-        _currentReadingTaskKeys = [NSMutableArray array];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveMemoryWarning:) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
 //        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkAndAutoClean) name:UIApplicationWillEnterForegroundNotification object:nil];
     }
@@ -104,19 +100,10 @@ static NSString *_PPNSStringMD5(NSString *string) {
 
 - (UIImage *)imageForURL:(NSString *)URL
 {
-    return [self imageForURL:URL taskKey:nil];
-}
-
-- (UIImage *)imageForURL:(NSString *)URL taskKey:(NSString *)taskKey
-{
-    [self.readingTaskLock lock];
-    BOOL taskConstains = [self.currentReadingTaskKeys containsObject:taskKey];
-    [self.readingTaskLock unlock];
-    
-    if ((!URL || taskKey) && !taskConstains) {
-//        [self removeFromCurrentReadingTaskKeys:taskKey];
+    if (!URL) {
+        return nil;
     }
-
+    
     BOOL cache = [self imageCachedForURL:URL];
     if (cache) {
         NSString *key = [self keyWithURL:URL];
@@ -239,20 +226,6 @@ static NSString *_PPNSStringMD5(NSString *string) {
         path = [self cachePathForKey:[self keyWithURL:URL]];
         [fileManager createFileAtPath:path contents:imageData attributes:nil];
     });
-}
-
-- (void)addToCurrentReadingTaskKeys:(NSString *)TaskKeys
-{
-    [_readingTaskLock lock];
-    [_currentReadingTaskKeys addObject:TaskKeys];
-    [_readingTaskLock unlock];
-}
-
-- (void)removeFromCurrentReadingTaskKeys:(NSString *)TaskKeys
-{
-    [_readingTaskLock lock];
-    [_currentReadingTaskKeys removeObject:TaskKeys];
-    [_readingTaskLock unlock];
 }
 
 - (NSUInteger)cacheSize

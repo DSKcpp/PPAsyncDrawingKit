@@ -29,7 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)cachePathForKey:(NSString *)key;
 
 - (nullable UIImage *)imageForURL:(NSString *)URL;
-- (nullable UIImage *)imageForURL:(NSString *)URL taskKey:(nullable NSString *)taskKey;
 - (nullable UIImage *)imageFromMemoryCacheForURL:(NSString *)URL;
 - (nullable UIImage *)imageFromDiskCacheForURL:(NSString *)URL;
 - (void)imageForURL:(NSString *)URL callback:(void(^)(UIImage * _Nullable image, PPImageCacheType cacheType))callback;
@@ -42,8 +41,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)imageHasDiskCachedForURL:(NSString *)URL;
 
 - (NSString *)diskCachePathForImageURL:(NSString *)imageURL;
-- (void)addToCurrentReadingTaskKeys:(NSString *)TaskKeys;
-- (void)removeFromCurrentReadingTaskKeys:(NSString *)TaskKeys;
 
 - (NSUInteger)cacheSize;
 - (void)cleanDiskCache;

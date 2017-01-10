@@ -242,6 +242,7 @@
     [_textContentView setHighlighted:highlighted];
     [_avatarView setHighlighted:highlighted];
     [_actionButtonsView setButtonsHighlighted:highlighted];
+    [_quotedItemBorderButton setHighlighted:highlighted];
 }
 
 - (BOOL)touchesInside:(NSSet<UITouch *> *)touches rect:(CGRect)rect
@@ -281,11 +282,10 @@
         });
     } else if ([self touchesInsideTitleBorder:touches]) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            _flags.trackingTitleBorder = YES;
             self.titleBgImageView.highlighted = YES;
         });
-    } else if ([self touchesInsideActionButtonsArea:touches]) {
-        [super touchesBegan:touches withEvent:event];
-    } else {
+    } else if (![self touchesInsideActionButtonsArea:touches]) {
         [super touchesBegan:touches withEvent:event];
     }
 }
@@ -310,6 +310,7 @@
             if ([self touchesInsideTitleBorder:touches]) {
 //                [self.itemTypeBgImageView sendActionsForControlEvents:UIControlEventTouchUpInside];
             }
+            _flags.trackingTitleBorder = NO;
             self.titleBgImageView.highlighted = NO;
         });
     } else {

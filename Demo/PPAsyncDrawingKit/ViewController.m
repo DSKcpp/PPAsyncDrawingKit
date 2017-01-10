@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "ImageViewTableViewController.h"
 #import "WBTimelineViewController.h"
-#import "PPTextExmaple.h"
+#import "PPTextExample.h"
 #import "PPAsyncDrawingKitUtilities.h"
 #import "YYFPSLabel.h"
 #import "PPImageCache.h"
@@ -17,6 +17,7 @@
 #import "PPAsyncDrawingView.h"
 #import "UIView+Frame.h"
 #import "PPTextRenderer.h"
+#import "PPButtonExample.h"
 
 @interface PPDemoToolBar : UIView
 
@@ -97,9 +98,12 @@
         ImageViewTableViewController * viewController = [[ImageViewTableViewController alloc] init];
         [self.navigationController pushViewController:viewController animated:YES];
     } else if (indexPath.row == 1) {
-        PPTextExmaple * viewController = [[PPTextExmaple alloc] init];
+        PPTextExample * viewController = [[PPTextExample alloc] init];
         [self.navigationController pushViewController:viewController animated:YES];
     } else if (indexPath.row == 2) {
+        PPButtonExample * viewController = [[PPButtonExample alloc] init];
+        [self.navigationController pushViewController:viewController animated:YES];
+    } else if (indexPath.row == 3) {
         WBTimelineViewController * viewController = [[WBTimelineViewController alloc] init];
         [self.navigationController pushViewController:viewController animated:YES];
     }

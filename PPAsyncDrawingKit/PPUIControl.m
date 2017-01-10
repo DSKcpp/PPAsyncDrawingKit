@@ -69,6 +69,21 @@
     }
 }
 
+- (UIControlState)state
+{
+    UIControlState _state = UIControlStateNormal;
+    if (self.isHighlighted) {
+        _state = UIControlStateHighlighted;
+    }
+    if (!self.isEnabled) {
+        _state = _state | UIControlStateDisabled;
+    }
+    if (self.isSelected) {
+        _state = _state | UIControlStateSelected;
+    }
+    return _state;
+}
+
 - (void)addTarget:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents
 {
     if (action) {
@@ -116,7 +131,7 @@
     UITouch *touch = [touches anyObject];
     _tracking = [self beginTrackingWithTouch:touch withEvent:event];
     self.highlighted = YES;
-    if (self.tracking) {
+    if (self.isTracking) {
         UIControlEvents controlEvents = UIControlEventTouchDown;
         if ([touch tapCount] > 1) {
             controlEvents = UIControlEventTouchDown | UIControlEventTouchDownRepeat;
@@ -221,7 +236,7 @@
 
 - (NSMutableArray<PPUIControlTargetAction *> *)targetActions
 {
-    if (_targetActions == nil) {
+    if (!_targetActions) {
         _targetActions = @[].mutableCopy;
     }
     return _targetActions;
@@ -237,7 +252,7 @@
 {
     UIControlEvents controlEvents;
     for (PPUIControlTargetAction *targetAction in self.targetActions) {
-        controlEvents += targetAction.controlEvents;
+        controlEvents |= targetAction.controlEvents;
     }
     return controlEvents;
 }

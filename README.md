@@ -1,6 +1,8 @@
 一年 iOS，急需工作，快要露宿街头，上海地区，邮箱：dskcpp@gmail.com
 PPAsyncDrawingKit
 ------------------------
+[![Build Status](https://travis-ci.org/DSKcpp/PPAsyncDrawingKit.svg?branch=master)](https://travis-ci.org/DSKcpp/PPAsyncDrawingKit)
+
 这是一个轻量的异步绘制框架，实现一系列 `ImageView`, `Label`, `Button` 等基础控件，支持 `Objective-C`, `Swift`。
 
 #Features
