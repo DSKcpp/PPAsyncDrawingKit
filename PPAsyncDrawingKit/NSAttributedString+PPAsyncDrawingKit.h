@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "PPAsyncDrawingKitUtilities.h"
-#import "PPTextHighlightRange.h"
+#import "PPTextAttributes.h"
 #import "PPTextParagraphStyle.h"
 
 @class PPTextRenderer;

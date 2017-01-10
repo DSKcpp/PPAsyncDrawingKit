@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface PPImageLoadOperation : NSOperation <NSURLConnectionDelegate, NSURLConnectionDataDelegate, NSURLConnectionDownloadDelegate>
+@interface PPImageLoadOperation : NSOperation
 @property (nonatomic, assign) NSTimeInterval minNotifiProgressInterval;
 @property (nonatomic, strong) NSDictionary *requestHttpHeaders;
 @property (nonatomic, strong) NSDictionary *responseHttpHeaders;

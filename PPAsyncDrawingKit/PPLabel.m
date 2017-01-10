@@ -51,7 +51,7 @@
     if (attributedString) {
         [self _updateTextRendererWithAttributedString:attributedString];
 //        self.pendingAttachmentUpdates
-        [self.textRenderer drawInContext:context visibleRect:rect placeAttachments:YES shouldInterruptBlock:nil];
+        [self.textRenderer drawInContext:context visibleRect:rect placeAttachments:YES];
     }
     return YES;
 }

@@ -27,22 +27,17 @@
 
 - (void)setImageURL:(NSString *)imageURL placeholderImage:(UIImage *)placeholderImage
 {
-    [self setImageURL:imageURL placeholderImage:placeholderImage localCacheFileAsyncFirst:YES];
-}
-
-- (void)setImageURL:(NSString *)imageURL placeholderImage:(UIImage *)placeholderImage localCacheFileAsyncFirst:(BOOL)localCacheFileAsyncFirst
-{
     if (![_imageURL isEqualToString:imageURL]) {
         self.image = placeholderImage;
         [self cancelCurrentImageLoading];
         _imageURL = imageURL;
-        [self loadImageWithPath:imageURL localCacheFileAsyncFirst:localCacheFileAsyncFirst];
+        [self loadImageWithPath:imageURL];
     } else {
         
     }
 }
 
-- (void)loadImageWithPath:(NSString *)path localCacheFileAsyncFirst:(BOOL)localCacheFileAsyncFirst
+- (void)loadImageWithPath:(NSString *)path
 {
     if (!path.length) {
         return;

@@ -27,6 +27,8 @@
 		865CF7171DFA8BE2003DCA01 /* WBTimelineLargeCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 865CF7161DFA8BE2003DCA01 /* WBTimelineLargeCardView.m */; };
 		865CF71A1DFAA6EB003DCA01 /* PPIsomerismTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 865CF7191DFAA6EB003DCA01 /* PPIsomerismTextView.m */; };
 		865CF7211DFC8B53003DCA01 /* NSDate+PPASDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 865CF7201DFC8B53003DCA01 /* NSDate+PPASDK.m */; };
+		866FDEAE1E24E6A600C513DF /* PPTextAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDEAD1E24E6A600C513DF /* PPTextAttributes.m */; };
+		866FDEB21E24ED9500C513DF /* SwiftExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866FDEB11E24ED9500C513DF /* SwiftExample.swift */; };
 		867F77A21DB77C7C004FCEBA /* PPWebImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 867F77A11DB77C7C004FCEBA /* PPWebImageView.m */; };
 		869AFD161DDC5F7F00842C6C /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 869AFD151DDC5F7F00842C6C /* UIView+Frame.m */; };
 		869AFD1C1DDC674900842C6C /* UIImage+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 869AFD1B1DDC674900842C6C /* UIImage+Color.m */; };
@@ -41,7 +43,6 @@
 		86AED6651DD1DCD200887F3B /* NSAttributedString+PPAsyncDrawingKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AED6641DD1DCD200887F3B /* NSAttributedString+PPAsyncDrawingKit.m */; };
 		86AED6691DD46E5A00887F3B /* WBTimelineContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AED6681DD46E5A00887F3B /* WBTimelineContentView.m */; };
 		86AED66F1DD4832200887F3B /* WBTimelineTextContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AED66E1DD4832200887F3B /* WBTimelineTextContentView.m */; };
-		86AED6721DD491FE00887F3B /* WBTimelineScreenNameLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AED6711DD491FE00887F3B /* WBTimelineScreenNameLabel.m */; };
 		86D7C2551DE41E7F001D88E8 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86D7C2541DE41E7F001D88E8 /* WebP.framework */; };
 		86D7C25F1DE45812001D88E8 /* WBTimelineAttributedTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D7C2581DE45812001D88E8 /* WBTimelineAttributedTextParser.m */; };
 		86D7C2611DE45812001D88E8 /* PPAttributedTextRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D7C25C1DE45812001D88E8 /* PPAttributedTextRange.m */; };
@@ -65,7 +66,6 @@
 		86EF6AD91DB390F8006464CE /* PPAsyncDrawingKitUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6AD81DB390F8006464CE /* PPAsyncDrawingKitUtilities.m */; };
 		86EFEF261DBF9D800003E078 /* YYFPSLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EFEF251DBF9D800003E078 /* YYFPSLabel.m */; };
 		86EFEF291DC100030003E078 /* PPTextLayoutLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EFEF281DC100030003E078 /* PPTextLayoutLine.m */; };
-		86F6BED01DF675D2006D0419 /* PPTextHighlightRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 86F6BECF1DF675D2006D0419 /* PPTextHighlightRange.m */; };
 		86FCDA951DDC7B3200CB2563 /* WBTimelineImageContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86FCDA941DDC7B3200CB2563 /* WBTimelineImageContentView.m */; };
 /* End PBXBuildFile section */
 
@@ -110,6 +110,11 @@
 		865CF7191DFAA6EB003DCA01 /* PPIsomerismTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPIsomerismTextView.m; sourceTree = "<group>"; };
 		865CF71F1DFC8B53003DCA01 /* NSDate+PPASDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+PPASDK.h"; sourceTree = "<group>"; };
 		865CF7201DFC8B53003DCA01 /* NSDate+PPASDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+PPASDK.m"; sourceTree = "<group>"; };
+		866FDEAC1E24E6A600C513DF /* PPTextAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextAttributes.h; sourceTree = "<group>"; };
+		866FDEAD1E24E6A600C513DF /* PPTextAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextAttributes.m; sourceTree = "<group>"; };
+		866FDEB01E24ED9500C513DF /* PPAsyncDrawingKit-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PPAsyncDrawingKit-Bridging-Header.h"; sourceTree = "<group>"; };
+		866FDEB11E24ED9500C513DF /* SwiftExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftExample.swift; sourceTree = "<group>"; };
+		866FDEB31E24EF1B00C513DF /* PPAsyncDrawingKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PPAsyncDrawingKit.h; sourceTree = "<group>"; };
 		867F77A01DB77C7C004FCEBA /* PPWebImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPWebImageView.h; sourceTree = "<group>"; };
 		867F77A11DB77C7C004FCEBA /* PPWebImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPWebImageView.m; sourceTree = "<group>"; };
 		869AFD141DDC5F7F00842C6C /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
@@ -138,8 +143,6 @@
 		86AED6681DD46E5A00887F3B /* WBTimelineContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTimelineContentView.m; sourceTree = "<group>"; };
 		86AED66D1DD4832200887F3B /* WBTimelineTextContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTimelineTextContentView.h; sourceTree = "<group>"; };
 		86AED66E1DD4832200887F3B /* WBTimelineTextContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTimelineTextContentView.m; sourceTree = "<group>"; };
-		86AED6701DD491FE00887F3B /* WBTimelineScreenNameLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTimelineScreenNameLabel.h; sourceTree = "<group>"; };
-		86AED6711DD491FE00887F3B /* WBTimelineScreenNameLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTimelineScreenNameLabel.m; sourceTree = "<group>"; };
 		86D7C2541DE41E7F001D88E8 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WebP.framework; sourceTree = "<group>"; };
 		86D7C2571DE45812001D88E8 /* WBTimelineAttributedTextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTimelineAttributedTextParser.h; sourceTree = "<group>"; };
 		86D7C2581DE45812001D88E8 /* WBTimelineAttributedTextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTimelineAttributedTextParser.m; sourceTree = "<group>"; };
@@ -182,8 +185,6 @@
 		86EFEF251DBF9D800003E078 /* YYFPSLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYFPSLabel.m; sourceTree = "<group>"; };
 		86EFEF271DC100030003E078 /* PPTextLayoutLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextLayoutLine.h; sourceTree = "<group>"; };
 		86EFEF281DC100030003E078 /* PPTextLayoutLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextLayoutLine.m; sourceTree = "<group>"; };
-		86F6BECE1DF675D2006D0419 /* PPTextHighlightRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextHighlightRange.h; sourceTree = "<group>"; };
-		86F6BECF1DF675D2006D0419 /* PPTextHighlightRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextHighlightRange.m; sourceTree = "<group>"; };
 		86FCDA931DDC7B3200CB2563 /* WBTimelineImageContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTimelineImageContentView.h; sourceTree = "<group>"; };
 		86FCDA941DDC7B3200CB2563 /* WBTimelineImageContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTimelineImageContentView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -302,9 +303,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		866FDEAF1E24ED6C00C513DF /* Swift Example */ = {
+			isa = PBXGroup;
+			children = (
+				866FDEB11E24ED9500C513DF /* SwiftExample.swift */,
+				866FDEB01E24ED9500C513DF /* PPAsyncDrawingKit-Bridging-Header.h */,
+			);
+			name = "Swift Example";
+			sourceTree = "<group>";
+		};
 		86A98D301D92F495008F0A7E /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				866FDEB31E24EF1B00C513DF /* PPAsyncDrawingKit.h */,
 				863952A81D3FBA1400904204 /* PPAsyncDrawingView.h */,
 				863952A91D3FBA1400904204 /* PPAsyncDrawingView.m */,
 				86A98D2A1D92E446008F0A7E /* PPUIControl.h */,
@@ -343,11 +354,11 @@
 		86AED6551DD1D5E100887F3B /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				865857EE1E24D9D80047782A /* PPTextUtilties.h */,
 				86AED6561DD1D63D00887F3B /* NSString+PPAsyncDrawingKit.h */,
 				86AED6571DD1D63D00887F3B /* NSString+PPAsyncDrawingKit.m */,
 				86AED6631DD1DCD200887F3B /* NSAttributedString+PPAsyncDrawingKit.h */,
 				86AED6641DD1DCD200887F3B /* NSAttributedString+PPAsyncDrawingKit.m */,
-				865857EE1E24D9D80047782A /* PPTextUtilties.h */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -374,8 +385,6 @@
 				86AED66E1DD4832200887F3B /* WBTimelineTextContentView.m */,
 				86EF6AA81DB12F1A006464CE /* WBTimelineTableViewCell.h */,
 				86EF6AA91DB12F1A006464CE /* WBTimelineTableViewCell.m */,
-				86AED6701DD491FE00887F3B /* WBTimelineScreenNameLabel.h */,
-				86AED6711DD491FE00887F3B /* WBTimelineScreenNameLabel.m */,
 				86FCDA931DDC7B3200CB2563 /* WBTimelineImageContentView.h */,
 				86FCDA941DDC7B3200CB2563 /* WBTimelineImageContentView.m */,
 				865CF7151DFA8BE2003DCA01 /* WBTimelineLargeCardView.h */,
@@ -407,10 +416,10 @@
 				86EF6AC21DB36EA2006464CE /* PPTextParagraphStyle.m */,
 				863ADA8D1DC47F1300AC582D /* PPTextAttachment.h */,
 				863ADA8E1DC47F1300AC582D /* PPTextAttachment.m */,
-				86F6BECE1DF675D2006D0419 /* PPTextHighlightRange.h */,
-				86F6BECF1DF675D2006D0419 /* PPTextHighlightRange.m */,
 				865857F11E24DBA70047782A /* PPTextFontMetrics.h */,
 				865857F21E24DBA70047782A /* PPTextFontMetrics.m */,
+				866FDEAC1E24E6A600C513DF /* PPTextAttributes.h */,
+				866FDEAD1E24E6A600C513DF /* PPTextAttributes.m */,
 			);
 			name = Component;
 			sourceTree = "<group>";
@@ -466,6 +475,7 @@
 		86EB758C1D2393CC005F14A1 /* PPAsyncDrawingKit-Demo */ = {
 			isa = PBXGroup;
 			children = (
+				866FDEAF1E24ED6C00C513DF /* Swift Example */,
 				861EB1CA1DB10EE3005C07C7 /* Image Example */,
 				86EF6AAB1DB132C5006464CE /* Text Example */,
 				865857E91E248DC00047782A /* Button Example */,
@@ -557,6 +567,7 @@
 					86EB75891D2393CC005F14A1 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = A9QWHSB535;
+						LastSwiftMigration = 0820;
 					};
 				};
 			};
@@ -608,9 +619,9 @@
 				86EF6AAE1DB132F9006464CE /* PPTextExample.m in Sources */,
 				86AED6691DD46E5A00887F3B /* WBTimelineContentView.m in Sources */,
 				861EB1E21DB11EBD005C07C7 /* NSObject+YYModel.m in Sources */,
+				866FDEB21E24ED9500C513DF /* SwiftExample.swift in Sources */,
 				86AED66F1DD4832200887F3B /* WBTimelineTextContentView.m in Sources */,
 				86D7C2611DE45812001D88E8 /* PPAttributedTextRange.m in Sources */,
-				86F6BED01DF675D2006D0419 /* PPTextHighlightRange.m in Sources */,
 				86EFEF291DC100030003E078 /* PPTextLayoutLine.m in Sources */,
 				86D7C2661DE5BBAE001D88E8 /* PPImageCache.m in Sources */,
 				86A044F81E0FF097000A52A9 /* PPImage+WebP.m in Sources */,
@@ -629,6 +640,7 @@
 				8659A9101E15BCF200BC9F91 /* WBWebViewController.m in Sources */,
 				865857E81E237F310047782A /* WBHelper.m in Sources */,
 				86553B841DF2CCF900ED22A4 /* WBUITextAttachment.m in Sources */,
+				866FDEAE1E24E6A600C513DF /* PPTextAttributes.m in Sources */,
 				861EB1CD1DB10F0B005C07C7 /* ImageViewTableViewController.m in Sources */,
 				869AFD1C1DDC674900842C6C /* UIImage+Color.m in Sources */,
 				86EB758F1D2393CC005F14A1 /* main.m in Sources */,
@@ -637,7 +649,6 @@
 				86EF6AB11DB13677006464CE /* PPTextLayout.m in Sources */,
 				865CF71A1DFAA6EB003DCA01 /* PPIsomerismTextView.m in Sources */,
 				86EF6AC31DB36EA2006464CE /* PPTextParagraphStyle.m in Sources */,
-				86AED6721DD491FE00887F3B /* WBTimelineScreenNameLabel.m in Sources */,
 				86D7C2691DE6743B001D88E8 /* PPWebImageManager.m in Sources */,
 				869AFD161DDC5F7F00842C6C /* UIView+Frame.m in Sources */,
 				861EB1D61DB11563005C07C7 /* PPTextRenderer.m in Sources */,
@@ -764,6 +775,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = A9QWHSB535;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -773,6 +785,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dskcpp.PPAsyncDrawingKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "PPAsyncDrawingKit/PPAsyncDrawingKit-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -780,6 +795,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = A9QWHSB535;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -789,6 +805,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dskcpp.PPAsyncDrawingKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "PPAsyncDrawingKit/PPAsyncDrawingKit-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

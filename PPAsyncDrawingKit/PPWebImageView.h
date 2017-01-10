@@ -47,11 +47,10 @@ typedef void(^PPWebImageBlock)(void);
 - (void)imageDrawingFinished;
 - (void)cancelCurrentImageLoading;
 
-- (void)loadImageWithPath:(NSString *)path localCacheFileAsyncFirst:(BOOL)localCacheFileAsyncFirst;
+- (void)loadImageWithPath:(NSString *)path;
 
 - (void)setImageURL:(NSString *)imageURL;
 - (void)setImageURL:(NSString *)imageURL placeholderImage:(nullable UIImage *)placeholderImage;
-- (void)setImageURL:(NSString *)imageURL placeholderImage:(nullable UIImage *)placeholderImage localCacheFileAsyncFirst:(BOOL)localCacheFileAsyncFirst;
 
 - (void)setImageLoaderImage:(UIImage *)image URL:(NSString *)URL;
 - (void)setFinalImage:(UIImage *)image;

@@ -18,7 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface PPTextLayout : NSObject
-@property (nonatomic, assign) BOOL retriveFontMetricsAutomatically;
 @property (nonatomic, weak) id <PPTextLayoutDelegate> delegate;
 @property (nonatomic, strong) PPTextFontMetrics *baselineFontMetrics;
 @property (nonatomic, strong) NSAttributedString *truncationString;

@@ -1,9 +1,9 @@
 //
-//  PPTextHighlightRange.h
+//  PPTextAttributes.h
 //  PPAsyncDrawingKit
 //
-//  Created by DSKcpp on 2016/12/6.
-//  Copyright © 2016年 DSKcpp. All rights reserved.
+//  Created by DSKcpp on 2017/1/10.
+//  Copyright © 2017年 DSKcpp. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

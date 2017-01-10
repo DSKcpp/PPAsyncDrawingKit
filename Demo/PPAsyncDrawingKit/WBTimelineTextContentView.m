@@ -144,18 +144,18 @@
     if (drawingContext.hasTitle) {
         self.titleTextRenderer.attributedString = drawingContext.titleAttributedText;
         self.titleTextRenderer.frame = drawingContext.titleFrame;
-        [self.titleTextRenderer drawInContext:context shouldInterruptBlock:nil];
+        [self.titleTextRenderer drawInContext:context];
     }
     self.metaInfoTextRenderer.attributedString = drawingContext.metaInfoAttributedText;
     self.metaInfoTextRenderer.frame = drawingContext.metaInfoFrame;
-    [self.metaInfoTextRenderer drawInContext:context shouldInterruptBlock:nil];
+    [self.metaInfoTextRenderer drawInContext:context];
     self.itemTextRenderer.frame = drawingContext.textFrame;
     self.itemTextRenderer.attributedString = drawingContext.textAttributedText;
-    [self.itemTextRenderer drawInContext:context shouldInterruptBlock:nil];
+    [self.itemTextRenderer drawInContext:context];
     if (drawingContext.hasQuoted) {
         self.quotedItemTextRenderer.frame = drawingContext.quotedFrame;
         self.quotedItemTextRenderer.attributedString = drawingContext.quotedAttributedText;
-        [self.quotedItemTextRenderer drawInContext:context shouldInterruptBlock:nil];
+        [self.quotedItemTextRenderer drawInContext:context];
     }
     return YES;
 }

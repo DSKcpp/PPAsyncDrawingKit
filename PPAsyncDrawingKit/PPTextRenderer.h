@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PPTextLayout.h"
-#import "PPTextHighlightRange.h"
+#import "PPTextAttributes.h"
 
 @class PPTextLayoutFrame;
 @class PPTextAttachment;
@@ -56,24 +56,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)drawInContext:(CGContextRef)context;
 
-/**
- draw context, can interrupt current drawing
-
- @param context a context
- @param shouldInterruptBlock can interrupt current drawing
- */
-- (void)drawInContext:(CGContextRef)context shouldInterruptBlock:(nullable void(^)(BOOL *stop))shouldInterruptBlock;
-
+- (void)drawInContext:(CGContextRef)context
+          visibleRect:(CGRect)visibleRect
+     placeAttachments:(BOOL)placeAttachments;
 
 - (void)drawAttachmentsWithAttributedString:(NSAttributedString *)attributedString
                                 layoutFrame:(PPTextLayoutFrame *)layoutFrame
-                                    context:(CGContextRef)context
-                            shouldInterrupt:(nullable void(^)(BOOL *stop))shouldInterruptBlock;
-
-- (void)drawInContext:(CGContextRef)context
-          visibleRect:(CGRect)visibleRect
-     placeAttachments:(BOOL)placeAttachments
- shouldInterruptBlock:(nullable void(^)(BOOL *stop))shouldInterruptBlock;
+                                    context:(CGContextRef)context;
 
 - (void)drawHighlightedBackgroundForHighlightRange:(PPTextHighlightRange *)highlightRange
                                               rect:(CGRect)rect context:(CGContextRef)context;

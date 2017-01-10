@@ -34,15 +34,10 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 
 - (void)drawInContext:(CGContextRef)context
 {
-    [self drawInContext:context shouldInterruptBlock:nil];
+    [self drawInContext:context visibleRect:CGRectNull placeAttachments:YES];
 }
 
-- (void)drawInContext:(CGContextRef)context shouldInterruptBlock:(nullable void (^)(BOOL * _Nonnull))shouldInterruptBlock
-{
-    [self drawInContext:context visibleRect:CGRectNull placeAttachments:YES shouldInterruptBlock:shouldInterruptBlock];
-}
-
-- (void)drawInContext:(CGContextRef)context visibleRect:(CGRect)visibleRect placeAttachments:(BOOL)placeAttachments shouldInterruptBlock:(nullable void (^)(BOOL * _Nonnull))shouldInterruptBlock
+- (void)drawInContext:(CGContextRef)context visibleRect:(CGRect)visibleRect placeAttachments:(BOOL)placeAttachments
 {
     if (context) {
         NSAttributedString *attributedString = self.attributedString;
@@ -75,13 +70,13 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
             }
             CGContextRestoreGState(context);
             if (placeAttachments) {
-                [self drawAttachmentsWithAttributedString:attributedString layoutFrame:self.textLayout.layoutFrame context:context shouldInterrupt:shouldInterruptBlock];
+                [self drawAttachmentsWithAttributedString:attributedString layoutFrame:self.textLayout.layoutFrame context:context];
             }
         }
     }
 }
 
-- (void)drawAttachmentsWithAttributedString:(NSAttributedString *)attributedString layoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context shouldInterrupt:(nullable void (^)(BOOL * _Nonnull))shouldInterruptBlock
+- (void)drawAttachmentsWithAttributedString:(NSAttributedString *)attributedString layoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context
 {
 //    CGFloat scale = [UIScreen mainScreen].scale;
     [layoutFrame.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -104,9 +99,6 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
                 }
             }
         }];
-        if (shouldInterruptBlock) {
-            shouldInterruptBlock(stop);
-        }
     }];
 }
 

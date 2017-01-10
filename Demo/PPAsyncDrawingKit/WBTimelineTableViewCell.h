@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "WBTimelineItem.h"
-#import "PPTextHighlightRange.h"
+#import "PPTextAttributes.h"
 
 @class WBTimelineTableViewCell;
 @class WBTimelineContentView;

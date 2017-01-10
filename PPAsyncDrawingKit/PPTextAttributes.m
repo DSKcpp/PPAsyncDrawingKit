@@ -1,12 +1,12 @@
 //
-//  PPTextHighlightRange.m
+//  PPTextAttributes.m
 //  PPAsyncDrawingKit
 //
-//  Created by DSKcpp on 2016/12/6.
-//  Copyright © 2016年 DSKcpp. All rights reserved.
+//  Created by DSKcpp on 2017/1/10.
+//  Copyright © 2017年 DSKcpp. All rights reserved.
 //
 
-#import "PPTextHighlightRange.h"
+#import "PPTextAttributes.h"
 #import <CoreText/CoreText.h>
 
 NSString * const PPTextHighlightRangeAttributeName = @"PPTextHighlightRange";
@@ -50,3 +50,4 @@ NSString * const PPTextAttachmentAttributeName = @"PPTextAttachment";
 @implementation PPTextBorder
 
 @end
+

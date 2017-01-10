@@ -11,7 +11,7 @@
 #import "WBUITextAttachment.h"
 #import "WBHelper.h"
 #import "NSAttributedString+PPAsyncDrawingKit.h"
-#import "PPTextHighlightRange.h"
+#import "PPTextAttributes.h"
 #import "WBTimelineItem.h"
 
 static inline CGFloat YYEmojiGetAscentWithFontSize(CGFloat fontSize) {

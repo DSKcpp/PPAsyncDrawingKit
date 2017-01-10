@@ -10,6 +10,7 @@
 #import "UIView+Frame.h"
 #import "UIImage+Color.h"
 #import "WBHelper.h"
+#import "NSString+PPAsyncDrawingKit.h"
 
 @implementation WBColorImageView
 
@@ -153,7 +154,7 @@
 
 - (void)createNicknameLabel
 {
-    self.nameLabel = [[WBTimelineScreenNameLabel alloc] initWithFrame:CGRectZero];
+    self.nameLabel = [[WBNameLabel alloc] initWithFrame:CGRectZero];
     [self insertSubview:self.nameLabel belowSubview:self.textContentView];
 }
 
@@ -425,6 +426,32 @@
 {
     [super setFrame:frame];
     self.bottomLine.frame = CGRectMake(0, frame.size.height - 0.5f, self.width, 0.5f);
+}
+
+@end
+
+@implementation WBNameLabel
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    if (self = [super initWithFrame:frame]) {
+        self.fontSize = 15;
+    }
+    return self;
+}
+
+- (void)setUser:(WBUser *)user
+{
+    if (_user != user) {
+        _user = user;
+        [self setNeedsDisplayAsync];
+    }
+}
+
+- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async
+{
+    NSString *username = self.user.screen_name;
+    [username pp_drawInRect:rect withFont:[UIFont systemFontOfSize:self.fontSize] textColor:[UIColor colorWithRed:255/255.0f green:81/255.0f blue:20/255.0f alpha:1.0f] lineBreakMode:NSLineBreakByWordWrapping];
+    return YES;
 }
 
 @end
