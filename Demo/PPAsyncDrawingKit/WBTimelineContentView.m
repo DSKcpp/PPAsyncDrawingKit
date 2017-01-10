@@ -361,21 +361,21 @@
     _retweetButton = [[PPButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
     [_retweetButton setTitleColor:titleColor forState:UIControlStateNormal];
     [_retweetButton setImage:[UIImage imageNamed:@"timeline_icon_retweet"] forState:UIControlStateNormal];
-    [_retweetButton setBackgroundImage:[self imageFromColor:bgColor] forState:UIControlStateHighlighted];
+    [_retweetButton setBackgroundImage:[UIImage imageWithColor:bgColor] forState:UIControlStateHighlighted];
     _retweetButton.titleFont = [UIFont systemFontOfSize:12.0f];
     [self addSubview:_retweetButton];
     
     _commentButton = [[PPButton alloc] initWithFrame:CGRectMake(width, 0, width, height)];
     [_commentButton setTitleColor:titleColor forState:UIControlStateNormal];
     [_commentButton setImage:[UIImage imageNamed:@"timeline_icon_comment"] forState:UIControlStateNormal];
-    [_commentButton setBackgroundImage:[self imageFromColor:bgColor] forState:UIControlStateHighlighted];
+    [_commentButton setBackgroundImage:[UIImage imageWithColor:bgColor] forState:UIControlStateHighlighted];
     _commentButton.titleFont = [UIFont systemFontOfSize:12.0f];
     [self addSubview:_commentButton];
     
     _likeButton = [[PPButton alloc] initWithFrame:CGRectMake(width * 2.0f, 0, width, height)];
     [_likeButton setTitleColor:titleColor forState:UIControlStateNormal];
     [_likeButton setImage:[UIImage imageNamed:@"timeline_icon_unlike"] forState:UIControlStateNormal];
-    [_likeButton setBackgroundImage:[self imageFromColor:bgColor] forState:UIControlStateHighlighted];
+    [_likeButton setBackgroundImage:[UIImage imageWithColor:bgColor] forState:UIControlStateHighlighted];
     _likeButton.titleFont = [UIFont systemFontOfSize:12.0f];
     [self addSubview:_likeButton];
     
@@ -385,18 +385,6 @@
         imageView.frame = CGRectMake((i + 1) * width, 0, 0.5f, [WBTimelinePreset sharedInstance].actionButtonsHeight);
         [self addSubview:imageView];
     }
-}
-
-- (UIImage *)imageFromColor:(UIColor *)color
-{
-    CGRect rect = CGRectMake(0, 0, 1, 1);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context, color.CGColor);
-    CGContextFillRect(context, rect);
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
 }
 
 - (void)setTimelineItem:(WBTimelineItem *)timelineItem

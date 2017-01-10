@@ -9,20 +9,19 @@
 #import "PPTextLayout.h"
 #import <objc/objc-sync.h>
 #import "PPTextLayoutLine.h"
+#import "PPTextFontMetrics.h"
+
+@interface PPTextLayout ()
+@property (nonatomic, assign) BOOL needsLayout;
+
+@end
 
 @implementation PPTextLayout
-{
-    struct {
-        unsigned int needsLayout: 1;
-    } flags;
-}
-
 - (instancetype)init
 {
     if (self = [super init]) {
-        flags.needsLayout = 1;
-        PPFontMetrics fontMetrics;
-        self.baselineFontMetrics = fontMetrics;
+        _needsLayout = YES;
+        self.baselineFontMetrics = [[PPTextFontMetrics alloc] init];
     }
     return self;
 }
@@ -37,11 +36,11 @@
 
 - (PPTextLayoutFrame *)layoutFrame
 {
-    if (flags.needsLayout != 0 || _layoutFrame == nil) {
+    if (_needsLayout || _layoutFrame == nil) {
         @synchronized (self) {
             _layoutFrame = [self createLayoutFrame];
         }
-        flags.needsLayout = 0;
+        _needsLayout = NO;
     }
     return _layoutFrame;
 }
@@ -73,7 +72,7 @@
 
 - (void)setNeedsLayout
 {
-    flags.needsLayout = 1;
+    _needsLayout = YES;
 }
 
 - (void)setAttributedString:(NSAttributedString *)attributedString
@@ -82,7 +81,7 @@
         @synchronized (self) {
             _attributedString = attributedString;
         }
-        flags.needsLayout = 1;
+        _needsLayout = YES;
     }
 }
 
@@ -90,7 +89,7 @@
 {
     if (_exclusionPaths != exclusionPaths) {
         _exclusionPaths = exclusionPaths;
-        flags.needsLayout = 1;
+        _needsLayout = YES;
     }
 }
 
@@ -98,7 +97,7 @@
 {
     if (!CGSizeEqualToSize(_size, size)) {
         _size = size;
-        flags.needsLayout = 1;
+        _needsLayout = YES;
     }
 }
 
@@ -106,7 +105,7 @@
 {
     if (_maximumNumberOfLines != maximumNumberOfLines) {
         _maximumNumberOfLines = maximumNumberOfLines;
-        flags.needsLayout = 1;
+        _needsLayout =YES;
     }
 }
 
@@ -193,15 +192,15 @@
     }
 }
 
-- (PPFontMetrics)lineFragmentMetricsForLineAtIndex:(NSUInteger)index effectiveRange:(NSRangePointer)range
+- (PPTextFontMetrics *)lineFragmentMetricsForLineAtIndex:(NSUInteger)index effectiveRange:(NSRangePointer)range
 {
-    PPFontMetrics font;
+    PPTextFontMetrics *fontMetrics;
     NSArray<PPTextLayoutLine *> *lineFragments = self.layoutFrame.lineFragments;
     if (lineFragments.count >= index) {
         PPTextLayoutLine *line = lineFragments[index];
-        font = line.lineMetrics;
+        fontMetrics = line.lineMetrics;
     }
-    return font;
+    return fontMetrics;
 }
 
 - (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(nullable void (^)(CGRect, BOOL * _Nonnull))block

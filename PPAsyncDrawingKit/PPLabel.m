@@ -25,8 +25,6 @@
         textRenderer.eventDelegate = self;
         textRenderer.renderDelegate = self;
         _textRenderer = textRenderer;
-        self.drawingPolicy = PPAsyncDrawingTypeNone;
-        [self setBackgroundColor:[UIColor clearColor]];
         self.clearsContextBeforeDrawing = NO;
         self.contentMode = UIViewContentModeRedraw;
     }
@@ -112,8 +110,7 @@
         _text = text;
         NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:text];
         [self _updateTextRendererWithAttributedString:attributedString];
-        self.contentsChangedAfterLastAsyncDrawing = YES;
-        [self setNeedsDisplay];
+        [self setNeedsDisplayAsync];
         self.pendingAttachmentUpdates = YES;
     }
 }

@@ -8,13 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreText/CoreText.h>
-#import "PPTextLayoutFrame.h"
+
+@class PPTextLayout;
+@class PPTextFontMetrics;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PPTextLayoutLine : NSObject
 @property (nonatomic, assign, readonly) CTLineRef lineRef;
-@property (nonatomic, assign, readonly) PPFontMetrics lineMetrics;
+@property (nonatomic, strong, readonly) PPTextFontMetrics *lineMetrics;
 @property (nonatomic, assign, readonly) BOOL truncated;
 @property (nonatomic, assign, readonly) NSRange stringRange;
 @property (nonatomic, assign, readonly) CGPoint baselineOrigin;
@@ -33,5 +35,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSInteger)locationDeltaFromRealRangeToLineRefRange;
 - (CGFloat)offsetXForCharacterAtIndex:(NSUInteger)index;
 @end
+
 
 NS_ASSUME_NONNULL_END

@@ -10,7 +10,6 @@
 #import "ImageViewTableViewController.h"
 #import "WBTimelineViewController.h"
 #import "PPTextExample.h"
-#import "PPAsyncDrawingKitUtilities.h"
 #import "YYFPSLabel.h"
 #import "PPImageCache.h"
 #import "PPWebImageManager.h"

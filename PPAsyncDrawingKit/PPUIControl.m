@@ -14,10 +14,7 @@
 @property (nonatomic, assign) UIControlEvents controlEvents;
 @end
 
-@implementation PPUIControlTargetAction
-
-@end
-
+@implementation PPUIControlTargetAction @end
 
 @interface PPUIControl ()
 @property (nonatomic, strong) NSMutableArray<PPUIControlTargetAction *> *targetActions;

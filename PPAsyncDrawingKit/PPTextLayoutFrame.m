@@ -9,6 +9,8 @@
 #import "PPTextLayoutFrame.h"
 #import "PPTextLayout.h"
 #import "PPTextLayoutLine.h"
+#import "PPTextUtilties.h"
+#import "PPTextFontMetrics.h"
 
 @implementation PPTextLayoutFrame
 

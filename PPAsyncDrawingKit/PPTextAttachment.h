@@ -8,32 +8,26 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "PPAsyncDrawingKitUtilities.h"
+#import "PPTextFontMetrics.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PPTextAttachment : NSObject <NSCoding>
 @property (nonatomic, copy) NSString *replacementText;
-@property (nonatomic, assign) PPFontMetrics baselineFontMetrics;
+@property (nonatomic, strong) PPTextFontMetrics *baselineFontMetrics;
 @property (nonatomic, strong) id contents;
 @property (nonatomic, assign) UIEdgeInsets contentEdgeInsets;
 @property (nonatomic, assign) CGSize contentSize;
 @property (nonatomic, assign) UIViewContentMode contentType;
-@property (nonatomic, copy, readonly) NSString *replacementTextForLength;
-@property (nonatomic, copy, readonly) NSString *replacementTextForCopy;
-@property (nonatomic, assign, readonly) PPFontMetrics fontMetricsForLayout;
+@property (nonatomic, strong, readonly) PPTextFontMetrics *fontMetricsForLayout;
 @property (nonatomic, assign, readonly) CGSize placeholderSize;
 
 + (instancetype)attachmentWithContents:(id)contents type:(UIViewContentMode)type contentSize:(CGSize)contentSize;
 - (void)updateContentEdgeInsetsWithTargetPlaceholderSize:(CGSize)placeholderSize;
-- (BOOL)updateContentSizeWithOptions:(id)options;
 - (CGFloat)ascentForLayout;
 - (CGFloat)descentForLayout;
 - (CGFloat)leadingForLayout;
-@end
 
-@interface PPTextAttachment (Updating)
-- (BOOL)updateContentSizeWithOptions:(id)options;
 @end
 
 NS_ASSUME_NONNULL_END

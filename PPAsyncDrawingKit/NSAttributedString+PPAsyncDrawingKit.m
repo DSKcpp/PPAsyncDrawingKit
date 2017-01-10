@@ -116,11 +116,10 @@ static char threadRendererKey;
 
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines derivedLineCount:(NSInteger)derivedLineCount
 {
-    PPFontMetrics fontMetrics;
-    return [self pp_sizeConstrainedToSize:size numberOfLines:numberOfLines derivedLineCount:derivedLineCount baselineMetrics:fontMetrics];
+    return [self pp_sizeConstrainedToSize:size numberOfLines:numberOfLines derivedLineCount:derivedLineCount baselineMetrics:nil];
 }
 
-- (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines derivedLineCount:(NSInteger)derivedLineCount baselineMetrics:(PPFontMetrics)baselineMetrics
+- (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines derivedLineCount:(NSInteger)derivedLineCount baselineMetrics:(PPTextFontMetrics *)baselineMetrics
 {
     PPTextLayout *textLayout = [NSAttributedString rendererForCurrentThread].textLayout;
     textLayout.attributedString = self;
@@ -248,16 +247,6 @@ static char threadRendererKey;
     } else {
         [self removeAttribute:@"PPTextBackgroundColorAttributeName" range:range];
     }
-}
-
-- (void)pp_setTextRange:(PPTextActiveRange *)textRange
-{
-    [self pp_setTextRange:textRange inRange:[self pp_stringRange]];
-}
-
-- (void)pp_setTextRange:(PPTextActiveRange *)textRange inRange:(NSRange)range
-{
-    [self pp_setAttribute:@"PPTextRangeAttributeName" value:textRange range:range];
 }
 
 - (void)pp_setTextHighlightRange:(PPTextHighlightRange *)textHighlightRange

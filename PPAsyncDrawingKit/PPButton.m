@@ -15,17 +15,26 @@
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, strong) UIImage *backgroundImage;
 @property (nonatomic, strong) UIImage *image;
+
 @end
 
 @implementation PPButtonInfo @end
 
 @interface PPButton ()
+@property (nonatomic, strong) NSMutableDictionary<NSString *, UIImage *> *backgroundImages;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, UIImage *> *images;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, UIColor *> *titleColors;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, NSString *> *titles;
+@property (nonatomic, assign) CGRect backgroundFrame;
+@property (nonatomic, assign) CGRect imageFrame;
+@property (nonatomic, assign) CGRect titleFrame;
 @property (nonatomic, strong) PPButtonInfo *buttonInfo;
 @property (nonatomic, copy) NSString *renderedTitle;
 @property (nonatomic, strong) UIImage *renderedImage;
 @property (nonatomic, strong) UIImage *renderedBackgroundImage;
 @property (nonatomic, assign) CGSize renderedBoundsSize;
 @property (nonatomic, assign) BOOL privateTracking;
+@property (nonatomic, assign) BOOL needsUpdateFrame;
 @end
 
 @implementation PPButton
@@ -85,21 +94,11 @@
 
 - (void)configure
 {
-    self.backgroundColor = [UIColor clearColor];
-    self.drawingPolicy = PPAsyncDrawingTypeNone;
     _titles = @{}.mutableCopy;
     _titleColors = @{}.mutableCopy;
     _images = @{}.mutableCopy;
     _backgroundImages = @{}.mutableCopy;
     self.reserveContentsBeforeNextDrawingComplete = YES;
-    self.contentsChangedAfterLastAsyncDrawing = YES;
-    [self setNeedsUpdateFrame];
-    [self prepareDefaultValues];
-}
-
-- (void)prepareDefaultValues
-{
-    self.shouldDelayHighlighted = YES;
     self.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     PPButtonInfo *buttonInfo = [PPButtonInfo new];
@@ -110,12 +109,7 @@
     self.imageEdgeInsets = UIEdgeInsetsZero;
     NSString * state = [self stringOfState:UIControlStateNormal];
     [self.titleColors setObject:[UIColor blackColor] forKey:state];
-}
-
-- (void)asyncSetNeedsDisplay
-{
-    self.contentsChangedAfterLastAsyncDrawing = YES;
-    [self setNeedsDisplay];
+    [self setNeedsUpdateFrame];
 }
 
 - (void)setFrame:(CGRect)frame
@@ -226,12 +220,11 @@
         } else {
             [self.titleColors removeObjectForKey:stateString];
         }
-        self.contentsChangedAfterLastAsyncDrawing = YES;
         [self setNeedsUpdateFrame];
         if (self.state == state) {
 //            self.titleLabel.textColor = color;
             self.buttonInfo.titleColor = color;
-            [self asyncSetNeedsDisplay];
+            [self setNeedsDisplayAsync];
         }
     }
 }
@@ -265,24 +258,36 @@
     PPButtonInfo *buttonInfo = _buttonInfo;
     if (![buttonInfo.title isEqualToString:title]) {
         buttonInfo.title = title;
-//        if (!_pending.titleChange) {
+        if (!_pending.titleChange) {
             _pending.titleChange = YES;
             [self setNeedsUpdateFrame];
             dispatch_async(dispatch_get_main_queue(), ^{
+                _pending.titleChange = NO;
                 if (![buttonInfo.title isEqualToString:_renderedTitle]) {
                     [self setNeedsUpdateFrame];
                     [self setNeedsDisplayAsync];
                 }
             });
-//        }
+        }
     }
 }
 
 - (void)updateImage:(UIImage *)image
 {
-    if (self.buttonInfo.image != image) {
-        self.buttonInfo.image = image;
-        
+    PPButtonInfo *buttonInfo = _buttonInfo;
+    if (buttonInfo.image != image) {
+        buttonInfo.image = image;
+        if (!_pending.imageChange) {
+            _pending.imageChange = YES;
+            [self setNeedsUpdateFrame];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                _pending.imageChange = NO;
+                if (buttonInfo.image != _renderedImage) {
+                    [self setNeedsUpdateFrame];
+                    [self setNeedsDisplayAsync];
+                }
+            });
+        }
     }
 }
 
@@ -291,17 +296,18 @@
     PPButtonInfo *buttonInfo = _buttonInfo;
     if (buttonInfo.backgroundImage != backgroundImage) {
         buttonInfo.backgroundImage = backgroundImage;
-//        if (!_pending.backgroundImageChange) {
+        if (!_pending.backgroundImageChange) {
             _pending.backgroundImageChange = YES;
             [self setNeedsUpdateFrame];
             dispatch_async(dispatch_get_main_queue(), ^{
+                _pending.backgroundImageChange = NO;
                 UIImage *bgImg = buttonInfo.backgroundImage;
                 if (bgImg != _renderedBackgroundImage) {
                     [self setNeedsUpdateFrame];
                     [self setNeedsDisplayAsync];
                 }
             });
-//        }
+        }
     }
 }
 
@@ -319,13 +325,9 @@
     NSString *stateKey = [self stringOfState:_trackingState];
     NSString *normalStateKey = [self stringOfState:UIControlStateNormal];
     UIImage *backgroundImage = _backgroundImages[stateKey];
-    if (backgroundImage) {
-        
-    } else {
-        if (_trackingState == UIControlStateHighlighted) {
-            backgroundImage = _backgroundImages[normalStateKey];
-            [self setNeedsUpdateFrame];
-        }
+    if (!backgroundImage) {
+        backgroundImage = _backgroundImages[normalStateKey];
+        [self setNeedsUpdateFrame];
     }
     
     UIImage *image = _images[stateKey];
@@ -420,22 +422,21 @@
 
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    [self shouldDelayHighlighted];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        _trackingState = UIControlStateNormal;
-        [self updateContentsAndRelayout:NO];
-        _privateTracking = NO;
-    });
+    _trackingState = UIControlStateNormal;
+    [self updateContentsAndRelayout:NO];
+    _privateTracking = NO;
 }
 
 - (void)cancelTrackingWithEvent:(UIEvent *)event
 {
-    [self shouldDelayHighlighted];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        _trackingState = UIControlStateNormal;
-        [self updateContentsAndRelayout:NO];
-        _privateTracking = NO;
-    });
+    _trackingState = UIControlStateNormal;
+    [self updateContentsAndRelayout:NO];
+    _privateTracking = NO;
+}
+
+- (BOOL)canBecomeFirstResponder
+{
+    return YES;
 }
 
 - (void)didMoveToWindow

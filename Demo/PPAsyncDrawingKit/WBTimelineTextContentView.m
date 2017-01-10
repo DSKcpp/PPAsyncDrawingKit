@@ -11,7 +11,6 @@
 #import "WBTimelineItem.h"
 #import "NSAttributedString+PPAsyncDrawingKit.h"
 #import "WBTimelineAttributedTextParser.h"
-#import "PPTextActiveRange.h"
 #import "WBHelper.h"
 
 @interface WBTimelineTextContentView () <PPTextRendererDelegate>
@@ -126,8 +125,7 @@
 - (void)setDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext
 {
     _drawingContext = drawingContext;
-    self.contentsChangedAfterLastAsyncDrawing = YES;
-    [self setNeedsDisplay];
+    [self setNeedsDisplayAsync];
 }
 
 - (void)drawingWillStartAsynchronously:(BOOL)async

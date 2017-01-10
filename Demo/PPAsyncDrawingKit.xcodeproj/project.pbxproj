@@ -17,11 +17,11 @@
 		863952AE1D3FBA1400904204 /* PPAsyncDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 863952A91D3FBA1400904204 /* PPAsyncDrawingView.m */; };
 		863ADA8F1DC47F1300AC582D /* PPTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 863ADA8E1DC47F1300AC582D /* PPTextAttachment.m */; };
 		8651C4FE1DC1FD3F0092569A /* PPButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8651C4FD1DC1FD3F0092569A /* PPButton.m */; };
-		86553B451DEC813E00ED22A4 /* PPTextActiveRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 86553B441DEC813E00ED22A4 /* PPTextActiveRange.m */; };
 		86553B841DF2CCF900ED22A4 /* WBUITextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 86553B831DF2CCF800ED22A4 /* WBUITextAttachment.m */; };
 		865857E41E230DD10047782A /* PPTextAttributedExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 865857E31E230DD10047782A /* PPTextAttributedExample.m */; };
 		865857E81E237F310047782A /* WBHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 865857E71E237F310047782A /* WBHelper.m */; };
 		865857EC1E248ED90047782A /* PPButtonExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 865857EB1E248ED90047782A /* PPButtonExample.m */; };
+		865857F31E24DBA70047782A /* PPTextFontMetrics.m in Sources */ = {isa = PBXBuildFile; fileRef = 865857F21E24DBA70047782A /* PPTextFontMetrics.m */; };
 		8659A9101E15BCF200BC9F91 /* WBWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8659A90F1E15BCF200BC9F91 /* WBWebViewController.m */; };
 		8659A9131E15BEF700BC9F91 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8659A9121E15BEF700BC9F91 /* WebKit.framework */; };
 		865CF7171DFA8BE2003DCA01 /* WBTimelineLargeCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 865CF7161DFA8BE2003DCA01 /* WBTimelineLargeCardView.m */; };
@@ -45,7 +45,6 @@
 		86D7C2551DE41E7F001D88E8 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86D7C2541DE41E7F001D88E8 /* WebP.framework */; };
 		86D7C25F1DE45812001D88E8 /* WBTimelineAttributedTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D7C2581DE45812001D88E8 /* WBTimelineAttributedTextParser.m */; };
 		86D7C2611DE45812001D88E8 /* PPAttributedTextRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D7C25C1DE45812001D88E8 /* PPAttributedTextRange.m */; };
-		86D7C2621DE45812001D88E8 /* PPFlavoredRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D7C25E1DE45812001D88E8 /* PPFlavoredRange.m */; };
 		86D7C2661DE5BBAE001D88E8 /* PPImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D7C2651DE5BBAE001D88E8 /* PPImageCache.m */; };
 		86D7C2691DE6743B001D88E8 /* PPWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D7C2681DE6743B001D88E8 /* PPWebImageManager.m */; };
 		86D7C26C1DE677C2001D88E8 /* PPImageLoadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D7C26B1DE677C2001D88E8 /* PPImageLoadOperation.m */; };
@@ -62,7 +61,6 @@
 		86EF6AB11DB13677006464CE /* PPTextLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6AB01DB13677006464CE /* PPTextLayout.m */; };
 		86EF6AB41DB136B8006464CE /* PPTextLayoutFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6AB31DB136B8006464CE /* PPTextLayoutFrame.m */; };
 		86EF6AB71DB215F7006464CE /* PPLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6AB61DB215F7006464CE /* PPLabel.m */; };
-		86EF6AC01DB36E78006464CE /* PPTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6ABF1DB36E78006464CE /* PPTextStorage.m */; };
 		86EF6AC31DB36EA2006464CE /* PPTextParagraphStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6AC21DB36EA2006464CE /* PPTextParagraphStyle.m */; };
 		86EF6AD91DB390F8006464CE /* PPAsyncDrawingKitUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF6AD81DB390F8006464CE /* PPAsyncDrawingKitUtilities.m */; };
 		86EFEF261DBF9D800003E078 /* YYFPSLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EFEF251DBF9D800003E078 /* YYFPSLabel.m */; };
@@ -92,8 +90,6 @@
 		863ADA8E1DC47F1300AC582D /* PPTextAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextAttachment.m; sourceTree = "<group>"; };
 		8651C4FC1DC1FD3F0092569A /* PPButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPButton.h; sourceTree = "<group>"; };
 		8651C4FD1DC1FD3F0092569A /* PPButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPButton.m; sourceTree = "<group>"; };
-		86553B431DEC813E00ED22A4 /* PPTextActiveRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextActiveRange.h; sourceTree = "<group>"; };
-		86553B441DEC813E00ED22A4 /* PPTextActiveRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextActiveRange.m; sourceTree = "<group>"; };
 		86553B821DF2CCF800ED22A4 /* WBUITextAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBUITextAttachment.h; sourceTree = "<group>"; };
 		86553B831DF2CCF800ED22A4 /* WBUITextAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBUITextAttachment.m; sourceTree = "<group>"; };
 		865857E21E230DD10047782A /* PPTextAttributedExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextAttributedExample.h; sourceTree = "<group>"; };
@@ -102,6 +98,9 @@
 		865857E71E237F310047782A /* WBHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBHelper.m; sourceTree = "<group>"; };
 		865857EA1E248ED90047782A /* PPButtonExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPButtonExample.h; sourceTree = "<group>"; };
 		865857EB1E248ED90047782A /* PPButtonExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPButtonExample.m; sourceTree = "<group>"; };
+		865857EE1E24D9D80047782A /* PPTextUtilties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextUtilties.h; sourceTree = "<group>"; };
+		865857F11E24DBA70047782A /* PPTextFontMetrics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextFontMetrics.h; sourceTree = "<group>"; };
+		865857F21E24DBA70047782A /* PPTextFontMetrics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextFontMetrics.m; sourceTree = "<group>"; };
 		8659A90E1E15BCF200BC9F91 /* WBWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBWebViewController.h; sourceTree = "<group>"; };
 		8659A90F1E15BCF200BC9F91 /* WBWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBWebViewController.m; sourceTree = "<group>"; };
 		8659A9121E15BEF700BC9F91 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -146,8 +145,6 @@
 		86D7C2581DE45812001D88E8 /* WBTimelineAttributedTextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTimelineAttributedTextParser.m; sourceTree = "<group>"; };
 		86D7C25B1DE45812001D88E8 /* PPAttributedTextRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAttributedTextRange.h; sourceTree = "<group>"; };
 		86D7C25C1DE45812001D88E8 /* PPAttributedTextRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAttributedTextRange.m; sourceTree = "<group>"; };
-		86D7C25D1DE45812001D88E8 /* PPFlavoredRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPFlavoredRange.h; sourceTree = "<group>"; };
-		86D7C25E1DE45812001D88E8 /* PPFlavoredRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPFlavoredRange.m; sourceTree = "<group>"; };
 		86D7C2641DE5BBAE001D88E8 /* PPImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPImageCache.h; sourceTree = "<group>"; };
 		86D7C2651DE5BBAE001D88E8 /* PPImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPImageCache.m; sourceTree = "<group>"; };
 		86D7C2671DE6743B001D88E8 /* PPWebImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPWebImageManager.h; sourceTree = "<group>"; };
@@ -177,8 +174,6 @@
 		86EF6AB31DB136B8006464CE /* PPTextLayoutFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextLayoutFrame.m; sourceTree = "<group>"; };
 		86EF6AB51DB215F7006464CE /* PPLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPLabel.h; sourceTree = "<group>"; };
 		86EF6AB61DB215F7006464CE /* PPLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPLabel.m; sourceTree = "<group>"; };
-		86EF6ABE1DB36E78006464CE /* PPTextStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextStorage.h; sourceTree = "<group>"; };
-		86EF6ABF1DB36E78006464CE /* PPTextStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextStorage.m; sourceTree = "<group>"; };
 		86EF6AC11DB36EA2006464CE /* PPTextParagraphStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextParagraphStyle.h; sourceTree = "<group>"; };
 		86EF6AC21DB36EA2006464CE /* PPTextParagraphStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextParagraphStyle.m; sourceTree = "<group>"; };
 		86EF6AD71DB390F8006464CE /* PPAsyncDrawingKitUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAsyncDrawingKitUtilities.h; sourceTree = "<group>"; };
@@ -352,6 +347,7 @@
 				86AED6571DD1D63D00887F3B /* NSString+PPAsyncDrawingKit.m */,
 				86AED6631DD1DCD200887F3B /* NSAttributedString+PPAsyncDrawingKit.h */,
 				86AED6641DD1DCD200887F3B /* NSAttributedString+PPAsyncDrawingKit.m */,
+				865857EE1E24D9D80047782A /* PPTextUtilties.h */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -407,16 +403,14 @@
 				86EF6AB31DB136B8006464CE /* PPTextLayoutFrame.m */,
 				86EFEF271DC100030003E078 /* PPTextLayoutLine.h */,
 				86EFEF281DC100030003E078 /* PPTextLayoutLine.m */,
-				86EF6ABE1DB36E78006464CE /* PPTextStorage.h */,
-				86EF6ABF1DB36E78006464CE /* PPTextStorage.m */,
 				86EF6AC11DB36EA2006464CE /* PPTextParagraphStyle.h */,
 				86EF6AC21DB36EA2006464CE /* PPTextParagraphStyle.m */,
 				863ADA8D1DC47F1300AC582D /* PPTextAttachment.h */,
 				863ADA8E1DC47F1300AC582D /* PPTextAttachment.m */,
-				86553B431DEC813E00ED22A4 /* PPTextActiveRange.h */,
-				86553B441DEC813E00ED22A4 /* PPTextActiveRange.m */,
 				86F6BECE1DF675D2006D0419 /* PPTextHighlightRange.h */,
 				86F6BECF1DF675D2006D0419 /* PPTextHighlightRange.m */,
+				865857F11E24DBA70047782A /* PPTextFontMetrics.h */,
+				865857F21E24DBA70047782A /* PPTextFontMetrics.m */,
 			);
 			name = Component;
 			sourceTree = "<group>";
@@ -445,8 +439,6 @@
 				86D7C2581DE45812001D88E8 /* WBTimelineAttributedTextParser.m */,
 				86D7C25B1DE45812001D88E8 /* PPAttributedTextRange.h */,
 				86D7C25C1DE45812001D88E8 /* PPAttributedTextRange.m */,
-				86D7C25D1DE45812001D88E8 /* PPFlavoredRange.h */,
-				86D7C25E1DE45812001D88E8 /* PPFlavoredRange.m */,
 				86553B821DF2CCF800ED22A4 /* WBUITextAttachment.h */,
 				86553B831DF2CCF800ED22A4 /* WBUITextAttachment.m */,
 			);
@@ -631,23 +623,21 @@
 				86EB75921D2393CC005F14A1 /* AppDelegate.m in Sources */,
 				86A98D351D92F582008F0A7E /* PPImageView.m in Sources */,
 				861EB1E31DB11EBD005C07C7 /* YYClassInfo.m in Sources */,
+				865857F31E24DBA70047782A /* PPTextFontMetrics.m in Sources */,
 				8651C4FE1DC1FD3F0092569A /* PPButton.m in Sources */,
 				863ADA8F1DC47F1300AC582D /* PPTextAttachment.m in Sources */,
-				86D7C2621DE45812001D88E8 /* PPFlavoredRange.m in Sources */,
 				8659A9101E15BCF200BC9F91 /* WBWebViewController.m in Sources */,
 				865857E81E237F310047782A /* WBHelper.m in Sources */,
 				86553B841DF2CCF900ED22A4 /* WBUITextAttachment.m in Sources */,
 				861EB1CD1DB10F0B005C07C7 /* ImageViewTableViewController.m in Sources */,
 				869AFD1C1DDC674900842C6C /* UIImage+Color.m in Sources */,
 				86EB758F1D2393CC005F14A1 /* main.m in Sources */,
-				86553B451DEC813E00ED22A4 /* PPTextActiveRange.m in Sources */,
 				86AED6581DD1D63D00887F3B /* NSString+PPAsyncDrawingKit.m in Sources */,
 				86A044F41E0FE7F5000A52A9 /* PPImage.m in Sources */,
 				86EF6AB11DB13677006464CE /* PPTextLayout.m in Sources */,
 				865CF71A1DFAA6EB003DCA01 /* PPIsomerismTextView.m in Sources */,
 				86EF6AC31DB36EA2006464CE /* PPTextParagraphStyle.m in Sources */,
 				86AED6721DD491FE00887F3B /* WBTimelineScreenNameLabel.m in Sources */,
-				86EF6AC01DB36E78006464CE /* PPTextStorage.m in Sources */,
 				86D7C2691DE6743B001D88E8 /* PPWebImageManager.m in Sources */,
 				869AFD161DDC5F7F00842C6C /* UIView+Frame.m in Sources */,
 				861EB1D61DB11563005C07C7 /* PPTextRenderer.m in Sources */,

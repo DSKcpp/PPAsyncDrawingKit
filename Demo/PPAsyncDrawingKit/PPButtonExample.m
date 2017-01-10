@@ -26,8 +26,8 @@
     PPButton *button = [[PPButton alloc] init];
     [button setTitle:@"Normal" forState:UIControlStateNormal];
     [button setTitle:@"Highlighted" forState:UIControlStateHighlighted];
-    [button setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-    [button setImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
+    [button setImage:[UIImage imageNamed:@"d_aoteman"] forState:UIControlStateNormal];
+    [button setImage:[UIImage imageNamed:@"d_aini"] forState:UIControlStateHighlighted];
     [button setTitleFont:[UIFont systemFontOfSize:20.0f]];
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [button setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];

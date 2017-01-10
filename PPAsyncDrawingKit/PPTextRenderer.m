@@ -90,7 +90,7 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
             if (textAttachment) {
                 CGPoint origin = [line baselineOriginForCharacterAtIndex:range.location];
                 UIEdgeInsets edgeInsets = textAttachment.contentEdgeInsets;
-                PPFontMetrics font = textAttachment.fontMetricsForLayout;
+                PPTextFontMetrics *font = textAttachment.fontMetricsForLayout;
                 origin.y -= font.ascent;
                 origin.x -= edgeInsets.left;
                 CGSize size = textAttachment.contentSize;

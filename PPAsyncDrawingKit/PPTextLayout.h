@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "PPTextLayoutFrame.h"
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PPTextLayout : NSObject
 @property (nonatomic, assign) BOOL retriveFontMetricsAutomatically;
 @property (nonatomic, weak) id <PPTextLayoutDelegate> delegate;
-@property (nonatomic, assign) PPFontMetrics baselineFontMetrics;
+@property (nonatomic, strong) PPTextFontMetrics *baselineFontMetrics;
 @property (nonatomic, strong) NSAttributedString *truncationString;
 @property (nonatomic, assign) NSUInteger maximumNumberOfLines;
 @property (nullable, nonatomic, strong) NSArray<UIBezierPath *> *exclusionPaths;
@@ -56,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)enumerateEnclosingRectsForCharacterRange:(NSRange)range usingBlock:(void (^)(CGRect rect, BOOL *stop))block;
 - (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(void(^)(void))block;
 - (CGRect)firstSelectionRectForCharacterRange:(NSRange)range;
-- (PPFontMetrics)lineFragmentMetricsForLineAtIndex:(NSUInteger)index effectiveRange:(nullable NSRangePointer)range;
+- (nullable PPTextFontMetrics *)lineFragmentMetricsForLineAtIndex:(NSUInteger)index effectiveRange:(nullable NSRangePointer)range;
 - (CGRect)lineFragmentRectForCharacterAtIndex:(NSUInteger)index effectiveRange:(nullable NSRangePointer)range;
 - (CGRect)lineFragmentRectForLineAtIndex:(NSUInteger)index effectiveRange:(nullable NSRangePointer)range;
 - (NSUInteger)lineFragmentIndexForCharacterAtIndex:(NSUInteger)index;

@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "PPTextLayout.h"
-#import "PPTextActiveRange.h"
 #import "PPTextHighlightRange.h"
 
 @class PPTextLayoutFrame;
 @class PPTextAttachment;
+@class PPTextRenderer;
 
 NS_ASSUME_NONNULL_BEGIN
 

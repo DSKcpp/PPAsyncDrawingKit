@@ -7,15 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
+#import <stdatomic.h>
 
 @class PPAsyncDrawingViewLayer;
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, PPAsyncDrawingType) {
-    PPAsyncDrawingTypeNone,
-    PPAsyncDrawingTypeSync,
-    PPAsyncDrawingTypeAsync
+typedef NS_ENUM(NSUInteger, PPAsyncDrawingPolicy) {
+    PPAsyncDrawingPolicyNone,
+    PPAsyncDrawingPolicyMainThread,
+    PPAsyncDrawingPolicyMultiThread
 };
 
 typedef NS_ENUM(NSUInteger, PPAsyncDrawingDispatchQueuePriorty) {
@@ -34,12 +36,11 @@ typedef NS_ENUM(NSUInteger, PPAsyncDrawingDispatchQueuePriorty) {
  default is YES, Globally async drawing enabled.
  */
 @property (nonatomic, class, assign) BOOL globallyAsyncDrawingEnabled;
-@property (nonatomic, assign) BOOL serializesDrawingOperations;
 @property (nullable, nonatomic, assign) dispatch_queue_t dispatchDrawQueue;
 @property (nonatomic, assign) NSTimeInterval fadeDuration;
 @property (nonatomic, assign) BOOL reserveContentsBeforeNextDrawingComplete;
 @property (nonatomic, assign) BOOL contentsChangedAfterLastAsyncDrawing;
-@property (nonatomic, assign) PPAsyncDrawingType drawingPolicy;
+@property (nonatomic, assign) PPAsyncDrawingPolicy drawingPolicy;
 @property (nonatomic, assign) PPAsyncDrawingDispatchQueuePriorty dispatchPriority;
 @property (nonatomic, assign, readonly) NSUInteger drawingCount;
 @property (nonatomic, assign, readonly) BOOL alwaysUsesOffscreenRendering;
@@ -47,14 +48,12 @@ typedef NS_ENUM(NSUInteger, PPAsyncDrawingDispatchQueuePriorty) {
 - (dispatch_queue_t)drawQueue;
 - (PPAsyncDrawingViewLayer *)drawingLayer;
 - (nullable NSDictionary *)currentDrawingUserInfo;
-- (void)redraw;
 - (void)drawingWillStartAsynchronously:(BOOL)async;
 - (void)drawingDidFinishAsynchronously:(BOOL)async success:(BOOL)success;
 - (BOOL)drawInRect:(CGRect)rect withContext:(nullable CGContextRef)context asynchronously:(BOOL)async;
 - (BOOL)drawInRect:(CGRect)rect withContext:(nullable CGContextRef)context asynchronously:(BOOL)async userInfo:(nullable NSDictionary *)userInfo;
 
 - (void)setNeedsDisplayAsync;
-- (void)interruptDrawingWhenPossible;
 @end
 
 @interface PPAsyncDrawingViewLayer : CALayer
@@ -64,9 +63,10 @@ typedef NS_ENUM(NSUInteger, PPAsyncDrawingDispatchQueuePriorty) {
  */
 @property (nonatomic, assign) BOOL reserveContentsBeforeNextDrawingComplete;
 @property (nonatomic, assign) BOOL contentsChangedAfterLastAsyncDrawing;
-@property (nonatomic, assign) PPAsyncDrawingType drawingPolicy;
+
+@property (nonatomic, assign) PPAsyncDrawingPolicy drawingPolicy;
 @property (nonatomic, assign) NSTimeInterval fadeDuration;
-@property (nonatomic, assign, readonly) int32_t drawingCount;
+@property (nonatomic, assign, readonly) atomic_int drawingCount;
 
 - (void)increaseDrawingCount;
 - (BOOL)drawsCurrentContentAsynchronously;

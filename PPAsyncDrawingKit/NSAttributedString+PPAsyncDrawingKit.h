@@ -13,8 +13,8 @@
 
 @class PPTextRenderer;
 @class PPTextAttachment;
-@class PPTextActiveRange;
 @class PPTextHighlightRange;
+@class PPTextFontMetrics;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size;
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines;
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines derivedLineCount:(NSInteger)derivedLineCount;
-- (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines derivedLineCount:(NSInteger)derivedLineCount baselineMetrics:(PPFontMetrics)baselineMetrics;
+- (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines derivedLineCount:(NSInteger)derivedLineCount baselineMetrics:(nullable PPTextFontMetrics *)baselineMetrics;
 - (NSRange)pp_rangeToSize:(CGSize)size;
 - (NSRange)pp_rangeToSize:(CGSize)size withLimitedLines:(NSUInteger)limitedLines;
 
@@ -60,9 +60,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)pp_setFont:(UIFont *)font;
 - (void)pp_setFont:(UIFont *)font inRange:(NSRange)range;
 - (NSRange)pp_effectiveRangeWithRange:(NSRange)range;
-
-- (void)pp_setTextRange:(nullable PPTextActiveRange *)textRange;
-- (void)pp_setTextRange:(nullable PPTextActiveRange *)textRange inRange:(NSRange)range;
 
 - (void)pp_setTextHighlightRange:(nullable PPTextHighlightRange *)textHighlightRange;
 - (void)pp_setTextHighlightRange:(nullable PPTextHighlightRange *)textHighlightRange inRange:(NSRange)range;

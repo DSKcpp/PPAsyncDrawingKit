@@ -7,7 +7,6 @@
 //
 
 #import "PPAsyncDrawingKitUtilities.h"
-#import "PPTextRenderer.h"
 
 @implementation NSObject (PPAsyncDrawingKit)
 - (id)pp_objectWithAssociatedKey:(void *)key
@@ -35,19 +34,3 @@
 }
 @end
 
-@implementation NSCoder (PPAsyncDrawingKit)
-- (void)pp_encodeFontMetrics:(PPFontMetrics)fontMetrics forKey:(nonnull NSString *)key
-{
-    [self encodeCGRect:CGRectMake(fontMetrics.ascent, fontMetrics.descent, fontMetrics.leading, 0) forKey:key];
-}
-
-- (PPFontMetrics)pp_decodeFontMetricsForKey:(NSString *)key
-{
-    CGRect rect = [self decodeCGRectForKey:key];
-    PPFontMetrics fontMetrics;
-    fontMetrics.ascent = rect.origin.x;
-    fontMetrics.descent = rect.origin.y;
-    fontMetrics.leading = rect.size.width;
-    return fontMetrics;
-}
-@end

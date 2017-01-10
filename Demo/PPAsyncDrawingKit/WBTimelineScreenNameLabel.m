@@ -14,7 +14,6 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        self.drawingPolicy = 0;
         self.fontSize = 15;
     }
     return self;
@@ -32,8 +31,7 @@
 {
     if (_user != user) {
         _user = user;
-        [self setContentsChangedAfterLastAsyncDrawing:YES];
-        [self setNeedsDisplay];
+        [self setNeedsDisplayAsync];
     }
 }
 

@@ -7,8 +7,10 @@
 //
 
 #import "PPTextLayoutLine.h"
-#import "PPAsyncDrawingKitUtilities.h"
 #import "PPTextLayout.h"
+#import "PPTextUtilties.h"
+#import "PPTextLayoutFrame.h"
+#import "PPTextFontMetrics.h"
 
 @interface PPTextLayoutLine ()
 @property (nonatomic, assign) NSRange lineRefRange;
@@ -38,12 +40,21 @@
 
 - (void)setupWithCTLine
 {
-    PPFontMetrics fontMetrics;
+    PPTextFontMetrics *fontMetrics;
     if (_layout) {
         fontMetrics = _layout.baselineFontMetrics;
         _baselineOrigin = [_layout convertPointFromCoreText:_baselineOrigin];
     }
-    _width = CTLineGetTypographicBounds(_lineRef, &fontMetrics.ascent, &fontMetrics.descent, &fontMetrics.leading);
+    if (!fontMetrics) {
+        fontMetrics = [[PPTextFontMetrics alloc] init];
+    }
+    CGFloat ascent;
+    CGFloat descent;
+    CGFloat leading;
+    _width = CTLineGetTypographicBounds(_lineRef, &ascent, &descent, &leading);
+    fontMetrics.ascent = ascent;
+    fontMetrics.descent = descent;
+    fontMetrics.leading = leading;
     _lineMetrics = fontMetrics;
 }
 

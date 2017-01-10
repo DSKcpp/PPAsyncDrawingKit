@@ -11,20 +11,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PPButton : PPUIControl
-@property (nonatomic, assign) CGRect backgroundFrame;
-@property (nonatomic, assign) CGRect imageFrame;
-@property (nonatomic, assign) CGRect titleFrame;
-@property (nonatomic, strong, readonly) NSMutableDictionary<NSString *, UIImage *> *backgroundImages;
-@property (nonatomic, strong, readonly) NSMutableDictionary<NSString *, UIImage *> *images;
-@property (nonatomic, strong, readonly) NSMutableDictionary<NSString *, UIColor *> *titleColors;
-@property (nonatomic, strong, readonly) NSMutableDictionary<NSString *, NSString *> *titles;
-@property (nonatomic, assign) BOOL shouldDelayHighlighted;
 @property (nonatomic, assign) UIEdgeInsets imageEdgeInsets;
 @property (nonatomic, assign) UIEdgeInsets contentEdgeInsets;
 @property (nonatomic, assign) UIEdgeInsets titleEdgeInsets;
-@property (nonatomic, assign) BOOL needsUpdateFrame;
 @property (nonatomic, assign) UIControlState trackingState;
 @property (nonatomic, strong) UIFont *titleFont;
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder;
+- (instancetype)initWithFrame:(CGRect)frame;
 
 - (NSString *)stringOfState:(UIControlState)state;
 - (nullable UIColor *)titleColorForState:(UIControlState)state;
@@ -48,12 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)actualUpdateSubviewFrames;
 - (void)updateContentsAndRelayout:(BOOL)relayout;
 - (void)didCommitBoundsSizeChange;
-
-- (void)asyncSetNeedsDisplay;
-- (void)prepareDefaultValues;
-- (void)configure;
-- (instancetype)initWithCoder:(NSCoder *)aDecoder;
-- (instancetype)initWithFrame:(CGRect)frame;
 @end
 
 NS_ASSUME_NONNULL_END

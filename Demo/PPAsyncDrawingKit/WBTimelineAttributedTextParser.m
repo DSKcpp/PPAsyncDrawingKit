@@ -8,7 +8,6 @@
 
 #import "WBTimelineAttributedTextParser.h"
 #import "NSString+PPAsyncDrawingKit.h"
-#import "PPFlavoredRange.h"
 #import "WBUITextAttachment.h"
 #import "WBHelper.h"
 #import "NSAttributedString+PPAsyncDrawingKit.h"
@@ -98,7 +97,7 @@ static inline CGRect YYEmojiGetGlyphBoundingRectWithFontSize(CGFloat fontSize) {
                 UIImage *image = [UIImage imageNamed:@"timeline_card_small_web"];
                 WBUITextAttachment *attachment = [WBUITextAttachment attachmentWithContents:image type:0 contentSize:size];
                 attachment.replacementText = urlStruct.short_url;
-                PPFontMetrics font;
+                PPTextFontMetrics *font = [[PPTextFontMetrics alloc] init];
                 font.ascent = ascent;
                 font.descent = descent;
                 attachment.baselineFontMetrics = font;
@@ -159,7 +158,7 @@ static inline CGRect YYEmojiGetGlyphBoundingRectWithFontSize(CGFloat fontSize) {
             CGFloat ascent = YYEmojiGetAscentWithFontSize(fontSize);
             CGFloat descent = YYEmojiGetDescentWithFontSize(fontSize);
             CGRect bounding = YYEmojiGetGlyphBoundingRectWithFontSize(fontSize);
-            PPFontMetrics font;
+            PPTextFontMetrics *font = [[PPTextFontMetrics alloc] init];
             font.ascent = ascent;
             font.descent = descent;
             CGFloat w =  bounding.size.width + 2 * bounding.origin.x;

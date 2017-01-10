@@ -10,6 +10,12 @@
 #import "UIImage+PPAsyncDrawingKit.h"
 #import "PPAsyncDrawingKitUtilities.h"
 
+static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat cornerRadius, UIRectCorner roundedCorners) {
+    CGSize cornerRadii = CGSizeMake(cornerRadius, cornerRadius);
+    UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:roundedCorners cornerRadii:cornerRadii];
+    return CGPathCreateCopy(bezierPath.CGPath);
+}
+
 @implementation PPImageView
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -19,11 +25,9 @@
         self.showsCornerRadius = YES;
         self.showsBorderCornerRadius = YES;
         self.userInteractionEnabled = NO;
-        [self setBackgroundColor:[UIColor clearColor]];
         self.borderWidth = 0.0f;
         self.clipsToBounds = YES;
         self.updatePathWhenViewSizeChanges = YES;
-        [self setDrawingPolicy:0];
         self.isNeedChangeContentModel = NO;
     }
     return self;
@@ -116,13 +120,11 @@
 {
     if (_image == image) {
         if (image == nil || self.layer.contents == nil) {
-            self.contentsChangedAfterLastAsyncDrawing = YES;
-            [self setNeedsDisplay];
+            [self setNeedsDisplayAsync];
         }
     } else {
-        self.contentsChangedAfterLastAsyncDrawing = YES;
         _image = image;
-        [self setNeedsDisplay];
+        [self setNeedsDisplayAsync];
     }
 }
 

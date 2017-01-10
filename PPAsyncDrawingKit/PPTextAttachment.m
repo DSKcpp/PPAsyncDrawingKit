@@ -34,7 +34,7 @@
         self.contents = [aDecoder decodeObjectForKey:@"contents"];
         self.replacementText = [aDecoder decodeObjectForKey:@"contentDescription"];
         self.contentType = [aDecoder decodeIntegerForKey:@"contentType"];
-        self.baselineFontMetrics = [aDecoder pp_decodeFontMetricsForKey:@"fontMetrics"];
+        self.baselineFontMetrics = [aDecoder decodeObjectForKey:@"fontMetrics"];
     }
     return self;
 }
@@ -48,7 +48,7 @@
     }
     [aCoder encodeObject:self.replacementText forKey:@"contentDescription"];
     [aCoder encodeInteger:self.contentType forKey:@"contentType"];
-    [aCoder pp_encodeFontMetrics:self.baselineFontMetrics forKey:@"fontMetrics"];
+    [aCoder encodeObject:self.baselineFontMetrics forKey:@"fontMetrics"];
 }
 
 - (void)updateContentEdgeInsetsWithTargetPlaceholderSize:(CGSize)placeholderSize
@@ -56,19 +56,9 @@
     self.contentSize = placeholderSize;
 }
 
-- (NSString *)replacementTextForLength
+- (PPTextFontMetrics *)fontMetricsForLayout
 {
-    return self.replacementText;
-}
-
-- (NSString *)replacementTextForCopy
-{
-    return self.replacementText.copy;
-}
-
-- (PPFontMetrics)fontMetricsForLayout
-{
-    PPFontMetrics fontMetrisc;
+    PPTextFontMetrics *fontMetrisc = [[PPTextFontMetrics alloc] init];
     fontMetrisc.ascent = self.ascentForLayout;
     fontMetrisc.descent = self.descentForLayout;
     fontMetrisc.leading = self.leadingForLayout;
