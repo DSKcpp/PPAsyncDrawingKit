@@ -33,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSTimeInterval minNotifiProgressInterval;
 @property (nonatomic, strong) NSDictionary *requestHttpHeaders;
 @property (nonatomic, strong) NSDictionary *responseHttpHeaders;
+@property (nonatomic, strong, readonly) NSMutableURLRequest *URLRequest;
 @property (nonatomic, assign, getter=isFinished) BOOL finished;
 @property (nonatomic, assign, getter=isExecuting) BOOL executing;
 @property (nonatomic, weak) id<PPImageLoadOperationDelegate> delegate;

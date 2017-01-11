@@ -27,48 +27,42 @@
 
 - (void)setImageURL:(NSString *)imageURL placeholderImage:(UIImage *)placeholderImage
 {
-    if (![_imageURL isEqualToString:imageURL]) {
-        self.image = placeholderImage;
-        [self cancelCurrentImageLoading];
-        _imageURL = imageURL;
-        [self loadImageWithPath:imageURL];
-    } else {
-        
-    }
+
+    [self setImageURL:imageURL placeholderImage:placeholderImage progressBlock:nil completeBlock:nil];
 }
 
-- (void)loadImageWithPath:(NSString *)path
+- (void)setImageURL:(NSString *)imageURL placeholderImage:(UIImage *)placeholderImage progressBlock:(PPWebImageDownloaderProgressBlock)progressBlock completeBlock:(PPExternalCompletionBlock)completeBlock
 {
-    if (!path.length) {
-        return;
-    }
+    [self cancelCurrentImageLoading];
+    self.image = placeholderImage;
     
-    void(^setImage)(UIImage *image) = ^(UIImage *image) {
+    if (imageURL) {
+        _imageURL = imageURL;
+         UIImage *image = [[PPImageCache sharedCache] imageFromMemoryCacheForURL:imageURL];
         if (image) {
-            [self setImageLoaderImage:image URL:path];
-            if (_imageDidFinishLoadFromDiskBlock) {
-                _imageDidFinishLoadFromDiskBlock();
+            [self setImageLoaderImage:image URL:imageURL];
+            if (completeBlock) {
+                completeBlock(image, nil, imageURL);
             }
         } else {
             if (_imageLoadQueue) {
                 [PPWebImageManager sharedManager].imageLoadQueue = _imageLoadQueue;
-            } else {
-                
             }
-            [[PPWebImageManager sharedManager] loadImage:path delegate:self progress:^(int64_t receivedSize, int64_t expectedSize, NSString * _Nullable targetURL) {
-                
-            } complete:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error) {
+            [[PPWebImageManager sharedManager] loadImage:imageURL delegate:self progress:progressBlock complete:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, NSString * _Nullable imageURL) {
                 if (image) {
-                    [self setImageLoaderImage:image URL:path];
+                    [self setImageLoaderImage:image URL:imageURL];
                 }
-                if (_imageDidFinishDownloadBlock) {
-                    _imageDidFinishDownloadBlock();
+                if (completeBlock) {
+                    completeBlock(image, error, imageURL);
                 }
             } autoCancel:YES cacheType:PPImageCacheTypeAll];
         }
-    };
-    UIImage *image = [[PPImageCache sharedCache] imageFromMemoryCacheForURL:path];
-    setImage(image);
+    } else {
+        NSError *error;
+        if (completeBlock) {
+            completeBlock(nil, error, imageURL);
+        }
+    }
 }
 
 - (void)setImageLoaderImage:(UIImage *)image URL:(NSString *)URL

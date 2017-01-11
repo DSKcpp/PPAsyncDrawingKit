@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 //    PPWebImageViewLoadState,
 //};
 
-typedef void(^PPWebImageBlock)(void);
+
 
 @interface PPWebImageView : PPImageView
 @property (nonatomic, strong) UIImageView *livePhotoImageView;
@@ -35,11 +35,6 @@ typedef void(^PPWebImageBlock)(void);
 @property (nonatomic, assign) BOOL imageChangedAfterFadeinAnimation;
 @property (nonatomic, strong, readonly) NSString *flagImageUrl;
 @property (nonatomic, assign) BOOL isAnimationWhenFinalImageReceived;
-@property (copy, nonatomic) PPWebImageBlock imageDidFinishSaveToDiskBlock;
-@property (copy, nonatomic) PPWebImageBlock imageDidBeginDownloadBlock;
-@property (copy, nonatomic) PPWebImageBlock imageDidFinishLoadFromDiskBlock;
-@property (copy, nonatomic) PPWebImageBlock imageDidFinishDownloadBlock;
-@property (copy, nonatomic) PPWebImageBlock buildAlternativeImageUrlsBlock;
 @property (nonatomic, assign) BOOL ignoreImageMask;
 @property (nonatomic, copy) NSString *imageURL;
 @property (nonatomic, assign, readonly) BOOL imageLoaded;
@@ -47,10 +42,9 @@ typedef void(^PPWebImageBlock)(void);
 - (void)imageDrawingFinished;
 - (void)cancelCurrentImageLoading;
 
-- (void)loadImageWithPath:(NSString *)path;
-
 - (void)setImageURL:(NSString *)imageURL;
 - (void)setImageURL:(NSString *)imageURL placeholderImage:(nullable UIImage *)placeholderImage;
+- (void)setImageURL:(NSString *)imageURL placeholderImage:(nullable UIImage *)placeholderImage progressBlock:(nullable PPWebImageDownloaderProgressBlock)progressBlock completeBlock:(nullable PPExternalCompletionBlock)completeBlock;
 
 - (void)setImageLoaderImage:(UIImage *)image URL:(NSString *)URL;
 - (void)setFinalImage:(UIImage *)image;

@@ -31,9 +31,7 @@
     CFArrayRef lineRefs = CTFrameGetLines(frame);
     CFIndex lineCount = CFArrayGetCount(lineRefs);
     NSMutableArray *lines = [NSMutableArray array];
-//    CGRect rect = CGRectZero;
     if (lineCount > 0) {
-//        CGPoint *origins = malloc(lineCount * sizeof(CGPoint));
         CGPoint origins[lineCount];
         CTFrameGetLineOrigins(frame, CFRangeMake(0, lineCount), origins);
         
@@ -54,7 +52,6 @@
         }
     }
     self.lineFragments = [NSArray arrayWithArray:lines];
-//    self.layoutSize = rect.size;
     [self updateLayoutSize];
 }
 
@@ -127,25 +124,33 @@
 @implementation PPTextLayoutFrame (LayoutResult)
 - (CGRect)firstSelectionRectForCharacterRange:(NSRange)range
 {
-//    [self enumerateSelectionRectsForCharacterRange:range usingBlock:^{
-//        
-//    }];
-    return CGRectZero;
+    CGRect rect = CGRectZero;
+    [self enumerateSelectionRectsForCharacterRange:range usingBlock:^(CGRect rect, BOOL * _Nonnull stop) {
+        rect = rect;
+        *stop = YES;
+    }];
+    return rect;
 }
 
 - (NSUInteger)lineFragmentIndexForCharacterAtIndex:(NSUInteger)index
 {
-    [self.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        
+    __block NSUInteger loc = 0;
+    [self.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (line.stringRange.location >= index && index <= line.stringRange.location + line.stringRange.length) {
+            loc = line.stringRange.location;
+            *stop = YES;
+        }
     }];
-    return 0;
+    return loc;
 }
 
-- (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(void (^)(void))block
+- (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(nonnull void (^)(CGRect, NSRange, BOOL * _Nonnull))block
 {
+    if (!block) {
+        return;
+    }
     [self.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
-//        line.fragmentRect;
-//        line.stringRange;
+        block(line.fragmentRect, line.stringRange, stop);
     }];
 }
 
@@ -175,8 +180,13 @@
 
 - (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(nullable void (^)(CGRect, BOOL * _Nonnull))block
 {
-    CGRect rects = CGRectZero;
+    CGSize size = CGSizeZero;
+    if (self.layout) {
+        size = self.layout.size;
+    }
+    CGRect rects = CGRectMake(0, 0, size.width, size.height);
     [self enumerateEnclosingRectsForCharacterRange:range usingBlock:^(CGRect rect, BOOL * _Nonnull stop) {
+//        CGFloat left = CGRectGetMinX(rect);
         CGRectUnion(rects, rect);
     }];
     return rects;

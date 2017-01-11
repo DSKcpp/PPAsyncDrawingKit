@@ -213,7 +213,7 @@
     [self.layoutFrame enumerateEnclosingRectsForCharacterRange:range usingBlock:block];
 }
 
-- (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(void (^)(void))block
+- (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(nonnull void (^)(CGRect, NSRange, BOOL * _Nonnull))block
 {
     [self.layoutFrame enumerateLineFragmentsForCharacterRange:range usingBlock:block];
 }
@@ -243,4 +243,26 @@
     rect.origin = point;
     return rect;
 }
+@end
+
+@implementation PPTextLayout (HitTesting)
+- (NSRange)characterRangeForBoundingRect:(CGRect)rect
+{
+    CGFloat x = CGRectGetMaxX(rect);
+    CGFloat y = CGRectGetMaxY(rect);
+    CGPoint point = CGPointMake(x, y);
+    NSUInteger location  = [self characterIndexForPoint:rect.origin];
+    NSUInteger right = [self characterIndexForPoint:point];
+    return NSMakeRange(location, right - location);
+}
+
+- (NSUInteger)characterIndexForPoint:(CGPoint)point
+{
+    __block NSUInteger loc;
+    [self.layoutFrame.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
+        loc = [line characterIndexForBoundingPosition:point];
+    }];
+    return loc;
+}
+
 @end

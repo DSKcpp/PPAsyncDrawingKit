@@ -323,10 +323,10 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
     }];
 }
 
-- (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(void (^)(void))block
+- (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(nonnull void (^)(CGRect, NSRange, BOOL * _Nonnull))block
 {
-    [self.textLayout enumerateLineFragmentsForCharacterRange:range usingBlock:^{
-//        if (block) block([self convertRectFromLayout:rect], stop);
+    [self.textLayout enumerateLineFragmentsForCharacterRange:range usingBlock:^(CGRect rect, NSRange range, BOOL * _Nonnull stop) {
+        if (block) block([self convertRectFromLayout:rect], range, stop);
     }];
 }
 

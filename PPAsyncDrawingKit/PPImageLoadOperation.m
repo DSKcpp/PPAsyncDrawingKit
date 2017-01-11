@@ -158,7 +158,8 @@
 
 - (void)reloadConnection
 {
-    _downloadTask = [_session downloadTaskWithURL:[NSURL URLWithString:_imageURL]];
+    _URLRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:_imageURL]];
+    _downloadTask = [_session downloadTaskWithRequest:_URLRequest];
     NSThread *requestThread = [PPImageLoadOperation networkRequestThread];
     [self performSelector:@selector(connectionDidStart)
                  onThread:requestThread

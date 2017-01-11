@@ -86,7 +86,7 @@
 - (void)requestDidFinish
 {
     if (_completedBlock) {
-        _completedBlock(_image, _data, _error);
+        _completedBlock(_image, _data, _error, _imageURL);
     }
 }
 

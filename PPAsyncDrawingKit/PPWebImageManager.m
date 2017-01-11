@@ -38,32 +38,32 @@
     return self;
 }
 
-- (PPImageLoadRequest *)loadImage:(NSString *)imageURL complete:(PPImageLoadCompleteBlock)complete
+- (PPImageLoadRequest *)loadImage:(NSString *)imageURL complete:(PPInternalCompletionBlock)complete
 {
     return [self loadImage:imageURL delegate:nil progress:nil complete:complete autoCancel:YES cacheType:PPImageCacheTypeAll];
 }
 
-- (PPImageLoadRequest *)loadImage:(NSString *)imageURL progress:(PPImageLoadProgressBlock)progress complete:(PPImageLoadCompleteBlock)complete
+- (PPImageLoadRequest *)loadImage:(NSString *)imageURL progress:(PPWebImageDownloaderProgressBlock)progress complete:(PPInternalCompletionBlock)complete
 {
     return [self loadImage:imageURL delegate:nil progress:progress complete:complete autoCancel:YES cacheType:PPImageCacheTypeAll];
 }
 
-- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id)delegate progress:(PPImageLoadProgressBlock)progress complete:(PPImageLoadCompleteBlock)complete
+- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id)delegate progress:(PPWebImageDownloaderProgressBlock)progress complete:(PPInternalCompletionBlock)complete
 {
     return [self loadImage:imageURL delegate:delegate progress:progress complete:complete autoCancel:YES cacheType:PPImageCacheTypeAll];
 }
 
-- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id)delegate progress:(PPImageLoadProgressBlock)progress complete:(PPImageLoadCompleteBlock)complete cacheType:(PPImageCacheType)cacheType
+- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id)delegate progress:(PPWebImageDownloaderProgressBlock)progress complete:(PPInternalCompletionBlock)complete cacheType:(PPImageCacheType)cacheType
 {
     return [self loadImage:imageURL delegate:delegate progress:progress complete:complete autoCancel:YES cacheType:cacheType];
 }
 
-- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id)delegate progress:(PPImageLoadProgressBlock)progress complete:(PPImageLoadCompleteBlock)complete autoCancel:(BOOL)autoCancel
+- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id)delegate progress:(PPWebImageDownloaderProgressBlock)progress complete:(PPInternalCompletionBlock)complete autoCancel:(BOOL)autoCancel
 {
     return [self loadImage:imageURL delegate:delegate progress:progress complete:complete autoCancel:autoCancel cacheType:PPImageCacheTypeAll];
 }
 
-- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id)delegate progress:(PPImageLoadProgressBlock)progress complete:(PPImageLoadCompleteBlock)complete autoCancel:(BOOL)autoCancel cacheType:(PPImageCacheType)cacheType
+- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id)delegate progress:(PPWebImageDownloaderProgressBlock)progress complete:(PPInternalCompletionBlock)complete autoCancel:(BOOL)autoCancel cacheType:(PPImageCacheType)cacheType
 {
     if (imageURL.length) {
         PPImageLoadRequest *request = [[PPImageLoadRequest alloc] initWithURL:imageURL];

@@ -14,42 +14,44 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class PPImageLoadRequest;
 
-typedef void(^PPImageLoadCompleteBlock)(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error);
-typedef void(^PPImageLoadProgressBlock)(int64_t receivedSize, int64_t expectedSize, NSString * _Nullable targetURL);
+typedef void(^PPWebImageDownloaderProgressBlock)(int64_t receivedSize, int64_t expectedSize, NSString * _Nullable targetURL);
+
+typedef void(^PPExternalCompletionBlock)(UIImage * _Nullable image, NSError * _Nullable error, NSString * _Nullable imageURL);
+typedef void(^PPInternalCompletionBlock)(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, NSString * _Nullable imageURL);
 
 @interface PPWebImageManager : NSObject <PPImageLoadOperationDelegate, NSURLSessionDelegate>
 @property (nonatomic, class, strong, readonly) PPWebImageManager *sharedManager;
 @property (nonatomic, strong) dispatch_queue_t imageLoadQueue;
 
 - (nullable PPImageLoadRequest *)loadImage:(NSString *)imageURL
-                                  complete:(PPImageLoadCompleteBlock)complete;
+                                  complete:(PPInternalCompletionBlock)complete;
 
 - (nullable PPImageLoadRequest *)loadImage:(NSString *)imageURL
-                                  progress:(nullable PPImageLoadProgressBlock)progress
-                                  complete:(PPImageLoadCompleteBlock)complete;
+                                  progress:(nullable PPWebImageDownloaderProgressBlock)progress
+                                  complete:(PPInternalCompletionBlock)complete;
 
-
-- (nullable PPImageLoadRequest *)loadImage:(NSString *)imageURL
-                                  delegate:(nullable id)delegate
-                                  progress:(nullable PPImageLoadProgressBlock)progress
-                                  complete:(PPImageLoadCompleteBlock)complete;
 
 - (nullable PPImageLoadRequest *)loadImage:(NSString *)imageURL
                                   delegate:(nullable id)delegate
-                                  progress:(nullable PPImageLoadProgressBlock)progress
-                                  complete:(PPImageLoadCompleteBlock)complete
+                                  progress:(nullable PPWebImageDownloaderProgressBlock)progress
+                                  complete:(PPInternalCompletionBlock)complete;
+
+- (nullable PPImageLoadRequest *)loadImage:(NSString *)imageURL
+                                  delegate:(nullable id)delegate
+                                  progress:(nullable PPWebImageDownloaderProgressBlock)progress
+                                  complete:(PPInternalCompletionBlock)complete
                                 autoCancel:(BOOL)autoCancel;
 
 - (nullable PPImageLoadRequest *)loadImage:(NSString *)imageURL
                                   delegate:(nullable id<PPImageLoadOperationDelegate>)delegate
-                                  progress:(nullable PPImageLoadProgressBlock)progress
-                                  complete:(PPImageLoadCompleteBlock)complete
+                                  progress:(nullable PPWebImageDownloaderProgressBlock)progress
+                                  complete:(PPInternalCompletionBlock)complete
                                  cacheType:(PPImageCacheType)cacheType;
 
 - (nullable PPImageLoadRequest *)loadImage:(NSString *)imageURL
                                   delegate:(nullable id)delegate
-                                  progress:(nullable PPImageLoadProgressBlock)progress
-                                  complete:(PPImageLoadCompleteBlock)complete
+                                  progress:(nullable PPWebImageDownloaderProgressBlock)progress
+                                  complete:(PPInternalCompletionBlock)complete
                                 autoCancel:(BOOL)autoCancel
                                  cacheType:(PPImageCacheType)cacheType;
 
