@@ -8,13 +8,14 @@
 
 import Foundation
 import UIKit
+import PPAsyncDrawingKit
 
 class SwiftExample: UIViewController {
     
     override func viewDidLoad() {
         
-        let view = PPAsyncDrawingView()
-        print(view);
+        let image = PPImageView()
+        print(image)
     }
     
 }

@@ -10,9 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+
 @interface PPImageView : PPUIControl
 @property (nullable, nonatomic, strong) UIImage *image;
-@property (nonatomic, strong) UIColor *fillColor;
 @property (nonatomic, strong) UIColor *borderColor;
 @property (nonatomic, assign) CGFloat borderWidth;
 @property (nonatomic, assign) CGFloat cornerRadius;
@@ -23,13 +23,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isNeedChangeContentModel;
 @property (nonatomic, assign) BOOL updatePathWhenViewSizeChanges;
 @property (nonatomic, assign) UIViewContentMode contentMode;
-@property (nullable, nonatomic, assign) CGPathRef roundPathRef;
-@property (nullable, nonatomic, assign) CGPathRef borderPathRef;
 
 - (instancetype)initWithFrame:(CGRect)frame;
+- (instancetype)initWithImage:(UIImage *)image;
 - (instancetype)initWithCornerRadius:(CGFloat)cornerRadius;
 - (instancetype)initWithCornerRadius:(CGFloat)cornerRadius byRoundingCorners:(UIRectCorner)roundingCorners;
-- (instancetype)initWithCachedRoundPath:(nullable CGPathRef)roundPath borderPath:(nullable CGPathRef)borderPath;
 @end
 
 NS_ASSUME_NONNULL_END

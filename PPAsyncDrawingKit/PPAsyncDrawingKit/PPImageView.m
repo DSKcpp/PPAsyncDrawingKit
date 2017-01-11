@@ -16,8 +16,12 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
     return CGPathCreateCopy(bezierPath.CGPath);
 }
 
-@implementation PPImageView
+@interface PPImageView ()
+@property (nonatomic, assign) CGPathRef roundPathRef;
+@property (nonatomic, assign) CGPathRef borderPathRef;
+@end
 
+@implementation PPImageView
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
@@ -33,6 +37,14 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
     return self;
 }
 
+- (instancetype)initWithImage:(UIImage *)image
+{
+    if (self = [super init]) {
+        self.image = image;
+    }
+    return self;
+}
+
 - (instancetype)initWithCornerRadius:(CGFloat)cornerRadius
 {
     return [self initWithCornerRadius:cornerRadius byRoundingCorners:UIRectCornerAllCorners];
@@ -43,16 +55,6 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
     if (self = [self init]) {
         self.cornerRadius = cornerRadius;
         self.roundedCorners = roundingCorners;
-    }
-    return self;
-}
-
-- (instancetype)initWithCachedRoundPath:(CGPathRef)roundPath borderPath:(CGPathRef)borderPath
-{
-    if (self = [self init]) {
-        self.roundPathRef = CGPathRetain(roundPath);
-        self.borderPathRef = CGPathRetain(borderPath);
-        self.updatePathWhenViewSizeChanges = NO;
     }
     return self;
 }
@@ -74,17 +76,20 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
     _roundedCorners = roundedCorners;
     CGPathRelease(self.roundPathRef);
     self.roundPathRef = nil;
+    [self setNeedsDisplay];
 }
 
 - (void)setCornerRadius:(CGFloat)cornerRadius
 {
-    if (cornerRadius <= 0) {
-        CGPathRelease(self.roundPathRef);
-        self.roundPathRef = nil;
-        [self setNeedsDisplay];
+    if (_cornerRadius == cornerRadius) {
+        return;
     }
+    
     _cornerRadius = cornerRadius;
     self.layer.cornerRadius = 0;
+    CGPathRelease(self.roundPathRef);
+    self.roundPathRef = nil;
+    [self setNeedsDisplay];
 }
 
 - (void)setShowsBorderCornerRadius:(BOOL)showsBorderCornerRadius
@@ -128,14 +133,6 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
     }
 }
 
-- (void)setFillColor:(UIColor *)fillColor
-{
-    if (_fillColor != fillColor) {
-        _fillColor = fillColor;
-        [self setNeedsDisplay];
-    }
-}
-
 - (void)displayLayer:(CALayer *)layer
 {
     [super displayLayer:layer];
@@ -145,12 +142,15 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
 {
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
     [userInfo pp_setSafeObject:_image forKey:@"image"];
-    [userInfo pp_setSafeObject:self.fillColor forKey:@"fillColor"];
     if (self.showsCornerRadius) {
-        CGPathRef path = PPCreateRoundedCGPath(self.bounds, self.cornerRadius, self.roundedCorners);
-        _roundPathRef = path;
-        [userInfo pp_setSafeObject:(__bridge id _Nonnull)(path) forKey:@"roundPath"];
-        CGPathRelease(path);
+        if (!self.roundPathRef) {
+            CGPathRef path = PPCreateRoundedCGPath(self.bounds, self.cornerRadius, self.roundedCorners);
+            [userInfo pp_setSafeObject:(__bridge id _Nonnull)(path) forKey:@"roundPath"];
+            self.roundPathRef = path;
+            CGPathRelease(path);
+        } else {
+//            [userInfo pp_setSafeObject:(__bridge id _Nonnull)(self.roundPathRef) forKey:@"roundPath"];
+        }
     }
     if (self.showsBorderCornerRadius) {
 
@@ -167,17 +167,10 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
             CGContextClip(context);
         }
     }
-    UIColor *fillColor = userInfo[@"fillColor"];
-    if (fillColor) {
-        CGContextSetFillColorWithColor(context, fillColor.CGColor);
-        CGContextFillRect(context, rect);
-    }
     
     UIImage *image = userInfo[@"image"];
     [image pp_drawInRect:rect contentMode:_contentMode withContext:context];
     
-//        if (self.showsBorderCornerRadius) {
-//    CGPathRef path = PPCreateRoundedCGPath(self.bounds, self.cornerRadius, self.roundedCorners);
     CGPathRef path = (__bridge CGPathRef)(userInfo[@"roundPath"]);
     if (path) {
         CGContextAddPath(context, path);
@@ -185,10 +178,6 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
         CGContextSetStrokeColorWithColor(context, self.borderColor.CGColor);
         CGContextStrokePath(context);
     }
-//        }
-//    }
-
-
     return YES;
 }
 

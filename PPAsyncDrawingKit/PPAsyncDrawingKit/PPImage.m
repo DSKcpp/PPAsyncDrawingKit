@@ -18,7 +18,9 @@
     if (imageFormat == PPImageFormatGIF) {
         image = [PPImage animatedGIFWithData:data];
     } else if (imageFormat == PPImageFormatWebP) {
+#if PPIMAGEWEBP
         image = [PPImage imageWithWebPData:data];
+#endif
     } else {
         image = [UIImage imageWithData:data];
     }
