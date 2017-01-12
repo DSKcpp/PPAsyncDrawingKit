@@ -14,8 +14,6 @@
     if (self = [super initWithFrame:frame]) {
         self.autoPlayGifIfReady = NO;
         self.allowPlayGif = NO;
-        self.purposeType = 0;
-        self.placeFlagImgOutside = NO;
     }
     return self;
 }

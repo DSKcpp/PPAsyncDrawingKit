@@ -67,7 +67,8 @@
 
 - (CGFloat)ascentForLayout
 {
-    return self.baselineFontMetrics.ascent;
+    CGSize placeholderSize = self.placeholderSize;
+    return placeholderSize.height - self.baselineFontMetrics.descent;
 }
 
 - (CGFloat)descentForLayout

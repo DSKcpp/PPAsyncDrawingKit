@@ -8,25 +8,52 @@
 
 #import "PPImage+WebP.h"
 
+//#ifdef PPIMAGE_WEBP
+//#if __has_include(<webp/decode.h>) && __has_include(<webp/encode.h>) && \
+//    __has_include(<webp/demux.h>)  && __has_include(<webp/mux.h>)
+//#define PPIMAGE_WEBP 1
+//#import <webp/decode.h>
+//#import <webp/encode.h>
+//#import <webp/demux.h>
+//#import <webp/mux.h>
+//#elif __has_include("webp/decode.h") && __has_include("webp/encode.h") && \
+//    __has_include("webp/demux.h")  && __has_include("webp/mux.h")
+//#define PPIMAGE_WEBP 1
+//#import "webp/decode.h"
+//#import "webp/encode.h"
+//#import "webp/demux.h"
+//#import "webp/mux.h"
+//#else
+//#define PPIMAGE_WEBP 0
+//#endif
+//#endif
+
+//#import <webp/decode.h>
+//#import <webp/encode.h>
+//#import <webp/demux.h>
+//#import <webp/mux.h>
+
+#ifndef PPIMAGE_WEBP_ENABLED
 #if __has_include(<webp/decode.h>) && __has_include(<webp/encode.h>) && \
     __has_include(<webp/demux.h>)  && __has_include(<webp/mux.h>)
-#define PPIMAGE_WEBP 1
-#import <webp/decode.h>
-#import <webp/encode.h>
-#import <webp/demux.h>
-#import <webp/mux.h>
-#elif __has_include("webp/decode.h") && __has_include("webp/encode.h") && \
-    __has_include("webp/demux.h")  && __has_include("webp/mux.h")
-#define PPIMAGE_WEBP 1
-#import "webp/decode.h"
-#import "webp/encode.h"
-#import "webp/demux.h"
-#import "webp/mux.h"
+#define PPIMAGE_WEBP_ENABLED 1
+#import <Webp/decode.h>
+#import <Webp/encode.h>
+#import <Webp/demux.h>
+#import <Webp/mux.h>
+#elif __has_include("Webp/decode.h") && __has_include("Webp/encode.h") && \
+      __has_include("Webp/demux.h")  && __has_include("Webp/mux.h")
+#define PPIMAGE_WEBP_ENABLED 1
+#import "Webp/decode.h"
+#import "Webp/encode.h"
+#import "Webp/demux.h"
+#import "Webp/mux.h"
 #else
-#define PPIMAGE_WEBP 0
+#define PPIMAGE_WEBP_ENABLED 0
+#endif
 #endif
 
-#if PPIMAGEWEBP
+#if PPIMAGE_WEBP_ENABLED
 
 static void FreeImageData(void *info, const void *data, size_t size) {
     free((void *)data);

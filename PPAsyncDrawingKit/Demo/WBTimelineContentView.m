@@ -11,6 +11,7 @@
 #import "UIImage+Color.h"
 #import "WBHelper.h"
 #import "NSString+PPAsyncDrawingKit.h"
+#import "NSAttributedString+PPAsyncDrawingKit.h"
 
 @implementation WBColorImageView
 
@@ -173,6 +174,8 @@
     _avatarView.cornerRadius = preset.avatarCornerRadius;
     _avatarView.borderColor = [UIColor blackColor];
     _avatarView.borderWidth = 0.1f;
+    _avatarView.userInteractionEnabled = YES;
+    [_avatarView addTarget:self action:@selector(selectedAvatar:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_avatarView];
 }
 
@@ -215,6 +218,13 @@
         [self.avatarView setImageURL:timelineItem.user.avatar_large placeholderImage:[UIImage imageNamed:@"avatar"]];
         [self.actionButtonsView setTimelineItem:timelineItem];
         self.textContentView.largeCardView.frame = drawingContext.largeFrame;
+    }
+}
+
+- (void)selectedAvatar:(PPWebImageView *)avarar
+{
+    if ([_delegate respondsToSelector:@selector(tableViewCell:didSelectedAvatarView:)]) {
+        [_delegate tableViewCell:_cell didSelectedAvatarView:_timelineItem.user];
     }
 }
 
@@ -450,6 +460,8 @@
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async
 {
     NSString *username = self.user.screen_name;
+//    PPTextRenderer *renderer = [NSAttributedString rendererForCurrentThread];
+//    NSUInteger lineCount = [renderer.textLayout containingLineCount];
     [username pp_drawInRect:rect withFont:[UIFont systemFontOfSize:self.fontSize] textColor:[UIColor colorWithRed:255/255.0f green:81/255.0f blue:20/255.0f alpha:1.0f] lineBreakMode:NSLineBreakByWordWrapping];
     return YES;
 }

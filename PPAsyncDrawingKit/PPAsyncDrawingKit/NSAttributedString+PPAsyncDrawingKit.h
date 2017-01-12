@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "PPAsyncDrawingKitUtilities.h"
 #import "PPTextAttributes.h"
-#import "PPTextParagraphStyle.h"
+#import <CoreText/CoreText.h>
 
 @class PPTextRenderer;
 @class PPTextAttachment;
@@ -35,6 +35,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)pp_attributedStringWithTextAttachment:(PPTextAttachment *)textAttachment;
 + (instancetype)pp_attributedStringWithTextAttachment:(PPTextAttachment *)textAttachment attributes:(nullable NSDictionary *)attributes;
+
+- (CGSize)pp_drawInRect:(CGRect)rect;
+- (CGSize)pp_drawInRect:(CGRect)rect context:(CGContextRef)context;
+- (CGSize)pp_drawInRect:(CGRect)rect context:(CGContextRef)context numberOfLines:(NSUInteger)numberOfLines;
+- (CGSize)pp_drawInRect:(CGRect)rect context:(CGContextRef)context numberOfLines:(NSUInteger)numberOfLines baselineMetrics:(nullable PPTextFontMetrics *)baselineMetrics;
 @end
 
 @interface NSMutableAttributedString (PPExtendedAttributedString)
@@ -64,8 +69,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)pp_setTextHighlightRange:(nullable PPTextHighlightRange *)textHighlightRange;
 - (void)pp_setTextHighlightRange:(nullable PPTextHighlightRange *)textHighlightRange inRange:(NSRange)range;
 
-- (void)pp_setTextParagraphStyle:(nullable PPTextParagraphStyle *)textParagraphStyle;
-- (void)pp_setTextParagraphStyle:(nullable PPTextParagraphStyle *)textParagraphStyle inRange:(NSRange)range;
+- (void)pp_setTextParagraphStyle:(nullable NSParagraphStyle *)textParagraphStyle;
+- (void)pp_setTextParagraphStyle:(nullable NSParagraphStyle *)textParagraphStyle inRange:(NSRange)range;
+
+- (void)pp_setCTRunDelegate:(nullable CTRunDelegateRef)ctRunDelegate;
+- (void)pp_setCTRunDelegate:(nullable CTRunDelegateRef)ctRunDelegate inRange:(NSRange)range;
 @end
 
 NS_ASSUME_NONNULL_END

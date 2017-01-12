@@ -24,5 +24,5 @@ typedef NS_ENUM(NSUInteger, WBTimelineHighlightType) {
 
 @property (nonatomic, strong) WBTimelineItem *timelineItem;
 + (instancetype)textParserWithTimelineItem:(WBTimelineItem *)timelineItem;
-- (BOOL)parserWithAttributedString:(NSMutableAttributedString *)attributedString;
+- (BOOL)parserWithAttributedString:(NSMutableAttributedString *)attributedString fontSize:(CGFloat)fontSize textColor:(UIColor *)textColor;
 @end

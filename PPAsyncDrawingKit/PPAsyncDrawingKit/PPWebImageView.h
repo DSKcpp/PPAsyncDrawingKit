@@ -17,27 +17,14 @@ NS_ASSUME_NONNULL_BEGIN
 //    PPWebImageViewLoadState,
 //};
 
-
-
 @interface PPWebImageView : PPImageView
-@property (nonatomic, strong) UIImageView *livePhotoImageView;
-@property (nonatomic, copy) NSString *currentReadingTaskKey;
 @property (nonatomic, assign) int loadState;
-@property (nonatomic, assign) BOOL usesSyncLoad;
 @property (nonatomic, assign) dispatch_queue_t imageLoadQueue;
-@property (nonatomic, assign) BOOL placeFlagImgOutside;
-@property (nonatomic, assign) BOOL clearsLayerContentsWhenViewDisappear;
-@property (nonatomic, assign) long long purposeType;
 @property (nonatomic, assign) BOOL allowPlayGif;
 @property (nonatomic, assign) BOOL autoPlayGifIfReady;
-@property (nonatomic, assign) BOOL showDownloadProgress;
-@property (nonatomic, strong) UIImage *failedPlaceholder;
-@property (nonatomic, assign) BOOL imageChangedAfterFadeinAnimation;
-@property (nonatomic, strong, readonly) NSString *flagImageUrl;
-@property (nonatomic, assign) BOOL isAnimationWhenFinalImageReceived;
-@property (nonatomic, assign) BOOL ignoreImageMask;
-@property (nonatomic, copy) NSString *imageURL;
 @property (nonatomic, assign, readonly) BOOL imageLoaded;
+@property (nonatomic, copy) NSString *imageURL;
+
 
 - (void)imageDrawingFinished;
 - (void)cancelCurrentImageLoading;

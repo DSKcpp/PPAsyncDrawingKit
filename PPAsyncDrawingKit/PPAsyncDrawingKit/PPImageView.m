@@ -74,8 +74,8 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
         return;
     }
     _roundedCorners = roundedCorners;
-    CGPathRelease(self.roundPathRef);
     self.roundPathRef = nil;
+    CGPathRelease(self.roundPathRef);
     [self setNeedsDisplay];
 }
 
@@ -84,11 +84,11 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
     if (_cornerRadius == cornerRadius) {
         return;
     }
-    
     _cornerRadius = cornerRadius;
     self.layer.cornerRadius = 0;
-    CGPathRelease(self.roundPathRef);
     self.roundPathRef = nil;
+    CGPathRelease(self.roundPathRef);
+    
     [self setNeedsDisplay];
 }
 
@@ -143,14 +143,10 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
     [userInfo pp_setSafeObject:_image forKey:@"image"];
     if (self.showsCornerRadius) {
-        if (!self.roundPathRef) {
-            CGPathRef path = PPCreateRoundedCGPath(self.bounds, self.cornerRadius, self.roundedCorners);
-            [userInfo pp_setSafeObject:(__bridge id _Nonnull)(path) forKey:@"roundPath"];
-            self.roundPathRef = path;
-            CGPathRelease(path);
-        } else {
-//            [userInfo pp_setSafeObject:(__bridge id _Nonnull)(self.roundPathRef) forKey:@"roundPath"];
-        }
+        CGPathRef path = PPCreateRoundedCGPath(self.bounds, self.cornerRadius, self.roundedCorners);
+        [userInfo pp_setSafeObject:(__bridge id _Nonnull)(path) forKey:@"roundPath"];
+        self.roundPathRef = path;
+        CGPathRelease(path);
     }
     if (self.showsBorderCornerRadius) {
 

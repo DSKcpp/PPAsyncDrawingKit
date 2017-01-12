@@ -65,7 +65,8 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
             for (PPTextLayoutLine *line in self.textLayout.layoutFrame.lineFragments) {
                 CGPoint position = [self.textLayout convertPointToCoreText:line.baselineOrigin];
                 CGFloat y = -self.drawingOrigin.y + position.y;
-                CGContextSetTextPosition(context, self.drawingOrigin.x + position.x, y);
+                CGFloat x = self.drawingOrigin.x + position.x;
+                CGContextSetTextPosition(context, x, y);
                 CTLineDraw(line.lineRef, context);
             }
             CGContextRestoreGState(context);
@@ -78,18 +79,17 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 
 - (void)drawAttachmentsWithAttributedString:(NSAttributedString *)attributedString layoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context
 {
-//    CGFloat scale = [UIScreen mainScreen].scale;
     [layoutFrame.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
         [line enumerateLayoutRunsUsingBlock:^(NSDictionary *attributes, NSRange range) {
             PPTextAttachment *textAttachment = [attributes objectForKey:PPTextAttachmentAttributeName];
             if (textAttachment) {
                 CGPoint origin = [line baselineOriginForCharacterAtIndex:range.location];
-                UIEdgeInsets edgeInsets = textAttachment.contentEdgeInsets;
-                PPTextFontMetrics *font = textAttachment.fontMetricsForLayout;
-                origin.y -= font.ascent;
-                origin.x -= edgeInsets.left;
                 CGSize size = textAttachment.contentSize;
                 CGRect rect = (CGRect){(CGPoint)origin, (CGSize)size};
+                UIEdgeInsets edgeInsets = textAttachment.contentEdgeInsets;
+//                rect = UIEdgeInsetsInsetRect(rect, edgeInsets);
+                PPTextFontMetrics *font = textAttachment.fontMetricsForLayout;
+                rect.origin.y -= font.ascent;
                 UIImage *image = textAttachment.contents;
                 if (image) {
                     rect = [self convertRectFromLayout:rect];

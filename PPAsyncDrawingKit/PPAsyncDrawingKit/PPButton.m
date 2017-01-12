@@ -387,7 +387,8 @@
     CGFloat y = CGRectGetMinY(bounds);
     CGFloat width = CGRectGetWidth(bounds);
     CGFloat height = CGRectGetHeight(bounds);
-    self.backgroundFrame = self.bounds;
+    
+    self.backgroundFrame = UIEdgeInsetsInsetRect(bounds, contentEdgeInsets);
     CGSize imageSize = _buttonInfo.image.size;
         CGSize titleSize = [_buttonInfo.title pp_sizeWithFont:_titleFont constrainedToSize:CGSizeMake(width - imageSize.width, height) lineBreakMode:NSLineBreakByWordWrapping];
     CGFloat totalW = imageSize.width + titleSize.width;

@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		860FC3A91DF2D45E0037AE51 /* emoticon_info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 860FC3A81DF2D45E0037AE51 /* emoticon_info.plist */; };
-		8659A9131E15BEF700BC9F91 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8659A9121E15BEF700BC9F91 /* WebKit.framework */; };
+		864606AF1E2618C000A8CB07 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8659A9121E15BEF700BC9F91 /* WebKit.framework */; };
+		864606B31E261B1700A8CB07 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 864606AD1E2618A600A8CB07 /* WebP.framework */; };
+		864606B51E261B2700A8CB07 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 864606AD1E2618A600A8CB07 /* WebP.framework */; };
 		866FDF381E25FAE400C513DF /* PPAsyncDrawingKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 866FDF361E25FAE400C513DF /* PPAsyncDrawingKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		866FDF3B1E25FAE400C513DF /* PPAsyncDrawingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 866FDF341E25FAE300C513DF /* PPAsyncDrawingKit.framework */; };
 		866FDF3C1E25FAE400C513DF /* PPAsyncDrawingKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 866FDF341E25FAE300C513DF /* PPAsyncDrawingKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -34,8 +36,6 @@
 		866FDF6E1E25FF6100C513DF /* PPTextLayoutFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDF5E1E25FF6100C513DF /* PPTextLayoutFrame.m */; };
 		866FDF6F1E25FF6100C513DF /* PPTextLayoutLine.h in Headers */ = {isa = PBXBuildFile; fileRef = 866FDF5F1E25FF6100C513DF /* PPTextLayoutLine.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		866FDF701E25FF6100C513DF /* PPTextLayoutLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDF601E25FF6100C513DF /* PPTextLayoutLine.m */; };
-		866FDF711E25FF6100C513DF /* PPTextParagraphStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = 866FDF611E25FF6100C513DF /* PPTextParagraphStyle.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		866FDF721E25FF6100C513DF /* PPTextParagraphStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDF621E25FF6100C513DF /* PPTextParagraphStyle.m */; };
 		866FDF731E25FF6100C513DF /* PPTextRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 866FDF631E25FF6100C513DF /* PPTextRenderer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		866FDF741E25FF6100C513DF /* PPTextRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDF641E25FF6100C513DF /* PPTextRenderer.m */; };
 		866FDF761E25FF8800C513DF /* PPTextUtilties.h in Headers */ = {isa = PBXBuildFile; fileRef = 866FDF751E25FF8800C513DF /* PPTextUtilties.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -66,7 +66,6 @@
 		866FDFA91E26007900C513DF /* PPButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 866FDFA71E26007900C513DF /* PPButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		866FDFAA1E26007900C513DF /* PPButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDFA81E26007900C513DF /* PPButton.m */; };
 		866FDFAC1E26010300C513DF /* SwiftExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866FDFAB1E26010300C513DF /* SwiftExample.swift */; };
-		866FDFB01E2603B500C513DF /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 866FDFAF1E2603B500C513DF /* WebP.framework */; };
 		866FDFB31E260A6000C513DF /* WBTimelineItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDFB21E260A6000C513DF /* WBTimelineItem.m */; };
 		866FDFBC1E260AAA00C513DF /* WBTimelineContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDFBB1E260AAA00C513DF /* WBTimelineContentView.m */; };
 		866FDFC41E260AD200C513DF /* NSObject+YYModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDFBE1E260AD200C513DF /* NSObject+YYModel.m */; };
@@ -125,6 +124,7 @@
 
 /* Begin PBXFileReference section */
 		860FC3A81DF2D45E0037AE51 /* emoticon_info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = emoticon_info.plist; path = ../Demo/emoticon_info.plist; sourceTree = "<group>"; };
+		864606AD1E2618A600A8CB07 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = Demo/WebP.framework; sourceTree = "<group>"; };
 		8659A9121E15BEF700BC9F91 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		866FDEB01E24ED9500C513DF /* PPAsyncDrawingKit-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PPAsyncDrawingKit-Bridging-Header.h"; sourceTree = "<group>"; };
 		866FDF341E25FAE300C513DF /* PPAsyncDrawingKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PPAsyncDrawingKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -151,8 +151,6 @@
 		866FDF5E1E25FF6100C513DF /* PPTextLayoutFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPTextLayoutFrame.m; path = PPAsyncDrawingKit/PPTextLayoutFrame.m; sourceTree = "<group>"; };
 		866FDF5F1E25FF6100C513DF /* PPTextLayoutLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPTextLayoutLine.h; path = PPAsyncDrawingKit/PPTextLayoutLine.h; sourceTree = "<group>"; };
 		866FDF601E25FF6100C513DF /* PPTextLayoutLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPTextLayoutLine.m; path = PPAsyncDrawingKit/PPTextLayoutLine.m; sourceTree = "<group>"; };
-		866FDF611E25FF6100C513DF /* PPTextParagraphStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPTextParagraphStyle.h; path = PPAsyncDrawingKit/PPTextParagraphStyle.h; sourceTree = "<group>"; };
-		866FDF621E25FF6100C513DF /* PPTextParagraphStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPTextParagraphStyle.m; path = PPAsyncDrawingKit/PPTextParagraphStyle.m; sourceTree = "<group>"; };
 		866FDF631E25FF6100C513DF /* PPTextRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPTextRenderer.h; path = PPAsyncDrawingKit/PPTextRenderer.h; sourceTree = "<group>"; };
 		866FDF641E25FF6100C513DF /* PPTextRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPTextRenderer.m; path = PPAsyncDrawingKit/PPTextRenderer.m; sourceTree = "<group>"; };
 		866FDF751E25FF8800C513DF /* PPTextUtilties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPTextUtilties.h; path = PPAsyncDrawingKit/PPTextUtilties.h; sourceTree = "<group>"; };
@@ -183,8 +181,6 @@
 		866FDFA71E26007900C513DF /* PPButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPButton.h; path = PPAsyncDrawingKit/PPButton.h; sourceTree = "<group>"; };
 		866FDFA81E26007900C513DF /* PPButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPButton.m; path = PPAsyncDrawingKit/PPButton.m; sourceTree = "<group>"; };
 		866FDFAB1E26010300C513DF /* SwiftExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftExample.swift; sourceTree = "<group>"; };
-		866FDFAE1E2602FD00C513DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Demo/Info.plist; sourceTree = "<group>"; };
-		866FDFAF1E2603B500C513DF /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = Demo/webp/WebP.framework; sourceTree = SOURCE_ROOT; };
 		866FDFB11E260A6000C513DF /* WBTimelineItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WBTimelineItem.h; path = Demo/WBTimelineItem.h; sourceTree = SOURCE_ROOT; };
 		866FDFB21E260A6000C513DF /* WBTimelineItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WBTimelineItem.m; path = Demo/WBTimelineItem.m; sourceTree = SOURCE_ROOT; };
 		866FDFBA1E260AAA00C513DF /* WBTimelineContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WBTimelineContentView.h; path = Demo/WBTimelineContentView.h; sourceTree = SOURCE_ROOT; };
@@ -250,6 +246,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				864606B51E261B2700A8CB07 /* WebP.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,8 +254,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				866FDFB01E2603B500C513DF /* WebP.framework in Frameworks */,
-				8659A9131E15BEF700BC9F91 /* WebKit.framework in Frameworks */,
+				864606B31E261B1700A8CB07 /* WebP.framework in Frameworks */,
+				864606AF1E2618C000A8CB07 /* WebKit.framework in Frameworks */,
 				866FDF3B1E25FAE400C513DF /* PPAsyncDrawingKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -359,6 +356,7 @@
 		8659A9111E15BEF700BC9F91 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				864606AD1E2618A600A8CB07 /* WebP.framework */,
 				8659A9121E15BEF700BC9F91 /* WebKit.framework */,
 			);
 			name = Frameworks;
@@ -470,15 +468,6 @@
 			path = Demo/View;
 			sourceTree = "<group>";
 		};
-		86D7C24B1DE41D87001D88E8 /* webp */ = {
-			isa = PBXGroup;
-			children = (
-				866FDFAF1E2603B500C513DF /* WebP.framework */,
-			);
-			name = webp;
-			path = Demo/webp;
-			sourceTree = "<group>";
-		};
 		86D7C2631DE5B9B6001D88E8 /* Component */ = {
 			isa = PBXGroup;
 			children = (
@@ -496,8 +485,6 @@
 				866FDF581E25FF6100C513DF /* PPTextAttributes.m */,
 				866FDF591E25FF6100C513DF /* PPTextFontMetrics.h */,
 				866FDF5A1E25FF6100C513DF /* PPTextFontMetrics.m */,
-				866FDF611E25FF6100C513DF /* PPTextParagraphStyle.h */,
-				866FDF621E25FF6100C513DF /* PPTextParagraphStyle.m */,
 			);
 			name = Component;
 			sourceTree = "<group>";
@@ -537,7 +524,6 @@
 			isa = PBXGroup;
 			children = (
 				866FDF351E25FAE400C513DF /* PPAsyncDrawingKit */,
-				866FDFAE1E2602FD00C513DF /* Info.plist */,
 				86EB758C1D2393CC005F14A1 /* PPAsyncDrawingKit-Demo */,
 				86EB758B1D2393CC005F14A1 /* Products */,
 				8659A9111E15BEF700BC9F91 /* Frameworks */,
@@ -609,7 +595,6 @@
 				866FE00E1E260D3500C513DF /* NSDate+PPASDK.m */,
 				866FE0101E260D3D00C513DF /* NSString+PPASDK.h */,
 				866FE0111E260D3D00C513DF /* NSString+PPASDK.m */,
-				86D7C24B1DE41D87001D88E8 /* webp */,
 				861EB1DC1DB11E82005C07C7 /* YYModel */,
 			);
 			name = Other;
@@ -641,7 +626,6 @@
 				866FDF691E25FF6100C513DF /* PPTextFontMetrics.h in Headers */,
 				866FDF7B1E25FF9400C513DF /* NSAttributedString+PPAsyncDrawingKit.h in Headers */,
 				866FDF811E25FFC100C513DF /* PPImage.h in Headers */,
-				866FDF711E25FF6100C513DF /* PPTextParagraphStyle.h in Headers */,
 				866FDF671E25FF6100C513DF /* PPTextAttributes.h in Headers */,
 				866FDFA91E26007900C513DF /* PPButton.h in Headers */,
 				866FDFA11E26006400C513DF /* UIImage+PPAsyncDrawingKit.h in Headers */,
@@ -763,7 +747,6 @@
 			files = (
 				866FDF501E25FF3900C513DF /* PPLabel.m in Sources */,
 				866FDF8E1E25FFF900C513DF /* PPImageLoadRequest.m in Sources */,
-				866FDF721E25FF6100C513DF /* PPTextParagraphStyle.m in Sources */,
 				866FDFAA1E26007900C513DF /* PPButton.m in Sources */,
 				866FDF9E1E26005A00C513DF /* PPImage+WebP.m in Sources */,
 				866FDFA21E26006400C513DF /* UIImage+PPAsyncDrawingKit.m in Sources */,
@@ -848,9 +831,13 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Demo",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Demo/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dskcpp.PPAsyncDrawingKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -873,9 +860,13 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Demo",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Demo/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dskcpp.PPAsyncDrawingKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -983,8 +974,8 @@
 				DEVELOPMENT_TEAM = A9QWHSB535;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/PPAsyncDrawingKit/webp",
-					"$(PROJECT_DIR)/Demo/webp",
+					"$(PROJECT_DIR)/PPAsyncDrawingKit/",
+					"$(PROJECT_DIR)/Demo",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Demo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1006,8 +997,8 @@
 				DEVELOPMENT_TEAM = A9QWHSB535;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/PPAsyncDrawingKit/webp",
-					"$(PROJECT_DIR)/Demo/webp",
+					"$(PROJECT_DIR)/PPAsyncDrawingKit/",
+					"$(PROJECT_DIR)/Demo",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Demo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

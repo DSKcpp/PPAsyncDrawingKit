@@ -14,41 +14,6 @@
 #import "PPTextAttributes.h"
 #import "WBTimelineItem.h"
 
-static inline CGFloat YYEmojiGetAscentWithFontSize(CGFloat fontSize) {
-    if (fontSize < 16) {
-        return 1.25 * fontSize;
-    } else if (16 <= fontSize && fontSize <= 24) {
-        return 0.5 * fontSize + 12;
-    } else {
-        return fontSize;
-    }
-}
-
-static inline CGFloat YYEmojiGetDescentWithFontSize(CGFloat fontSize) {
-    if (fontSize < 16) {
-        return 0.390625 * fontSize;
-    } else if (16 <= fontSize && fontSize <= 24) {
-        return 0.15625 * fontSize + 3.75;
-    } else {
-        return 0.3125 * fontSize;
-    }
-    return 0;
-}
-
-static inline CGRect YYEmojiGetGlyphBoundingRectWithFontSize(CGFloat fontSize) {
-    CGRect rect;
-    rect.origin.x = 0.75;
-    rect.size.width = rect.size.height = YYEmojiGetAscentWithFontSize(fontSize);
-    if (fontSize < 16) {
-        rect.origin.y = -0.2525 * fontSize;
-    } else if (16 <= fontSize && fontSize <= 24) {
-        rect.origin.y = 0.1225 * fontSize -6;
-    } else {
-        rect.origin.y = -0.1275 * fontSize;
-    }
-    return rect;
-}
-
 @implementation WBTimelineAttributedTextParser
 + (instancetype)textParserWithTimelineItem:(WBTimelineItem *)timelineItem
 {
@@ -57,8 +22,12 @@ static inline CGRect YYEmojiGetGlyphBoundingRectWithFontSize(CGFloat fontSize) {
     return p;
 }
 
-- (BOOL)parserWithAttributedString:(NSMutableAttributedString *)attributedString
+- (BOOL)parserWithAttributedString:(NSMutableAttributedString *)attributedString fontSize:(CGFloat)fontSize textColor:(UIColor *)textColor
 {
+    UIFont *font = [UIFont systemFontOfSize:fontSize];
+    [attributedString pp_setFont:font];
+    [attributedString pp_setColor:textColor];
+    
     NSString *string = attributedString.string;
     UIColor *rangeColor = [UIColor colorWithRed:80/255.0f green:125/255.0f blue:174/255.0f alpha:1.0f];
     PPTextBorder *highlightBorder = [[PPTextBorder alloc] init];
@@ -154,24 +123,25 @@ static inline CGRect YYEmojiGetGlyphBoundingRectWithFontSize(CGFloat fontSize) {
         range.location -= clipLength;
         UIImage *image =  [[WBEmoticonManager sharedMangaer] imageWithEmotionName:[string substringWithRange:range]];
         if (image) {
-            CGFloat fontSize = 16.0f;
-            CGFloat ascent = YYEmojiGetAscentWithFontSize(fontSize);
-            CGFloat descent = YYEmojiGetDescentWithFontSize(fontSize);
-            CGRect bounding = YYEmojiGetGlyphBoundingRectWithFontSize(fontSize);
-            PPTextFontMetrics *font = [[PPTextFontMetrics alloc] init];
-            font.ascent = ascent;
-            font.descent = descent;
-            CGFloat w =  bounding.size.width + 2 * bounding.origin.x;
+            PPTextFontMetrics *fontMetrics = [[PPTextFontMetrics alloc] init];
+            fontMetrics.ascent = font.ascender;
+            fontMetrics.descent = -font.descender;
+            CGFloat w = fontMetrics.ascent + fontMetrics.descent;
             CGSize size = CGSizeMake(w, w);
-            WBUITextAttachment *attachment = [WBUITextAttachment attachmentWithContents:image type:0 contentSize:size];
+            WBUITextAttachment *attachment = [WBUITextAttachment attachmentWithContents:image type:UIViewContentModeScaleToFill contentSize:size];
+            attachment.contentEdgeInsets = UIEdgeInsetsMake(0, 1, 0, 1);
             attachment.replacementText = [string substringWithRange:range];
-            attachment.baselineFontMetrics = font;
+            attachment.baselineFontMetrics = fontMetrics;
             NSDictionary *emoticonAttributes = [attributedString attributesAtIndex:range.location effectiveRange:nil];
             NSAttributedString *emoticonAttrString = [NSAttributedString pp_attributedStringWithTextAttachment:attachment attributes:emoticonAttributes];
             [attributedString replaceCharactersInRange:range withAttributedString:emoticonAttrString];
             clipLength += range.length - emoticonAttrString.length;
         }
     }
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.maximumLineHeight = fontSize + 5;
+    paragraphStyle.minimumLineHeight = fontSize + 5;
+    [attributedString pp_setTextParagraphStyle:paragraphStyle];
     return YES;
 }
 

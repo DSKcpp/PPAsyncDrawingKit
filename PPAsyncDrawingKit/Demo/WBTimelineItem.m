@@ -92,14 +92,11 @@
         _timelineItem = timelineItem;
         NSString *itemText = timelineItem.text;
         WBTimelineAttributedTextParser *parser = [WBTimelineAttributedTextParser textParserWithTimelineItem:timelineItem];
-        PPTextParagraphStyle *paragraphStyle = [PPTextParagraphStyle defaultParagraphStyle];
         if (itemText) {
             _textAttributedText = [[NSMutableAttributedString alloc] initWithString:itemText];
-            [_textAttributedText pp_setFont:[UIFont systemFontOfSize:16.0f]];
-            [_textAttributedText pp_setColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0f]];
-            paragraphStyle.fontSize = 16.0f;
-            [_textAttributedText pp_setTextParagraphStyle:paragraphStyle];
-            [parser parserWithAttributedString:_textAttributedText];
+            [parser parserWithAttributedString:_textAttributedText
+                                      fontSize:16.0f
+                                     textColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0f]];
         }
         if (timelineItem.retweeted_status) {
             NSString *quotedItemText;
@@ -110,25 +107,18 @@
             }
             if (quotedItemText.length > 0) {
                 _quotedAttributedText = [[NSMutableAttributedString alloc] initWithString:quotedItemText];
-                [_quotedAttributedText pp_setFont:[UIFont systemFontOfSize:15.0f]];
-                [_quotedAttributedText pp_setColor:[UIColor colorWithRed:0.388235 green:0.388235 blue:0.388235 alpha:1.0f]];
-                paragraphStyle.fontSize = 15.0f;
-                [_quotedAttributedText pp_setTextParagraphStyle:paragraphStyle];
-                [parser parserWithAttributedString:_quotedAttributedText];
+                [parser parserWithAttributedString:_quotedAttributedText
+                                          fontSize:15.0f
+                                         textColor:[UIColor colorWithRed:0.388235 green:0.388235 blue:0.388235 alpha:1.0f]];
             }
         }
         if (timelineItem.title) {
             NSString *title = timelineItem.title.text;
             _titleAttributedText = [[NSMutableAttributedString alloc] initWithString:title];
-            [_titleAttributedText pp_setFont:[UIFont systemFontOfSize:16.0f]];
+            [_titleAttributedText pp_setFont:[UIFont systemFontOfSize:15.0f]];
             [_titleAttributedText pp_setColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0f]];
-            paragraphStyle.fontSize = 16.0f;
-            [_titleAttributedText pp_setTextParagraphStyle:paragraphStyle];
         }
         _metaInfoAttributedText = [self source];
-        paragraphStyle.fontSize = 12.0f;
-        [_metaInfoAttributedText pp_setTextParagraphStyle:paragraphStyle];
-        [parser parserWithAttributedString:_metaInfoAttributedText];
     }
     return self;
 }
@@ -172,17 +162,9 @@
                 PPTextHighlightRange *high = [[PPTextHighlightRange alloc] init];
                 [from pp_setTextHighlightRange:high inRange:range];
                 [from pp_setColor:[UIColor colorWithRed:80/255.0f green:125/255.0f blue:174/255.0f alpha:1.0f] inRange:range];
-                //                attrString pp_setTextHighlightRange:high inRange:<#(NSRange)#>
-                //                YYTextBackedString *backed = [YYTextBackedString stringWithString:href];
-                //                [from setTextBackedString:backed range:range];
-                //                YYTextBorder *border = [YYTextBorder new];
-                //                border.insets = UIEdgeInsetsMake(-2, 0, -2, 0);
-                //                border.fillColor = kWBCellTextHighlightBackgroundColor;
-                //                border.cornerRadius = 3;
-                //                YYTextHighlight *highlight = [YYTextHighlight new];
-                //                if (href) highlight.userInfo = @{kWBLinkHrefName : href};
-                //                [highlight setBackgroundBorder:border];
-                //                [from setTextHighlight:highlight range:range];
+                PPTextBorder *border = [[PPTextBorder alloc] init];
+                border.fillColor = [UIColor colorWithRed:80/255.0f green:125/255.0f blue:174/255.0f alpha:0.5f];
+                [high setBorder:border];
             }
             [attrString appendAttributedString:from];
         }

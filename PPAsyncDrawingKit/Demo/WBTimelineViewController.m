@@ -138,4 +138,12 @@
         [self.navigationController pushViewController:webViewController animated:YES];
     }
 }
+
+- (void)tableViewCell:(WBTimelineTableViewCell *)tableViewCell didSelectedAvatarView:(WBUser *)user
+{
+    NSString *URL = [NSString stringWithFormat:@"http://m.weibo.cn/u/%@", user.idstr];
+    WBWebViewController *webViewController = [[WBWebViewController alloc] initWithURL:[NSURL URLWithString:URL]];
+    [self.navigationController pushViewController:webViewController animated:YES];
+
+}
 @end

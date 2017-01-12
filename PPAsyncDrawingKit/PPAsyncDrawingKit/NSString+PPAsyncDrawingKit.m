@@ -7,6 +7,8 @@
 //
 
 #import "NSString+PPAsyncDrawingKit.h"
+#import "NSAttributedString+PPAsyncDrawingKit.h"
+#import "PPTextFontMetrics.h"
 
 @implementation NSString (PPAsyncDrawingKit)
 - (BOOL)pp_isMatchedByRegex:(NSString *)regex
@@ -45,36 +47,37 @@
 
 - (CGSize)pp_drawInRect:(CGRect)rect withFont:(UIFont *)font textColor:(UIColor *)textColor
 {
-    return [self pp_drawInRect:rect withFont:font textColor:textColor lineBreakMode:NSLineBreakByWordWrapping alignment:NSTextAlignmentLeft baselineAdjustment:UIBaselineAdjustmentAlignBaselines];
+    return [self pp_drawInRect:rect withFont:font textColor:textColor lineBreakMode:NSLineBreakByWordWrapping alignment:NSTextAlignmentLeft numberOfLines:0 inContext:UIGraphicsGetCurrentContext()];
 }
 
 - (CGSize)pp_drawInRect:(CGRect)rect withFont:(UIFont *)font textColor:(UIColor *)textColor lineBreakMode:(NSLineBreakMode)lineBreakMode
 {
-    return [self pp_drawInRect:rect withFont:font textColor:textColor lineBreakMode:lineBreakMode alignment:NSTextAlignmentLeft baselineAdjustment:UIBaselineAdjustmentAlignBaselines];
+    return [self pp_drawInRect:rect withFont:font textColor:textColor lineBreakMode:lineBreakMode alignment:NSTextAlignmentLeft numberOfLines:0 inContext:UIGraphicsGetCurrentContext()];
 }
 
 - (CGSize)pp_drawInRect:(CGRect)rect withFont:(UIFont *)font textColor:(UIColor *)textColor lineBreakMode:(NSLineBreakMode)lineBreakMode alignment:(NSTextAlignment)alignment
 {
-    return [self pp_drawInRect:rect withFont:font textColor:textColor lineBreakMode:lineBreakMode alignment:alignment baselineAdjustment:UIBaselineAdjustmentAlignBaselines];
+    return [self pp_drawInRect:rect withFont:font textColor:textColor lineBreakMode:lineBreakMode alignment:alignment numberOfLines:0 inContext:UIGraphicsGetCurrentContext()];
 }
 
-- (CGSize)pp_drawInRect:(CGRect)rect withFont:(UIFont *)font textColor:(UIColor *)textColor lineBreakMode:(NSLineBreakMode)lineBreakMode alignment:(NSTextAlignment)alignment baselineAdjustment:(UIBaselineAdjustment)baselineAdjustment
+- (CGSize)pp_drawInRect:(CGRect)rect withFont:(UIFont *)font textColor:(UIColor *)textColor lineBreakMode:(NSLineBreakMode)lineBreakMode alignment:(NSTextAlignment)alignment  inContext:(CGContextRef)context
 {
-    UIColor *_textColor = textColor;
-    if (!_textColor) {
-        _textColor = [UIColor blackColor];
+    return [self pp_drawInRect:rect withFont:font textColor:textColor lineBreakMode:lineBreakMode alignment:alignment numberOfLines:0 inContext:context];
+}
+- (CGSize)pp_drawInRect:(CGRect)rect withFont:(UIFont *)font textColor:(UIColor *)textColor lineBreakMode:(NSLineBreakMode)lineBreakMode alignment:(NSTextAlignment)alignment numberOfLines:(NSUInteger)numberOfLines inContext:(CGContextRef)context
+{
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self];
+    [attributedString pp_setFont:font];
+    [attributedString pp_setColor:textColor];
+    [attributedString pp_setAlignment:alignment lineBreakMode:lineBreakMode lineHeight:0];
+    PPTextFontMetrics *fontMertics = [[PPTextFontMetrics alloc] init];
+    if (font) {
+        fontMertics.ascent = font.ascender;
+        fontMertics.descent = font.descender;
+//        fontMertics.h
+        CGFloat lineHeight = font.lineHeight;
     }
-    if (rect.size.width == 0 || rect.size.height == 0) {
-        rect.size = [self pp_sizeWithFont:font constrainedToSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
-    }
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyle.lineBreakMode = lineBreakMode;
-    paragraphStyle.alignment = alignment;
-    NSDictionary *attributes = @{NSFontAttributeName : font,
-                                 NSParagraphStyleAttributeName : paragraphStyle,
-                                 NSBaselineOffsetAttributeName : [NSNumber numberWithInt:baselineAdjustment], NSForegroundColorAttributeName : _textColor};
-    [self drawInRect:rect withAttributes:attributes];
-    return rect.size;
+    return [attributedString pp_drawInRect:rect context:context numberOfLines:numberOfLines baselineMetrics:fontMertics];
 }
 
 - (CGSize)pp_sizeWithFont:(UIFont *)font

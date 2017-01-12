@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PPTextLayout : NSObject
 @property (nonatomic, weak) id <PPTextLayoutDelegate> delegate;
-@property (nonatomic, strong) PPTextFontMetrics *baselineFontMetrics;
+@property (nullable, nonatomic, strong) PPTextFontMetrics *baselineFontMetrics;
 @property (nonatomic, strong) NSAttributedString *truncationString;
 @property (nonatomic, assign) NSUInteger maximumNumberOfLines;
 @property (nullable, nonatomic, strong) NSArray<UIBezierPath *> *exclusionPaths;

@@ -58,7 +58,11 @@
 
 - (UIImage *)imageWithEmotionName:(NSString *)name
 {
-    return [UIImage imageNamed:_config[name]];
+    name = _config[name];
+    if (name.length) {
+        return [UIImage imageNamed:name];
+    }
+    return nil;
 }
 @end
 

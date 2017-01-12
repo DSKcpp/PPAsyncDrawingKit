@@ -16,7 +16,7 @@ static void PPRunDelegateDeallocCallback(void *ref) { }
 static CGFloat PPRunDelegateGetAscentCallback(void *ref) {
     PPTextAttachment *attachment = (__bridge PPTextAttachment *)(ref);
     if ([attachment isKindOfClass:[PPTextAttachment class]]) {
-        CGFloat height = [attachment ascentForLayout];
+        CGFloat height = [attachment placeholderSize].height;
         return height;
     }
     return 0.0f;
@@ -31,7 +31,7 @@ static CGFloat PPRunDelegateGetWidthCallback(void *ref) {
 }
 
 static CGFloat PPRunDelegateGetDecentCallback(void *ref) {
-    return 0;
+    return 0.0f;
 }
 
 static CTLineBreakMode NSLineBreakModeToCTLineBreakMode(NSLineBreakMode nsLineBreakMode) {
@@ -178,6 +178,34 @@ static char threadRendererKey;
     CFRelease(runDelegate);
     return [[NSAttributedString alloc] initWithString:content attributes:attr];
 }
+
+- (CGSize)pp_drawInRect:(CGRect)rect
+{
+    return [self pp_drawInRect:rect context:UIGraphicsGetCurrentContext()];
+}
+
+- (CGSize)pp_drawInRect:(CGRect)rect context:(CGContextRef)context
+{
+    return [self pp_drawInRect:rect context:context numberOfLines:0];
+}
+
+- (CGSize)pp_drawInRect:(CGRect)rect context:(CGContextRef)context numberOfLines:(NSUInteger)numberOfLines
+{
+    return [self pp_drawInRect:rect context:context numberOfLines:numberOfLines baselineMetrics:nil];
+}
+
+- (CGSize)pp_drawInRect:(CGRect)rect context:(CGContextRef)context numberOfLines:(NSUInteger)numberOfLines baselineMetrics:(PPTextFontMetrics *)baselineMetrics
+{
+    PPTextRenderer *textRenderer = [NSAttributedString rendererForCurrentThread];
+    PPTextLayout *textLayout = textRenderer.textLayout;
+    textLayout.maximumNumberOfLines = numberOfLines;
+    textLayout.baselineFontMetrics = baselineMetrics;
+    textRenderer.attributedString = self;
+    textRenderer.frame = rect;
+    [textRenderer drawInContext:context];
+    return textRenderer.layoutSize;
+}
+
 @end
 
 @implementation NSMutableAttributedString (PPExtendedAttributedString)
@@ -259,22 +287,14 @@ static char threadRendererKey;
     [self pp_setAttribute:PPTextHighlightRangeAttributeName value:textHighlightRange range:range];
 }
 
-- (void)pp_setTextParagraphStyle:(PPTextParagraphStyle *)textParagraphStyle
+- (void)pp_setTextParagraphStyle:(NSParagraphStyle *)textParagraphStyle
 {
     [self pp_setTextParagraphStyle:textParagraphStyle inRange:[self pp_stringRange]];
 }
 
-- (void)pp_setTextParagraphStyle:(PPTextParagraphStyle *)textParagraphStyle inRange:(NSRange)range
+- (void)pp_setTextParagraphStyle:(NSParagraphStyle *)textParagraphStyle inRange:(NSRange)range
 {
-    if (textParagraphStyle) {
-        CTParagraphStyleRef paragraphSetyle = [textParagraphStyle newCTParagraphStyleWithFontSize:textParagraphStyle.fontSize];
-        [self addAttribute:NSParagraphStyleAttributeName value:(id)paragraphSetyle range:[self pp_stringRange]];
-        if (paragraphSetyle) {
-            CFRelease(paragraphSetyle);
-        }
-    } else {
-        [self removeAttribute:NSParagraphStyleAttributeName range:range];
-    }
+    [self pp_setAttribute:NSParagraphStyleAttributeName value:textParagraphStyle range:range];
 }
 
 - (void)pp_setAlignment:(NSTextAlignment)alignment
@@ -323,5 +343,15 @@ static char threadRendererKey;
     CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, 1);
     [self pp_setAttribute:(id)kCTParagraphStyleAttributeName value:(id)paragraphStyle range:range];
     CFRelease(paragraphStyle);
+}
+
+- (void)pp_setCTRunDelegate:(CTRunDelegateRef)ctRunDelegate
+{
+    [self pp_setCTRunDelegate:ctRunDelegate inRange:self.pp_stringRange];
+}
+
+- (void)pp_setCTRunDelegate:(CTRunDelegateRef)ctRunDelegate inRange:(NSRange)range
+{
+    [self pp_setAttribute:(id)kCTRunDelegateAttributeName value:(__bridge id _Nullable)(ctRunDelegate) range:range];
 }
 @end

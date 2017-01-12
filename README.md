@@ -18,7 +18,7 @@ PPAsyncDrawingKit
 #TODO
 * 目前没有注释，过些日子补上
 * Label 点击和计算有一些 BUG
-* 一些小功能等待实现
+* 更多的 CoreText 样式
 
 #Requirements
 * iOS 7.0 or later
