@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "PPTextFontMetrics.h"
+#import <PPAsyncDrawingKit/PPTextFontMetrics.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

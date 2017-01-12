@@ -8,7 +8,7 @@
 
 #import "PPTextAttributedExample.h"
 #import "UIView+Frame.h"
-#import "PPLabel.h"
+#import "PPTextView.h"
 
 @interface PPTextAttributedExample ()
 
@@ -47,9 +47,9 @@
         [attributedString appendAttributedString:attrStr];
     }
     
-    PPLabel *label = [[PPLabel  alloc] init];
-    label.attributedString = attributedString;
+    PPTextView *label = [[PPTextView  alloc] init];
     [attributedString pp_setAlignment:NSTextAlignmentCenter];
+    label.attributedString = attributedString;
     label.height = [attributedString pp_sizeConstrainedToWidth:self.view.width].height + 1;
     label.width = self.view.width;
     label.top = 64;

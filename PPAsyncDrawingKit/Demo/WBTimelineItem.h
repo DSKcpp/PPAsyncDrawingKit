@@ -28,6 +28,7 @@
 @interface WBCardModel : NSObject
 @property (nonatomic, copy) NSString *itemid;
 @property (nonatomic, copy) NSString *scheme;
+@property (nonatomic, strong) NSArray<WBCardModel *> *card_group;
 @property (nonatomic, strong) WBTimelineItem *mblog;
 @end
 

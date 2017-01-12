@@ -156,7 +156,8 @@
 - (void)createNicknameLabel
 {
     self.nameLabel = [[WBNameLabel alloc] initWithFrame:CGRectZero];
-    [self insertSubview:self.nameLabel belowSubview:self.textContentView];
+    [self.nameLabel addTarget:self action:@selector(selectedNameLabel:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.nameLabel];
 }
 
 - (void)createTextContentView
@@ -225,6 +226,13 @@
 {
     if ([_delegate respondsToSelector:@selector(tableViewCell:didSelectedAvatarView:)]) {
         [_delegate tableViewCell:_cell didSelectedAvatarView:_timelineItem.user];
+    }
+}
+
+- (void)selectedNameLabel:(WBNameLabel *)nameLabel
+{
+    if ([_delegate respondsToSelector:@selector(tableViewCell:didSelectedNameLabel:)]) {
+        [_delegate tableViewCell:_cell didSelectedNameLabel:_timelineItem.user];
     }
 }
 

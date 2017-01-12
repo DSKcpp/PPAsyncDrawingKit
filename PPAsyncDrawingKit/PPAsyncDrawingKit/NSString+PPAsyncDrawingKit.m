@@ -70,14 +70,7 @@
     [attributedString pp_setFont:font];
     [attributedString pp_setColor:textColor];
     [attributedString pp_setAlignment:alignment lineBreakMode:lineBreakMode lineHeight:0];
-    PPTextFontMetrics *fontMertics = [[PPTextFontMetrics alloc] init];
-    if (font) {
-        fontMertics.ascent = font.ascender;
-        fontMertics.descent = font.descender;
-//        fontMertics.h
-        CGFloat lineHeight = font.lineHeight;
-    }
-    return [attributedString pp_drawInRect:rect context:context numberOfLines:numberOfLines baselineMetrics:fontMertics];
+    return [attributedString pp_drawInRect:rect context:context numberOfLines:numberOfLines];
 }
 
 - (CGSize)pp_sizeWithFont:(UIFont *)font

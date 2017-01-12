@@ -1,14 +1,14 @@
 //
-//  PPIsomerismTextView.m
+//  PPMultiplexTextView.m
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 2016/12/9.
 //  Copyright © 2016年 DSKcpp. All rights reserved.
 //
 
-#import "PPIsomerismTextView.h"
+#import "PPMultiplexTextView.h"
 
-@implementation PPIsomerismTextView
+@implementation PPMultiplexTextView
 
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(NSDictionary *)userInfo
 {

@@ -19,9 +19,27 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface NSAttributedString (PPAsyncDrawingKit)
+
+/**
+ get text renderer from current thread.
+
+ @return cuttend thread text renderer
+ */
 + (nullable PPTextRenderer *)rendererForCurrentThread;
+
+/**
+ get attributed string range.
+
+ @return 0 - length range
+ */
 - (NSRange)pp_stringRange;
 
+/**
+ calculate attributed string height with max width.
+
+ @param width max width
+ @return height
+ */
 - (CGFloat)pp_heightConstrainedToWidth:(CGFloat)width;
 - (CGFloat)pp_heightConstrainedToWidth:(CGFloat)width exclusionPaths:(nullable NSArray<UIBezierPath *> *)exclusionPaths;
 - (CGSize)pp_sizeConstrainedToWidth:(CGFloat)width;
@@ -29,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size;
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines;
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines derivedLineCount:(NSInteger)derivedLineCount;
-- (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines derivedLineCount:(NSInteger)derivedLineCount baselineMetrics:(nullable PPTextFontMetrics *)baselineMetrics;
+
 - (NSRange)pp_rangeToSize:(CGSize)size;
 - (NSRange)pp_rangeToSize:(CGSize)size withLimitedLines:(NSUInteger)limitedLines;
 
@@ -39,7 +57,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (CGSize)pp_drawInRect:(CGRect)rect;
 - (CGSize)pp_drawInRect:(CGRect)rect context:(CGContextRef)context;
 - (CGSize)pp_drawInRect:(CGRect)rect context:(CGContextRef)context numberOfLines:(NSUInteger)numberOfLines;
-- (CGSize)pp_drawInRect:(CGRect)rect context:(CGContextRef)context numberOfLines:(NSUInteger)numberOfLines baselineMetrics:(nullable PPTextFontMetrics *)baselineMetrics;
 @end
 
 @interface NSMutableAttributedString (PPExtendedAttributedString)

@@ -1,16 +1,16 @@
 //
-//  PPUIControl.h
+//  PPControl.h
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 16/9/21.
 //  Copyright © 2016年 DSKcpp. All rights reserved.
 //
 
-#import "PPAsyncDrawingView.h"
+#import <PPAsyncDrawingKit/PPAsyncDrawingView.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PPUIControl : PPAsyncDrawingView
+@interface PPControl : PPAsyncDrawingView
 
 /**
  default is YES. if NO, ignores touch events
@@ -55,12 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
   get info about target & actions. this makes it possible to enumerate all target/actions by checking for each event kind
  */
-@property(nonatomic, readonly) NSSet *allTargets;
-
-/**
- list of all events that have at least one action
- */
-@property(nonatomic, readonly) UIControlEvents allControlEvents;
+@property (nonatomic, readonly) NSSet *allTargets;
 
 - (void)addTarget:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents;
 - (void)removeTarget:(id)target action:(SEL)action fotControlEvents:(UIControlEvents)controlEvents;
@@ -72,8 +67,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSArray<NSString *> *)actionsForTarget:(nullable id)target forControlEvent:(UIControlEvents)controlEvent;    // single event. returns NSArray of NSString selector names. returns nil if none
 
-// send the action. the first method is called for the event and is a point at which you can observe or override behavior. it is called repeately by the second.
+/**
+ send the action. the first method is called for the event and is a point at which you can observe or override behavior. it is called repeately by the second.
+ */
 - (void)sendAction:(SEL)action to:(nullable id)target forEvent:(nullable UIEvent *)event;
+
 - (void)sendActionsForControlEvents:(UIControlEvents)controlEvents;                        // send all actions associated with events
 @end
 

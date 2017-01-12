@@ -62,12 +62,20 @@
         
         dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);
         [cards.cards enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(WBCardModel * _Nonnull card, NSUInteger idx, BOOL * _Nonnull stop) {
+            WBTimelineItem *timelineItem;
             if (card.mblog) {
+                timelineItem = card.mblog;
+            } else if (card.card_group) {
+                timelineItem = card.card_group.firstObject.mblog;
+            }
+            
+            if (timelineItem) {
                 [WBTimelineContentView heightOfTimelineItem:card.mblog withContentWidth:width];
                 dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-                [_timelineItems addObject:card.mblog];
+                [_timelineItems addObject:timelineItem];
                 dispatch_semaphore_signal(semaphore);
             }
+
         }];
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -144,6 +152,12 @@
     NSString *URL = [NSString stringWithFormat:@"http://m.weibo.cn/u/%@", user.idstr];
     WBWebViewController *webViewController = [[WBWebViewController alloc] initWithURL:[NSURL URLWithString:URL]];
     [self.navigationController pushViewController:webViewController animated:YES];
+}
 
+- (void)tableViewCell:(WBTimelineTableViewCell *)tableViewCell didSelectedNameLabel:(WBUser *)user
+{
+    NSString *URL = [NSString stringWithFormat:@"http://m.weibo.cn/u/%@", user.idstr];
+    WBWebViewController *webViewController = [[WBWebViewController alloc] initWithURL:[NSURL URLWithString:URL]];
+    [self.navigationController pushViewController:webViewController animated:YES];
 }
 @end

@@ -8,7 +8,7 @@
 
 #import "PPAsyncDrawingView.h"
 #import "WBTimelineLargeCardView.h"
-#import "PPIsomerismTextView.h"
+#import "PPMultiplexTextView.h"
 
 @class WBTimelineItem;
 @class WBTimelineTextContentView;
@@ -17,7 +17,7 @@
 - (void)textContentView:(WBTimelineTextContentView *)textContentView didPressHighlightRange:(PPTextHighlightRange *)highlightRange;
 @end
 
-@interface WBTimelineTextContentView : PPIsomerismTextView
+@interface WBTimelineTextContentView : PPMultiplexTextView
 @property (nonatomic, strong) NSMutableArray *attachmentViews;
 @property (nonatomic, strong) NSMutableArray *attachments;
 @property (nonatomic, assign) unsigned long long touchingItemIndex;

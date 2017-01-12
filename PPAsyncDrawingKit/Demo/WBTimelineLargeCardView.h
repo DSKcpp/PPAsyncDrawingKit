@@ -9,10 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "PPAsyncDrawingView.h"
 #import "WBTimelineItem.h"
-#import "PPIsomerismTextView.h"
+#import "PPMultiplexTextView.h"
 #import "PPImageView.h"
 
-@interface WBTimelineLargeCardTextView : PPIsomerismTextView
+@interface WBTimelineLargeCardTextView : PPMultiplexTextView
 @property (nonatomic, strong) WBTimelinePageInfo *pageInfo;
 @property (nonatomic, strong) PPTextRenderer *titleRenderer;
 @property (nonatomic, strong) PPTextRenderer *descRenderer;

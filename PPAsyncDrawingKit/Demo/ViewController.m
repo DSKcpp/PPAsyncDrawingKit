@@ -89,6 +89,8 @@
     CGFloat height = 35.0f;
     PPDemoToolBar *toolBar = [[PPDemoToolBar alloc] initWithFrame:CGRectMake(0, self.view.bottom - height, self.view.width, height)];
     [[UIApplication sharedApplication].keyWindow addSubview:toolBar];
+    
+    PPAsyncDrawingView *view = [[PPAsyncDrawingView alloc] initWithFrame:CGRectZero];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

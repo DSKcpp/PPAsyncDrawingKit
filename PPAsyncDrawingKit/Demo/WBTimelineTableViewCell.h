@@ -16,6 +16,7 @@
 @protocol WBTimelineTableViewCellDelegate <NSObject>
 - (void)tableViewCell:(WBTimelineTableViewCell *)tableViewCell didPressHighlightRange:(PPTextHighlightRange *)highlightRange;
 - (void)tableViewCell:(WBTimelineTableViewCell *)tableViewCell didSelectedAvatarView:(WBUser *)user;
+- (void)tableViewCell:(WBTimelineTableViewCell *)tableViewCell didSelectedNameLabel:(WBUser *)user;
 @end
 
 @interface WBTimelineTableViewCell : UITableViewCell

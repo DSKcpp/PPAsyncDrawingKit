@@ -3,6 +3,11 @@ PPAsyncDrawingKit
 ------------------------
 [![Build Status](https://travis-ci.org/DSKcpp/PPAsyncDrawingKit.svg?branch=master)](https://travis-ci.org/DSKcpp/PPAsyncDrawingKit)
 
+[![Languages](https://img.shields.io/badge/languages-ObjC%20%7C%20Swift-blue.svg)](https://travis-ci.org/DSKcpp/PPAsyncDrawingKit)
+[![Platform](https://img.shields.io/badge/platforms-iOS%207.0%2B-blue.svg)](https://travis-ci.org/DSKcpp/PPAsyncDrawingKit)
+
+
+
 这是一个轻量的异步绘制框架，实现一系列 `ImageView`, `Label`, `Button` 等基础控件，支持 `Objective-C`, `Swift`。
 
 #Features
@@ -11,13 +16,14 @@ PPAsyncDrawingKit
 * 保持 FPS 在低端设备上稳定在 60，减小抖动
 * 使用简单
 * 高性能圆角图片
-* 排版，渲染 `AttributedString`
+* 排版，渲染 `AttributedString` 富文本
 * 异构 `TextView`，避免创建大量 `Label`
 
 
 #TODO
+* Editable text view
 * 目前没有注释，过些日子补上
-* Label 点击和计算有一些 BUG
+* Text view 点击和计算有一些 BUG
 * 更多的 CoreText 样式
 
 #Requirements
@@ -43,7 +49,7 @@ see `Demo\PPAsyncDrawingKit.xcodeproj`
 
 ![](http://ww4.sinaimg.cn/large/9bffd8f9gw1fbk3ht0t1zj20a108btat.jpg)
 
-###PPIsomerismTextView
+###PPMultiplexTextView
 利用 `CoreText` 将传入的多个 `AttributedString`，渲染到一个 `View` 上。
 
 左边只有一个 `View`。

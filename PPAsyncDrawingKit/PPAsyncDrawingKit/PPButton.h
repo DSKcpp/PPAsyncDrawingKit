@@ -6,18 +6,22 @@
 //  Copyright © 2016年 DSKcpp. All rights reserved.
 //
 
-#import "PPUIControl.h"
+#import <PPAsyncDrawingKit/PPControl.h>
+#import <PPAsyncDrawingKit/PPTextView.h>
+#import <PPAsyncDrawingKit/PPImageView.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PPButton : PPUIControl
+@interface PPButton : PPControl
 @property (nonatomic, assign) UIEdgeInsets imageEdgeInsets;
 @property (nonatomic, assign) UIEdgeInsets contentEdgeInsets;
 @property (nonatomic, assign) UIEdgeInsets titleEdgeInsets;
 @property (nonatomic, assign) UIControlState trackingState;
 @property (nonatomic, strong) UIFont *titleFont;
+@property (nonatomic, strong, readonly) PPTextView *label;
+@property (nonatomic, strong, readonly) PPImageView *imageView;
+@property (nonatomic, assign, getter=isMergeDraw) BOOL mergeDraw;
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder;
 - (instancetype)initWithFrame:(CGRect)frame;
 
 - (NSString *)stringOfState:(UIControlState)state;

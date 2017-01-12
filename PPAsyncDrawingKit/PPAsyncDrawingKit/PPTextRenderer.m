@@ -246,11 +246,7 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 - (void)setFrame:(CGRect)frame
 {
     self.drawingOrigin = frame.origin;
-    if (self.textLayout) {
-        self.textLayout.size = frame.size;
-    } else {
-        
-    }
+    self.textLayout.size = frame.size;
 }
 
 @end

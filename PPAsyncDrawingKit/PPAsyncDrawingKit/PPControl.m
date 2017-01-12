@@ -1,28 +1,27 @@
 //
-//  PPUIControl.m
+//  PPControl.m
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 16/9/21.
 //  Copyright © 2016年 DSKcpp. All rights reserved.
 //
 
-#import "PPUIControl.h"
+#import "PPControl.h"
 
-@interface PPUIControlTargetAction : NSObject
+@interface PPControlTargetAction : NSObject
 @property (nonatomic, assign) SEL action;
 @property (nonatomic, weak) id target;
 @property (nonatomic, assign) UIControlEvents controlEvents;
 @end
 
-@implementation PPUIControlTargetAction @end
+@implementation PPControlTargetAction @end
 
-@interface PPUIControl ()
-@property (nonatomic, strong) NSMutableArray<PPUIControlTargetAction *> *targetActions;
+@interface PPControl ()
+@property (nonatomic, strong) NSMutableArray<PPControlTargetAction *> *targetActions;
 @end
 
-@implementation PPUIControl
+@implementation PPControl
 @dynamic allTargets;
-@dynamic allControlEvents;
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -84,7 +83,7 @@
 - (void)addTarget:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents
 {
     if (action) {
-        PPUIControlTargetAction *targetAction = [[PPUIControlTargetAction alloc] init];
+        PPControlTargetAction *targetAction = [[PPControlTargetAction alloc] init];
         targetAction.target = target;
         targetAction.action = action;
         targetAction.controlEvents = controlEvents;
@@ -94,8 +93,8 @@
 
 - (void)removeTarget:(id)target action:(SEL)action fotControlEvents:(UIControlEvents)controlEvents
 {
-    NSMutableArray<PPUIControlTargetAction *> *removeTargetAcitons = [NSMutableArray array];
-    for (PPUIControlTargetAction *targetAction in self.targetActions) {
+    NSMutableArray<PPControlTargetAction *> *removeTargetAcitons = [NSMutableArray array];
+    for (PPControlTargetAction *targetAction in self.targetActions) {
         if (target == targetAction.target && action == targetAction.action && controlEvents == targetAction.controlEvents) {
             [removeTargetAcitons addObject:targetAction];
         }
@@ -106,7 +105,7 @@
 - (NSArray<NSString *> *)actionsForTarget:(id)target forControlEvent:(UIControlEvents)controlEvent
 {
     NSMutableArray<NSString *> *actions = [NSMutableArray array];
-    for (PPUIControlTargetAction *targetAction in self.targetActions) {
+    for (PPControlTargetAction *targetAction in self.targetActions) {
         if (target == targetAction.target && controlEvent == targetAction.controlEvents) {
             [actions addObject:NSStringFromSelector(targetAction.action)];
         }
@@ -224,14 +223,14 @@
 
 - (void)_sendActionsForControlEvents:(UIControlEvents)controlEvents withEvent:(UIEvent *)event
 {
-    [self.targetActions enumerateObjectsUsingBlock:^(PPUIControlTargetAction * _Nonnull targetAction, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.targetActions enumerateObjectsUsingBlock:^(PPControlTargetAction * _Nonnull targetAction, NSUInteger idx, BOOL * _Nonnull stop) {
         if (targetAction.target && controlEvents & targetAction.controlEvents) {
             [self sendAction:targetAction.action to:targetAction.target forEvent:event];
         }
     }];
 }
 
-- (NSMutableArray<PPUIControlTargetAction *> *)targetActions
+- (NSMutableArray<PPControlTargetAction *> *)targetActions
 {
     if (!_targetActions) {
         _targetActions = @[].mutableCopy;
@@ -243,15 +242,6 @@
 {
     NSArray *targets = [self.targetActions valueForKey:@"target"];
     return [NSSet setWithArray:targets];
-}
-
-- (UIControlEvents)allControlEvents
-{
-    UIControlEvents controlEvents;
-    for (PPUIControlTargetAction *targetAction in self.targetActions) {
-        controlEvents |= targetAction.controlEvents;
-    }
-    return controlEvents;
 }
 
 @end

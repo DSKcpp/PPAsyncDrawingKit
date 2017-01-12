@@ -7,6 +7,7 @@
 //
 
 #import "PPAsyncDrawingView.h"
+#import "PPAssert.h"
 
 @implementation PPAsyncDrawingView
 static BOOL asyncDrawingEnabled = YES;
@@ -19,12 +20,17 @@ static BOOL asyncDrawingEnabled = YES;
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        self.drawingPolicy = PPAsyncDrawingPolicyNone;
-        self.dispatchPriority = PPAsyncDrawingDispatchQueuePriortyDefault;
-        self.opaque = NO;
-        self.layer.contentsScale = [UIScreen mainScreen].scale;
+        [self _initializeInstance];
     }
     return self;
+}
+
+- (void)_initializeInstance
+{
+    self.drawingPolicy = PPAsyncDrawingPolicyNone;
+    self.dispatchPriority = PPAsyncDrawingDispatchQueuePriortyDefault;
+    self.opaque = NO;
+    self.layer.contentsScale = [UIScreen mainScreen].scale;
 }
 
 - (NSDictionary *)currentDrawingUserInfo
@@ -253,8 +259,19 @@ static BOOL asyncDrawingEnabled = YES;
     if (_dispatchDrawQueue) {
         return _dispatchDrawQueue;
     } else {
-        return dispatch_get_global_queue(self.dispatchPriority, 0);
+//        return dispatch_get_global_queue(self.dispatchPriority, 0);
+        return [self concurrentThread];
     }
+}
+
+- (dispatch_queue_t)concurrentThread
+{
+    static dispatch_queue_t queue;
+    static dispatch_once_t token;
+    dispatch_once(&token, ^{
+        queue = dispatch_queue_create("io.github.dskcpp.concurrentThread", DISPATCH_QUEUE_CONCURRENT);
+    });
+    return queue;
 }
 
 - (BOOL)alwaysUsesOffscreenRendering

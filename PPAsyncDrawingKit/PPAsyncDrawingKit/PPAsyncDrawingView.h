@@ -45,6 +45,8 @@ typedef NS_ENUM(NSUInteger, PPAsyncDrawingDispatchQueuePriorty) {
 @property (nonatomic, assign, readonly) NSUInteger drawingCount;
 @property (nonatomic, assign, readonly) BOOL alwaysUsesOffscreenRendering;
 
+- (instancetype)initWithFrame:(CGRect)frame;
+
 - (dispatch_queue_t)drawQueue;
 - (PPAsyncDrawingViewLayer *)drawingLayer;
 - (nullable NSDictionary *)currentDrawingUserInfo;

@@ -21,7 +21,6 @@
 {
     if (self = [super init]) {
         _needsLayout = YES;
-        self.baselineFontMetrics = [[PPTextFontMetrics alloc] init];
     }
     return self;
 }

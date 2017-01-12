@@ -55,14 +55,6 @@
     return self;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder
-{
-    if (self = [super initWithCoder:aDecoder]) {
-        [self configure];
-    }
-    return self;
-}
-
 - (void)setHighlighted:(BOOL)highlighted
 {
     if (self.isHighlighted != highlighted) {

@@ -116,16 +116,10 @@ static char threadRendererKey;
 
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines derivedLineCount:(NSInteger)derivedLineCount
 {
-    return [self pp_sizeConstrainedToSize:size numberOfLines:numberOfLines derivedLineCount:derivedLineCount baselineMetrics:nil];
-}
-
-- (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines derivedLineCount:(NSInteger)derivedLineCount baselineMetrics:(PPTextFontMetrics *)baselineMetrics
-{
     PPTextLayout *textLayout = [NSAttributedString rendererForCurrentThread].textLayout;
     textLayout.attributedString = self;
     textLayout.size = size;
     textLayout.maximumNumberOfLines = numberOfLines;
-    textLayout.baselineFontMetrics = baselineMetrics;
     CGSize resultSize;
     if (textLayout) {
         resultSize = textLayout.layoutSize;
@@ -191,15 +185,9 @@ static char threadRendererKey;
 
 - (CGSize)pp_drawInRect:(CGRect)rect context:(CGContextRef)context numberOfLines:(NSUInteger)numberOfLines
 {
-    return [self pp_drawInRect:rect context:context numberOfLines:numberOfLines baselineMetrics:nil];
-}
-
-- (CGSize)pp_drawInRect:(CGRect)rect context:(CGContextRef)context numberOfLines:(NSUInteger)numberOfLines baselineMetrics:(PPTextFontMetrics *)baselineMetrics
-{
     PPTextRenderer *textRenderer = [NSAttributedString rendererForCurrentThread];
     PPTextLayout *textLayout = textRenderer.textLayout;
     textLayout.maximumNumberOfLines = numberOfLines;
-    textLayout.baselineFontMetrics = baselineMetrics;
     textRenderer.attributedString = self;
     textRenderer.frame = rect;
     [textRenderer drawInContext:context];

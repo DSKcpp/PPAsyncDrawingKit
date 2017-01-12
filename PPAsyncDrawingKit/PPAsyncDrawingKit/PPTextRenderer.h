@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PPTextLayout.h"
-#import "PPTextAttributes.h"
+#import <PPAsyncDrawingKit/PPTextLayout.h>
+#import <PPAsyncDrawingKit/PPTextAttributes.h>
 
 @class PPTextLayoutFrame;
 @class PPTextAttachment;

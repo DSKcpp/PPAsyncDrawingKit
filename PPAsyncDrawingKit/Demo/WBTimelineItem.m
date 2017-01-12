@@ -21,7 +21,9 @@
 @end
 
 @implementation WBCardModel
-
++ (NSDictionary *)modelContainerPropertyGenericClass {
+    return @{@"card_group" : [WBCardModel class]};
+}
 @end
 
 @implementation WBTimelineItem

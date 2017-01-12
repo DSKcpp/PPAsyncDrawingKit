@@ -6,12 +6,12 @@
 //  Copyright © 2016年 DSKcpp. All rights reserved.
 //
 
-#import "PPUIControl.h"
+#import "PPControl.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 
-@interface PPImageView : PPUIControl
+@interface PPImageView : PPControl
 @property (nullable, nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) UIColor *borderColor;
 @property (nonatomic, assign) CGFloat borderWidth;
