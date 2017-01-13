@@ -8,7 +8,6 @@
 
 #import "PPImageView.h"
 #import "UIImage+PPAsyncDrawingKit.h"
-#import "PPAsyncDrawingKitUtilities.h"
 
 static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat cornerRadius, UIRectCorner roundedCorners) {
     CGSize cornerRadii = CGSizeMake(cornerRadius, cornerRadius);
@@ -17,8 +16,10 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
 }
 
 @interface PPImageView ()
-@property (nonatomic, assign) CGPathRef roundPathRef;
-@property (nonatomic, assign) CGPathRef borderPathRef;
+{
+    CGPathRef _roundPathRef;
+    CGPathRef _borderPathRef;
+}
 @end
 
 @implementation PPImageView
@@ -74,8 +75,8 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
         return;
     }
     _roundedCorners = roundedCorners;
-    self.roundPathRef = nil;
-    CGPathRelease(self.roundPathRef);
+    _roundPathRef = nil;
+    CGPathRelease(_roundPathRef);
     [self setNeedsDisplay];
 }
 
@@ -86,8 +87,8 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
     }
     _cornerRadius = cornerRadius;
     self.layer.cornerRadius = 0;
-    self.roundPathRef = nil;
-    CGPathRelease(self.roundPathRef);
+    _roundPathRef = nil;
+    CGPathRelease(_roundPathRef);
     
     [self setNeedsDisplay];
 }
@@ -141,11 +142,15 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
 - (NSDictionary *)currentDrawingUserInfo
 {
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    [userInfo pp_setSafeObject:_image forKey:@"image"];
+    if (_image) {
+        [userInfo setObject:_image forKey:@"image"];
+    }
     if (self.showsCornerRadius) {
         CGPathRef path = PPCreateRoundedCGPath(self.bounds, self.cornerRadius, self.roundedCorners);
-        [userInfo pp_setSafeObject:(__bridge id _Nonnull)(path) forKey:@"roundPath"];
-        self.roundPathRef = path;
+        if (path) {
+            [userInfo setObject:(__bridge id _Nonnull)(path) forKey:@"roundPath"];
+        }
+        _roundPathRef = path;
         CGPathRelease(path);
     }
     if (self.showsBorderCornerRadius) {

@@ -7,9 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PPAsyncDrawingKitUtilities.h"
-#import "PPTextAttributes.h"
 #import <CoreText/CoreText.h>
+#import <PPAsyncDrawingKit/PPTextAttributes.h>
 
 @class PPTextRenderer;
 @class PPTextAttachment;

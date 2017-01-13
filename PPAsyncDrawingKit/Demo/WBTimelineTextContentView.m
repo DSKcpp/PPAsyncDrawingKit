@@ -116,7 +116,6 @@
         self.metaInfoTextRenderer.textLayout.maximumNumberOfLines = 1;
         self.attachmentViews = [NSMutableArray array];
         self.attachments = [NSMutableArray array];
-        self.dispatchPriority = 2;
         self.isSourceRectBeReset = NO;
         self.textRenderers = @[self.itemTextRenderer, self.quotedItemTextRenderer, self.titleTextRenderer, self.metaInfoTextRenderer];
         _largeCardView = [[WBTimelineLargeCardView alloc] initWithFrame:CGRectZero];
@@ -143,7 +142,7 @@
 
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(NSDictionary *)userInfo
 {
-    WBTimelineTableViewCellDrawingContext *drawingContext = userInfo[@"drawingContext"];
+    WBTimelineTableViewCellDrawingContext *drawingContext = self.drawingContext;
     if (drawingContext.hasTitle) {
         self.titleTextRenderer.attributedString = drawingContext.titleAttributedText;
         self.titleTextRenderer.frame = drawingContext.titleFrame;
@@ -161,14 +160,6 @@
         [self.quotedItemTextRenderer drawInContext:context];
     }
     return YES;
-}
-
-- (NSDictionary *)currentDrawingUserInfo
-{
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    [userInfo pp_setSafeObject:self.drawingContext forKey:@"drawingContext"];
-    [userInfo pp_setSafeObject:self.drawingContext.timelineItem forKey:@"timelineItem"];
-    return userInfo;
 }
 
 - (void)removeAttachmentViews

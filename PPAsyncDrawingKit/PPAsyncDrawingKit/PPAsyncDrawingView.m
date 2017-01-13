@@ -7,14 +7,67 @@
 //
 
 #import "PPAsyncDrawingView.h"
+#import <stdatomic.h>
 #import "PPAssert.h"
+
+dispatch_queue_t PPDrawConcurrentQueue(void) {
+    static dispatch_queue_t queue;
+    static dispatch_once_t token;
+    dispatch_once(&token, ^{
+        queue = dispatch_queue_create("io.github.dskcpp.drawQueue", DISPATCH_QUEUE_CONCURRENT);
+    });
+    return queue;
+}
+
+@interface _PPAsyncDrawingViewLayer : CALayer
+@property (nonatomic, assign) BOOL reserveContentsBeforeNextDrawingComplete;
+@property (nonatomic, assign) BOOL contentsChangedAfterLastAsyncDrawing;
+
+@property (nonatomic, assign) PPAsyncDrawingPolicy drawingPolicy;
+@property (nonatomic, assign) NSTimeInterval fadeDuration;
+@property (nonatomic, assign, readonly) atomic_uint drawingCount;
+
+- (void)increaseDrawingCount;
+- (BOOL)drawCurrentContentAsynchronously;
+@end
+
+@implementation _PPAsyncDrawingViewLayer
+
+- (void)increaseDrawingCount
+{
+    atomic_fetch_add(&_drawingCount, 1);
+}
+
+- (void)setNeedsDisplay
+{
+    [self increaseDrawingCount];
+    [super setNeedsDisplay];
+}
+
+- (void)setNeedsDisplayInRect:(CGRect)rect
+{
+    [self increaseDrawingCount];
+    [super setNeedsDisplayInRect:rect];
+}
+
+- (BOOL)drawCurrentContentAsynchronously
+{
+    if (_drawingPolicy == PPAsyncDrawingPolicyMultiThread) {
+        return YES;
+    } else if (_drawingPolicy == PPAsyncDrawingPolicyMainThread) {
+        return NO;
+    } else {
+        return self.contentsChangedAfterLastAsyncDrawing;
+    }
+}
+@end
 
 @implementation PPAsyncDrawingView
 static BOOL asyncDrawingEnabled = YES;
 
 + (Class)layerClass
 {
-    return [PPAsyncDrawingViewLayer class];
+    return [_PPAsyncDrawingViewLayer class];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -28,7 +81,6 @@ static BOOL asyncDrawingEnabled = YES;
 - (void)_initializeInstance
 {
     self.drawingPolicy = PPAsyncDrawingPolicyNone;
-    self.dispatchPriority = PPAsyncDrawingDispatchQueuePriortyDefault;
     self.opaque = NO;
     self.layer.contentsScale = [UIScreen mainScreen].scale;
 }
@@ -38,6 +90,7 @@ static BOOL asyncDrawingEnabled = YES;
     return nil;
 }
 
+#pragma mark - drawing
 - (void)setNeedsDisplayAsync
 {
     self.contentsChangedAfterLastAsyncDrawing = YES;
@@ -55,7 +108,7 @@ static BOOL asyncDrawingEnabled = YES;
 {
     if (layer) {
         __weak typeof(self) weakSelf = self;
-        [self _displayLayer:(PPAsyncDrawingViewLayer *)layer rect:layer.bounds drawingStarted:^(BOOL async) {
+        [self _displayLayer:(_PPAsyncDrawingViewLayer *)layer rect:layer.bounds drawingStarted:^(BOOL async) {
             [weakSelf drawingWillStartAsynchronously:async];
         } drawingFinished:^(BOOL async) {
             [weakSelf drawingDidFinishAsynchronously:async success:YES];
@@ -65,14 +118,14 @@ static BOOL asyncDrawingEnabled = YES;
     }
 }
 
-- (void)drawingWillStartAsynchronously:(BOOL)async { }
+- (void)drawingWillStartAsynchronously:(BOOL)asynchronously { }
 
-- (void)drawingDidFinishAsynchronously:(BOOL)async success:(BOOL)success { }
+- (void)drawingDidFinishAsynchronously:(BOOL)asynchronously success:(BOOL)success { }
 
-- (void)_displayLayer:(PPAsyncDrawingViewLayer *)layer rect:(CGRect)rect drawingStarted:(void (^)(BOOL))drawingStarted drawingFinished:(void (^)(BOOL))drawingFinished drawingInterrupted:(void (^)(BOOL))drawingInterrupted
+- (void)_displayLayer:(_PPAsyncDrawingViewLayer *)layer rect:(CGRect)rect drawingStarted:(void (^)(BOOL))drawingStarted drawingFinished:(void (^)(BOOL))drawingFinished drawingInterrupted:(void (^)(BOOL))drawingInterrupted
 {
     BOOL asynchronously = NO;
-    if ([layer drawsCurrentContentAsynchronously] && [PPAsyncDrawingView globallyAsyncDrawingEnabled]) {
+    if ([layer drawCurrentContentAsynchronously] && [PPAsyncDrawingView globallyAsyncDrawingEnabled]) {
         asynchronously = YES;
     }
     
@@ -152,7 +205,7 @@ static BOOL asyncDrawingEnabled = YES;
         if (!layer.reserveContentsBeforeNextDrawingComplete) {
             layer.contents = nil;
         }
-        dispatch_async(self.drawQueue, drawingContents);
+        dispatch_async(self.internalDrawQueue, drawingContents);
     } else if ([NSThread isMainThread]) {
         drawingContents();
     } else {
@@ -186,13 +239,6 @@ static BOOL asyncDrawingEnabled = YES;
     }
 }
 
-- (void)dealloc
-{
-    if (_dispatchDrawQueue) {
-        _dispatchDrawQueue = nil;
-    }
-}
-
 #pragma mark - getter and setter
 + (BOOL)globallyAsyncDrawingEnabled
 {
@@ -204,9 +250,9 @@ static BOOL asyncDrawingEnabled = YES;
     asyncDrawingEnabled = globallyAsyncDrawingEnabled;
 }
 
-- (PPAsyncDrawingViewLayer *)drawingLayer
+- (_PPAsyncDrawingViewLayer *)drawingLayer
 {
-    return (PPAsyncDrawingViewLayer *)self.layer;
+    return (_PPAsyncDrawingViewLayer *)self.layer;
 }
 
 - (NSTimeInterval)fadeDuration
@@ -254,24 +300,13 @@ static BOOL asyncDrawingEnabled = YES;
     return self.drawingLayer.drawingCount;
 }
 
-- (dispatch_queue_t)drawQueue
+- (dispatch_queue_t)internalDrawQueue
 {
-    if (_dispatchDrawQueue) {
-        return _dispatchDrawQueue;
+    if (_drawQueue) {
+        return _drawQueue;
     } else {
-//        return dispatch_get_global_queue(self.dispatchPriority, 0);
-        return [self concurrentThread];
+        return PPDrawConcurrentQueue();
     }
-}
-
-- (dispatch_queue_t)concurrentThread
-{
-    static dispatch_queue_t queue;
-    static dispatch_once_t token;
-    dispatch_once(&token, ^{
-        queue = dispatch_queue_create("io.github.dskcpp.concurrentThread", DISPATCH_QUEUE_CONCURRENT);
-    });
-    return queue;
 }
 
 - (BOOL)alwaysUsesOffscreenRendering
@@ -280,36 +315,3 @@ static BOOL asyncDrawingEnabled = YES;
 }
 
 @end
-
-@implementation PPAsyncDrawingViewLayer
-
-- (void)increaseDrawingCount
-{
-    atomic_fetch_add(&_drawingCount, 1);
-}
-
-- (void)setNeedsDisplay
-{
-    [self increaseDrawingCount];
-    [super setNeedsDisplay];
-}
-
-- (void)setNeedsDisplayInRect:(CGRect)rect
-{
-    [self increaseDrawingCount];
-    [super setNeedsDisplayInRect:rect];
-}
-
-- (BOOL)drawsCurrentContentAsynchronously
-{
-    if (_drawingPolicy == PPAsyncDrawingPolicyMultiThread) {
-        return YES;
-    } else if (_drawingPolicy == PPAsyncDrawingPolicyMainThread) {
-        return NO;
-    } else {
-        return self.contentsChangedAfterLastAsyncDrawing;
-    }
-}
-
-@end
-

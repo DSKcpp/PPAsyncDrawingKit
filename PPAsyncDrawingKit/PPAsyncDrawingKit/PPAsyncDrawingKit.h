@@ -19,7 +19,6 @@ FOUNDATION_EXPORT const unsigned char PPAsyncDrawingKitVersionString[];
 // Core
 #import <PPAsyncDrawingKit/PPAsyncDrawingView.h>
 #import <PPAsyncDrawingKit/PPControl.h>
-#import <PPAsyncDrawingKit/PPAsyncDrawingKitUtilities.h>
 
 // Text
 #import <PPAsyncDrawingKit/PPTextView.h>

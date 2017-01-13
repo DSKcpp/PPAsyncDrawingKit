@@ -20,8 +20,10 @@ struct PPTextRendererEventDelegateHas {
 typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 
 @interface PPTextRenderer ()
-@property (nonatomic, assign) CGPoint touchesBeginPoint;
-@property (nonatomic, assign) PPTextRendererEventDelegateHas eventDelegateHas;
+{
+    CGPoint _touchesBeginPoint;
+    PPTextRendererEventDelegateHas _eventDelegateHas;
+}
 @end
 
 @implementation PPTextRenderer
@@ -159,7 +161,7 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
             self.pressingHighlightRange = range;
             [touchView setNeedsDisplay];
         }
-        self.touchesBeginPoint = point;
+        _touchesBeginPoint = point;
     }
 }
 

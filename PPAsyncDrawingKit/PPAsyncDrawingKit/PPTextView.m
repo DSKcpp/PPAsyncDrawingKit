@@ -11,8 +11,10 @@
 #import <objc/runtime.h>
 
 @interface PPTextView ()
-@property (nonatomic, assign) BOOL needUpdateAttribtues;
-@property (nonatomic, assign) BOOL pendingAttachmentUpdates;
+{
+    BOOL _needUpdateAttribtues;
+     BOOL _pendingAttachmentUpdates;
+}
 @end
 
 @implementation PPTextView
@@ -101,12 +103,12 @@
     self.textRenderer.textLayout.maximumNumberOfLines = numberOfLines;
 }
 
-- (NSMutableAttributedString *)attributedString
+- (NSAttributedString *)attributedString
 {
-    return self.textRenderer.attributedString.mutableCopy;
+    return self.textRenderer.attributedString.copy;
 }
 
-- (void)setAttributedString:(NSMutableAttributedString *)attributedString
+- (void)setAttributedString:(NSAttributedString *)attributedString
 {
     self.textRenderer.attributedString = attributedString.copy;
     [self setNeedsDisplayAsync];

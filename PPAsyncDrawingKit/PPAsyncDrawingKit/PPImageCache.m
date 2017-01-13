@@ -28,9 +28,11 @@ static NSString *_PPNSStringMD5(NSString *string) {
 }
 
 @interface PPImageCache ()
-@property (nonatomic, strong) NSCache<NSString *, UIImage *> *cache;
-@property (nonatomic, strong) dispatch_queue_t ioQueue;
-@property (nonatomic, strong) NSDate *createDate;
+{
+    NSCache<NSString *, UIImage *> *_cache;
+    dispatch_queue_t _ioQueue;
+    NSDate *_createDate;
+}
 @end
 
 @implementation PPImageCache

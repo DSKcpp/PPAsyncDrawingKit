@@ -21,20 +21,25 @@
 @implementation PPButtonInfo @end
 
 @interface PPButton ()
-@property (nonatomic, strong) NSMutableDictionary<NSString *, UIImage *> *backgroundImages;
-@property (nonatomic, strong) NSMutableDictionary<NSString *, UIImage *> *images;
-@property (nonatomic, strong) NSMutableDictionary<NSString *, UIColor *> *titleColors;
-@property (nonatomic, strong) NSMutableDictionary<NSString *, NSString *> *titles;
-@property (nonatomic, assign) CGRect backgroundFrame;
-@property (nonatomic, assign) CGRect imageFrame;
-@property (nonatomic, assign) CGRect titleFrame;
-@property (nonatomic, strong) PPButtonInfo *buttonInfo;
-@property (nonatomic, copy) NSString *renderedTitle;
-@property (nonatomic, strong) UIImage *renderedImage;
-@property (nonatomic, strong) UIImage *renderedBackgroundImage;
-@property (nonatomic, assign) CGSize renderedBoundsSize;
-@property (nonatomic, assign) BOOL privateTracking;
-@property (nonatomic, assign) BOOL needsUpdateFrame;
+{
+    NSMutableDictionary<NSString *, UIImage *> *_backgroundImages;
+    NSMutableDictionary<NSString *, UIImage *> *_images;
+    NSMutableDictionary<NSString *, UIColor *> *_titleColors;
+    NSMutableDictionary<NSString *, NSString *> *_titles;
+    
+    CGRect _backgroundFrame;
+    CGRect _imageFrame;
+    CGRect _titleFrame;
+    
+    PPButtonInfo *_buttonInfo;
+    NSString *_renderedTitle;
+    UIImage *_renderedImage;
+    UIImage *_renderedBackgroundImage;
+    CGSize _renderedBoundsSize;
+    
+    BOOL _privateTracking;
+    BOOL _needsUpdateFrame;
+}
 @end
 
 @implementation PPButton
@@ -95,12 +100,12 @@
     self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     PPButtonInfo *buttonInfo = [PPButtonInfo new];
     buttonInfo.titleFont = _titleFont;
-    self.buttonInfo = buttonInfo;
+    _buttonInfo = buttonInfo;
     self.titleEdgeInsets = UIEdgeInsetsZero;
     self.contentEdgeInsets = UIEdgeInsetsZero;
     self.imageEdgeInsets = UIEdgeInsetsZero;
     NSString * state = [self stringOfState:UIControlStateNormal];
-    [self.titleColors setObject:[UIColor blackColor] forKey:state];
+    [_titleColors setObject:[UIColor blackColor] forKey:state];
     [self setNeedsUpdateFrame];
 }
 
@@ -115,7 +120,7 @@
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(NSDictionary *)userInfo
 {
     NSUInteger drawingCount= self.drawingCount;
-    PPButtonInfo *buttonInfo = self.buttonInfo;
+    PPButtonInfo *buttonInfo = _buttonInfo;
     if (buttonInfo) {
         [self updateSubviewFrames];
         if (drawingCount == self.drawingCount) {
@@ -124,9 +129,9 @@
             UIColor *titleColor = buttonInfo.titleColor;
             NSString *title = buttonInfo.title;
             UIFont *titleFont = _titleFont;
-            CGRect backgroundFrame = self.backgroundFrame;
-            CGRect imageFrame = self.imageFrame;
-            CGRect titleFrame = self.titleFrame;
+            CGRect backgroundFrame = _backgroundFrame;
+            CGRect imageFrame = _imageFrame;
+            CGRect titleFrame = _titleFrame;
             if (drawingCount == self.drawingCount) {
                 CGContextSaveGState(context);
                 CGContextSetInterpolationQuality(context, kCGInterpolationNone);
@@ -158,9 +163,9 @@
     NSString *currentTitle = _titles[stateString];
     if ((title || currentTitle) && ![title isEqualToString:currentTitle]) {
         if (title) {
-            [self.titles setObject:title forKey:stateString];
+            [_titles setObject:title forKey:stateString];
         } else {
-            [self.titles removeObjectForKey:stateString];
+            [_titles removeObjectForKey:stateString];
         }
         if (self.state == state) {
             [self updateTitle:title];
@@ -180,9 +185,9 @@
     UIImage *img = _backgroundImages[stateString];
     if (img != backgroundImage) {
         if (backgroundImage) {
-            [self.backgroundImages setObject:backgroundImage forKey:stateString];
+            [_backgroundImages setObject:backgroundImage forKey:stateString];
         } else {
-            [self.backgroundImages removeObjectForKey:stateString];
+            [_backgroundImages removeObjectForKey:stateString];
         }
         if (self.state == state) {
             [self updateBackgroundImage:backgroundImage];
@@ -194,9 +199,9 @@
 {
     NSString *stateString = [self stringOfState:state];
     if (image) {
-        [self.images setObject:image forKey:stateString];
+        [_images setObject:image forKey:stateString];
     } else {
-        [self.images removeObjectForKey:stateString];
+        [_images removeObjectForKey:stateString];
     }
     if (self.state == state) {
         [self updateImage:image];
@@ -206,16 +211,16 @@
 - (void)setTitleColor:(UIColor *)color forState:(UIControlState)state
 {
     NSString *stateString = [self stringOfState:state];
-    if ([self.titleColors objectForKey:stateString] != color) {
+    if ([_titleColors objectForKey:stateString] != color) {
         if (color) {
-            [self.titleColors setObject:color forKey:stateString];
+            [_titleColors setObject:color forKey:stateString];
         } else {
-            [self.titleColors removeObjectForKey:stateString];
+            [_titleColors removeObjectForKey:stateString];
         }
         [self setNeedsUpdateFrame];
         if (self.state == state) {
 //            self.titleLabel.textColor = color;
-            self.buttonInfo.titleColor = color;
+            _buttonInfo.titleColor = color;
             [self setNeedsDisplayAsync];
         }
     }
@@ -380,13 +385,13 @@
     CGFloat width = CGRectGetWidth(bounds);
     CGFloat height = CGRectGetHeight(bounds);
     
-    self.backgroundFrame = UIEdgeInsetsInsetRect(bounds, contentEdgeInsets);
+    _backgroundFrame = UIEdgeInsetsInsetRect(bounds, contentEdgeInsets);
     CGSize imageSize = _buttonInfo.image.size;
         CGSize titleSize = [_buttonInfo.title pp_sizeWithFont:_titleFont constrainedToSize:CGSizeMake(width - imageSize.width, height) lineBreakMode:NSLineBreakByWordWrapping];
     CGFloat totalW = imageSize.width + titleSize.width;
     CGFloat left = (width - totalW) / 2.0f;
-    self.imageFrame = CGRectMake(left, height / 2.0f - imageSize.height / 2.0f, imageSize.width, imageSize.height);
-    self.titleFrame = CGRectMake(CGRectGetMaxX(self.imageFrame), height / 2.0f - titleSize.height / 2.0f, titleSize.width, titleSize.height);
+    _imageFrame = CGRectMake(left, height / 2.0f - imageSize.height / 2.0f, imageSize.width, imageSize.height);
+    _titleFrame = CGRectMake(CGRectGetMaxX(_imageFrame), height / 2.0f - titleSize.height / 2.0f, titleSize.width, titleSize.height);
     _needsUpdateFrame = NO;
 }   
 

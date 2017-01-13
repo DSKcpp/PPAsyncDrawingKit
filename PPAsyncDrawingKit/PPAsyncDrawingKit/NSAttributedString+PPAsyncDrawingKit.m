@@ -9,7 +9,7 @@
 #import "NSAttributedString+PPAsyncDrawingKit.h"
 #import "PPTextRenderer.h"
 #import "PPTextAttachment.h"
-#import "PPAsyncDrawingKitUtilities.h"
+#import "NSThread+PPTextRenderer.h"
 
 static void PPRunDelegateDeallocCallback(void *ref) { }
 
@@ -62,7 +62,7 @@ static CTLineBreakMode NSLineBreakModeToCTLineBreakMode(NSLineBreakMode nsLineBr
 }
 
 @implementation NSAttributedString (PPAsyncDrawingKit)
-static char threadRendererKey;
+
 
 - (NSRange)pp_stringRange
 {
@@ -71,12 +71,7 @@ static char threadRendererKey;
 
 + (PPTextRenderer *)rendererForCurrentThread
 {
-    PPTextRenderer *textRenderer = [[NSThread currentThread] pp_objectWithAssociatedKey:&threadRendererKey];
-    if (!textRenderer) {
-        textRenderer = [[PPTextRenderer alloc] init];
-        [[NSThread currentThread] pp_setObject:textRenderer forAssociatedKey:&threadRendererKey retained:YES];
-    }
-    return textRenderer;
+    return [NSThread currentThread].textRenderer;
 }
 
 - (CGFloat)pp_heightConstrainedToWidth:(CGFloat)width

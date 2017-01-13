@@ -13,13 +13,18 @@ NS_ASSUME_NONNULL_BEGIN
 @class PPTextPosition;
 
 @interface PPTextRange : UITextRange
-@property (nonatomic, strong) PPTextPosition *start;
-@property (nonatomic, strong) PPTextPosition *end;
+@property (nonatomic, strong, readonly) PPTextPosition *start;
+@property (nonatomic, strong, readonly) PPTextPosition *end;
+
+- (instancetype)initWithRange:(NSRange)range;
 - (NSRange)range;
 @end
 
 @interface PPTextPosition : UITextPosition
 @property (nonatomic, assign, readonly) NSUInteger index;
+
++ (PPTextPosition *)textPositionWithIndex:(NSUInteger)index;
+- (instancetype)initWithIndex:(NSUInteger)index;
 @end
 
 NS_ASSUME_NONNULL_END

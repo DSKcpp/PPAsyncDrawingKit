@@ -12,8 +12,9 @@
 #import "PPTextFontMetrics.h"
 
 @interface PPTextLayout ()
-@property (nonatomic, assign) BOOL needsLayout;
-
+{
+    BOOL _needsLayout;
+}
 @end
 
 @implementation PPTextLayout

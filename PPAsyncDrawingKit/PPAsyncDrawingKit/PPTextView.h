@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PPTextView : PPAsyncDrawingView <PPTextRendererDelegate, PPTextRendererEventDelegate>
 @property (nonatomic, strong, readonly) PPTextLayout *textLayout;
 @property (nonatomic, strong, readonly) PPTextRenderer *textRenderer;
-@property (nullable, nonatomic, copy) NSMutableAttributedString *attributedString;
+@property (nullable, nonatomic, copy) NSAttributedString *attributedString;
 @property (nonatomic, assign) NSInteger numberOfLines;
 
 - (instancetype)initWithWidth:(CGFloat)width;

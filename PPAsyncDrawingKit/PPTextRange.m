@@ -12,6 +12,9 @@
 @dynamic start;
 @dynamic end;
 
+//@synthesize start = _start;
+//@synthesize end = _end;
+
 - (NSRange)range
 {
     return NSMakeRange(self.start.index, self.end.index);

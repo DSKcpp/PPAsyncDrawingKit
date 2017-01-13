@@ -17,7 +17,10 @@
 @implementation PPControlTargetAction @end
 
 @interface PPControl ()
-@property (nonatomic, strong) NSMutableArray<PPControlTargetAction *> *targetActions;
+{
+    NSMutableArray<PPControlTargetAction *> *_targetActions;
+}
+
 @end
 
 @implementation PPControl
