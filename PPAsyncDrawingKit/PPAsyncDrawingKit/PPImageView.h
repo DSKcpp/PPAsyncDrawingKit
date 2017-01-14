@@ -10,6 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+UIKIT_EXTERN NSString * const PPImageViewRoundPath;
+UIKIT_EXTERN NSString * const PPImageViewBorderPath;
 
 @interface PPImageView : PPControl
 @property (nullable, nonatomic, strong) UIImage *image;

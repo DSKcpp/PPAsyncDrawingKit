@@ -13,9 +13,10 @@ import PPAsyncDrawingKit
 class SwiftExample: UIViewController {
     
     override func viewDidLoad() {
-        
-        let image = PPImageView()
-        print(image)
+        let image = PPImageView(image: #imageLiteral(resourceName: "avatar"))
+        image.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        image.cornerRadius = 25
+        view.addSubview(image)
     }
     
 }

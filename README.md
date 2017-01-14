@@ -8,16 +8,26 @@ PPAsyncDrawingKit
 
 
 
-这是一个轻量的异步绘制框架，实现一系列 `ImageView`, `Label`, `Button` 等基础控件，支持 `Objective-C`, `Swift`。
+这是一个轻量的异步绘制框架，实现一系列 `UIKit` 基础控件。
 
 #Features
 * 使用多线程技术进行绘制，不阻塞线程，保证复杂界面的流畅
-* 高速滑动时，自动停止渲染
+* 高速滑动时，自动停止绘制
 * 保持 FPS 在低端设备上稳定在 60，减小抖动
 * 使用简单
 * 高性能圆角图片
-* 排版，渲染 `AttributedString` 富文本
+* 排版，绘制 `AttributedString` 富文本
 * 异构 `TextView`，避免创建大量 `Label`
+
+
+| UIKit | PPAsyncDrawingKit | More |
+| --- | --- | --- |
+| UIControl | PPControl |   |
+| UILabel | PPTextView  | PPMultiplexTextView |
+| UITextView | PPEditableTextView |   |
+| UIImageView | PPImageView | PPWebImageView |
+| UIButton | PPButton |   |
+|  |  |  |
 
 
 #TODO
@@ -25,10 +35,6 @@ PPAsyncDrawingKit
 * 目前没有注释，过些日子补上
 * Text view 点击和计算有一些 BUG
 * 更多的 CoreText 样式
-
-#Requirements
-* iOS 7.0 or later
-* Xcode 8.0 or later
 
 #How To Use
 see `Demo\PPAsyncDrawingKit.xcodeproj`

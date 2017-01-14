@@ -9,6 +9,9 @@
 #import "PPImageView.h"
 #import "UIImage+PPAsyncDrawingKit.h"
 
+NSString * const PPImageViewRoundPath = @"PPImageViewRoundPath";
+NSString * const PPImageViewBorderPath = @"PPImageViewBorderPath";
+
 static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat cornerRadius, UIRectCorner roundedCorners) {
     CGSize cornerRadii = CGSizeMake(cornerRadius, cornerRadius);
     UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:roundedCorners cornerRadii:cornerRadii];
@@ -142,13 +145,10 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
 - (NSDictionary *)currentDrawingUserInfo
 {
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    if (_image) {
-        [userInfo setObject:_image forKey:@"image"];
-    }
     if (self.showsCornerRadius) {
         CGPathRef path = PPCreateRoundedCGPath(self.bounds, self.cornerRadius, self.roundedCorners);
         if (path) {
-            [userInfo setObject:(__bridge id _Nonnull)(path) forKey:@"roundPath"];
+            [userInfo setObject:(__bridge id _Nonnull)(path) forKey:PPImageViewRoundPath];
         }
         _roundPathRef = path;
         CGPathRelease(path);
@@ -162,17 +162,17 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(NSDictionary *)userInfo
 {
     if (self.showsCornerRadius) {
-        CGPathRef path = (__bridge CGPathRef)(userInfo[@"roundPath"]);
+        CGPathRef path = (__bridge CGPathRef)(userInfo[PPImageViewRoundPath]);
         if (path) {
             CGContextAddPath(context, path);
             CGContextClip(context);
         }
     }
     
-    UIImage *image = userInfo[@"image"];
+    UIImage *image = _image;
     [image pp_drawInRect:rect contentMode:_contentMode withContext:context];
     
-    CGPathRef path = (__bridge CGPathRef)(userInfo[@"roundPath"]);
+    CGPathRef path = (__bridge CGPathRef)(userInfo[PPImageViewRoundPath]);
     if (path) {
         CGContextAddPath(context, path);
         CGContextSetLineWidth(context, self.borderWidth);

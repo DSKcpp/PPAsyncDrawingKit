@@ -9,19 +9,49 @@
 #import "PPTextRange.h"
 
 @implementation PPTextRange
-@dynamic start;
-@dynamic end;
+//@dynamic start;
+//@dynamic end;
 
-//@synthesize start = _start;
-//@synthesize end = _end;
+@synthesize start = _start;
+@synthesize end = _end;
+
+- (instancetype)initWithRange:(NSRange)range
+{
+    PPTextPosition *start = [[PPTextPosition alloc] initWithIndex:range.location];
+    PPTextPosition *end = [[PPTextPosition alloc] initWithIndex:range.location + range.length];
+    return [self initWithStart:start end:end];
+}
+
+- (instancetype)initWithStart:(PPTextPosition *)start end:(PPTextPosition *)end
+{
+    if (self = [super init]) {
+        _start = start;
+        _end = end;
+    }
+    return self;
+}
 
 - (NSRange)range
 {
-    return NSMakeRange(self.start.index, self.end.index);
+    NSUInteger loc = _start.index;
+    NSUInteger len = _end.index - loc;
+    return NSMakeRange(loc, len);
 }
 @end
 
 @implementation PPTextPosition
++ (PPTextPosition *)postionWithIndex:(NSUInteger)index
+{
+    return [[self alloc] initWithIndex:index];
+}
+
+- (instancetype)initWithIndex:(NSUInteger)index
+{
+    if (self = [super init]) {
+        _index = index;
+    }
+    return self;
+}
 
 
 @end

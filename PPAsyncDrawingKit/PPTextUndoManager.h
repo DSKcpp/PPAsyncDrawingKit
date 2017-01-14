@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface PPTextUndoManager : NSUndoManager
-@property(nonatomic) unsigned int numberOfOpenGroups;
+@property(nonatomic) NSUInteger numberOfOpenGroups;
 @property(nonatomic) int registeringOperationType;
 @property(nonatomic) int recentOperationType;
 

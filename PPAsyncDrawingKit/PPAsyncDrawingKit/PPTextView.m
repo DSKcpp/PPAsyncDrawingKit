@@ -13,7 +13,7 @@
 @interface PPTextView ()
 {
     BOOL _needUpdateAttribtues;
-     BOOL _pendingAttachmentUpdates;
+    BOOL _pendingAttachmentUpdates;
 }
 @end
 
@@ -37,18 +37,9 @@
     return [self initWithFrame:CGRectMake(0, 0, width, 0)];
 }
 
-- (NSDictionary *)currentDrawingUserInfo
-{
-    if (self.attributedString) {
-        return @{@"attributedString" : self.attributedString};
-    } else {
-        return nil;
-    }
-}
-
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(NSDictionary *)userInfo
 {
-    NSAttributedString *attributedString = userInfo[@"attributedString"];
+    NSAttributedString *attributedString = self.attributedString;
     if (attributedString) {
         [self.textRenderer drawInContext:context visibleRect:rect placeAttachments:YES];
     }
@@ -145,7 +136,12 @@
 
 - (void)textRenderer:(PPTextRenderer *)textRenderer didPressHighlightRange:(PPTextHighlightRange *)highlightRange
 {
-    
+    if ([_delegate respondsToSelector:@selector(textView:didSelectTextHighlight:)]) {
+        [_delegate textView:self didSelectTextHighlight:highlightRange];
+    }
+    if (_didSelectTextHighlightBlock) {
+        _didSelectTextHighlightBlock(highlightRange);
+    }
 }
 
 @end

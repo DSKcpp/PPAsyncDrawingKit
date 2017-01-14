@@ -11,14 +11,26 @@
 #import <PPAsyncDrawingKit/NSAttributedString+PPAsyncDrawingKit.h>
 
 @class PPTextLayout;
+@class PPTextHighlightRange;
+@class PPTextView;
 
 NS_ASSUME_NONNULL_BEGIN
+
+typedef void(^PPTextViewDidSelectTextHighlightBlock)(PPTextHighlightRange *textHighlight);
+
+@protocol PPTextViewDelegate <NSObject>
+
+@optional
+- (void)textView:(PPTextView *)textView didSelectTextHighlight:(PPTextHighlightRange *)textHighlight;
+@end
 
 @interface PPTextView : PPAsyncDrawingView <PPTextRendererDelegate, PPTextRendererEventDelegate>
 @property (nonatomic, strong, readonly) PPTextLayout *textLayout;
 @property (nonatomic, strong, readonly) PPTextRenderer *textRenderer;
 @property (nullable, nonatomic, copy) NSAttributedString *attributedString;
 @property (nonatomic, assign) NSInteger numberOfLines;
+@property (nullable, nonatomic, weak) id<PPTextViewDelegate> delegate;
+@property (nonatomic, copy) PPTextViewDidSelectTextHighlightBlock didSelectTextHighlightBlock;
 
 - (instancetype)initWithWidth:(CGFloat)width;
 - (instancetype)initWithFrame:(CGRect)frame;
