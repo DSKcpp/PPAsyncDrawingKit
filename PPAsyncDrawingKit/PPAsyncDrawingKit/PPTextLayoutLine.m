@@ -12,10 +12,6 @@
 #import "PPTextLayoutFrame.h"
 #import "PPTextFontMetrics.h"
 
-@interface PPTextLayoutLine ()
-@property (nonatomic, assign) NSRange lineRefRange;
-@end
-
 @implementation PPTextLayoutLine
 - (instancetype)initWithCTLine:(CTLineRef)lineRef origin:(CGPoint)origin layout:(PPTextLayout *)layout
 {
@@ -31,7 +27,6 @@
             _lineRef = CFRetain(lineRef);
             CFRange range = CTLineGetStringRange(lineRef);
             _stringRange = PPNSRangeFromCFRange(range);
-            _lineRefRange = PPNSRangeFromCFRange(range);
             [self setupWithCTLine];
         }
     }
@@ -49,7 +44,6 @@
     fontMetrics.descent = descent;
     fontMetrics.leading = leading;
     _lineMetrics = fontMetrics;
-//    _baselineOrigin = [_layout convertPointFromCoreText:_baselineOrigin];
 }
 
 - (CGRect)fragmentRect
@@ -77,32 +71,14 @@
             block(attributes, range);
         }
     }
-    //    [self locationDeltaFromRealRangeToLineRefRange];
 }
 
 - (CGFloat)offsetXForCharacterAtIndex:(NSUInteger)index
 {
     if (_lineRef) {
-        NSInteger idx = [self locationDeltaFromRealRangeToLineRefRange];
-        if (idx > index) {
-            idx = index;
-        }
-        return CTLineGetOffsetForStringIndex(_lineRef, index - idx, NULL);
+        return CTLineGetOffsetForStringIndex(_lineRef, index , NULL);
     } else {
         return 0.0f;
-    }
-}
-
-- (NSInteger)locationDeltaFromRealRangeToLineRefRange
-{
-    if (_lineRef) {
-        NSInteger i = _stringRange.location - _lineRefRange.location;
-        if (i < 0) {
-            return 0;
-        }
-        return i;
-    } else {
-        return 0;
     }
 }
 
@@ -119,7 +95,6 @@
 - (NSUInteger)characterIndexForBoundingPosition:(CGPoint)position
 {
     if (_lineRef) {
-        [self locationDeltaFromRealRangeToLineRefRange];
         return CTLineGetStringRange(_lineRef).length;
     } else {
         return _stringRange.length;

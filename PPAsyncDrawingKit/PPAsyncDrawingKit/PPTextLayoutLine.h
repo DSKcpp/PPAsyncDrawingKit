@@ -33,7 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSUInteger)characterIndexForBoundingPosition:(CGPoint)position;
 - (CGPoint)baselineOriginForCharacterAtIndex:(NSUInteger)index;
-- (NSInteger)locationDeltaFromRealRangeToLineRefRange;
 - (CGFloat)offsetXForCharacterAtIndex:(NSUInteger)index;
 @end
 
