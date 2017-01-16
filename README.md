@@ -27,7 +27,6 @@ PPAsyncDrawingKit
 | UITextView | PPEditableTextView |   |
 | UIImageView | PPImageView | PPWebImageView |
 | UIButton | PPButton |   |
-|  |  |  |
 
 
 #TODO

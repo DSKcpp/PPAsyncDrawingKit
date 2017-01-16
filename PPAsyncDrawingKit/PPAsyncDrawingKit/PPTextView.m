@@ -32,12 +32,7 @@
     return self;
 }
 
-- (instancetype)initWithWidth:(CGFloat)width
-{
-    return [self initWithFrame:CGRectMake(0, 0, width, 0)];
-}
-
-- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(NSDictionary *)userInfo
+- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously userInfo:(NSDictionary *)userInfo
 {
     NSAttributedString *attributedString = self.attributedString;
     if (attributedString) {

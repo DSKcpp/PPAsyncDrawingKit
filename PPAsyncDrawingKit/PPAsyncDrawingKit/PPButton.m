@@ -95,7 +95,7 @@
     _titleColors = @{}.mutableCopy;
     _images = @{}.mutableCopy;
     _backgroundImages = @{}.mutableCopy;
-    self.reserveContentsBeforeNextDrawingComplete = YES;
+    self.reservePreviousContents = YES;
     self.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     PPButtonInfo *buttonInfo = [PPButtonInfo new];
@@ -117,7 +117,7 @@
     
 }
 
-- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(NSDictionary *)userInfo
+- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously userInfo:(NSDictionary *)userInfo
 {
     NSUInteger drawingCount= self.drawingCount;
     PPButtonInfo *buttonInfo = _buttonInfo;

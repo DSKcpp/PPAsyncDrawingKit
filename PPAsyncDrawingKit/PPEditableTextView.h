@@ -30,17 +30,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface PPEditableTextView : UIScrollView //<UITextInput>
+@interface PPEditableTextView : UIScrollView <UITextInput>
 @property (nonatomic, strong) NSAttributedString *attributedString;
 @property (nonatomic, strong, readonly) PPTextView *textView;
 @property (nonatomic, strong, readonly) PPTextSelectionView *selectionView;
 @property (nonatomic, assign, getter=isEditable) BOOL editable;
 @property (nonatomic, assign, getter=isEditing) BOOL editing;
-@property (nonatomic, weak) id<UITextInputDelegate> inputDelegate;
-@property (nonatomic, readonly) id<UITextInputTokenizer> tokenizer;
+@property (nullable, nonatomic, weak) id<PPEditableTextViewDelegate> delegate;
 
 - (instancetype)initWithFrame:(CGRect)frame;
-@property (nullable, nonatomic, weak) id<PPEditableTextViewDelegate> delegate;
 @end
 
 NS_ASSUME_NONNULL_END

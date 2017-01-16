@@ -53,5 +53,16 @@
     return self;
 }
 
+- (int)compare:(PPTextPosition *)position
+{
+    NSInteger i = 0;
+    if (_index != position.index) {
+        i = 1;
+    }
+    if (_index < position.index) {
+        i = -1;
+    }
+    return i;
+}
 
 @end

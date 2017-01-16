@@ -80,7 +80,7 @@
 
 - (void)setFinalImage:(UIImage *)image isGIf:(BOOL)isGIf
 {
-    self.reserveContentsBeforeNextDrawingComplete = YES;
+    self.reservePreviousContents = YES;
     if (isGIf) {
         [self setGifImage:image];
     } else {

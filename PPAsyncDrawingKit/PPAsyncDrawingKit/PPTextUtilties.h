@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-static inline CFRange PPCFRangeFromNSRange(NSRange range) {
+static inline CFRange PPNSRangeToCFRange(NSRange range) {
     return CFRangeMake(range.location, range.length);
 }
 

@@ -13,8 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PPMultiplexTextView : PPAsyncDrawingView <PPTextRendererEventDelegate>
 
-@property (nullable, nonatomic, strong) NSArray<PPTextRenderer *> *textRenderers;
+@property (nullable, nonatomic, strong, readonly) NSArray<PPTextRenderer *> *textRenderers;
 @property (nullable, nonatomic, strong) PPTextRenderer *respondTextRenderer;
+
+- (void)addTextRenderer:(PPTextRenderer *)textRenderer;
 
 - (nullable PPTextRenderer *)rendererAtPoint:(CGPoint)point;
 - (void)textRenderer:(PPTextRenderer *)textRenderer didPressHighlightRange:(PPTextHighlightRange *)highlightRange;

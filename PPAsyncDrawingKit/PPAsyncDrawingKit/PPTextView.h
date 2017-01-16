@@ -32,7 +32,6 @@ typedef void(^PPTextViewDidSelectTextHighlightBlock)(PPTextHighlightRange *textH
 @property (nullable, nonatomic, weak) id<PPTextViewDelegate> delegate;
 @property (nonatomic, copy) PPTextViewDidSelectTextHighlightBlock didSelectTextHighlightBlock;
 
-- (instancetype)initWithWidth:(CGFloat)width;
 - (instancetype)initWithFrame:(CGRect)frame;
 
 - (NSInteger)lineIndexForPoint:(CGPoint)point;

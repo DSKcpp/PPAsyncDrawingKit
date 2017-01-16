@@ -27,7 +27,7 @@
     if (drawingContext.hasTitle) {
         drawingContext.titleBackgroundViewFrame = CGRectMake(0, 0, drawingContext.contentWidth, preset.titleAreaHeight);
         CGFloat height = [drawingContext.titleAttributedText pp_heightConstrainedToWidth:maxWidth];
-        CGRect titleRect = CGRectMake(preset.titleIconLeft + preset.titleIconSize + 5.0f, 0, drawingContext.contentWidth, height);
+        CGRect titleRect = CGRectMake(preset.titleIconLeft + preset.titleIconSize + 5.0f, 0, maxWidth, height);
         titleRect.origin.y = (preset.titleAreaHeight - height) / 2.0f;
         drawingContext.titleFrame = titleRect;
         totalHeight += preset.titleAreaHeight;
@@ -117,7 +117,10 @@
         self.attachmentViews = [NSMutableArray array];
         self.attachments = [NSMutableArray array];
         self.isSourceRectBeReset = NO;
-        self.textRenderers = @[self.itemTextRenderer, self.quotedItemTextRenderer, self.titleTextRenderer, self.metaInfoTextRenderer];
+        [self addTextRenderer:self.itemTextRenderer];
+        [self addTextRenderer:self.quotedItemTextRenderer];
+        [self addTextRenderer:self.titleTextRenderer];
+        [self addTextRenderer:self.metaInfoTextRenderer];
         _largeCardView = [[WBTimelineLargeCardView alloc] initWithFrame:CGRectZero];
         [self addSubview:_largeCardView];
     }
@@ -140,7 +143,7 @@
     
 }
 
-- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(NSDictionary *)userInfo
+- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously userInfo:(NSDictionary *)userInfo
 {
     WBTimelineTableViewCellDrawingContext *drawingContext = self.drawingContext;
     if (drawingContext.hasTitle) {
@@ -148,12 +151,15 @@
         self.titleTextRenderer.frame = drawingContext.titleFrame;
         [self.titleTextRenderer drawInContext:context];
     }
+    
     self.metaInfoTextRenderer.attributedString = drawingContext.metaInfoAttributedText;
     self.metaInfoTextRenderer.frame = drawingContext.metaInfoFrame;
     [self.metaInfoTextRenderer drawInContext:context];
+    
     self.itemTextRenderer.frame = drawingContext.textFrame;
     self.itemTextRenderer.attributedString = drawingContext.textAttributedText;
     [self.itemTextRenderer drawInContext:context];
+    
     if (drawingContext.hasQuoted) {
         self.quotedItemTextRenderer.frame = drawingContext.quotedFrame;
         self.quotedItemTextRenderer.attributedString = drawingContext.quotedAttributedText;

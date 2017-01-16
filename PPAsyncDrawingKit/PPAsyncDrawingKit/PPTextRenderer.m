@@ -11,6 +11,7 @@
 #import "PPTextLayoutLine.h"
 #import "PPTextAttachment.h"
 #import "NSAttributedString+PPAsyncDrawingKit.h"
+#import "PPAssert.h"
 
 struct PPTextRendererEventDelegateHas {
     BOOL didPressHighlightRange;
@@ -41,42 +42,46 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 
 - (void)drawInContext:(CGContextRef)context visibleRect:(CGRect)visibleRect placeAttachments:(BOOL)placeAttachments
 {
-    if (context) {
-        NSAttributedString *attributedString = self.attributedString;
-        if (attributedString.length > 0) {
-            if (!CGRectIsNull(visibleRect)) {
-                self.textLayout.size = visibleRect.size;
+    PPASDKAssert(context, @"This method needs CGContextRef");
+    
+    NSAttributedString *attributedString = self.attributedString;
+    if (attributedString.length > 0) {
+        if (!CGRectIsNull(visibleRect)) {
+            self.textLayout.size = visibleRect.size;
+        }
+        PPTextLayoutFrame *layoutFrame = self.textLayout.layoutFrame;
+        if (layoutFrame) {
+            if ([PPTextRenderer debugModeEnabled]) {
+                [self debugModeDrawLineFramesWithLayoutFrame:layoutFrame context:context];
             }
-            PPTextLayoutFrame *layoutFrame = self.textLayout.layoutFrame;
-            if (layoutFrame) {
-                UIOffset offset = [self drawingOffsetWithTextLayout:self.textLayout layoutFrame:layoutFrame];
-                if ([PPTextRenderer debugModeEnabled]) {
-                    [self debugModeDrawLineFramesWithLayoutFrame:layoutFrame context:context offset:offset];
-                }
-                PPTextHighlightRange *highlightRange = self.pressingHighlightRange;
-                if (highlightRange) {
-                    [self enumerateEnclosingRectsForCharacterRange:highlightRange.range usingBlock:^(CGRect rect, BOOL *stop) {
-                        [self drawHighlightedBackgroundForHighlightRange:highlightRange rect:rect context:context];
-                    }];
-                }
-            }
-            CGContextSaveGState(context);
-            CGContextSetTextMatrix(context, CGAffineTransformIdentity);
-            CGContextScaleCTM(context, 1.0, -1.0);
-            CGContextTranslateCTM(context, 0, -self.textLayout.size.height);
-            for (PPTextLayoutLine *line in self.textLayout.layoutFrame.lineFragments) {
-                CGPoint position = [self.textLayout convertPointToCoreText:line.baselineOrigin];
-                CGFloat y = -self.drawingOrigin.y + position.y;
-                CGFloat x = self.drawingOrigin.x + position.x;
-                CGContextSetTextPosition(context, x, y);
-                CTLineDraw(line.lineRef, context);
-            }
-            CGContextRestoreGState(context);
-            if (placeAttachments) {
-                [self drawAttachmentsWithAttributedString:attributedString layoutFrame:self.textLayout.layoutFrame context:context];
+            PPTextHighlightRange *highlightRange = self.pressingHighlightRange;
+            if (highlightRange) {
+                [self enumerateEnclosingRectsForCharacterRange:highlightRange.range usingBlock:^(CGRect rect, BOOL *stop) {
+                    [self drawHighlightedBackgroundForHighlightRange:highlightRange rect:rect context:context];
+                }];
             }
         }
+        [self drawTextInContext:context layout:self.textLayout];
+        if (placeAttachments) {
+            [self drawAttachmentsWithAttributedString:attributedString layoutFrame:self.textLayout.layoutFrame context:context];
+        }
     }
+}
+
+- (void)drawTextInContext:(CGContextRef)context layout:(PPTextLayout *)textLayout
+{
+    CGContextSaveGState(context);
+    CGContextTranslateCTM(context, self.drawingOrigin.x, self.drawingOrigin.y + self.frame.size.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
+    
+    for (PPTextLayoutLine *line in textLayout.layoutFrame.lineFragments) {
+        CGPoint position = line.baselineOrigin;
+        position = [textLayout convertPointToCoreText:position];
+        CGContextSetTextMatrix(context, CGAffineTransformIdentity);
+        CGContextSetTextPosition(context, position.x, position.y);
+        CTLineDraw(line.lineRef, context);
+    }
+    CGContextRestoreGState(context);
 }
 
 - (void)drawAttachmentsWithAttributedString:(NSAttributedString *)attributedString layoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context
@@ -88,7 +93,7 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
                 CGPoint origin = [line baselineOriginForCharacterAtIndex:range.location];
                 CGSize size = textAttachment.contentSize;
                 CGRect rect = (CGRect){(CGPoint)origin, (CGSize)size};
-                UIEdgeInsets edgeInsets = textAttachment.contentEdgeInsets;
+//                UIEdgeInsets edgeInsets = textAttachment.contentEdgeInsets;
 //                rect = UIEdgeInsetsInsetRect(rect, edgeInsets);
                 PPTextFontMetrics *font = textAttachment.fontMetricsForLayout;
                 rect.origin.y -= font.ascent;
@@ -137,11 +142,6 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
         CGContextClosePath(context);
         CGContextFillPath(context);
     }
-}
-
-- (UIOffset)drawingOffsetWithTextLayout:(PPTextLayout *)textLayout layoutFrame:(id)arg2
-{
-    return UIOffsetZero;
 }
 
 #pragma mark - Event
@@ -253,7 +253,7 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 
 @end
 
-@implementation PPTextRenderer (LayoutResult)
+@implementation PPTextRenderer (PPTextRendererLayoutResult)
 - (CGSize)layoutSize
 {
     return self.textLayout.layoutSize;
@@ -337,7 +337,7 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 
 @end
 
-@implementation PPTextRenderer (Coordinates)
+@implementation PPTextRenderer (PPTextRendererCoordinates)
 - (CGPoint)convertPointToLayout:(CGPoint)point
 {
     CGPoint drawingOrigin = self.drawingOrigin;
@@ -372,7 +372,7 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 
 @end
 
-@implementation PPTextRenderer (Events)
+@implementation PPTextRenderer (PPTextRendererEvents)
 - (UIView *)eventDelegateContextView
 {
     if (_eventDelegateHas.contextViewForTextRenderer) {
@@ -409,7 +409,7 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 
 @end
 
-@implementation PPTextRenderer (Debug)
+@implementation PPTextRenderer (PPTextRendererDebug)
 static BOOL textRendererDebugModeEnabled = NO;
 + (BOOL)debugModeEnabled
 {
@@ -431,7 +431,7 @@ static BOOL textRendererDebugModeEnabled = NO;
     textRendererDebugModeEnabled = enabled;
 }
 
-- (void)debugModeDrawLineFramesWithLayoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context offset:(UIOffset)offset
+- (void)debugModeDrawLineFramesWithLayoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context
 {
     CGPoint origin = self.drawingOrigin;
     CGSize size = self.textLayout.size;
@@ -446,7 +446,6 @@ static BOOL textRendererDebugModeEnabled = NO;
         CGContextSaveGState(context);
         CGContextSetAlpha(context, 0.1f);
         CGContextSetFillColorWithColor(context, [UIColor blueColor].CGColor);
-        rect.origin.y -= line.lineMetrics.ascent;
         CGContextFillRect(context, rect);
         
         CGContextSetAlpha(context, 1.0f);

@@ -42,8 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGRect frame;
 @property (nonatomic, assign) CGPoint drawingOrigin;
 
-- (UIOffset)drawingOffsetWithTextLayout:(PPTextLayout *)textLayout layoutFrame:(PPTextLayoutFrame *)layoutFrame;
-
 /**
  draw current context
  */
@@ -71,24 +69,24 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, weak) id<PPTextRendererEventDelegate> eventDelegate;
 @end
 
-@interface PPTextRenderer (Events)
+@interface PPTextRenderer (PPTextRendererEvents)
 - (nullable PPTextHighlightRange *)highlightRangeForLayoutLocation:(CGPoint)location;
 - (void)eventDelegateDidPressHighlightRange:(PPTextHighlightRange *)highlightRange;
 - (nullable UIView *)eventDelegateContextView;
 @end
 
-@interface PPTextRenderer (Previewing)
+@interface PPTextRenderer (PPTextRendererPreviewing)
 - (id)activeRangeAtLocation:(CGPoint)location;
 @end
 
-@interface PPTextRenderer (Coordinates)
+@interface PPTextRenderer (PPTextRendererCoordinates)
 - (CGRect)convertRectToLayout:(CGRect)rect;
 - (CGRect)convertRectFromLayout:(CGRect)rect;
 - (CGPoint)convertPointToLayout:(CGPoint)point;
 - (CGPoint)convertPointFromLayout:(CGPoint)point;
 @end
 
-@interface PPTextRenderer (LayoutResult)
+@interface PPTextRenderer (PPTextRendererLayoutResult)
 @property (nonatomic, assign, readonly) CGFloat layoutHeight;
 @property (nonatomic, assign, readonly) CGSize layoutSize;
 @property (nonatomic, assign, readonly) NSUInteger layoutLineCount;
@@ -107,12 +105,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)lineFragmentIndexForCharacterAtIndex:(NSUInteger)index;
 @end
 
-@interface PPTextRenderer (Debug)
+@interface PPTextRenderer (PPTextRendererDebug)
 + (BOOL)debugModeEnabled;
 + (void)disableDebugMode;
 + (void)enableDebugMode;
 + (void)setDebugModeEnabled:(BOOL)enabled;
-- (void)debugModeDrawLineFramesWithLayoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context offset:(UIOffset)offset;
+- (void)debugModeDrawLineFramesWithLayoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context;
 @end
 
 NS_ASSUME_NONNULL_END

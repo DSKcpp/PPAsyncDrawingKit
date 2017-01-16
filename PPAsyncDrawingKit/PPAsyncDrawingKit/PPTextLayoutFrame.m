@@ -37,18 +37,10 @@
         
         for (NSInteger i = 0; i < lineCount; i++) {
             CTLineRef lineRef = CFArrayGetValueAtIndex(lineRefs, i);
-            if (maxLines == 0) {
-                PPTextLayoutLine *line = [[PPTextLayoutLine alloc] initWithCTLine:lineRef origin:origins[i] layout:self.layout];
-                [lines addObject:line];
-            } else if (maxLines - 1 != 0) {
-//                CTLineRef truncateLine = [self textLayout:_layout truncateLine:lineRef atIndex:maxLines - 1 truncated:YES];
-//                PPTextLayoutLine *line = [[PPTextLayoutLine alloc] initWithCTLine:truncateLine origin:origins[i] layout:_layout];
-//                [lines addObject:line];
-            } else {
-                CTLineRef truncateLine = [self textLayout:_layout truncateLine:lineRef atIndex:maxLines - 1 truncated:YES];
-                PPTextLayoutLine *line = [[PPTextLayoutLine alloc] initWithCTLine:truncateLine origin:origins[i] layout:_layout];
-                [lines addObject:line];
-            }
+            CGPoint position = origins[i];
+            position.y = 20000 - position.y;
+            PPTextLayoutLine *line = [[PPTextLayoutLine alloc] initWithCTLine:lineRef origin:position layout:self.layout];
+            [lines addObject:line];
         }
     }
     self.lineFragments = [NSArray arrayWithArray:lines];
@@ -66,7 +58,10 @@
                 rect = CGRectUnion(rect, line.fragmentRect);
             }
         }];
-        self.layoutSize = rect.size;
+        CGSize size = rect.size;
+        size.width = ceil(size.width);
+        size.height = ceil(size.height);
+        self.layoutSize = size;
     }
 }
 
@@ -159,20 +154,17 @@
     if (block) {
         if (self.lineFragments.count) {
             [self.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
-//                if (range.location >= line.stringRange.location && (range.location + range.length) <= line.stringRange.location + line.stringRange.length) {
                 NSRange lineRange = line.stringRange;
                 if (range.location >= lineRange.location) {
                     if (range.length + range.location <= lineRange.length + lineRange.location) {
-                        CGFloat x = line.fragmentRect.origin.x;
-                        CGFloat y = line.fragmentRect.origin.y;
+                        CGFloat x = line.baselineOrigin.x;
+                        CGFloat y = line.baselineOrigin.y;
                         CGFloat left = [line offsetXForCharacterAtIndex:range.location] + x;
                         CGFloat right = [line offsetXForCharacterAtIndex:range.location + range.length] + x;
                         CGRect rect = CGRectMake(left, y - line.lineMetrics.ascent, right - left, line.fragmentRect.size.height);
                         block(rect, stop);
                     }
                 }
-
-//                }
             }];
         }
     }

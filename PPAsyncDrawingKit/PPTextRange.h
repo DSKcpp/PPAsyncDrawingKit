@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (PPTextPosition *)postionWithIndex:(NSUInteger)index;
 - (instancetype)initWithIndex:(NSUInteger)index;
+- (int)compare:(PPTextPosition *)position;
 @end
 
 NS_ASSUME_NONNULL_END

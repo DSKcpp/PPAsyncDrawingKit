@@ -465,7 +465,7 @@
     }
 }
 
-- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async
+- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously
 {
     NSString *username = self.user.screen_name;
 //    PPTextRenderer *renderer = [NSAttributedString rendererForCurrentThread];

@@ -13,14 +13,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PPButton : PPControl
-@property (nonatomic, assign) UIEdgeInsets imageEdgeInsets;
-@property (nonatomic, assign) UIEdgeInsets contentEdgeInsets;
-@property (nonatomic, assign) UIEdgeInsets titleEdgeInsets;
-@property (nonatomic, assign) UIControlState trackingState;
 @property (nonatomic, strong) UIFont *titleFont;
 @property (nonatomic, strong, readonly) PPTextView *label;
 @property (nonatomic, strong, readonly) PPImageView *imageView;
 @property (nonatomic, assign, getter=isMergeDraw) BOOL mergeDraw;
+@property (nonatomic, assign) UIEdgeInsets imageEdgeInsets;
+@property (nonatomic, assign) UIEdgeInsets contentEdgeInsets;
+@property (nonatomic, assign) UIEdgeInsets titleEdgeInsets;
+@property (nonatomic, assign) UIControlState trackingState;
 
 - (instancetype)initWithFrame:(CGRect)frame;
 

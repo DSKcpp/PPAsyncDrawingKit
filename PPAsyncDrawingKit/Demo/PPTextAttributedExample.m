@@ -50,7 +50,7 @@
     PPTextView *label = [[PPTextView  alloc] init];
     [attributedString pp_setAlignment:NSTextAlignmentCenter];
     label.attributedString = attributedString;
-    label.height = [attributedString pp_sizeConstrainedToWidth:self.view.width].height + 1;
+    label.height = [attributedString pp_sizeConstrainedToWidth:self.view.width].height;
     label.width = self.view.width;
     label.top = 64;
     [self.view addSubview:label];

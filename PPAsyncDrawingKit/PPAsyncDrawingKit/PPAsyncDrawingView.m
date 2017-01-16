@@ -10,7 +10,7 @@
 #import <stdatomic.h>
 #import "PPAssert.h"
 
-dispatch_queue_t PPDrawConcurrentQueue(void) {
+static dispatch_queue_t PPDrawConcurrentQueue(void) {
     static dispatch_queue_t queue;
     static dispatch_once_t token;
     dispatch_once(&token, ^{
@@ -20,15 +20,9 @@ dispatch_queue_t PPDrawConcurrentQueue(void) {
 }
 
 @interface _PPAsyncDrawingViewLayer : CALayer
-@property (nonatomic, assign) BOOL reserveContentsBeforeNextDrawingComplete;
-@property (nonatomic, assign) BOOL contentsChangedAfterLastAsyncDrawing;
-
-@property (nonatomic, assign) PPAsyncDrawingPolicy drawingPolicy;
-@property (nonatomic, assign) NSTimeInterval fadeDuration;
 @property (nonatomic, assign, readonly) atomic_uint drawingCount;
 
 - (void)increaseDrawingCount;
-- (BOOL)drawCurrentContentAsynchronously;
 @end
 
 @implementation _PPAsyncDrawingViewLayer
@@ -50,16 +44,6 @@ dispatch_queue_t PPDrawConcurrentQueue(void) {
     [super setNeedsDisplayInRect:rect];
 }
 
-- (BOOL)drawCurrentContentAsynchronously
-{
-    if (_drawingPolicy == PPAsyncDrawingPolicyMultiThread) {
-        return YES;
-    } else if (_drawingPolicy == PPAsyncDrawingPolicyMainThread) {
-        return NO;
-    } else {
-        return self.contentsChangedAfterLastAsyncDrawing;
-    }
-}
 @end
 
 @implementation PPAsyncDrawingView
@@ -125,7 +109,7 @@ static BOOL asyncDrawingEnabled = YES;
 - (void)_displayLayer:(_PPAsyncDrawingViewLayer *)layer rect:(CGRect)rect drawingStarted:(void (^)(BOOL))drawingStarted drawingFinished:(void (^)(BOOL))drawingFinished drawingInterrupted:(void (^)(BOOL))drawingInterrupted
 {
     BOOL asynchronously = NO;
-    if ([layer drawCurrentContentAsynchronously] && [PPAsyncDrawingView globallyAsyncDrawingEnabled]) {
+    if ([self drawCurrentContentAsynchronously] && [PPAsyncDrawingView globallyAsyncDrawingEnabled]) {
         asynchronously = YES;
     }
     
@@ -188,21 +172,15 @@ static BOOL asyncDrawingEnabled = YES;
                 return;
             }
             layer.contents = (__bridge id _Nullable)(image.CGImage);
-            layer.reserveContentsBeforeNextDrawingComplete = NO;
-            layer.contentsChangedAfterLastAsyncDrawing = NO;
-            if (layer.fadeDuration > 0) {
-                layer.opacity = 0.0f;
-                [UIView animateWithDuration:layer.fadeDuration delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-                    layer.opacity = 1.0f;
-                } completion:nil];
-            }
+            self.reservePreviousContents = NO;
+            self.contentsChangedAfterLastAsyncDrawing = NO;
             drawingFinished(asynchronously);
         });
     };
     
     drawingStarted(asynchronously);
     if (asynchronously) {
-        if (!layer.reserveContentsBeforeNextDrawingComplete) {
+        if (!self.reservePreviousContents) {
             layer.contents = nil;
         }
         dispatch_async(self.internalDrawQueue, drawingContents);
@@ -213,29 +191,25 @@ static BOOL asyncDrawingEnabled = YES;
     }
 }
 
-- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async
+
+- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously
 {
     return YES;
 }
 
-- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(NSDictionary *)userInfo
+- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously userInfo:(NSDictionary *)userInfo
 {
-    return [self drawInRect:rect withContext:context asynchronously:async];
-}
+    return [self drawInRect:rect withContext:context asynchronously:asynchronously];
+}	
 
-- (BOOL)respondsToSelector:(SEL)aSelector
+- (BOOL)drawCurrentContentAsynchronously
 {
-    if (!self.alwaysUsesOffscreenRendering) {
-        if ([NSStringFromSelector(aSelector) isEqual:@"displayLayer:"]) {
-            if (self.drawingPolicy != PPAsyncDrawingPolicyMainThread) {
-                return YES;
-            }
-            return NO;
-        } else {
-            return [super respondsToSelector:aSelector];
-        }
+    if (_drawingPolicy == PPAsyncDrawingPolicyMultiThread) {
+        return YES;
+    } else if (_drawingPolicy == PPAsyncDrawingPolicyMainThread) {
+        return NO;
     } else {
-        return [super respondsToSelector:aSelector];
+        return self.contentsChangedAfterLastAsyncDrawing;
     }
 }
 
@@ -255,50 +229,11 @@ static BOOL asyncDrawingEnabled = YES;
     return (_PPAsyncDrawingViewLayer *)self.layer;
 }
 
-- (NSTimeInterval)fadeDuration
-{
-    return self.drawingLayer.fadeDuration;
-}
-
-- (void)setFadeDuration:(NSTimeInterval)fadeDuration
-{
-    [self.drawingLayer setFadeDuration:fadeDuration];
-}
-
-- (BOOL)contentsChangedAfterLastAsyncDrawing
-{
-    return self.drawingLayer.contentsChangedAfterLastAsyncDrawing;
-}
-
-- (void)setContentsChangedAfterLastAsyncDrawing:(BOOL)contentsChangedAfterLastAsyncDrawing
-{
-    [self.drawingLayer setContentsChangedAfterLastAsyncDrawing:contentsChangedAfterLastAsyncDrawing];
-}
-
-- (BOOL)reserveContentsBeforeNextDrawingComplete
-{
-    return self.drawingLayer.reserveContentsBeforeNextDrawingComplete;
-}
-
-- (void)setReserveContentsBeforeNextDrawingComplete:(BOOL)reserveContentsBeforeNextDrawingComplete
-{
-    [self.drawingLayer setReserveContentsBeforeNextDrawingComplete:reserveContentsBeforeNextDrawingComplete];
-}
-
-- (PPAsyncDrawingPolicy)drawingPolicy
-{
-    return self.drawingLayer.drawingPolicy;
-}
-
-- (void)setDrawingPolicy:(PPAsyncDrawingPolicy)drawingPolicy
-{
-    [self.drawingLayer setDrawingPolicy:drawingPolicy];
-}
-
 - (NSUInteger)drawingCount
 {
     return self.drawingLayer.drawingCount;
 }
+
 
 - (dispatch_queue_t)internalDrawQueue
 {
@@ -308,10 +243,4 @@ static BOOL asyncDrawingEnabled = YES;
         return PPDrawConcurrentQueue();
     }
 }
-
-- (BOOL)alwaysUsesOffscreenRendering
-{
-    return YES;
-}
-
 @end

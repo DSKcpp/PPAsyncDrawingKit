@@ -8,11 +8,34 @@
 
 #import "PPMultiplexTextView.h"
 
-@implementation PPMultiplexTextView
-
-- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)async userInfo:(NSDictionary *)userInfo
+@interface PPMultiplexTextView ()
 {
-    [_textRenderers enumerateObjectsUsingBlock:^(PPTextRenderer * _Nonnull textRenderer, NSUInteger idx, BOOL * _Nonnull stop) {
+    NSMutableArray<PPTextRenderer *> *_internalTextRenderers;
+}
+@end
+
+@implementation PPMultiplexTextView
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    if (self = [super initWithFrame:frame]) {
+        _internalTextRenderers = [NSMutableArray array];
+    }
+    return self;
+}
+
+- (NSArray<PPTextRenderer *> *)textRenderers
+{
+    return [NSArray arrayWithArray:_internalTextRenderers.copy];
+}
+
+- (void)addTextRenderer:(PPTextRenderer *)textRenderer
+{
+    [_internalTextRenderers addObject:textRenderer];
+}
+
+- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously userInfo:(NSDictionary *)userInfo
+{
+    [_internalTextRenderers enumerateObjectsUsingBlock:^(PPTextRenderer * _Nonnull textRenderer, NSUInteger idx, BOOL * _Nonnull stop) {
         [textRenderer drawInContext:context];
     }];
     return YES;
@@ -20,7 +43,7 @@
 
 - (PPTextRenderer *)rendererAtPoint:(CGPoint)point
 {
-    for (PPTextRenderer *textRenderer in _textRenderers) {
+    for (PPTextRenderer *textRenderer in _internalTextRenderers) {
         if (CGRectContainsPoint(textRenderer.frame, point)) {
             return textRenderer;
         }

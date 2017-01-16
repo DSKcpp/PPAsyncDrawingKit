@@ -41,21 +41,21 @@
 - (void)setupWithCTLine
 {
     PPTextFontMetrics *fontMetrics = [[PPTextFontMetrics alloc] init];
-    CGFloat ascent = 100;
-    CGFloat descent = 50;
-    CGFloat leading;
+    CGFloat ascent = 0;
+    CGFloat descent = 0;
+    CGFloat leading = 0;
     _width = CTLineGetTypographicBounds(_lineRef, &ascent, &descent, &leading);
     fontMetrics.ascent = ascent;
     fontMetrics.descent = descent;
     fontMetrics.leading = leading;
     _lineMetrics = fontMetrics;
-    _baselineOrigin = [_layout convertPointFromCoreText:_baselineOrigin];
+//    _baselineOrigin = [_layout convertPointFromCoreText:_baselineOrigin];
 }
 
 - (CGRect)fragmentRect
 {
     CGFloat height = _lineMetrics.ascent + _lineMetrics.descent;
-    return (CGRect){_baselineOrigin, (CGSize){_width, height}};
+    return CGRectMake(_baselineOrigin.x, _baselineOrigin.y - _lineMetrics.ascent, _width, height);
 }
 
 - (void)dealloc
