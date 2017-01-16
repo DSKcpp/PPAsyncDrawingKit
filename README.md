@@ -32,7 +32,7 @@ PPAsyncDrawingKit
 #TODO
 * Editable text view
 * 目前没有注释，过些日子补上
-* Text view 点击和计算有一些 BUG
+* Text view 隔行点击
 * 更多的 CoreText 样式
 
 #How To Use
@@ -49,8 +49,10 @@ see `Demo\PPAsyncDrawingKit.xcodeproj`
 
 ![](http://ww2.sinaimg.cn/large/9bffd8f9gw1fbka8hdcusj20ks0jugmz.jpg)
 
-###PPImageView
-高性能圆角 ImageView, 滑动时FPS 稳定 60
+###PPImageView / PPWebImageView
+高性能圆角 ImageView
+
+如果不喜欢自带的`PPWebImageView`，近期将支持 `SDWebImage`。
 
 ![](http://ww4.sinaimg.cn/large/9bffd8f9gw1fbk3ht0t1zj20a108btat.jpg)
 
