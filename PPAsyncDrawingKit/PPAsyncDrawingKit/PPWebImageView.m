@@ -7,6 +7,7 @@
 //
 
 #import "PPWebImageView.h"
+#import "PPImageLoadRequest.h"
 
 @implementation PPWebImageView
 - (instancetype)initWithFrame:(CGRect)frame
@@ -43,10 +44,7 @@
                 completeBlock(image, nil, imageURL);
             }
         } else {
-            if (_imageLoadQueue) {
-                [PPWebImageManager sharedManager].imageLoadQueue = _imageLoadQueue;
-            }
-            [[PPWebImageManager sharedManager] loadImage:imageURL delegate:self progress:progressBlock complete:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, NSString * _Nullable imageURL) {
+            PPImageLoadRequest *request = [[PPWebImageManager sharedManager] loadImage:imageURL progress:progressBlock complete:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, NSString * _Nullable imageURL) {
                 if (image) {
                     [self setImageLoaderImage:image URL:imageURL];
                 }
@@ -80,7 +78,7 @@
 
 - (void)setFinalImage:(UIImage *)image isGIf:(BOOL)isGIf
 {
-    self.reservePreviousContents = YES;
+    self.clearsContextBeforeDrawing = NO;
     if (isGIf) {
         [self setGifImage:image];
     } else {
@@ -95,6 +93,6 @@
 
 - (void)cancelCurrentImageLoading
 {
-    [[PPWebImageManager sharedManager] cancelRequestForDelegate:self];
+    [[PPWebImageManager sharedManager] cancelRequestForKey:NSStringFromClass([self class])];
 }
 @end

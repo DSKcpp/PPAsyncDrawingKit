@@ -95,7 +95,7 @@
     _titleColors = @{}.mutableCopy;
     _images = @{}.mutableCopy;
     _backgroundImages = @{}.mutableCopy;
-    self.reservePreviousContents = YES;
+    self.clearsContextBeforeDrawing = NO;
     self.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     PPButtonInfo *buttonInfo = [PPButtonInfo new];

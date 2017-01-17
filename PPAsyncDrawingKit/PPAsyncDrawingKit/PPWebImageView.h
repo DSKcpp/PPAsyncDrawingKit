@@ -19,7 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PPWebImageView : PPImageView
 @property (nonatomic, assign) int loadState;
-@property (nonatomic, assign) dispatch_queue_t imageLoadQueue;
 @property (nonatomic, assign) BOOL allowPlayGif;
 @property (nonatomic, assign) BOOL autoPlayGifIfReady;
 @property (nonatomic, assign, readonly) BOOL imageLoaded;

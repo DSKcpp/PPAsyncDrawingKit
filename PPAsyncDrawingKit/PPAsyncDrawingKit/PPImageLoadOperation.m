@@ -55,7 +55,6 @@
 {
     if (self = [super init]) {
         _imageURL = URL;
-        self.minNotifiProgressInterval = 0.05f;
     }
     return self;
 }

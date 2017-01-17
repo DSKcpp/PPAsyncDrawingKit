@@ -40,38 +40,30 @@
 
 - (PPImageLoadRequest *)loadImage:(NSString *)imageURL complete:(PPInternalCompletionBlock)complete
 {
-    return [self loadImage:imageURL delegate:nil progress:nil complete:complete autoCancel:YES cacheType:PPImageCacheTypeAll];
+    return [self loadImage:imageURL progress:nil complete:complete autoCancel:YES cacheType:PPImageCacheTypeAll];
 }
 
 - (PPImageLoadRequest *)loadImage:(NSString *)imageURL progress:(PPWebImageDownloaderProgressBlock)progress complete:(PPInternalCompletionBlock)complete
 {
-    return [self loadImage:imageURL delegate:nil progress:progress complete:complete autoCancel:YES cacheType:PPImageCacheTypeAll];
+    return [self loadImage:imageURL progress:progress complete:complete autoCancel:YES cacheType:PPImageCacheTypeAll];
 }
 
-- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id)delegate progress:(PPWebImageDownloaderProgressBlock)progress complete:(PPInternalCompletionBlock)complete
+- (PPImageLoadRequest *)loadImage:(NSString *)imageURL progress:(PPWebImageDownloaderProgressBlock)progress complete:(PPInternalCompletionBlock)complete cacheType:(PPImageCacheType)cacheType
 {
-    return [self loadImage:imageURL delegate:delegate progress:progress complete:complete autoCancel:YES cacheType:PPImageCacheTypeAll];
+    return [self loadImage:imageURL progress:progress complete:complete autoCancel:YES cacheType:cacheType];
 }
 
-- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id)delegate progress:(PPWebImageDownloaderProgressBlock)progress complete:(PPInternalCompletionBlock)complete cacheType:(PPImageCacheType)cacheType
+- (PPImageLoadRequest *)loadImage:(NSString *)imageURL progress:(PPWebImageDownloaderProgressBlock)progress complete:(PPInternalCompletionBlock)complete autoCancel:(BOOL)autoCancel
 {
-    return [self loadImage:imageURL delegate:delegate progress:progress complete:complete autoCancel:YES cacheType:cacheType];
+    return [self loadImage:imageURL progress:progress complete:complete autoCancel:autoCancel cacheType:PPImageCacheTypeAll];
 }
 
-- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id)delegate progress:(PPWebImageDownloaderProgressBlock)progress complete:(PPInternalCompletionBlock)complete autoCancel:(BOOL)autoCancel
-{
-    return [self loadImage:imageURL delegate:delegate progress:progress complete:complete autoCancel:autoCancel cacheType:PPImageCacheTypeAll];
-}
-
-- (PPImageLoadRequest *)loadImage:(NSString *)imageURL delegate:(id)delegate progress:(PPWebImageDownloaderProgressBlock)progress complete:(PPInternalCompletionBlock)complete autoCancel:(BOOL)autoCancel cacheType:(PPImageCacheType)cacheType
+- (PPImageLoadRequest *)loadImage:(NSString *)imageURL progress:(PPWebImageDownloaderProgressBlock)progress complete:(PPInternalCompletionBlock)complete autoCancel:(BOOL)autoCancel cacheType:(PPImageCacheType)cacheType
 {
     if (imageURL.length) {
         PPImageLoadRequest *request = [[PPImageLoadRequest alloc] initWithURL:imageURL];
         request.completedBlock = complete;
         request.progressBlock = progress;
-        request.owner = delegate;
-        request.cancelForOwnerDealloc = autoCancel;
-        request.minNotifiProgressInterval = 0.05f;
         [self addRequest:request];
         return request;
     } else {
@@ -79,63 +71,35 @@
     }
 }
 
-- (dispatch_queue_t)imageLoadQueue
-{
-    if (!_imageLoadQueue) {
-        _imageLoadQueue = dispatch_queue_create("io.github.dskcpp.imageLoad", NULL);
-    }
-    return _imageLoadQueue;
-}
-
 - (void)addRequest:(PPImageLoadRequest *)request
 {
-    void(^createOperation)(void) = ^(void) {
-        @synchronized (self) {
-            NSMutableArray<PPImageLoadRequest *> *loadingRequests = _requests[request.imageURL];
-            if (!loadingRequests) {
-                if (request.imageURL.length) {
-                    loadingRequests = [NSMutableArray array];
-                    [_requests setObject:loadingRequests forKey:request.imageURL];
-                }
-            }
-            [loadingRequests addObject:request];
-        }
-        PPImageLoadOperation *operation = [self operationForURL:request.imageURL];
-        if (operation) {
-            operation.minNotifiProgressInterval = 0.05f;
-        } else {
-            operation = [PPImageLoadOperation operationWithURL:request.imageURL];
-            operation.minNotifiProgressInterval = 1;
-            operation.delegate = self;
-            [_loadQueue addOperation:operation];
-        }
-    };
-    
-    if (self.imageLoadQueue) {
-        dispatch_async(_imageLoadQueue, ^{
-            UIImage *image = [_cache imageForURL:request.imageURL];
+    __weak typeof(self) weakSelf = self;
+    NSOperation *cacheOperation = [_cache imageForURL:request.imageURL callback:^(UIImage * _Nullable image, PPImageCacheType cacheType) {
             if (image) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     request.image = image;
-                    request.progress = 1.0f;
                     [request requestDidFinish];
                 });
             } else {
-                createOperation();
+                @synchronized (weakSelf) {
+                    NSMutableArray<PPImageLoadRequest *> *loadingRequests = weakSelf.requests[request.imageURL];
+                    if (!loadingRequests) {
+                        if (request.imageURL.length) {
+                            loadingRequests = [NSMutableArray array];
+                            [weakSelf.requests setObject:loadingRequests forKey:request.imageURL];
+                        }
+                    }
+                    [loadingRequests addObject:request];
+                }
+                PPImageLoadOperation *operation = [weakSelf operationForURL:request.imageURL];
+                if (!operation) {
+                    operation = [PPImageLoadOperation operationWithURL:request.imageURL];
+                    operation.delegate = weakSelf;
+                    [weakSelf.loadQueue addOperation:operation];
+                }
             }
-        });
-    } else {
-        UIImage *image = [_cache imageForURL:request.imageURL];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (image) {
-                request.image = image;
-                request.progress = 1.0f;
-                [request requestDidFinish];
-            } else {
-                createOperation();
-            }
-        });
-    }
+    }];
+//    request.operation = cacheOperation;
 }
 
 - (void)cancelRequest:(PPImageLoadRequest *)request
@@ -165,7 +129,7 @@
     [operation cancel];
 }
 
-- (void)cancelRequestForDelegate:(id)delegate
+- (void)cancelRequestForKey:(NSString *)key
 {
     NSArray<NSMutableArray<PPImageLoadRequest *> *> *requests;
     @synchronized (self) {
@@ -174,11 +138,12 @@
     
     for (NSMutableArray<PPImageLoadRequest *> *r in requests) {
         [r enumerateObjectsUsingBlock:^(PPImageLoadRequest * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if (obj.owner) {
-                if (obj.owner == delegate) {
-                    [obj cancel];
-                }
-            }
+//            if (obj.key) {
+//                if ([obj.key isEqualToString:key]) {
+//                    [obj cancel];
+//                }
+//            }
+            [obj cancel];
         }];
     }
 }
@@ -217,16 +182,44 @@
     return self.cache;
 }
 
+//- (void)addReadingOperation:(NSOperation *)operation withKey:(NSString *)key
+//{
+//    if (key) {
+//        [self cancelReadingOperationWithKey:key];
+//        if (operation) {
+//            [self.readingOperations setObject:operation forKey:key];
+//        }
+//    }
+//}
+//
+//- (void)cancelReadingOperationWithKey:(NSString *)key
+//{
+//    id operations = self.readingOperations[key];
+//    if (operations) {
+//        if ([operations isKindOfClass:[NSArray class]]) {
+//            for (NSOperation *operation in operations) {
+//                if (operation) {
+//                    [operation cancel];
+//                }
+//            }
+//        } else if ([operations isKindOfClass:[NSOperation class]]){
+//            [operations cancel];
+//        }
+//        [self removeReadingOperationWithKey:key];
+//    }
+//}
+//
+//- (void)removeReadingOperationWithKey:(NSString *)key
+//{
+//    [self.readingOperations removeObjectForKey:key];
+//}
+
 - (void)imageLoadCompleted:(PPImageLoadOperation *)imageLoadOperation image:(UIImage *)image data:(NSData *)data error:(NSError *)error isCache:(BOOL)isCache
 {
     if (image && !isCache) {
         [_cache storeImage:image data:data forURL:imageLoadOperation.imageURL toDisk:YES];
     }
     NSString *URL = imageLoadOperation.imageURL;
-    if (!error) {
-        NSNotification *notification = [NSNotification notificationWithName:URL object:@{@"URL" : URL}];
-        [[NSNotificationQueue defaultQueue] enqueueNotification:notification postingStyle:NSPostASAP];
-    }
     dispatch_async(dispatch_get_main_queue(), ^{
         @synchronized (self) {
             NSMutableArray<PPImageLoadRequest *> *loadingRequests = [_requests objectForKey:URL];

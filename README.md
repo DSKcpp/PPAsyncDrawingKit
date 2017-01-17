@@ -3,8 +3,8 @@ PPAsyncDrawingKit
 ------------------------
 [![Build Status](https://travis-ci.org/DSKcpp/PPAsyncDrawingKit.svg?branch=master)](https://travis-ci.org/DSKcpp/PPAsyncDrawingKit)
 
-[![Languages](https://img.shields.io/badge/languages-ObjC%20%7C%20Swift-blue.svg)](https://travis-ci.org/DSKcpp/PPAsyncDrawingKit)
-[![Platform](https://img.shields.io/badge/platforms-iOS%207.0%2B-blue.svg)](https://travis-ci.org/DSKcpp/PPAsyncDrawingKit)
+[![Languages](https://img.shields.io/badge/languages-ObjC%20%7C%20Swift-blue.svg)](https://github.com/DSKcpp/PPAsyncDrawingKit)
+[![Platform](https://img.shields.io/badge/platforms-iOS%207.0%2B-blue.svg)](https://github.com/DSKcpp/PPAsyncDrawingKit)
 
 
 

@@ -8,6 +8,7 @@
 
 #import "WBTimelineImageContentView.h"
 #import "WBHelper.h"
+#import "PPImageView+SDWebImage.h"
 
 @implementation WBTimelineImageContentView
 
@@ -98,6 +99,7 @@
         }
         NSString *url = obj.bmiddle.url;
         [imageView setImageURL:url placeholderImage:[UIImage imageNamed:@"avatar"]];
+//        [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"avatar"]];
         imageView.hidden = NO;
         [weakSelf addSubview:imageView];
         [imageViews addObject:imageView];

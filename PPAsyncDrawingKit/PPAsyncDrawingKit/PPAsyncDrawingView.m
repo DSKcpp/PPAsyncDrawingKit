@@ -47,6 +47,8 @@ static dispatch_queue_t PPDrawConcurrentQueue(void) {
 @end
 
 @implementation PPAsyncDrawingView
+@synthesize clearsContextBeforeDrawing = _clearsContextBeforeDrawing;
+
 static BOOL asyncDrawingEnabled = YES;
 
 + (Class)layerClass
@@ -67,6 +69,7 @@ static BOOL asyncDrawingEnabled = YES;
     self.drawingPolicy = PPAsyncDrawingPolicyNone;
     self.opaque = NO;
     self.layer.contentsScale = [UIScreen mainScreen].scale;
+    self.clearsContextBeforeDrawing = YES;
 }
 
 - (NSDictionary *)currentDrawingUserInfo
@@ -172,7 +175,7 @@ static BOOL asyncDrawingEnabled = YES;
                 return;
             }
             layer.contents = (__bridge id _Nullable)(image.CGImage);
-            self.reservePreviousContents = NO;
+            self.clearsContextBeforeDrawing = YES;
             self.contentsChangedAfterLastAsyncDrawing = NO;
             drawingFinished(asynchronously);
         });
@@ -180,7 +183,7 @@ static BOOL asyncDrawingEnabled = YES;
     
     drawingStarted(asynchronously);
     if (asynchronously) {
-        if (!self.reservePreviousContents) {
+        if (self.clearsContextBeforeDrawing) {
             layer.contents = nil;
         }
         dispatch_async(self.internalDrawQueue, drawingContents);
@@ -190,7 +193,6 @@ static BOOL asyncDrawingEnabled = YES;
         dispatch_async(dispatch_get_main_queue(), drawingContents);
     }
 }
-
 
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously
 {

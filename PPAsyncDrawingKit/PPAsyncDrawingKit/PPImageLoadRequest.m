@@ -10,16 +10,13 @@
 
 @interface PPImageLoadRequest ()
 @property (nonatomic, assign) BOOL finished;
-@property (nonatomic, assign) float lastNotifiedProgress;
 @end
 
 @implementation PPImageLoadRequest
 - (instancetype)initWithURL:(NSString *)URL
 {
     if (self = [super init]) {
-        self.cancelForOwnerDealloc = NO;
         _imageURL = URL;
-        self.minNotifiProgressInterval = 0.05f;
     }
     return self;
 }
@@ -46,7 +43,6 @@
 
 - (void)cancel
 {
-    self.owner = nil;
     [[PPWebImageManager sharedManager] cancelRequest:self];
 }
 
@@ -56,20 +52,14 @@
         self.finished = NO;
         self.image = nil;
         self.data = nil;
-        self.progress = 0.0f;
         [self start];
     }
 }
 
 - (void)didReceiveDataSize:(int64_t)reveiveSize expectedSize:(int64_t)expectedSize
 {
-    float progress = reveiveSize / expectedSize;
-    self.progress = progress;
-    if (progress - _lastNotifiedProgress > _minNotifiProgressInterval) {
-        _lastNotifiedProgress = progress;
-        if (_progressBlock) {
-            _progressBlock(reveiveSize, expectedSize, self.imageURL);
-        }
+    if (_progressBlock) {
+        _progressBlock(reveiveSize, expectedSize, self.imageURL);
     }
 }
 

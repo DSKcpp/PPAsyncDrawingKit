@@ -27,10 +27,10 @@ typedef NS_ENUM(NSUInteger, PPAsyncDrawingPolicy) {
  */
 @property (nonatomic, class, assign) BOOL globallyAsyncDrawingEnabled;
 @property (nullable, nonatomic, assign) dispatch_queue_t drawQueue;
-@property (nonatomic, assign) BOOL reservePreviousContents;
 @property (nonatomic, assign) BOOL contentsChangedAfterLastAsyncDrawing;
 @property (nonatomic, assign) PPAsyncDrawingPolicy drawingPolicy;
 @property (nonatomic, assign, readonly) NSUInteger drawingCount;
+@property (nonatomic, assign) BOOL clearsContextBeforeDrawing;
 
 - (instancetype)initWithFrame:(CGRect)frame;
 

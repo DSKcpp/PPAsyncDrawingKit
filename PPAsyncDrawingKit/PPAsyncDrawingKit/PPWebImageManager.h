@@ -21,7 +21,6 @@ typedef void(^PPInternalCompletionBlock)(UIImage * _Nullable image, NSData * _Nu
 
 @interface PPWebImageManager : NSObject <PPImageLoadOperationDelegate, NSURLSessionDelegate>
 @property (nonatomic, class, strong, readonly) PPWebImageManager *sharedManager;
-@property (nonatomic, strong) dispatch_queue_t imageLoadQueue;
 
 - (nullable PPImageLoadRequest *)loadImage:(NSString *)imageURL
                                   complete:(PPInternalCompletionBlock)complete;
@@ -30,14 +29,7 @@ typedef void(^PPInternalCompletionBlock)(UIImage * _Nullable image, NSData * _Nu
                                   progress:(nullable PPWebImageDownloaderProgressBlock)progress
                                   complete:(PPInternalCompletionBlock)complete;
 
-
 - (nullable PPImageLoadRequest *)loadImage:(NSString *)imageURL
-                                  delegate:(nullable id)delegate
-                                  progress:(nullable PPWebImageDownloaderProgressBlock)progress
-                                  complete:(PPInternalCompletionBlock)complete;
-
-- (nullable PPImageLoadRequest *)loadImage:(NSString *)imageURL
-                                  delegate:(nullable id)delegate
                                   progress:(nullable PPWebImageDownloaderProgressBlock)progress
                                   complete:(PPInternalCompletionBlock)complete
                                 autoCancel:(BOOL)autoCancel;
@@ -49,7 +41,6 @@ typedef void(^PPInternalCompletionBlock)(UIImage * _Nullable image, NSData * _Nu
                                  cacheType:(PPImageCacheType)cacheType;
 
 - (nullable PPImageLoadRequest *)loadImage:(NSString *)imageURL
-                                  delegate:(nullable id)delegate
                                   progress:(nullable PPWebImageDownloaderProgressBlock)progress
                                   complete:(PPInternalCompletionBlock)complete
                                 autoCancel:(BOOL)autoCancel
@@ -59,7 +50,7 @@ typedef void(^PPInternalCompletionBlock)(UIImage * _Nullable image, NSData * _Nu
 
 - (void)addRequest:(PPImageLoadRequest *)request;
 - (void)cancelRequest:(PPImageLoadRequest *)request;
-- (void)cancelRequestForDelegate:(id)delegate;
+- (void)cancelRequestForKey:(NSString *)key;
 - (void)cancelRequestForURL:(NSString *)URL;
 - (BOOL)imageLoadSuspended;
 - (void)resumeImageLoad;
