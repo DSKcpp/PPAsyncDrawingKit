@@ -90,6 +90,13 @@
     [[UIApplication sharedApplication].keyWindow addSubview:toolBar];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+//    [[PPImageCache sharedCache] cleanDiskCache];
+//    [[PPImageCache sharedCache] cleanMemoryCache];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {

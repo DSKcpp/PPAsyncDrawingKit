@@ -12,17 +12,18 @@
 
 @interface PPImageDownloaderTask ()
 {
-    NSURLSessionDownloadTask *_sessionDownloadTask;
+    BOOL _invalid;
 }
 @end
 
 @implementation PPImageDownloaderTask
 + (PPImageDownloaderTask *)taskForURL:(NSURL *)URL
 {
-    PPImageDownloaderTask *task = [PPImageDownloader sharedImageDownloader].downloaderTasks[URL.absoluteString];
+    NSMutableDictionary<NSString *, PPImageDownloaderTask *> *downloaderTasks = [PPImageDownloader sharedImageDownloader].downloaderTasks;
+    PPImageDownloaderTask *task = downloaderTasks[URL.absoluteString];
     if (!task) {
         task = [[PPImageDownloaderTask alloc] initWithURL:URL];
-        [PPImageDownloader sharedImageDownloader].downloaderTasks[URL.absoluteString] = task;
+        downloaderTasks[URL.absoluteString] = task;
     }
     return task;
 }
@@ -37,18 +38,40 @@
 
 - (BOOL)isCancelled
 {
-    return NO;
-}
-
-- (void)setSessionDownloadTask:(NSURLSessionDownloadTask *)sessionDownloadTask
-{
-    _sessionDownloadTask = sessionDownloadTask;
+    return _invalid;
 }
 
 - (void)cancel
 {
+    _invalid = YES;
     [_sessionDownloadTask cancel];
     [[PPImageDownloader sharedImageDownloader].downloaderTasks removeObjectForKey:_URL.absoluteString];
+}
+
+- (NSURLSessionDownloadTask *)createSessionTaskIfNecessaryWithBlock:(NSURLSessionDownloadTask *(^)())creationBlock
+{
+    if (self.isCancelled) {
+        return nil;
+    }
+    
+    if (self.sessionDownloadTask && (self.sessionDownloadTask.state == NSURLSessionTaskStateRunning)) {
+        return nil;
+    }
+
+    NSURLSessionDownloadTask *newTask = creationBlock();
+  
+    if (self.isCancelled) {
+        return nil;
+    }
+    
+    if (self.sessionDownloadTask && (self.sessionDownloadTask.state == NSURLSessionTaskStateRunning)) {
+        return nil;
+    }
+    
+    self.sessionDownloadTask = newTask;
+    
+    return self.sessionDownloadTask;
+
 }
 
 @end
@@ -75,6 +98,7 @@
 {
     if (self = [super init]) {
         _sessionDelegateQueue = [[NSOperationQueue alloc] init];
+        _sessionDelegateQueue.maxConcurrentOperationCount = 15;
         _session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
                                                  delegate:self
                                             delegateQueue:_sessionDelegateQueue];
@@ -89,9 +113,10 @@
     task.downloadProgress = downloadProgress;
     task.completion = completion;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSURLSessionDownloadTask *sessionTask = [_session downloadTaskWithURL:URL];
+        NSURLSessionDownloadTask *sessionTask = [task createSessionTaskIfNecessaryWithBlock:^NSURLSessionDownloadTask * _Nonnull{
+            return [_session downloadTaskWithURL:URL];
+        }];
         if (sessionTask) {
-            [task setSessionDownloadTask:sessionTask];
             [sessionTask resume];
         }
     });

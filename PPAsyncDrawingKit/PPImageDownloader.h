@@ -19,12 +19,13 @@ typedef void(^PPImageDownloaderCompletion)(UIImage * _Nullable image, NSError * 
 @property (nonatomic, strong, readonly) NSURL *URL;
 @property (nullable, nonatomic, copy) PPImageDownloaderProgress downloadProgress;
 @property (nonatomic, copy) PPImageDownloaderCompletion completion;
+@property (nonatomic, strong) NSURLSessionDownloadTask *sessionDownloadTask;
 
 + (PPImageDownloaderTask *)taskForURL:(NSURL *)URL;
 - (instancetype)initWithURL:(NSURL *)URL;
-- (void)setSessionDownloadTask:(NSURLSessionDownloadTask *)sessionDownloadTask;
 - (BOOL)isCancelled;
 - (void)cancel;
+- (NSURLSessionDownloadTask *)createSessionTaskIfNecessaryWithBlock:(NSURLSessionDownloadTask *(^)())creationBlock;
 @end
 
 @interface PPImageDownloader : NSObject

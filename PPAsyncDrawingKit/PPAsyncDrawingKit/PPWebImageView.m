@@ -9,6 +9,12 @@
 #import "PPWebImageView.h"
 #import "PPAssert.h"
 
+@interface PPWebImageView ()
+{
+    PPImageDownloaderTask *_task;
+}
+@end
+
 @implementation PPWebImageView
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -17,6 +23,11 @@
         self.allowPlayGif = NO;
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [self cancelCurrentImageLoading];
 }
 
 - (void)setImageURL:(NSURL *)imageURL
@@ -34,6 +45,12 @@
 {
     PPASDKAssert(imageURL, @"image download URL not nil");
     
+    if (_imageURL == imageURL) {
+        return;
+    }
+    
+    [self cancelCurrentImageLoading];
+    
     _imageURL = imageURL;
     self.image = placeholderImage;
     
@@ -47,8 +64,8 @@
             if (image) {
                 [self setImageLoaderImage:image URL:imageURL];
             } else {
-                [[PPImageDownloader sharedImageDownloader] downloaderImageWithURL:imageURL downloadProgress:^(CGFloat progress) {
-                    NSLog(@"%f", progress);
+                PPImageDownloaderTask *task =[[PPImageDownloader sharedImageDownloader] downloaderImageWithURL:imageURL downloadProgress:^(CGFloat progress) {
+                    if (progressBlock) progressBlock(progress);
                 } completion:^(UIImage * _Nullable image, NSError * _Nullable error) {
                     if (image) {
                         [self setImageLoaderImage:image URL:imageURL];
@@ -56,6 +73,9 @@
                         NSLog(@"%@", error);
                     }
                 }];
+                if ([_imageURL isEqual:imageURL]) {
+                    _task = task;
+                }
             }
         }];
     }
@@ -89,6 +109,9 @@
 
 - (void)cancelCurrentImageLoading
 {
-    
+    if (_task) {
+        [[PPImageDownloader sharedImageDownloader] cancelImageDownloaderWithTask:_task];
+    }
+    _task = nil;
 }
 @end
