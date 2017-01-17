@@ -7,7 +7,7 @@
 //
 
 #import "PPWebImageView.h"
-#import "PPImageLoadRequest.h"
+#import "PPAssert.h"
 
 @implementation PPWebImageView
 - (instancetype)initWithFrame:(CGRect)frame
@@ -19,60 +19,56 @@
     return self;
 }
 
-- (void)setImageURL:(NSString *)imageURL
+- (void)setImageURL:(NSURL *)imageURL
 {
     [self setImageURL:imageURL placeholderImage:nil];
 }
 
-- (void)setImageURL:(NSString *)imageURL placeholderImage:(UIImage *)placeholderImage
+- (void)setImageURL:(NSURL *)imageURL placeholderImage:(UIImage *)placeholderImage
 {
 
     [self setImageURL:imageURL placeholderImage:placeholderImage progressBlock:nil completeBlock:nil];
 }
 
-- (void)setImageURL:(NSString *)imageURL placeholderImage:(UIImage *)placeholderImage progressBlock:(PPWebImageDownloaderProgressBlock)progressBlock completeBlock:(PPExternalCompletionBlock)completeBlock
+- (void)setImageURL:(NSURL *)imageURL placeholderImage:(UIImage *)placeholderImage progressBlock:(PPImageDownloaderProgress)progressBlock completeBlock:(PPImageDownloaderCompletion)completeBlock
 {
-    [self cancelCurrentImageLoading];
+    PPASDKAssert(imageURL, @"image download URL not nil");
+    
+    _imageURL = imageURL;
     self.image = placeholderImage;
     
-    if (imageURL) {
-        _imageURL = imageURL;
-         UIImage *image = [[PPImageCache sharedCache] imageFromMemoryCacheForURL:imageURL];
+    if (imageURL.isFileURL) {
+        UIImage *image = [UIImage imageWithContentsOfFile:imageURL.path];
         if (image) {
-            [self setImageLoaderImage:image URL:imageURL];
-            if (completeBlock) {
-                completeBlock(image, nil, imageURL);
-            }
-        } else {
-            PPImageLoadRequest *request = [[PPWebImageManager sharedManager] loadImage:imageURL progress:progressBlock complete:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, NSString * _Nullable imageURL) {
-                if (image) {
-                    [self setImageLoaderImage:image URL:imageURL];
-                }
-                if (completeBlock) {
-                    completeBlock(image, error, imageURL);
-                }
-            } autoCancel:YES cacheType:PPImageCacheTypeAll];
+            [self setFinalImage:image];
         }
     } else {
-        NSError *error;
-        if (completeBlock) {
-            completeBlock(nil, error, imageURL);
-        }
+        [[PPImageCache sharedCache] imageForURL:imageURL.absoluteString callback:^(UIImage * _Nullable image, PPImageCacheType cacheType) {
+            if (image) {
+                [self setImageLoaderImage:image URL:imageURL];
+            } else {
+                [[PPImageDownloader sharedImageDownloader] downloaderImageWithURL:imageURL downloadProgress:^(CGFloat progress) {
+                    NSLog(@"%f", progress);
+                } completion:^(UIImage * _Nullable image, NSError * _Nullable error) {
+                    if (image) {
+                        [self setImageLoaderImage:image URL:imageURL];
+                    } else {
+                        NSLog(@"%@", error);
+                    }
+                }];
+            }
+        }];
     }
 }
 
-- (void)setImageLoaderImage:(UIImage *)image URL:(NSString *)URL
+- (void)setImageLoaderImage:(UIImage *)image URL:(NSURL *)URL
 {
-    if ([self.imageURL isEqualToString:URL]) {
+    if ([_imageURL.absoluteString isEqualToString:URL.absoluteString]) {
         [self setFinalImage:image];
     }
 }
-
 - (void)setFinalImage:(UIImage *)image
 {
-//    if (self.imageURL) {
-//        
-//    }
     [self setFinalImage:image isGIf:NO];
 }
 
@@ -93,6 +89,6 @@
 
 - (void)cancelCurrentImageLoading
 {
-    [[PPWebImageManager sharedManager] cancelRequestForKey:NSStringFromClass([self class])];
+    
 }
 @end

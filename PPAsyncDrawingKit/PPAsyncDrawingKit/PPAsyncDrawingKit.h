@@ -40,9 +40,7 @@ FOUNDATION_EXPORT const unsigned char PPAsyncDrawingKitVersionString[];
 #import <PPAsyncDrawingKit/PPWebImageView.h>
 #import <PPAsyncDrawingKit/PPImage.h>
 #import <PPAsyncDrawingKit/PPImageCache.h>
-#import <PPAsyncDrawingKit/PPImageLoadOperation.h>
-#import <PPAsyncDrawingKit/PPImageLoadRequest.h>
-#import <PPAsyncDrawingKit/PPWebImageManager.h>
+#import <PPAsyncDrawingKit/PPImageDownloader.h>
 #import <PPAsyncDrawingKit/PPImage+WebP.h>
 #import <PPAsyncDrawingKit/UIImage+PPAsyncDrawingKit.h>
 #import <PPAsyncDrawingKit/NSData+PPImageContentType.h>

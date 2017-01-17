@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable UIImage *)imageForURL:(NSString *)URL;
 - (nullable UIImage *)imageFromMemoryCacheForURL:(NSString *)URL;
 - (nullable UIImage *)imageFromDiskCacheForURL:(NSString *)URL;
-- (nullable NSOperation *)imageForURL:(NSString *)URL callback:(void(^)(UIImage * _Nullable image, PPImageCacheType cacheType))callback;
+- (void)imageForURL:(NSString *)URL callback:(void(^)(UIImage * _Nullable image, PPImageCacheType cacheType))callback;
 
 - (void)storeImage:(UIImage *)image forURL:(NSString *)URL;
 - (void)storeImage:(nullable UIImage *)image data:(nullable NSData *)data forURL:(NSString *)URL toDisk:(BOOL)toDisk;

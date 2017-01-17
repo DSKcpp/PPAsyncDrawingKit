@@ -98,7 +98,7 @@
             imageView.frame = CGRectMake(col * (preset.gridImageSize + 2.5), row * (preset.gridImageSize + 2.5), preset.gridImageSize, preset.gridImageSize);
         }
         NSString *url = obj.bmiddle.url;
-        [imageView setImageURL:url placeholderImage:[UIImage imageNamed:@"avatar"]];
+        [imageView setImageURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"avatar"]];
 //        [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"avatar"]];
         imageView.hidden = NO;
         [weakSelf addSubview:imageView];

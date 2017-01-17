@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		860FC3A91DF2D45E0037AE51 /* emoticon_info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 860FC3A81DF2D45E0037AE51 /* emoticon_info.plist */; };
+		862EEE161E2E2A81007F36A7 /* PPImageDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 862EEE141E2E2A81007F36A7 /* PPImageDownloader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		862EEE171E2E2A81007F36A7 /* PPImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 862EEE151E2E2A81007F36A7 /* PPImageDownloader.m */; };
 		864606AF1E2618C000A8CB07 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8659A9121E15BEF700BC9F91 /* WebKit.framework */; };
 		864606B31E261B1700A8CB07 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 864606AD1E2618A600A8CB07 /* WebP.framework */; };
 		864606B51E261B2700A8CB07 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 864606AD1E2618A600A8CB07 /* WebP.framework */; };
@@ -47,12 +49,6 @@
 		866FDF821E25FFC100C513DF /* PPImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDF801E25FFC100C513DF /* PPImage.m */; };
 		866FDF851E25FFEB00C513DF /* PPImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 866FDF831E25FFEB00C513DF /* PPImageCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		866FDF861E25FFEB00C513DF /* PPImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDF841E25FFEB00C513DF /* PPImageCache.m */; };
-		866FDF8B1E25FFF900C513DF /* PPImageLoadOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 866FDF871E25FFF900C513DF /* PPImageLoadOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		866FDF8C1E25FFF900C513DF /* PPImageLoadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDF881E25FFF900C513DF /* PPImageLoadOperation.m */; };
-		866FDF8D1E25FFF900C513DF /* PPImageLoadRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 866FDF891E25FFF900C513DF /* PPImageLoadRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		866FDF8E1E25FFF900C513DF /* PPImageLoadRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDF8A1E25FFF900C513DF /* PPImageLoadRequest.m */; };
-		866FDF911E26000A00C513DF /* PPWebImageManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 866FDF8F1E26000A00C513DF /* PPWebImageManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		866FDF921E26000A00C513DF /* PPWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDF901E26000A00C513DF /* PPWebImageManager.m */; };
 		866FDF951E26003C00C513DF /* PPWebImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 866FDF931E26003C00C513DF /* PPWebImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		866FDF961E26003C00C513DF /* PPWebImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDF941E26003C00C513DF /* PPWebImageView.m */; };
 		866FDF991E26004B00C513DF /* PPImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 866FDF971E26004B00C513DF /* PPImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -148,6 +144,8 @@
 
 /* Begin PBXFileReference section */
 		860FC3A81DF2D45E0037AE51 /* emoticon_info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = emoticon_info.plist; path = ../Demo/emoticon_info.plist; sourceTree = "<group>"; };
+		862EEE141E2E2A81007F36A7 /* PPImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPImageDownloader.h; sourceTree = "<group>"; };
+		862EEE151E2E2A81007F36A7 /* PPImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPImageDownloader.m; sourceTree = "<group>"; };
 		864606AD1E2618A600A8CB07 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = Demo/WebP.framework; sourceTree = "<group>"; };
 		864606B91E27C01C00A8CB07 /* PPAssert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PPAssert.h; sourceTree = "<group>"; };
 		864606FA1E27EC7500A8CB07 /* PPTextEditableExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextEditableExample.h; sourceTree = "<group>"; };
@@ -186,12 +184,6 @@
 		866FDF801E25FFC100C513DF /* PPImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPImage.m; path = PPAsyncDrawingKit/PPImage.m; sourceTree = "<group>"; };
 		866FDF831E25FFEB00C513DF /* PPImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPImageCache.h; path = PPAsyncDrawingKit/PPImageCache.h; sourceTree = "<group>"; };
 		866FDF841E25FFEB00C513DF /* PPImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPImageCache.m; path = PPAsyncDrawingKit/PPImageCache.m; sourceTree = "<group>"; };
-		866FDF871E25FFF900C513DF /* PPImageLoadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPImageLoadOperation.h; path = PPAsyncDrawingKit/PPImageLoadOperation.h; sourceTree = "<group>"; };
-		866FDF881E25FFF900C513DF /* PPImageLoadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPImageLoadOperation.m; path = PPAsyncDrawingKit/PPImageLoadOperation.m; sourceTree = "<group>"; };
-		866FDF891E25FFF900C513DF /* PPImageLoadRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPImageLoadRequest.h; path = PPAsyncDrawingKit/PPImageLoadRequest.h; sourceTree = "<group>"; };
-		866FDF8A1E25FFF900C513DF /* PPImageLoadRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPImageLoadRequest.m; path = PPAsyncDrawingKit/PPImageLoadRequest.m; sourceTree = "<group>"; };
-		866FDF8F1E26000A00C513DF /* PPWebImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPWebImageManager.h; path = PPAsyncDrawingKit/PPWebImageManager.h; sourceTree = "<group>"; };
-		866FDF901E26000A00C513DF /* PPWebImageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPWebImageManager.m; path = PPAsyncDrawingKit/PPWebImageManager.m; sourceTree = "<group>"; };
 		866FDF931E26003C00C513DF /* PPWebImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPWebImageView.h; path = PPAsyncDrawingKit/PPWebImageView.h; sourceTree = "<group>"; };
 		866FDF941E26003C00C513DF /* PPWebImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPWebImageView.m; path = PPAsyncDrawingKit/PPWebImageView.m; sourceTree = "<group>"; };
 		866FDF971E26004B00C513DF /* PPImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPImageView.h; path = PPAsyncDrawingKit/PPImageView.h; sourceTree = "<group>"; };
@@ -622,12 +614,8 @@
 				866FDF801E25FFC100C513DF /* PPImage.m */,
 				866FDF831E25FFEB00C513DF /* PPImageCache.h */,
 				866FDF841E25FFEB00C513DF /* PPImageCache.m */,
-				866FDF871E25FFF900C513DF /* PPImageLoadOperation.h */,
-				866FDF881E25FFF900C513DF /* PPImageLoadOperation.m */,
-				866FDF891E25FFF900C513DF /* PPImageLoadRequest.h */,
-				866FDF8A1E25FFF900C513DF /* PPImageLoadRequest.m */,
-				866FDF8F1E26000A00C513DF /* PPWebImageManager.h */,
-				866FDF901E26000A00C513DF /* PPWebImageManager.m */,
+				862EEE141E2E2A81007F36A7 /* PPImageDownloader.h */,
+				862EEE151E2E2A81007F36A7 /* PPImageDownloader.m */,
 			);
 			name = Component;
 			sourceTree = "<group>";
@@ -752,7 +740,6 @@
 				866FDF471E25FF2100C513DF /* PPAsyncDrawingView.h in Headers */,
 				866FDF6B1E25FF6100C513DF /* PPTextLayout.h in Headers */,
 				866FDFA51E26007000C513DF /* NSData+PPImageContentType.h in Headers */,
-				866FDF911E26000A00C513DF /* PPWebImageManager.h in Headers */,
 				866FDF761E25FF8800C513DF /* PPTextUtilties.h in Headers */,
 				866FDF6F1E25FF6100C513DF /* PPTextLayoutLine.h in Headers */,
 				866FDF4F1E25FF3900C513DF /* PPTextView.h in Headers */,
@@ -760,8 +747,6 @@
 				866FDF731E25FF6100C513DF /* PPTextRenderer.h in Headers */,
 				866FDF991E26004B00C513DF /* PPImageView.h in Headers */,
 				866FDF9D1E26005A00C513DF /* PPImage+WebP.h in Headers */,
-				866FDF8B1E25FFF900C513DF /* PPImageLoadOperation.h in Headers */,
-				866FDF8D1E25FFF900C513DF /* PPImageLoadRequest.h in Headers */,
 				864606BA1E27C17A00A8CB07 /* PPAssert.h in Headers */,
 				866FDF951E26003C00C513DF /* PPWebImageView.h in Headers */,
 				866FDF691E25FF6100C513DF /* PPTextFontMetrics.h in Headers */,
@@ -777,6 +762,7 @@
 				86AE95B11E2CBC1A00DDD90A /* NSThread+PPTextRenderer.h in Headers */,
 				866FDF651E25FF6100C513DF /* PPTextAttachment.h in Headers */,
 				86AE95AD1E2CBC0C00DDD90A /* PPEditableTextView.h in Headers */,
+				862EEE161E2E2A81007F36A7 /* PPImageDownloader.h in Headers */,
 				866FDF7D1E25FF9400C513DF /* NSString+PPAsyncDrawingKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -889,7 +875,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				866FDF501E25FF3900C513DF /* PPTextView.m in Sources */,
-				866FDF8E1E25FFF900C513DF /* PPImageLoadRequest.m in Sources */,
 				866FDFAA1E26007900C513DF /* PPButton.m in Sources */,
 				866FDF9E1E26005A00C513DF /* PPImage+WebP.m in Sources */,
 				866FDFA21E26006400C513DF /* UIImage+PPAsyncDrawingKit.m in Sources */,
@@ -907,10 +892,9 @@
 				86AE95AE1E2CBC0C00DDD90A /* PPEditableTextView.m in Sources */,
 				866FDF961E26003C00C513DF /* PPWebImageView.m in Sources */,
 				866FDF661E25FF6100C513DF /* PPTextAttachment.m in Sources */,
-				866FDF8C1E25FFF900C513DF /* PPImageLoadOperation.m in Sources */,
 				866FDF681E25FF6100C513DF /* PPTextAttributes.m in Sources */,
-				866FDF921E26000A00C513DF /* PPWebImageManager.m in Sources */,
 				866FDF541E25FF4300C513DF /* PPMultiplexTextView.m in Sources */,
+				862EEE171E2E2A81007F36A7 /* PPImageDownloader.m in Sources */,
 				866FDF701E25FF6100C513DF /* PPTextLayoutLine.m in Sources */,
 				866FDF6E1E25FF6100C513DF /* PPTextLayoutFrame.m in Sources */,
 				866FDF861E25FFEB00C513DF /* PPImageCache.m in Sources */,

@@ -217,7 +217,7 @@
         }
         self.avatarView.frame = drawingContext.avatarFrame;
         self.quotedItemBorderButton.frame = drawingContext.quotedContentBackgroundViewFrame;
-        [self.avatarView setImageURL:timelineItem.user.avatar_large placeholderImage:[UIImage imageNamed:@"avatar"]];
+        [self.avatarView setImageURL:[NSURL URLWithString:timelineItem.user.avatar_large] placeholderImage:[UIImage imageNamed:@"avatar"]];
 //        [self.avatarView sd_setImageWithURL:[NSURL URLWithString:timelineItem.user.avatar_large] placeholderImage:[UIImage imageNamed:@"avatar"]];
         [self.actionButtonsView setTimelineItem:timelineItem];
         self.textContentView.largeCardView.frame = drawingContext.largeFrame;

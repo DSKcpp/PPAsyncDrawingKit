@@ -130,10 +130,10 @@ static NSString *_PPNSStringMD5(NSString *string) {
     return [PPImage imageWithContentsOfFile:[self cachePathForKey:key]];
 }
 
-- (NSOperation *)imageForURL:(NSString *)URL callback:(nonnull void (^)(UIImage * _Nullable, PPImageCacheType))callback
+- (void)imageForURL:(NSString *)URL callback:(nonnull void (^)(UIImage * _Nullable, PPImageCacheType))callback
 {
     if (!callback) {
-        return nil;
+        return;
     }
     
     UIImage *image = [self imageFromMemoryCacheForURL:URL];
@@ -142,25 +142,16 @@ static NSString *_PPNSStringMD5(NSString *string) {
             callback(image, PPImageCacheTypeMemory);
         });
     } else {
-//        NSOperation *operation = [NSOperation new];
         dispatch_async(_ioQueue, ^{
-//            if (operation.isCancelled) {
-//                return;
-//            }
-            
-//            @autoreleasepool {
-                UIImage *image = [self imageFromDiskCacheForURL:URL];
-                if (image) {
-                    [self storeImage:image forURL:URL];
-                }
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    callback(image, PPImageCacheTypeDisk);
-                });
-//            }
+            UIImage *image = [self imageFromDiskCacheForURL:URL];
+            if (image) {
+                [self storeImage:image forURL:URL];
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                callback(image, PPImageCacheTypeDisk);
+            });
         });
-        return nil;
     }
-    return nil;
 }
 
 - (BOOL)imageCachedForURL:(NSString *)URL
