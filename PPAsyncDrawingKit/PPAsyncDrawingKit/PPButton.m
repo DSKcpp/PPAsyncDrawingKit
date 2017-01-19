@@ -114,7 +114,6 @@
     if (!CGRectEqualToRect(self.frame, frame)) {
         [super setFrame:frame];
     }
-    
 }
 
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously userInfo:(NSDictionary *)userInfo
@@ -387,7 +386,7 @@
     
     _backgroundFrame = UIEdgeInsetsInsetRect(bounds, contentEdgeInsets);
     CGSize imageSize = _buttonInfo.image.size;
-        CGSize titleSize = [_buttonInfo.title pp_sizeWithFont:_titleFont constrainedToSize:CGSizeMake(width - imageSize.width, height) lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize titleSize = [_buttonInfo.title pp_sizeWithFont:_titleFont constrainedToSize:CGSizeMake(width - imageSize.width, height) lineBreakMode:NSLineBreakByWordWrapping];
     CGFloat totalW = imageSize.width + titleSize.width;
     CGFloat left = (width - totalW) / 2.0f;
     _imageFrame = CGRectMake(left, height / 2.0f - imageSize.height / 2.0f, imageSize.width, imageSize.height);

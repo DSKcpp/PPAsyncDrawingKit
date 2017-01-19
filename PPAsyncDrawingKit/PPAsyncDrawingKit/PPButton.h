@@ -14,9 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PPButton : PPControl
 @property (nonatomic, strong) UIFont *titleFont;
-@property (nonatomic, strong, readonly) PPTextView *label;
-@property (nonatomic, strong, readonly) PPImageView *imageView;
-@property (nonatomic, assign, getter=isMergeDraw) BOOL mergeDraw;
 @property (nonatomic, assign) UIEdgeInsets imageEdgeInsets;
 @property (nonatomic, assign) UIEdgeInsets contentEdgeInsets;
 @property (nonatomic, assign) UIEdgeInsets titleEdgeInsets;
@@ -24,7 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithFrame:(CGRect)frame;
 
-- (NSString *)stringOfState:(UIControlState)state;
 - (nullable UIColor *)titleColorForState:(UIControlState)state;
 - (nullable UIImage *)imageForState:(UIControlState)state;
 - (nullable UIImage *)backgroundImageForState:(UIControlState)state;
@@ -36,12 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setImage:(UIImage *)image forState:(UIControlState)state;
 
 - (BOOL)canBecomeFirstResponder;
-
-- (void)setNeedsUpdateFrame;
-- (void)updateSubviewFrames;
-- (void)actualUpdateSubviewFrames;
-- (void)updateContentsAndRelayout:(BOOL)relayout;
-- (void)didCommitBoundsSizeChange;
 @end
 
 NS_ASSUME_NONNULL_END

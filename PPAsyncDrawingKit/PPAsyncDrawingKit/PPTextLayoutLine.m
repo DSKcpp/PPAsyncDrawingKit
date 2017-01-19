@@ -12,10 +12,6 @@
 #import "PPTextLayoutFrame.h"
 #import "PPTextFontMetrics.h"
 
-@interface PPTextLayoutLine ()
-@property (nonatomic, assign) NSRange lineRefRange;
-@end
-
 @implementation PPTextLayoutLine
 - (instancetype)initWithCTLine:(CTLineRef)lineRef origin:(CGPoint)origin layout:(PPTextLayout *)layout
 {
@@ -31,7 +27,6 @@
             _lineRef = CFRetain(lineRef);
             CFRange range = CTLineGetStringRange(lineRef);
             _stringRange = PPNSRangeFromCFRange(range);
-            _lineRefRange = PPNSRangeFromCFRange(range);
             [self setupWithCTLine];
         }
     }

@@ -27,7 +27,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PPTextRenderer : UIResponder
 @property (nonatomic, strong) PPTextLayout *textLayout;
 @property (nonatomic, strong) NSAttributedString *attributedString;
-@property (nullable, nonatomic, weak) id<PPTextLayoutDelegate> layoutDelegate;
 @property (nullable, nonatomic, strong) PPTextHighlightRange *savedPressingHighlightRange;
 @property (nullable, nonatomic, strong) PPTextHighlightRange *pressingHighlightRange;
 @property (nullable, nonatomic, weak) id<PPTextRendererEventDelegate> eventDelegate;
