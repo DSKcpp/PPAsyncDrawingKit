@@ -35,12 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setBackgroundImage:(UIImage *)backgroundImage forState:(UIControlState)state;
 - (void)setImage:(UIImage *)image forState:(UIControlState)state;
 
-- (void)updateButtonInfo;
-- (void)updateBackgroundImage:(UIImage *)backgroundImage;
-- (void)updateImage:(UIImage *)image;
-- (void)updateTitle:(NSString *)title;
-
 - (BOOL)canBecomeFirstResponder;
+
 - (void)setNeedsUpdateFrame;
 - (void)updateSubviewFrames;
 - (void)actualUpdateSubviewFrames;

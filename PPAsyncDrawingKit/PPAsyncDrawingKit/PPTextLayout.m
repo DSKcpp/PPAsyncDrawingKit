@@ -111,7 +111,7 @@
 
 @end
 
-@implementation PPTextLayout (LayoutResult)
+@implementation PPTextLayout (PPTextLayoutResult)
 - (NSUInteger)containingLineCount
 {
     return self.layoutFrame.lineFragments.count;
@@ -219,7 +219,7 @@
 }
 @end
 
-@implementation PPTextLayout (Coordinates)
+@implementation PPTextLayout (PPTextLayoutCoordinates)
 - (CGPoint)convertPointToCoreText:(CGPoint)point
 {
     return CGPointMake(point.x, self.size.height - point.y);
@@ -245,7 +245,7 @@
 }
 @end
 
-@implementation PPTextLayout (HitTesting)
+@implementation PPTextLayout (PPTextLayoutHitTesting)
 - (NSRange)characterRangeForBoundingRect:(CGRect)rect
 {
     CGFloat x = CGRectGetMaxX(rect);

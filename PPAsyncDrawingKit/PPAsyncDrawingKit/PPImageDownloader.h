@@ -25,7 +25,7 @@ typedef void(^PPImageDownloaderCompletion)(UIImage * _Nullable image, NSError * 
 - (instancetype)initWithURL:(NSURL *)URL;
 - (BOOL)isCancelled;
 - (void)cancel;
-- (NSURLSessionDownloadTask *)createSessionTaskIfNecessaryWithBlock:(NSURLSessionDownloadTask *(^)())creationBlock;
+- (nullable NSURLSessionDownloadTask *)createSessionTaskIfNecessaryWithBlock:(NSURLSessionDownloadTask *(^)())creationBlock;
 @end
 
 @interface PPImageDownloader : NSObject

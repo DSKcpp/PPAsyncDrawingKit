@@ -15,3 +15,10 @@ static inline CFRange PPNSRangeToCFRange(NSRange range) {
 static inline NSRange PPNSRangeFromCFRange(CFRange range) {
     return NSMakeRange(range.location, range.length);
 }
+
+static inline NSUInteger PPNSRangeStart(NSRange range) {
+    return range.location;
+}
+static inline NSUInteger PPNSRangeEnd(NSRange range) {
+    return range.location + range.length;
+}

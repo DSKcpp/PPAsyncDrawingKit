@@ -10,6 +10,8 @@
 		860FC3A91DF2D45E0037AE51 /* emoticon_info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 860FC3A81DF2D45E0037AE51 /* emoticon_info.plist */; };
 		862EEE161E2E2A81007F36A7 /* PPImageDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 862EEE141E2E2A81007F36A7 /* PPImageDownloader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		862EEE171E2E2A81007F36A7 /* PPImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 862EEE151E2E2A81007F36A7 /* PPImageDownloader.m */; };
+		862EEE1A1E2FB6D1007F36A7 /* PPTextTruncatedExample.h in Headers */ = {isa = PBXBuildFile; fileRef = 862EEE181E2FB6D0007F36A7 /* PPTextTruncatedExample.h */; };
+		862EEE1B1E2FB6D1007F36A7 /* PPTextTruncatedExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 862EEE191E2FB6D0007F36A7 /* PPTextTruncatedExample.m */; };
 		864606AF1E2618C000A8CB07 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8659A9121E15BEF700BC9F91 /* WebKit.framework */; };
 		864606B31E261B1700A8CB07 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 864606AD1E2618A600A8CB07 /* WebP.framework */; };
 		864606B51E261B2700A8CB07 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 864606AD1E2618A600A8CB07 /* WebP.framework */; };
@@ -90,7 +92,6 @@
 		86AE95AE1E2CBC0C00DDD90A /* PPEditableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AE95AC1E2CBC0C00DDD90A /* PPEditableTextView.m */; };
 		86AE95B11E2CBC1A00DDD90A /* NSThread+PPTextRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 86AE95AF1E2CBC1A00DDD90A /* NSThread+PPTextRenderer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		86AE95B21E2CBC1A00DDD90A /* NSThread+PPTextRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AE95B01E2CBC1A00DDD90A /* NSThread+PPTextRenderer.m */; };
-		86AE95BF1E2CBF1A00DDD90A /* SwiftExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AE95BE1E2CBF1A00DDD90A /* SwiftExample.swift */; };
 		86AE95C41E2CC13000DDD90A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AE95C31E2CC13000DDD90A /* AppDelegate.m */; };
 		86AE95F11E2CC20D00DDD90A /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AE95CA1E2CC20D00DDD90A /* MKAnnotationView+WebCache.m */; };
 		86AE95F21E2CC20D00DDD90A /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AE95CC1E2CC20D00DDD90A /* NSData+ImageContentType.m */; };
@@ -144,8 +145,10 @@
 
 /* Begin PBXFileReference section */
 		860FC3A81DF2D45E0037AE51 /* emoticon_info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = emoticon_info.plist; path = ../Demo/emoticon_info.plist; sourceTree = "<group>"; };
-		862EEE141E2E2A81007F36A7 /* PPImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPImageDownloader.h; sourceTree = "<group>"; };
-		862EEE151E2E2A81007F36A7 /* PPImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPImageDownloader.m; sourceTree = "<group>"; };
+		862EEE141E2E2A81007F36A7 /* PPImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPImageDownloader.h; path = PPAsyncDrawingKit/PPImageDownloader.h; sourceTree = "<group>"; };
+		862EEE151E2E2A81007F36A7 /* PPImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPImageDownloader.m; path = PPAsyncDrawingKit/PPImageDownloader.m; sourceTree = "<group>"; };
+		862EEE181E2FB6D0007F36A7 /* PPTextTruncatedExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextTruncatedExample.h; sourceTree = "<group>"; };
+		862EEE191E2FB6D0007F36A7 /* PPTextTruncatedExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextTruncatedExample.m; sourceTree = "<group>"; };
 		864606AD1E2618A600A8CB07 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = Demo/WebP.framework; sourceTree = "<group>"; };
 		864606B91E27C01C00A8CB07 /* PPAssert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PPAssert.h; sourceTree = "<group>"; };
 		864606FA1E27EC7500A8CB07 /* PPTextEditableExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextEditableExample.h; sourceTree = "<group>"; };
@@ -249,8 +252,6 @@
 		86AE95AC1E2CBC0C00DDD90A /* PPEditableTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPEditableTextView.m; path = PPAsyncDrawingKit/PPEditableTextView.m; sourceTree = "<group>"; };
 		86AE95AF1E2CBC1A00DDD90A /* NSThread+PPTextRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSThread+PPTextRenderer.h"; path = "PPAsyncDrawingKit/NSThread+PPTextRenderer.h"; sourceTree = "<group>"; };
 		86AE95B01E2CBC1A00DDD90A /* NSThread+PPTextRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSThread+PPTextRenderer.m"; path = "PPAsyncDrawingKit/NSThread+PPTextRenderer.m"; sourceTree = "<group>"; };
-		86AE95BE1E2CBF1A00DDD90A /* SwiftExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftExample.swift; path = Demo/SwiftExample.swift; sourceTree = SOURCE_ROOT; };
-		86AE95C01E2CBF2500DDD90A /* PPAsyncDrawingKit-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PPAsyncDrawingKit-Bridging-Header.h"; path = "Demo/PPAsyncDrawingKit-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		86AE95C21E2CC13000DDD90A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../Demo/AppDelegate.h; sourceTree = "<group>"; };
 		86AE95C31E2CC13000DDD90A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ../Demo/AppDelegate.m; sourceTree = "<group>"; };
 		86AE95C91E2CC20D00DDD90A /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
@@ -430,15 +431,6 @@
 				8659A9121E15BEF700BC9F91 /* WebKit.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		866FDEAF1E24ED6C00C513DF /* Swift Example */ = {
-			isa = PBXGroup;
-			children = (
-				86AE95BE1E2CBF1A00DDD90A /* SwiftExample.swift */,
-				86AE95C01E2CBF2500DDD90A /* PPAsyncDrawingKit-Bridging-Header.h */,
-			);
-			name = "Swift Example";
 			sourceTree = "<group>";
 		};
 		866FDF351E25FAE400C513DF /* PPAsyncDrawingKit */ = {
@@ -666,7 +658,6 @@
 		86EB758C1D2393CC005F14A1 /* PPAsyncDrawingKit-Demo */ = {
 			isa = PBXGroup;
 			children = (
-				866FDEAF1E24ED6C00C513DF /* Swift Example */,
 				861EB1CA1DB10EE3005C07C7 /* Image Example */,
 				86EF6AAB1DB132C5006464CE /* Text Example */,
 				865857E91E248DC00047782A /* Button Example */,
@@ -705,6 +696,8 @@
 				866FDFE81E260BC100C513DF /* PPTextExample.m */,
 				864606FA1E27EC7500A8CB07 /* PPTextEditableExample.h */,
 				864606FB1E27EC7500A8CB07 /* PPTextEditableExample.m */,
+				862EEE181E2FB6D0007F36A7 /* PPTextTruncatedExample.h */,
+				862EEE191E2FB6D0007F36A7 /* PPTextTruncatedExample.m */,
 			);
 			name = "Text Example";
 			path = ../Demo;
@@ -750,6 +743,7 @@
 				864606BA1E27C17A00A8CB07 /* PPAssert.h in Headers */,
 				866FDF951E26003C00C513DF /* PPWebImageView.h in Headers */,
 				866FDF691E25FF6100C513DF /* PPTextFontMetrics.h in Headers */,
+				862EEE1A1E2FB6D1007F36A7 /* PPTextTruncatedExample.h in Headers */,
 				866FDF7B1E25FF9400C513DF /* NSAttributedString+PPAsyncDrawingKit.h in Headers */,
 				866FDF811E25FFC100C513DF /* PPImage.h in Headers */,
 				866FDF671E25FF6100C513DF /* PPTextAttributes.h in Headers */,
@@ -884,6 +878,7 @@
 				866FDF741E25FF6100C513DF /* PPTextRenderer.m in Sources */,
 				866FDF481E25FF2100C513DF /* PPAsyncDrawingView.m in Sources */,
 				866FDF9A1E26004B00C513DF /* PPImageView.m in Sources */,
+				862EEE1B1E2FB6D1007F36A7 /* PPTextTruncatedExample.m in Sources */,
 				866FDF7E1E25FF9400C513DF /* NSString+PPAsyncDrawingKit.m in Sources */,
 				866FDF4C1E25FF2C00C513DF /* PPControl.m in Sources */,
 				866FDF821E25FFC100C513DF /* PPImage.m in Sources */,
@@ -917,7 +912,6 @@
 				866FDFD21E260B5100C513DF /* WBTimelineImageContentView.m in Sources */,
 				866FDFC41E260AD200C513DF /* NSObject+YYModel.m in Sources */,
 				86AE95F41E2CC20D00DDD90A /* SDImageCache.m in Sources */,
-				86AE95BF1E2CBF1A00DDD90A /* SwiftExample.swift in Sources */,
 				864606FE1E27EC7F00A8CB07 /* PPTextEditableExample.m in Sources */,
 				86AE95FD1E2CC20D00DDD90A /* UIImage+GIF.m in Sources */,
 				866FE00F1E260D3500C513DF /* NSDate+PPASDK.m in Sources */,
@@ -1135,7 +1129,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dskcpp.PPAsyncDrawingKitDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Demo/PPAsyncDrawingKit-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -1159,7 +1152,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dskcpp.PPAsyncDrawingKitDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Demo/PPAsyncDrawingKit-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

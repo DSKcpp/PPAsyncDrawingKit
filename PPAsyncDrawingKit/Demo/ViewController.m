@@ -111,9 +111,6 @@
     } else if (indexPath.row == 3) {
         WBTimelineViewController * viewController = [[WBTimelineViewController alloc] init];
         [self.navigationController pushViewController:viewController animated:YES];
-    } else if (indexPath.row == 4) {
-        WBTimelineViewController * viewController = [[WBTimelineViewController alloc] init];
-        [self.navigationController pushViewController:viewController animated:YES];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

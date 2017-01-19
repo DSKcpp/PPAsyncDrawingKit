@@ -406,7 +406,7 @@
 
 - (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    CGPoint point;
+    CGPoint point = CGPointZero;
     if (touch) {
         point = [touch locationInView:self];
     }

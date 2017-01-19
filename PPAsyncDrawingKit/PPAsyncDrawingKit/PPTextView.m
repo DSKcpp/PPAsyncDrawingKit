@@ -24,7 +24,6 @@
     if (self = [super initWithFrame:frame]) {
         PPTextRenderer * textRenderer = [[PPTextRenderer alloc] init];
         textRenderer.eventDelegate = self;
-        textRenderer.renderDelegate = self;
         _textRenderer = textRenderer;
         self.clearsContextBeforeDrawing = NO;
         self.contentMode = UIViewContentModeRedraw;
@@ -133,9 +132,6 @@
 {
     if ([_delegate respondsToSelector:@selector(textView:didSelectTextHighlight:)]) {
         [_delegate textView:self didSelectTextHighlight:highlightRange];
-    }
-    if (_didSelectTextHighlightBlock) {
-        _didSelectTextHighlightBlock(highlightRange);
     }
 }
 

@@ -32,19 +32,20 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-@interface PPTextLayout (Coordinates)
+@interface PPTextLayout (PPTextLayoutCoordinates)
 - (CGRect)convertRectToCoreText:(CGRect)rect;
 - (CGRect)convertRectFromCoreText:(CGRect)rect;
 - (CGPoint)convertPointToCoreText:(CGPoint)point;
 - (CGPoint)convertPointFromCoreText:(CGPoint)point;
 @end
 
-@interface PPTextLayout (HitTesting)
+@interface PPTextLayout (PPTextLayoutHitTesting)
 - (NSUInteger)characterIndexForPoint:(CGPoint)point;
 - (NSRange)characterRangeForBoundingRect:(CGRect)rect;
 @end
 
-@interface PPTextLayout (LayoutResult)
+@interface PPTextLayout (PPTextLayoutResult)
+
 @property (nonatomic, assign, readonly) CGFloat layoutHeight;
 @property (nonatomic, assign, readonly) CGSize layoutSize;
 @property (nonatomic, assign, readonly) NSUInteger containingLineCount;

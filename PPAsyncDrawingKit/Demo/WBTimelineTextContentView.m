@@ -13,10 +13,6 @@
 #import "WBTimelineAttributedTextParser.h"
 #import "WBHelper.h"
 
-@interface WBTimelineTextContentView () <PPTextRendererDelegate>
-
-@end
-
 @implementation WBTimelineTextContentView
 
 + (void)renderDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext
@@ -102,16 +98,12 @@
     if (self = [super initWithFrame:frame]) {
         [self setBackgroundColor:[UIColor clearColor]];
         self.itemTextRenderer = [[PPTextRenderer alloc] init];
-        self.itemTextRenderer.renderDelegate = self;
         self.itemTextRenderer.eventDelegate = self;
         self.quotedItemTextRenderer = [[PPTextRenderer alloc] init];
-        self.quotedItemTextRenderer.renderDelegate = self;
         self.quotedItemTextRenderer.eventDelegate = self;
         self.titleTextRenderer = [[PPTextRenderer alloc] init];
-        self.titleTextRenderer.renderDelegate = self;
         self.titleTextRenderer.eventDelegate = self;
         self.metaInfoTextRenderer = [[PPTextRenderer alloc] init];
-        self.metaInfoTextRenderer.renderDelegate = self;
         self.metaInfoTextRenderer.eventDelegate = self;
         self.metaInfoTextRenderer.textLayout.maximumNumberOfLines = 1;
         self.attachmentViews = [NSMutableArray array];

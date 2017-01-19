@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithCTFrame:(CTFrameRef)frame layout:(PPTextLayout *)layout;
 - (void)setupWithCTFrame:(CTFrameRef)frame;
-- (nullable CTLineRef)textLayout:(PPTextLayout *)layout truncateLine:(nullable CTLineRef)truncateLine atIndex:(NSUInteger)index truncated:(BOOL)truncated;
+- (nullable CTLineRef)textLayout:(PPTextLayout *)layout truncateLine:(CTLineRef)truncateLine atIndex:(NSUInteger)index;
 - (CGFloat)textLayout:(PPTextLayout *)layout maximumWidthForTruncatedLine:(CTLineRef)maximumWidthForTruncatedLine atIndex:(NSUInteger)index;
 @end
 

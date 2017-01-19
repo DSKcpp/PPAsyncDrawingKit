@@ -16,21 +16,19 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^PPTextViewDidSelectTextHighlightBlock)(PPTextHighlightRange *textHighlight);
-
 @protocol PPTextViewDelegate <NSObject>
 
 @optional
+
 - (void)textView:(PPTextView *)textView didSelectTextHighlight:(PPTextHighlightRange *)textHighlight;
 @end
 
-@interface PPTextView : PPAsyncDrawingView <PPTextRendererDelegate, PPTextRendererEventDelegate>
+@interface PPTextView : PPAsyncDrawingView <PPTextRendererEventDelegate>
 @property (nonatomic, strong, readonly) PPTextLayout *textLayout;
 @property (nonatomic, strong, readonly) PPTextRenderer *textRenderer;
 @property (nullable, nonatomic, copy) NSAttributedString *attributedString;
 @property (nonatomic, assign) NSInteger numberOfLines;
 @property (nullable, nonatomic, weak) id<PPTextViewDelegate> delegate;
-@property (nonatomic, copy) PPTextViewDidSelectTextHighlightBlock didSelectTextHighlightBlock;
 
 - (instancetype)initWithFrame:(CGRect)frame;
 

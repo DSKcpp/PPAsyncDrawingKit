@@ -52,7 +52,7 @@ see `Demo\PPAsyncDrawingKit.xcodeproj`
 ###PPImageView / PPWebImageView
 高性能圆角 ImageView
 
-如果不喜欢自带的`PPWebImageView`，近期将支持 `SDWebImage`。
+如果不喜欢自带的`PPWebImageView`，支持 `SDWebImage`
 
 ![](http://ww4.sinaimg.cn/large/9bffd8f9gw1fbk3ht0t1zj20a108btat.jpg)
 

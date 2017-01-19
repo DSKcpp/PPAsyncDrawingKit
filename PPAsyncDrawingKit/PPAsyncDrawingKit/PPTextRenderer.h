@@ -16,14 +16,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol PPTextRendererDelegate <NSObject>
-@optional
-- (void)textRenderer:(PPTextRenderer *)textRenderer
-     placeAttachment:(PPTextAttachment *)attachment
-               frame:(CGRect)frame
-             context:(CGContextRef)context;
-@end
-
 @protocol PPTextRendererEventDelegate <NSObject>
 - (void)textRenderer:(PPTextRenderer *)textRenderer didPressHighlightRange:(PPTextHighlightRange *)highlightRange;
 - (UIView *)contextViewForTextRenderer:(PPTextRenderer *)textRenderer;
@@ -35,13 +27,16 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PPTextRenderer : UIResponder
 @property (nonatomic, strong) PPTextLayout *textLayout;
 @property (nonatomic, strong) NSAttributedString *attributedString;
-@property (nullable, nonatomic, weak) id<PPTextRendererDelegate> renderDelegate;
 @property (nullable, nonatomic, weak) id<PPTextLayoutDelegate> layoutDelegate;
 @property (nullable, nonatomic, strong) PPTextHighlightRange *savedPressingHighlightRange;
 @property (nullable, nonatomic, strong) PPTextHighlightRange *pressingHighlightRange;
+@property (nullable, nonatomic, weak) id<PPTextRendererEventDelegate> eventDelegate;
 @property (nonatomic, assign) CGRect frame;
 @property (nonatomic, assign) CGPoint drawingOrigin;
 
+@end
+
+@interface PPTextRenderer (PPTextRendererDrawing)
 /**
  draw current context
  */
@@ -49,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  draw context
-
+ 
  @param context the context
  */
 - (void)drawInContext:(CGContextRef)context;
@@ -64,9 +59,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)drawHighlightedBackgroundForHighlightRange:(PPTextHighlightRange *)highlightRange
                                               rect:(CGRect)rect context:(CGContextRef)context;
-
-#pragma mark - Events
-@property (nullable, nonatomic, weak) id<PPTextRendererEventDelegate> eventDelegate;
 @end
 
 @interface PPTextRenderer (PPTextRendererEvents)
@@ -106,10 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface PPTextRenderer (PPTextRendererDebug)
-+ (BOOL)debugModeEnabled;
-+ (void)disableDebugMode;
-+ (void)enableDebugMode;
-+ (void)setDebugModeEnabled:(BOOL)enabled;
+@property (nonatomic, class, assign) BOOL debugModeEnabled;
 - (void)debugModeDrawLineFramesWithLayoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context;
 @end
 

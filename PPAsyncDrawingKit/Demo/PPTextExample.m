@@ -9,6 +9,7 @@
 #import "PPTextExample.h"
 #import "PPTextAttributedExample.h"
 #import "PPTextEditableExample.h"
+#import "PPTextTruncatedExample.h"
 
 @interface PPTextExample ()
 @property (nonatomic, strong) NSArray *titles;
@@ -22,7 +23,7 @@
     
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     
-    _titles = @[@"Text Attributed Example", @"Text Editable Example"];
+    _titles = @[@"Text Attributed Example", @"Text Truncated Example", @"Text Editable Example"];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -48,6 +49,9 @@
         PPTextAttributedExample *vc = [[PPTextAttributedExample alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
     } else if (indexPath.row == 1) {
+        PPTextTruncatedExample *vc = [[PPTextTruncatedExample alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+    } else if (indexPath.row == 2) {
         PPTextEditableExample *vc = [[PPTextEditableExample alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
     }
