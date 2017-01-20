@@ -22,11 +22,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) CGPoint baselineOrigin;
 @property (nonatomic, assign, readonly) CGRect fragmentRect;
 @property (nonatomic, assign, readonly) CGFloat width;
-@property (nonatomic, weak, readonly) PPTextLayout *layout;
+@property (nonatomic, weak, readonly) PPTextLayout *textLayout;
 
 - (instancetype)initWithCTLine:(CTLineRef)lineRef origin:(CGPoint)origin layout:(PPTextLayout *)layout;
-- (instancetype)initWithCTLine:(CTLineRef)lineRef origin:(CGPoint)origin layout:(PPTextLayout *)layout
-                 truncatedLine:(nullable CTLineRef)truncatedLine;
 - (void)setupWithCTLine;
 - (void)enumerateLayoutRunsUsingBlock:(void(^)(NSDictionary *attributes, NSRange range))block;
 - (NSUInteger)characterIndexForBoundingPosition:(CGPoint)position;

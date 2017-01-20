@@ -150,7 +150,7 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 
 - (void)drawInContext:(CGContextRef)context visibleRect:(CGRect)visibleRect placeAttachments:(BOOL)placeAttachments
 {
-    PPASDKAssert(context, @"This method needs CGContextRef");
+    PPAssert(context, @"This method needs CGContextRef");
     
     NSAttributedString *attributedString = self.attributedString;
     if (attributedString.length > 0) {
@@ -308,11 +308,6 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 - (CGRect)lineFragmentRectForCharacterAtIndex:(NSUInteger)index effectiveRange:(NSRangePointer)effectiveRange
 {
     return [self.textLayout lineFragmentRectForCharacterAtIndex:index effectiveRange:effectiveRange];
-}
-
-- (CGRect)firstSelectionRectForCharacterRange:(NSRange)range
-{
-    return [self.textLayout firstSelectionRectForCharacterRange:range];
 }
 
 - (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(nullable void (^)(CGRect, BOOL * _Nonnull))block

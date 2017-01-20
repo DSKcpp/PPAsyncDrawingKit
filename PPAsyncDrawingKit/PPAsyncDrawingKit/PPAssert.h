@@ -9,6 +9,6 @@
 #import <Foundation/NSException.h>
 #import <pthread.h>
 
-#define PPASDKAssert(condition, desc, ...) NSAssert(condition, desc, ##__VA_ARGS__)
+#define PPAssert(condition, desc, ...) NSAssert(condition, desc, ##__VA_ARGS__)
 
-#define PPASDKAssertAssertMainThread() PPASDKAssert(0 != pthread_main_np(), @"This method must be called on the main thread")
+#define PPAssertAssertMainThread() PPASDKAssert(0 != pthread_main_np(), @"This method must be called on the main thread")

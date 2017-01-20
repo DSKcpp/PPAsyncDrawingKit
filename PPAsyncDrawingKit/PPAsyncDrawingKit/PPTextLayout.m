@@ -160,11 +160,6 @@
     return CGPointMake(x, y);
 }
 
-- (CGRect)firstSelectionRectForCharacterRange:(NSRange)range
-{
-    return [self.layoutFrame firstSelectionRectForCharacterRange:range];
-}
-
 - (CGRect)boundingRectForCharacterRange:(NSRange)range
 {
     return [self enumerateSelectionRectsForCharacterRange:range usingBlock:nil];

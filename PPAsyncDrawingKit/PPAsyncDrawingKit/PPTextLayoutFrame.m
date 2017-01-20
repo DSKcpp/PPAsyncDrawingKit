@@ -125,15 +125,6 @@
 @end
 
 @implementation PPTextLayoutFrame (LayoutResult)
-- (CGRect)firstSelectionRectForCharacterRange:(NSRange)range
-{
-    CGRect rect = CGRectZero;
-    [self enumerateSelectionRectsForCharacterRange:range usingBlock:^(CGRect rect, BOOL * _Nonnull stop) {
-        rect = rect;
-        *stop = YES;
-    }];
-    return rect;
-}
 
 - (NSUInteger)lineFragmentIndexForCharacterAtIndex:(NSUInteger)index
 {

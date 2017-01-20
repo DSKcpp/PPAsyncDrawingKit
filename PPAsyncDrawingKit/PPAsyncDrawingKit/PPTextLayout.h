@@ -49,7 +49,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(nullable void(^)(CGRect rect, BOOL *stop))block;
 - (void)enumerateEnclosingRectsForCharacterRange:(NSRange)range usingBlock:(void (^)(CGRect rect, BOOL *stop))block;
 - (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(void(^)(CGRect rect, NSRange range, BOOL *stop))block;
-- (CGRect)firstSelectionRectForCharacterRange:(NSRange)range;
 - (nullable PPTextFontMetrics *)lineFragmentMetricsForLineAtIndex:(NSUInteger)index effectiveRange:(nullable NSRangePointer)range;
 - (CGRect)lineFragmentRectForCharacterAtIndex:(NSUInteger)index effectiveRange:(nullable NSRangePointer)range;
 - (CGRect)lineFragmentRectForLineAtIndex:(NSUInteger)index effectiveRange:(nullable NSRangePointer)range;

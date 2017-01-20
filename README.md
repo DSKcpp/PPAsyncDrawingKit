@@ -56,6 +56,8 @@ see `Demo\PPAsyncDrawingKit.xcodeproj`
 
 ![](http://ww4.sinaimg.cn/large/9bffd8f9gw1fbk3ht0t1zj20a108btat.jpg)
 
+###PPTextView
+
 ###PPMultiplexTextView
 利用 `CoreText` 将传入的多个 `AttributedString`，渲染到一个 `View` 上。
 
