@@ -126,18 +126,6 @@
 
 @implementation PPTextLayoutFrame (LayoutResult)
 
-- (NSUInteger)lineFragmentIndexForCharacterAtIndex:(NSUInteger)index
-{
-    __block NSUInteger loc = 0;
-    [self.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (line.stringRange.location >= index && index <= line.stringRange.location + line.stringRange.length) {
-            loc = line.stringRange.location;
-            *stop = YES;
-        }
-    }];
-    return loc;
-}
-
 - (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(nonnull void (^)(CGRect, NSRange, BOOL * _Nonnull))block
 {
     if (!block) {
@@ -169,20 +157,6 @@
             }
         }];
     }
-}
-
-- (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(nullable void (^)(CGRect, BOOL * _Nonnull))block
-{
-    CGSize size = CGSizeZero;
-    if (self.layout) {
-        size = self.layout.size;
-    }
-    CGRect rects = CGRectMake(0, 0, size.width, size.height);
-    [self enumerateEnclosingRectsForCharacterRange:range usingBlock:^(CGRect rect, BOOL * _Nonnull stop) {
-//        CGFloat left = CGRectGetMinX(rect);
-        CGRectUnion(rects, rect);
-    }];
-    return rects;
 }
 
 @end

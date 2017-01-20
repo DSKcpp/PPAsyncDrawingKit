@@ -125,23 +125,6 @@ static CTLineBreakMode NSLineBreakModeToCTLineBreakMode(NSLineBreakMode nsLineBr
     return resultSize;
 }
 
-- (NSRange)pp_rangeToSize:(CGSize)size
-{
-    PPTextLayout *textLayout = [NSAttributedString textLayoutForCurrentThread];
-    textLayout.attributedString = self;
-    textLayout.size = size;
-    textLayout.numberOfLines = 0;
-    return textLayout.containingStringRange;
-}
-
-- (NSRange)pp_rangeToSize:(CGSize)size withLimitedLines:(NSUInteger)limitedLines
-{
-    PPTextLayout *textLayout = [NSAttributedString textLayoutForCurrentThread];
-    textLayout.attributedString = self;
-    textLayout.size = size;
-    return [textLayout containingStringRangeWithLineLimited:limitedLines];
-}
-
 + (instancetype)pp_attributedStringWithTextAttachment:(PPTextAttachment *)textAttachment
 {
     return [self pp_attributedStringWithTextAttachment:textAttachment attributes:nil];

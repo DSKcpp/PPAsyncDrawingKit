@@ -26,10 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface PPTextLayoutFrame (LayoutResult)
-- (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(nullable void(^)(CGRect rect, BOOL *stop))block;
 - (void)enumerateEnclosingRectsForCharacterRange:(NSRange)range usingBlock:(void(^)(CGRect rect, BOOL *stop))block;
 - (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(void(^)(CGRect rect, NSRange range, BOOL *stop))block;
-- (NSUInteger)lineFragmentIndexForCharacterAtIndex:(NSUInteger)index;
 @end
 
 NS_ASSUME_NONNULL_END

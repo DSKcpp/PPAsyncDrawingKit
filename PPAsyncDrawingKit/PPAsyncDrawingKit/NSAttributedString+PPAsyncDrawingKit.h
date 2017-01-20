@@ -47,9 +47,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines;
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines derivedLineCount:(NSInteger)derivedLineCount;
 
-- (NSRange)pp_rangeToSize:(CGSize)size;
-- (NSRange)pp_rangeToSize:(CGSize)size withLimitedLines:(NSUInteger)limitedLines;
-
 + (instancetype)pp_attributedStringWithTextAttachment:(PPTextAttachment *)textAttachment;
 + (instancetype)pp_attributedStringWithTextAttachment:(PPTextAttachment *)textAttachment attributes:(nullable NSDictionary *)attributes;
 
