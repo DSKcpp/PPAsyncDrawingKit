@@ -7,7 +7,7 @@
 //
 
 #import "NSAttributedString+PPAsyncDrawingKit.h"
-#import "PPTextRenderer.h"
+#import "PPTextLayout.h"
 #import "PPTextAttachment.h"
 #import "NSThread+PPTextRenderer.h"
 
@@ -69,9 +69,9 @@ static CTLineBreakMode NSLineBreakModeToCTLineBreakMode(NSLineBreakMode nsLineBr
     return NSMakeRange(0, self.length);
 }
 
-+ (PPTextRenderer *)rendererForCurrentThread
++ (PPTextLayout *)textLayoutForCurrentThread
 {
-    return [NSThread currentThread].textRenderer;
+    return [NSThread currentThread].textLayout;
 }
 
 - (CGFloat)pp_heightConstrainedToWidth:(CGFloat)width
@@ -81,8 +81,8 @@ static CTLineBreakMode NSLineBreakModeToCTLineBreakMode(NSLineBreakMode nsLineBr
 
 - (CGFloat)pp_heightConstrainedToWidth:(CGFloat)width exclusionPaths:(NSArray<UIBezierPath *> *)exclusionPaths
 {
-    PPTextLayout *textLayout = [NSAttributedString rendererForCurrentThread].textLayout;
-    textLayout.maximumNumberOfLines = 0;
+    PPTextLayout *textLayout = [NSAttributedString textLayoutForCurrentThread];
+    textLayout.numberOfLines = 0;
     textLayout.attributedString = self;
     textLayout.exclusionPaths = exclusionPaths;
     textLayout.size = CGSizeMake(width, 20000);
@@ -111,10 +111,10 @@ static CTLineBreakMode NSLineBreakModeToCTLineBreakMode(NSLineBreakMode nsLineBr
 
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines derivedLineCount:(NSInteger)derivedLineCount
 {
-    PPTextLayout *textLayout = [NSAttributedString rendererForCurrentThread].textLayout;
+    PPTextLayout *textLayout = [NSAttributedString textLayoutForCurrentThread];
     textLayout.attributedString = self;
     textLayout.size = size;
-    textLayout.maximumNumberOfLines = numberOfLines;
+    textLayout.numberOfLines = numberOfLines;
     CGSize resultSize;
     if (textLayout) {
         resultSize = textLayout.layoutSize;
@@ -127,20 +127,18 @@ static CTLineBreakMode NSLineBreakModeToCTLineBreakMode(NSLineBreakMode nsLineBr
 
 - (NSRange)pp_rangeToSize:(CGSize)size
 {
-    PPTextRenderer *textRenderer = [NSAttributedString rendererForCurrentThread];
-    textRenderer.attributedString = self;
-    textRenderer.frame = CGRectMake(0, 0, size.width, size.height);
-    PPTextLayout *textLayout = textRenderer.textLayout;
-    textLayout.maximumNumberOfLines = 0;
+    PPTextLayout *textLayout = [NSAttributedString textLayoutForCurrentThread];
+    textLayout.attributedString = self;
+    textLayout.size = size;
+    textLayout.numberOfLines = 0;
     return textLayout.containingStringRange;
 }
 
 - (NSRange)pp_rangeToSize:(CGSize)size withLimitedLines:(NSUInteger)limitedLines
 {
-    PPTextRenderer *textRenderer = [NSAttributedString rendererForCurrentThread];
-    textRenderer.attributedString = self;
-    textRenderer.frame = CGRectMake(0, 0, size.width, size.height);
-    PPTextLayout *textLayout = textRenderer.textLayout;
+    PPTextLayout *textLayout = [NSAttributedString textLayoutForCurrentThread];
+    textLayout.attributedString = self;
+    textLayout.size = size;
     return [textLayout containingStringRangeWithLineLimited:limitedLines];
 }
 
@@ -180,13 +178,12 @@ static CTLineBreakMode NSLineBreakModeToCTLineBreakMode(NSLineBreakMode nsLineBr
 
 - (CGSize)pp_drawInRect:(CGRect)rect context:(CGContextRef)context numberOfLines:(NSUInteger)numberOfLines
 {
-    PPTextRenderer *textRenderer = [NSAttributedString rendererForCurrentThread];
-    PPTextLayout *textLayout = textRenderer.textLayout;
-    textLayout.maximumNumberOfLines = numberOfLines;
-    textRenderer.attributedString = self;
-    textRenderer.frame = rect;
-    [textRenderer drawInContext:context];
-    return textRenderer.layoutSize;
+    PPTextLayout *textLayout = [NSAttributedString textLayoutForCurrentThread];
+    textLayout.numberOfLines = numberOfLines;
+    textLayout.attributedString = self;
+    textLayout.frame = rect;
+    [textLayout.textRenderer drawInContext:context];
+    return textLayout.layoutSize;
 }
 
 @end

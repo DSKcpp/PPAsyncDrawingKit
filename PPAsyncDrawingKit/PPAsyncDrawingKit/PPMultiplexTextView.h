@@ -7,16 +7,16 @@
 //
 
 #import <PPAsyncDrawingKit/PPAsyncDrawingView.h>
-#import <PPAsyncDrawingKit/PPTextRenderer.h>
+#import <PPAsyncDrawingKit/PPTextLayout.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PPMultiplexTextView : PPAsyncDrawingView <PPTextRendererEventDelegate>
 
-@property (nullable, nonatomic, strong, readonly) NSArray<PPTextRenderer *> *textRenderers;
+@property (nullable, nonatomic, strong, readonly) NSArray<PPTextLayout *> *textLayouts;
 @property (nullable, nonatomic, strong) PPTextRenderer *respondTextRenderer;
 
-- (void)addTextRenderer:(PPTextRenderer *)textRenderer;
+- (void)addTextLayout:(PPTextLayout *)textLayout;
 
 - (nullable PPTextRenderer *)rendererAtPoint:(CGPoint)point;
 - (void)textRenderer:(PPTextRenderer *)textRenderer didPressHighlightRange:(PPTextHighlightRange *)highlightRange;

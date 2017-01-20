@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <PPAsyncDrawingKit/PPTextLayout.h>
 #import <PPAsyncDrawingKit/PPTextAttributes.h>
 
 @class PPTextLayoutFrame;
 @class PPTextAttachment;
 @class PPTextRenderer;
+@class PPTextLayout;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,14 +25,13 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface PPTextRenderer : UIResponder
-@property (nonatomic, strong) PPTextLayout *textLayout;
-@property (nonatomic, strong) NSAttributedString *attributedString;
+@property (nonatomic, weak) PPTextLayout *textLayout;
 @property (nullable, nonatomic, strong) PPTextHighlightRange *savedPressingHighlightRange;
 @property (nullable, nonatomic, strong) PPTextHighlightRange *pressingHighlightRange;
 @property (nullable, nonatomic, weak) id<PPTextRendererEventDelegate> eventDelegate;
-@property (nonatomic, assign) CGRect frame;
-@property (nonatomic, assign) CGPoint drawingOrigin;
 
++ (PPTextRenderer *)textRendererWithTextLayout:(PPTextLayout *)textLayout;
+- (instancetype)initWithTextLayout:(PPTextLayout *)textLayout;
 @end
 
 @interface PPTextRenderer (PPTextRendererDrawing)
@@ -75,24 +74,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (CGRect)convertRectFromLayout:(CGRect)rect;
 - (CGPoint)convertPointToLayout:(CGPoint)point;
 - (CGPoint)convertPointFromLayout:(CGPoint)point;
-@end
-
-@interface PPTextRenderer (PPTextRendererLayoutResult)
-@property (nonatomic, assign, readonly) CGFloat layoutHeight;
-@property (nonatomic, assign, readonly) CGSize layoutSize;
-@property (nonatomic, assign, readonly) NSUInteger layoutLineCount;
-@property (nonatomic, assign, readonly) NSRange layoutStringRange;
-
-- (NSUInteger)characterIndexForPoint:(CGPoint)point;
-- (NSRange)characterRangeForBoundingRect:(CGRect)rect;
-- (CGRect)boundingRectForCharacterRange:(NSRange)range;
-- (CGPoint)locationForCharacterAtIndex:(NSUInteger)index;
-- (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(nullable void(^)(CGRect rect, BOOL *stop))block;
-- (void)enumerateEnclosingRectsForCharacterRange:(NSRange)range usingBlock:(void(^)(CGRect rect, BOOL *stop))block;
-- (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(void(^)(CGRect rect, NSRange range, BOOL *stop))block;
-- (CGRect)lineFragmentRectForCharacterAtIndex:(NSUInteger)index effectiveRange:(nullable NSRangePointer)effectiveRange;
-- (CGRect)lineFragmentRectForLineAtIndex:(NSUInteger)index effectiveRange:(nullable NSRangePointer)effectiveRange;
-- (NSUInteger)lineFragmentIndexForCharacterAtIndex:(NSUInteger)index;
 @end
 
 @interface PPTextRenderer (PPTextRendererDebug)

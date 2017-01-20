@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@class PPTextRenderer;
+@class PPTextLayout;
 
 @interface NSThread (PPTextRenderer)
-@property (nonatomic, strong, readonly) PPTextRenderer *textRenderer;
+@property (nonatomic, strong, readonly) PPTextLayout *textLayout;
 @end

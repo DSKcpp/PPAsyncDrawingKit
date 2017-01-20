@@ -7,7 +7,7 @@
 //
 
 #import <PPAsyncDrawingKit/PPAsyncDrawingView.h>
-#import <PPAsyncDrawingKit/PPTextRenderer.h>
+#import <PPAsyncDrawingKit/PPTextLayout.h>
 #import <PPAsyncDrawingKit/NSAttributedString+PPAsyncDrawingKit.h>
 
 @class PPTextLayout;
@@ -24,16 +24,12 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface PPTextView : PPAsyncDrawingView <PPTextRendererEventDelegate>
-@property (nonatomic, strong, readonly) PPTextLayout *textLayout;
-@property (nonatomic, strong, readonly) PPTextRenderer *textRenderer;
-@property (nullable, nonatomic, copy) NSAttributedString *attributedString;
+@property (nonatomic, strong) PPTextLayout *textLayout;
+@property (nullable, nonatomic, strong) NSAttributedString *attributedString;
 @property (nonatomic, assign) NSInteger numberOfLines;
 @property (nullable, nonatomic, weak) id<PPTextViewDelegate> delegate;
 
 - (instancetype)initWithFrame:(CGRect)frame;
-
-- (NSInteger)lineIndexForPoint:(CGPoint)point;
-- (NSInteger)textIndexForPoint:(CGPoint)point;
 @end
 
 NS_ASSUME_NONNULL_END

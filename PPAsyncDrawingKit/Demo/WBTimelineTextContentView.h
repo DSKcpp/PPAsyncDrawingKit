@@ -30,11 +30,10 @@
 @property (nonatomic, strong) NSMutableAttributedString *sourceInfoString;
 @property (nonatomic, strong) WBTimelineLargeCardView *largeCardView;
 @property (nonatomic, assign) BOOL disableTextLinkHighlight;
-@property (nonatomic, strong) PPTextRenderer *metaInfoTextRenderer;
-@property (nonatomic, strong) PPTextRenderer *titleTextRenderer;
-@property (nonatomic, strong) PPTextRenderer *quotedItemTextRenderer;
-@property (nonatomic, strong) PPTextRenderer *itemTextRenderer;
-//@property (nonatomic, assign) __weak id <WBTimelineTextContentViewDelegate> delegate;
+@property (nonatomic, strong) PPTextLayout *sourceTextLayout;
+@property (nonatomic, strong) PPTextLayout *titleTextLayout;
+@property (nonatomic, strong) PPTextLayout *contentTextLayout;
+@property (nonatomic, strong) PPTextLayout *quotedTextLayout;
 @property (nonatomic, assign) BOOL highlighted;
 @property (nonatomic, strong) WBTimelineTableViewCellDrawingContext *drawingContext;
 @property (nonatomic, assign) BOOL enableAsyncDrawing;

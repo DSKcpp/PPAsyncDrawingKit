@@ -49,11 +49,11 @@
 @implementation WBTimelineLargeCardTextView
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously userInfo:(NSDictionary *)userInfo
 {
-    WBTimelinePageInfo *pageInfo = _pageInfo;
-    _titleRenderer.frame = CGRectZero;
-    [_titleRenderer drawInContext:context];
-    _descRenderer.frame = CGRectZero;
-    [_descRenderer drawInContext:context];
+//    WBTimelinePageInfo *pageInfo = _pageInfo;
+//    _titleRenderer.frame = CGRectZero;
+//    [_titleRenderer drawInContext:context];
+//    _descRenderer.frame = CGRectZero;
+//    [_descRenderer drawInContext:context];
     return YES;
 }
 @end

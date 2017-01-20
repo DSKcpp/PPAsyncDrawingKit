@@ -10,7 +10,7 @@
 
 @interface PPMultiplexTextView ()
 {
-    NSMutableArray<PPTextRenderer *> *_internalTextRenderers;
+    NSMutableArray<PPTextLayout *> *_internalTextLayouts;
 }
 @end
 
@@ -18,34 +18,34 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        _internalTextRenderers = [NSMutableArray array];
+        _internalTextLayouts = [NSMutableArray array];
     }
     return self;
 }
 
 - (NSArray<PPTextRenderer *> *)textRenderers
 {
-    return [NSArray arrayWithArray:_internalTextRenderers.copy];
+    return [NSArray arrayWithArray:_internalTextLayouts.copy];
 }
 
-- (void)addTextRenderer:(PPTextRenderer *)textRenderer
+- (void)addTextLayout:(PPTextLayout *)textLayout
 {
-    [_internalTextRenderers addObject:textRenderer];
+    [_internalTextLayouts addObject:textLayout];
 }
 
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously userInfo:(NSDictionary *)userInfo
 {
-    [_internalTextRenderers enumerateObjectsUsingBlock:^(PPTextRenderer * _Nonnull textRenderer, NSUInteger idx, BOOL * _Nonnull stop) {
-        [textRenderer drawInContext:context];
+    [_internalTextLayouts enumerateObjectsUsingBlock:^(PPTextLayout * _Nonnull textLayout, NSUInteger idx, BOOL * _Nonnull stop) {
+        [textLayout.textRenderer drawInContext:context];
     }];
     return YES;
 }
 
 - (PPTextRenderer *)rendererAtPoint:(CGPoint)point
 {
-    for (PPTextRenderer *textRenderer in _internalTextRenderers) {
-        if (CGRectContainsPoint(textRenderer.frame, point)) {
-            return textRenderer;
+    for (PPTextLayout *textLayout in _internalTextLayouts) {
+        if (CGRectContainsPoint(textLayout.frame, point)) {
+            return textLayout.textRenderer;
         }
     }
     return nil;

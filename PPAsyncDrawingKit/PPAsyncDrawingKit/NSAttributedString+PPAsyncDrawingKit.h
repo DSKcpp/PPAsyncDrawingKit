@@ -10,7 +10,7 @@
 #import <CoreText/CoreText.h>
 #import <PPAsyncDrawingKit/PPTextAttributes.h>
 
-@class PPTextRenderer;
+@class PPTextLayout;
 @class PPTextAttachment;
 @class PPTextHighlightRange;
 @class PPTextFontMetrics;
@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @return cuttend thread text renderer
  */
-+ (nullable PPTextRenderer *)rendererForCurrentThread;
++ (nullable PPTextLayout *)textLayoutForCurrentThread;
 
 /**
  get attributed string range.

@@ -97,22 +97,22 @@
 {
     if (self = [super initWithFrame:frame]) {
         [self setBackgroundColor:[UIColor clearColor]];
-        self.itemTextRenderer = [[PPTextRenderer alloc] init];
-        self.itemTextRenderer.eventDelegate = self;
-        self.quotedItemTextRenderer = [[PPTextRenderer alloc] init];
-        self.quotedItemTextRenderer.eventDelegate = self;
-        self.titleTextRenderer = [[PPTextRenderer alloc] init];
-        self.titleTextRenderer.eventDelegate = self;
-        self.metaInfoTextRenderer = [[PPTextRenderer alloc] init];
-        self.metaInfoTextRenderer.eventDelegate = self;
-        self.metaInfoTextRenderer.textLayout.maximumNumberOfLines = 1;
+        self.contentTextLayout = [[PPTextLayout alloc] init];
+//        self.itemTextRenderer.eventDelegate = self;
+        self.quotedTextLayout = [[PPTextLayout alloc] init];
+//        self.quotedItemTextRenderer.eventDelegate = self;
+        self.titleTextLayout = [[PPTextLayout alloc] init];
+//        self.titleTextRenderer.eventDelegate = self;
+        self.sourceTextLayout = [[PPTextLayout alloc] init];
+//        self.metaInfoTextRenderer.eventDelegate = self;
+        self.sourceTextLayout.numberOfLines = 1;
         self.attachmentViews = [NSMutableArray array];
         self.attachments = [NSMutableArray array];
         self.isSourceRectBeReset = NO;
-        [self addTextRenderer:self.itemTextRenderer];
-        [self addTextRenderer:self.quotedItemTextRenderer];
-        [self addTextRenderer:self.titleTextRenderer];
-        [self addTextRenderer:self.metaInfoTextRenderer];
+        [self addTextLayout:self.contentTextLayout];
+        [self addTextLayout:self.quotedTextLayout];
+        [self addTextLayout:self.titleTextLayout];
+        [self addTextLayout:self.sourceTextLayout];
         _largeCardView = [[WBTimelineLargeCardView alloc] initWithFrame:CGRectZero];
         [self addSubview:_largeCardView];
     }
@@ -139,23 +139,23 @@
 {
     WBTimelineTableViewCellDrawingContext *drawingContext = self.drawingContext;
     if (drawingContext.hasTitle) {
-        self.titleTextRenderer.attributedString = drawingContext.titleAttributedText;
-        self.titleTextRenderer.frame = drawingContext.titleFrame;
-        [self.titleTextRenderer drawInContext:context];
+        self.titleTextLayout.attributedString = drawingContext.titleAttributedText;
+        self.titleTextLayout.frame = drawingContext.titleFrame;
+        [self.titleTextLayout.textRenderer drawInContext:context];
     }
     
-    self.metaInfoTextRenderer.attributedString = drawingContext.metaInfoAttributedText;
-    self.metaInfoTextRenderer.frame = drawingContext.metaInfoFrame;
-    [self.metaInfoTextRenderer drawInContext:context];
+    self.sourceTextLayout.attributedString = drawingContext.metaInfoAttributedText;
+    self.sourceTextLayout.frame = drawingContext.metaInfoFrame;
+    [self.sourceTextLayout.textRenderer drawInContext:context];
     
-    self.itemTextRenderer.frame = drawingContext.textFrame;
-    self.itemTextRenderer.attributedString = drawingContext.textAttributedText;
-    [self.itemTextRenderer drawInContext:context];
+    self.contentTextLayout.attributedString = drawingContext.textAttributedText;
+    self.contentTextLayout.frame = drawingContext.textFrame;
+    [self.contentTextLayout.textRenderer drawInContext:context];
     
     if (drawingContext.hasQuoted) {
-        self.quotedItemTextRenderer.frame = drawingContext.quotedFrame;
-        self.quotedItemTextRenderer.attributedString = drawingContext.quotedAttributedText;
-        [self.quotedItemTextRenderer drawInContext:context];
+        self.quotedTextLayout.attributedString = drawingContext.quotedAttributedText;
+        self.quotedTextLayout.frame = drawingContext.quotedFrame;
+        [self.quotedTextLayout.textRenderer drawInContext:context];
     }
     return YES;
 }

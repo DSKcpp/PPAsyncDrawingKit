@@ -12,6 +12,7 @@
 #import "PPTextAttachment.h"
 #import "NSAttributedString+PPAsyncDrawingKit.h"
 #import "PPAssert.h"
+#import "PPTextLayout.h"
 
 struct PPTextRendererEventDelegateHas {
     BOOL didPressHighlightRange;
@@ -28,6 +29,20 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 @end
 
 @implementation PPTextRenderer
+
++ (PPTextRenderer *)textRendererWithTextLayout:(PPTextLayout *)textLayout
+{
+    return [[PPTextRenderer alloc] initWithTextLayout:textLayout];
+}
+
+- (instancetype)initWithTextLayout:(PPTextLayout *)textLayout
+{
+    if (self = [super init]) {
+        _textLayout = textLayout;
+    }
+    return self;
+}
+
 #pragma mark - Event
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
@@ -91,23 +106,6 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 }
 
 #pragma mark - getter & setter
-- (PPTextLayout *)textLayout
-{
-    if (!_textLayout) {
-        _textLayout = [[PPTextLayout alloc] init];
-    }
-    return _textLayout;
-}
-
-- (NSAttributedString *)attributedString
-{
-    return self.textLayout.attributedString;
-}
-
-- (void)setAttributedString:(NSAttributedString *)attributedString
-{
-    self.textLayout.attributedString = attributedString;
-}
 
 - (void)setEventDelegate:(id<PPTextRendererEventDelegate>)eventDelegate
 {
@@ -120,19 +118,12 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 #pragma mark - Layout
 - (CGRect)frame
 {
-    CGSize size;
-    if (self.textLayout) {
-        size = self.textLayout.size;
-    } else {
-        size = CGSizeZero;
-    }
-    return (CGRect){self.drawingOrigin, size};
+    return self.textLayout.frame;
 }
 
-- (void)setFrame:(CGRect)frame
+- (CGPoint)drawingOrigin
 {
-    self.drawingOrigin = frame.origin;
-    self.textLayout.size = frame.size;
+    return self.textLayout.origin;
 }
 
 @end
@@ -152,7 +143,7 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 {
     PPAssert(context, @"This method needs CGContextRef");
     
-    NSAttributedString *attributedString = self.attributedString;
+    NSAttributedString *attributedString = self.textLayout.attributedString;
     if (attributedString.length > 0) {
         if (!CGRectIsNull(visibleRect)) {
             self.textLayout.size = visibleRect.size;
@@ -164,8 +155,10 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
             }
             PPTextHighlightRange *highlightRange = self.pressingHighlightRange;
             if (highlightRange) {
-                [self enumerateEnclosingRectsForCharacterRange:highlightRange.range usingBlock:^(CGRect rect, BOOL *stop) {
-                    [self drawHighlightedBackgroundForHighlightRange:highlightRange rect:rect context:context];
+                [self.textLayout enumerateEnclosingRectsForCharacterRange:highlightRange.range usingBlock:^(CGRect rect, BOOL * _Nonnull stop) {
+                    CGRect drawRect = [self convertRectFromLayout:rect];
+                    [self drawHighlightedBackgroundForHighlightRange:highlightRange rect:drawRect context:context];
+                    
                 }];
             }
         }
@@ -254,84 +247,6 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 
 @end
 
-@implementation PPTextRenderer (PPTextRendererLayoutResult)
-- (CGSize)layoutSize
-{
-    return self.textLayout.layoutSize;
-}
-
-- (CGFloat)layoutHeight
-{
-    return self.textLayout.layoutHeight;
-}
-
-- (NSUInteger)layoutLineCount
-{
-    return self.textLayout.containingLineCount;
-}
-
-- (NSRange)layoutStringRange
-{
-    return [self.textLayout containingStringRange];
-}
-
-- (CGPoint)locationForCharacterAtIndex:(NSUInteger)index
-{
-    return [self.textLayout locationForCharacterAtIndex:index];
-}
-
-- (NSUInteger)characterIndexForPoint:(CGPoint)point
-{
-    return [self.textLayout characterIndexForPoint:point];
-}
-
-- (CGRect)lineFragmentRectForLineAtIndex:(NSUInteger)index effectiveRange:(NSRangePointer)effectiveRange
-{
-    return [self.textLayout lineFragmentRectForLineAtIndex:index effectiveRange:effectiveRange];
-}
-
-- (NSUInteger)lineFragmentIndexForCharacterAtIndex:(NSUInteger)index
-{
-    return [self.textLayout lineFragmentIndexForCharacterAtIndex:index];
-}
-
-- (CGRect)boundingRectForCharacterRange:(NSRange)range
-{
-    return [self.textLayout boundingRectForCharacterRange:range];
-}
-
-- (NSRange)characterRangeForBoundingRect:(CGRect)rect
-{
-    return [self.textLayout characterRangeForBoundingRect:rect];
-}
-
-- (CGRect)lineFragmentRectForCharacterAtIndex:(NSUInteger)index effectiveRange:(NSRangePointer)effectiveRange
-{
-    return [self.textLayout lineFragmentRectForCharacterAtIndex:index effectiveRange:effectiveRange];
-}
-
-- (CGRect)enumerateSelectionRectsForCharacterRange:(NSRange)range usingBlock:(nullable void (^)(CGRect, BOOL * _Nonnull))block
-{
-    return [self.textLayout enumerateSelectionRectsForCharacterRange:range usingBlock:^(CGRect rect, BOOL * _Nonnull stop) {
-        if (block) block([self convertRectFromLayout:rect], stop);
-    }];
-}
-
-- (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(nonnull void (^)(CGRect, NSRange, BOOL * _Nonnull))block
-{
-    [self.textLayout enumerateLineFragmentsForCharacterRange:range usingBlock:^(CGRect rect, NSRange range, BOOL * _Nonnull stop) {
-        if (block) block([self convertRectFromLayout:rect], range, stop);
-    }];
-}
-
-- (void)enumerateEnclosingRectsForCharacterRange:(NSRange)range usingBlock:(void (^)(CGRect , BOOL *))block
-{
-    [self.textLayout enumerateEnclosingRectsForCharacterRange:range usingBlock:^(CGRect rect, BOOL * _Nonnull stop) {
-        if (block) block([self convertRectFromLayout:rect], stop);
-    }];
-}
-
-@end
 
 @implementation PPTextRenderer (PPTextRendererCoordinates)
 - (CGPoint)convertPointToLayout:(CGPoint)point
@@ -388,7 +303,8 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 {
     __block PPTextHighlightRange *r;
     __weak typeof(self) weakSelf = self;
-    [self.attributedString enumerateAttribute:PPTextHighlightRangeAttributeName inRange:[self.attributedString pp_stringRange] options:kNilOptions usingBlock:^(id  _Nullable value, NSRange range, BOOL * _Nonnull stop) {
+    NSAttributedString *attributedString = self.textLayout.attributedString;
+    [attributedString enumerateAttribute:PPTextHighlightRangeAttributeName inRange:attributedString.pp_stringRange options:kNilOptions usingBlock:^(id  _Nullable value, NSRange range, BOOL * _Nonnull stop) {
         if (value) {
             [weakSelf.textLayout enumerateEnclosingRectsForCharacterRange:range usingBlock:^(CGRect rect, BOOL * _Nonnull sstop) {
                 if (CGRectContainsPoint(rect, location)) {

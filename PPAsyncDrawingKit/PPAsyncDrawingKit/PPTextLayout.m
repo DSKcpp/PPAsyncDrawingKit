@@ -34,6 +34,14 @@
     return self;
 }
 
+- (PPTextRenderer *)textRenderer
+{
+    if (!_textRenderer) {
+        _textRenderer = [PPTextRenderer textRendererWithTextLayout:self];
+    }
+    return _textRenderer;
+}
+
 - (PPTextLayoutFrame *)layoutFrame
 {
     if (_needsLayout || _layoutFrame == nil) {
@@ -93,19 +101,58 @@
     }
 }
 
-- (void)setSize:(CGSize)size
+//- (void)setSize:(CGSize)size
+//{
+//    if (!CGSizeEqualToSize(_size, size)) {
+//        _size = size;
+//        _needsLayout = YES;
+//    }
+//}
+//
+//- (void)setOrigin:(CGPoint)origin
+//{
+//    
+//}
+
+- (void)setFrame:(CGRect)frame
 {
-    if (!CGSizeEqualToSize(_size, size)) {
-        _size = size;
+    if (!CGRectEqualToRect(_frame, frame)) {
+        _frame = frame;
         _needsLayout = YES;
     }
 }
 
-- (void)setMaximumNumberOfLines:(NSUInteger)maximumNumberOfLines
+- (CGPoint)origin
 {
-    if (_maximumNumberOfLines != maximumNumberOfLines) {
-        _maximumNumberOfLines = maximumNumberOfLines;
-        _needsLayout =YES;
+    return _frame.origin;
+}
+
+- (void)setOrigin:(CGPoint)origin
+{
+    if (!CGPointEqualToPoint(_frame.origin, origin)) {
+        _frame.origin = origin;
+        _needsLayout = YES;
+    }
+}
+
+- (CGSize)size
+{
+    return _frame.size;
+}
+
+- (void)setSize:(CGSize)size
+{
+    if (!CGSizeEqualToSize(_frame.size, size)) {
+        _frame.size = size;
+        _needsLayout = YES;
+    }
+}
+
+- (void)setNumberOfLines:(NSUInteger)numberOfLines
+{
+    if (_numberOfLines != numberOfLines) {
+        _numberOfLines = numberOfLines;
+        _needsLayout = YES;
     }
 }
 

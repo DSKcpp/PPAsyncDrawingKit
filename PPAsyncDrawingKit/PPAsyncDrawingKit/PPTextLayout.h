@@ -9,22 +9,25 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <PPAsyncDrawingKit/PPTextLayoutFrame.h>
+#import <PPAsyncDrawingKit/PPTextRenderer.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PPTextLayout : NSObject
 @property (nonatomic, strong) NSAttributedString *truncationString;
-@property (nonatomic, assign) NSUInteger maximumNumberOfLines;
+@property (nonatomic, assign) NSUInteger numberOfLines;
 @property (nullable, nonatomic, strong) NSArray<UIBezierPath *> *exclusionPaths;
 @property (nonatomic, assign) CGSize size;
+@property (nonatomic, assign) CGPoint origin;
+@property (nonatomic, assign) CGRect frame;
 @property (nonatomic, strong) NSAttributedString *attributedString;
 @property (nonatomic, strong) PPTextLayoutFrame *layoutFrame;
+@property (nonatomic, strong) PPTextRenderer *textRenderer;
 
 - (instancetype)initWithAttributedString:(NSAttributedString *)attributedString;
 - (nullable PPTextLayoutFrame *)createLayoutFrame;
 - (void)setNeedsLayout;
 @end
-
 
 @interface PPTextLayout (PPTextLayoutCoordinates)
 - (CGRect)convertRectToCoreText:(CGRect)rect;
@@ -39,7 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface PPTextLayout (PPTextLayoutResult)
-
 @property (nonatomic, assign, readonly) CGFloat layoutHeight;
 @property (nonatomic, assign, readonly) CGSize layoutSize;
 @property (nonatomic, assign, readonly) NSUInteger containingLineCount;

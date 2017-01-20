@@ -28,7 +28,7 @@
 
 - (void)setupWithCTFrame:(CTFrameRef)frame
 {
-    NSInteger maxLines = self.layout.maximumNumberOfLines;
+    NSInteger maxLines = self.layout.numberOfLines;
     CFArrayRef lineRefs = CTFrameGetLines(frame);
     CFIndex lineCount = CFArrayGetCount(lineRefs);
     NSMutableArray *lines = [NSMutableArray array];

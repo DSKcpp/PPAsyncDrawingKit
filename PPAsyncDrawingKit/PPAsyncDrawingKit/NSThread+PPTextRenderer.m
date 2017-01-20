@@ -8,24 +8,24 @@
 
 #import "NSThread+PPTextRenderer.h"
 #import <objc/runtime.h>
-#import "PPTextRenderer.h"
+#import "PPTextLayout.h"
 
 @implementation NSThread (PPTextRenderer)
-static char threadRendererKey;
+static char threadLayoutKey;
 
-- (PPTextRenderer *)textRenderer
+- (PPTextLayout *)textLayout
 {
-    PPTextRenderer *textRenderer = objc_getAssociatedObject(self, &threadRendererKey);
-    if (!textRenderer) {
-        self.textRenderer = [[PPTextRenderer alloc] init];
-        return self.textRenderer;
+    PPTextLayout *textLayout = objc_getAssociatedObject(self, &threadLayoutKey);
+    if (!textLayout) {
+        self.textLayout = [[PPTextLayout alloc] init];
+        return self.textLayout;
     } else {
-        return textRenderer;
+        return textLayout;
     }
 }
 
-- (void)setTextRenderer:(PPTextRenderer *)textRenderer
+- (void)setTextLayout:(PPTextLayout *)textLayout
 {
-    objc_setAssociatedObject(self, &threadRendererKey, textRenderer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, &threadLayoutKey, textLayout, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 @end

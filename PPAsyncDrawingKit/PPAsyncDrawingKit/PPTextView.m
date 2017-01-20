@@ -22,9 +22,6 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        PPTextRenderer * textRenderer = [[PPTextRenderer alloc] init];
-        textRenderer.eventDelegate = self;
-        _textRenderer = textRenderer;
         self.clearsContextBeforeDrawing = NO;
         self.contentMode = UIViewContentModeRedraw;
     }
@@ -35,36 +32,36 @@
 {
     NSAttributedString *attributedString = self.attributedString;
     if (attributedString) {
-        [self.textRenderer drawInContext:context visibleRect:rect placeAttachments:YES];
+        [self.textLayout.textRenderer drawInContext:context visibleRect:rect placeAttachments:YES];
     }
     return YES;
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    [_textRenderer touchesBegan:touches withEvent:event];
-    if (!_textRenderer.pressingHighlightRange) {
+    [self.textLayout.textRenderer touchesBegan:touches withEvent:event];
+    if (!self.textLayout.textRenderer.pressingHighlightRange) {
         [super touchesBegan:touches withEvent:event];
     }
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    [self.textRenderer touchesMoved:touches withEvent:event];
-    if (!_textRenderer.pressingHighlightRange) {
+    [self.textLayout.textRenderer touchesMoved:touches withEvent:event];
+    if (!self.textLayout.textRenderer.pressingHighlightRange) {
         [super touchesMoved:touches withEvent:event];
     }
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    [self.textRenderer touchesEnded:touches withEvent:event];
+    [self.textLayout.textRenderer touchesEnded:touches withEvent:event];
     [super touchesEnded:touches withEvent:event];
 }
 
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    [self.textRenderer touchesCancelled:touches withEvent:event];
+    [self.textLayout.textRenderer touchesCancelled:touches withEvent:event];
     [super touchesCancelled:touches withEvent:event];
 }
 
@@ -75,38 +72,31 @@
 
 - (PPTextLayout *)textLayout
 {
-    return self.textRenderer.textLayout;
+    if (!_textLayout) {
+        _textLayout = [[PPTextLayout alloc] init];
+    }
+    return _textLayout;
 }
 
 - (NSInteger)numberOfLines
 {
-    return self.textRenderer.textLayout.maximumNumberOfLines;
+    return self.textLayout.numberOfLines;
 }
 
 - (void)setNumberOfLines:(NSInteger)numberOfLines
 {
-    self.textRenderer.textLayout.maximumNumberOfLines = numberOfLines;
+    self.textLayout.numberOfLines = numberOfLines;
 }
 
 - (NSAttributedString *)attributedString
 {
-    return self.textRenderer.attributedString.copy;
+    return self.textLayout.attributedString;
 }
 
 - (void)setAttributedString:(NSAttributedString *)attributedString
 {
-    self.textRenderer.attributedString = attributedString.copy;
+    self.textLayout.attributedString = attributedString.copy;
     [self setNeedsDisplayAsync];
-}
-
-- (NSInteger)lineIndexForPoint:(CGPoint)point
-{
-    return [self.textRenderer.textLayout lineFragmentIndexForCharacterAtIndex:[self textIndexForPoint:point]];
-}
-
-- (NSInteger)textIndexForPoint:(CGPoint)point
-{
-    return [self.textRenderer.textLayout characterIndexForPoint:point];
 }
 
 - (CGSize)sizeThatFits:(CGSize)size
