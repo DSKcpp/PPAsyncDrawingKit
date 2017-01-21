@@ -10,28 +10,39 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ 这是一个处理点击事件的类，ImageView 和 Button 都继承自这个类
+ */
 @interface PPControl : PPAsyncDrawingView
 
 /**
- default is YES. if NO, ignores touch events
+ 默认是 YES，如果是 NO，那么会忽略所有的点击事件
  */
 @property (nonatomic, assign, getter=isEnabled) BOOL enabled;
 
 /**
- default is NO may be used by some subclasses or by application
+ 默认是 NO，表示是是否被选择中
  */
 @property (nonatomic, assign, getter=isSelected) BOOL selected;
 
 /**
- default is NO. this gets set/cleared automatically when touch enters/exits during tracking and cleared on up
+ 默认是 NO，如果是 YES，则表示当前 View 处于高亮状态
  */
 @property (nonatomic, assign, getter=isHighlighted) BOOL highlighted;
 
+/**
+ 表示是否正在响应触摸事件
+ */
 @property (nonatomic, assign, readonly, getter=isTracking) BOOL tracking;
+
+/**
+ 表示手指是否触摸在当前 View 上
+ */
 @property (nonatomic, assign, readonly, getter=isTouchInside) BOOL touchInside;
 
 /**
- default is No. if YES, set enabled / selected / highlighted auto execute [self setNeedsDisplay].
+
+ 默认是 NO，如果是 YES，设置 enabled / selected / highlighted 的时候将会自动调用 setNeedsDisplay 方法
  */
 @property (nonatomic, assign) BOOL redrawsAutomaticallyWhenStateChange;
 

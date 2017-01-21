@@ -18,6 +18,9 @@
 @end
 
 @implementation PPTextLayout
+@synthesize textRenderer = _textRenderer;
+@synthesize layoutFrame = _layoutFrame;
+
 - (instancetype)init
 {
     if (self = [super init]) {

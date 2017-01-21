@@ -59,8 +59,7 @@
         point = [touch locationInView:self];
     }
     BOOL pressingRange = NO;
-    self.respondTextRenderer = [self rendererAtPoint:point];
-    self.respondTextRenderer.eventDelegate = self;
+    _respondTextRenderer = [self rendererAtPoint:point];
     if (self.respondTextRenderer) {
         [self.respondTextRenderer touchesBegan:touches withEvent:event];
         PPTextHighlightRange *range = self.respondTextRenderer.pressingHighlightRange;
@@ -92,7 +91,7 @@
 {
     if (self.respondTextRenderer) {
         [self.respondTextRenderer touchesEnded:touches withEvent:event];
-        self.respondTextRenderer = nil;
+        _respondTextRenderer = nil;
     }
     [super touchesEnded:touches withEvent:event];
 }
@@ -101,7 +100,7 @@
 {
     if (self.respondTextRenderer) {
         [self.respondTextRenderer touchesCancelled:touches withEvent:event];
-        self.respondTextRenderer = nil;
+        _respondTextRenderer = nil;
     }
     [super touchesCancelled:touches withEvent:event];
 }

@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PPMultiplexTextView : PPAsyncDrawingView <PPTextRendererEventDelegate>
 
 @property (nullable, nonatomic, strong, readonly) NSArray<PPTextLayout *> *textLayouts;
-@property (nullable, nonatomic, strong) PPTextRenderer *respondTextRenderer;
+@property (nullable, nonatomic, strong, readonly) PPTextRenderer *respondTextRenderer;
 
 - (void)addTextLayout:(PPTextLayout *)textLayout;
 

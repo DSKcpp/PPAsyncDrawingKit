@@ -14,17 +14,18 @@
 #import "PPAssert.h"
 #import "PPTextLayout.h"
 
-struct PPTextRendererEventDelegateHas {
+struct PPTextRendererEventDelegateFlags {
     BOOL didPressHighlightRange;
     BOOL contextViewForTextRenderer;
     BOOL shouldInteractWithHighlightRange;
 };
-typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
+typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags;
 
 @interface PPTextRenderer ()
 {
     CGPoint _touchesBeginPoint;
-    PPTextRendererEventDelegateHas _eventDelegateHas;
+    PPTextRendererEventDelegateFlags _eventDelegateFlags;
+    PPTextHighlightRange *_savedPressingHighlightRange;
 }
 @end
 
@@ -58,6 +59,7 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
         PPTextHighlightRange *range = [self highlightRangeForLayoutLocation:point];
         if (range) {
             self.pressingHighlightRange = range;
+//            _savedPressingHighlightRange = range;
             [touchView setNeedsDisplay];
         }
         _touchesBeginPoint = point;
@@ -73,13 +75,21 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
         point = [touch locationInView:touchView];
     }
     CGPoint touchesBeginPoint = _touchesBeginPoint;
-//    if (point.x > touchesBeginPoint.x) {
-//        
-//    }
-    if (_pressingHighlightRange) {
-        _savedPressingHighlightRange = _pressingHighlightRange;
-        [touchView setNeedsDisplay];
+    
+    if (point.x > touchesBeginPoint.x) {
+        PPTextHighlightRange *r = _pressingHighlightRange;
+        if (r) {
+            _pressingHighlightRange = nil;
+            _savedPressingHighlightRange = r;
+            [touchView setNeedsDisplay];
+        }
+    } else {
+        if (_savedPressingHighlightRange) {
+            _pressingHighlightRange = _savedPressingHighlightRange;
+            [touchView setNeedsDisplay];
+        }
     }
+
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -110,9 +120,9 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 - (void)setEventDelegate:(id<PPTextRendererEventDelegate>)eventDelegate
 {
     _eventDelegate = eventDelegate;
-    _eventDelegateHas.contextViewForTextRenderer = [eventDelegate respondsToSelector:@selector(contextViewForTextRenderer:)];
-    _eventDelegateHas.didPressHighlightRange = [eventDelegate respondsToSelector:@selector(textRenderer:didPressHighlightRange:)];
-    _eventDelegateHas.shouldInteractWithHighlightRange = [eventDelegate respondsToSelector:@selector(textRenderer:shouldInteractWithHighlightRange:)];
+    _eventDelegateFlags.contextViewForTextRenderer = [eventDelegate respondsToSelector:@selector(contextViewForTextRenderer:)];
+    _eventDelegateFlags.didPressHighlightRange = [eventDelegate respondsToSelector:@selector(textRenderer:didPressHighlightRange:)];
+    _eventDelegateFlags.shouldInteractWithHighlightRange = [eventDelegate respondsToSelector:@selector(textRenderer:shouldInteractWithHighlightRange:)];
 }
 
 #pragma mark - Layout
@@ -286,7 +296,7 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 @implementation PPTextRenderer (PPTextRendererEvents)
 - (UIView *)eventDelegateContextView
 {
-    if (_eventDelegateHas.contextViewForTextRenderer) {
+    if (_eventDelegateFlags.contextViewForTextRenderer) {
         return [_eventDelegate contextViewForTextRenderer:self];
     }
     return nil;
@@ -294,7 +304,7 @@ typedef struct PPTextRendererEventDelegateHas PPTextRendererEventDelegateHas;
 
 - (void)eventDelegateDidPressHighlightRange:(PPTextHighlightRange *)highlightRange
 {
-    if (_eventDelegateHas.didPressHighlightRange) {
+    if (_eventDelegateFlags.didPressHighlightRange) {
         [_eventDelegate textRenderer:self didPressHighlightRange:highlightRange];
     }
 }
@@ -347,8 +357,8 @@ static BOOL textRendererDebugModeEnabled = NO;
     [layoutFrame.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
         CGRect rect = [self convertRectFromLayout:line.fragmentRect];
         CGContextSaveGState(context);
-        CGContextSetAlpha(context, 0.1f);
-        CGContextSetFillColorWithColor(context, [UIColor blueColor].CGColor);
+        CGContextSetAlpha(context, 0.5f);
+        CGContextSetFillColorWithColor(context, [UIColor yellowColor].CGColor);
         CGContextFillRect(context, rect);
         
         CGContextSetAlpha(context, 1.0f);
@@ -356,7 +366,6 @@ static BOOL textRendererDebugModeEnabled = NO;
         CGContextFillRect(context, CGRectMake(line.baselineOrigin.x + origin.x, line.baselineOrigin.y + origin.y, rect.size.width, 0.5f));
         CGContextRestoreGState(context);
     }];
-    
 }
 
 @end

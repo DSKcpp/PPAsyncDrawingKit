@@ -14,18 +14,17 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PPTextLayout : NSObject
-@property (nonatomic, strong) NSAttributedString *truncationString;
+@property (nullable, nonatomic, strong) NSAttributedString *truncationString;
 @property (nonatomic, assign) NSUInteger numberOfLines;
 @property (nullable, nonatomic, strong) NSArray<UIBezierPath *> *exclusionPaths;
 @property (nonatomic, assign) CGSize size;
 @property (nonatomic, assign) CGPoint origin;
 @property (nonatomic, assign) CGRect frame;
 @property (nonatomic, strong) NSAttributedString *attributedString;
-@property (nonatomic, strong) PPTextLayoutFrame *layoutFrame;
-@property (nonatomic, strong) PPTextRenderer *textRenderer;
+@property (nonatomic, strong, readonly) PPTextLayoutFrame *layoutFrame;
+@property (nonatomic, strong, readonly) PPTextRenderer *textRenderer;
 
 - (instancetype)initWithAttributedString:(NSAttributedString *)attributedString;
-- (nullable PPTextLayoutFrame *)createLayoutFrame;
 - (void)setNeedsLayout;
 @end
 

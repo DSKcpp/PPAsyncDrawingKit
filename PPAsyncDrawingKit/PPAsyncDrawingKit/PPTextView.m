@@ -74,6 +74,7 @@
 {
     if (!_textLayout) {
         _textLayout = [[PPTextLayout alloc] init];
+        _textLayout.textRenderer.eventDelegate = self;
     }
     return _textLayout;
 }

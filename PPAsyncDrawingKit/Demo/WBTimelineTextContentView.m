@@ -98,13 +98,13 @@
     if (self = [super initWithFrame:frame]) {
         [self setBackgroundColor:[UIColor clearColor]];
         self.contentTextLayout = [[PPTextLayout alloc] init];
-//        self.itemTextRenderer.eventDelegate = self;
+        self.contentTextLayout.textRenderer.eventDelegate = self;
         self.quotedTextLayout = [[PPTextLayout alloc] init];
-//        self.quotedItemTextRenderer.eventDelegate = self;
+        self.quotedTextLayout.textRenderer.eventDelegate = self;
         self.titleTextLayout = [[PPTextLayout alloc] init];
-//        self.titleTextRenderer.eventDelegate = self;
+        self.titleTextLayout.textRenderer.eventDelegate = self;
         self.sourceTextLayout = [[PPTextLayout alloc] init];
-//        self.metaInfoTextRenderer.eventDelegate = self;
+        self.sourceTextLayout.textRenderer.eventDelegate = self;
         self.sourceTextLayout.numberOfLines = 1;
         self.attachmentViews = [NSMutableArray array];
         self.attachments = [NSMutableArray array];

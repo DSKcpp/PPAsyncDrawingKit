@@ -146,7 +146,6 @@
             NSRange lineRange = line.stringRange;
             if (PPNSRangeStart(range) <= PPNSRangeEnd(lineRange)) {
                 if (TRUE) {
-                    NSLog(@"%@", NSStringFromRange(lineRange));
                     CGFloat x = line.baselineOrigin.x;
                     CGFloat y = line.baselineOrigin.y;
                     CGFloat left = [line offsetXForCharacterAtIndex:range.location] + x;
