@@ -13,6 +13,7 @@
 #import "NSAttributedString+PPAsyncDrawingKit.h"
 #import "PPAssert.h"
 #import "PPTextLayout.h"
+#import "PPAsyncDrawingView.h"
 
 struct PPTextRendererEventDelegateFlags {
     BOOL didPressHighlightRange;
@@ -48,22 +49,23 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     UIView *touchView = self.eventDelegateContextView;
-    if (touchView) {
-        NSSet<UITouch *> * _touches = [event touchesForView:touchView];
-        UITouch *touch = _touches.anyObject;
-        CGPoint point = CGPointZero;
-        if (touch) {
-            point = [touch locationInView:touchView];
-        }
-        point = [self convertPointToLayout:point];
-        PPTextHighlightRange *range = [self highlightRangeForLayoutLocation:point];
-        if (range) {
-            self.pressingHighlightRange = range;
-//            _savedPressingHighlightRange = range;
-            [touchView setNeedsDisplay];
-        }
-        _touchesBeginPoint = point;
+    if (!touchView) {
+        return;
     }
+    
+    NSSet<UITouch *> * _touches = [event touchesForView:touchView];
+    UITouch *touch = _touches.anyObject;
+    CGPoint point = CGPointZero;
+    if (touch) {
+        point = [touch locationInView:touchView];
+    }
+    point = [self convertPointToLayout:point];
+    PPTextHighlightRange *range = [self highlightRangeForLayoutLocation:point];
+    if (range) {
+        self.pressingHighlightRange = range;
+        [touchView setNeedsDisplay];
+    }
+    _touchesBeginPoint = point;
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -76,7 +78,11 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
     }
     CGPoint touchesBeginPoint = _touchesBeginPoint;
     
+    BOOL touchInside = YES;
     if (point.x > touchesBeginPoint.x) {
+        touchInside = NO;
+    }
+    if (!touchInside) {
         PPTextHighlightRange *r = _pressingHighlightRange;
         if (r) {
             _pressingHighlightRange = nil;
@@ -342,6 +348,45 @@ static BOOL textRendererDebugModeEnabled = NO;
 + (void)setDebugModeEnabled:(BOOL)debugModeEnabled
 {
     textRendererDebugModeEnabled = debugModeEnabled;
+    UIViewController *viewController = [self visibleViewController];
+    [self drawDebugInView:viewController.view];
+}
+
++ (void)drawDebugInView:(UIView *)view
+{
+    NSArray<__kindof UIView *> *subviews = view.subviews;
+    if (subviews.count == 0) {
+        return;
+    }
+    [subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull subview, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([subview isKindOfClass:[PPAsyncDrawingView class]]) {
+            [subview setNeedsDisplay];
+        }
+        [self drawDebugInView:subview];
+    }];
+}
+
++ (UIViewController *)visibleViewController
+{
+    UIViewController *viewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    return [self getVisibleViewControllerFrom:viewController];
+}
+
++ (UIViewController *)getVisibleViewControllerFrom:(UIViewController *)viewController
+{
+    if ([viewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navigtationController = (UINavigationController *)viewController;
+        return [self getVisibleViewControllerFrom:navigtationController.visibleViewController];
+    } else if ([viewController isKindOfClass:[UITabBarController class]]) {
+        UITabBarController *tabBarController = (UITabBarController *)viewController;
+        return [self getVisibleViewControllerFrom:tabBarController.selectedViewController];
+    } else {
+        if (viewController.presentedViewController) {
+            return [self getVisibleViewControllerFrom:viewController.presentedViewController];
+        } else {
+            return viewController;
+        }
+    }
 }
 
 - (void)debugModeDrawLineFramesWithLayoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context
