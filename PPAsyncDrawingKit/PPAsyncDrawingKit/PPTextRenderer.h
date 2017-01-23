@@ -34,26 +34,43 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface PPTextRenderer (PPTextRendererDrawing)
-/**
- draw current context
- */
-- (void)draw;
 
 /**
- draw context
+ 绘制
  
- @param context the context
+ @param context 绘制所需的 context
  */
 - (void)drawInContext:(CGContextRef)context;
 
+/**
+ 绘制
+
+ @param context 绘制所需的 context
+ @param visibleRect 绘制所需的 rect，如果是 CGRectNull，根据当前的 layout 的 frame 进行绘制
+ @param placeAttachments 是否需要绘制 attachment
+ */
 - (void)drawInContext:(CGContextRef)context
           visibleRect:(CGRect)visibleRect
      placeAttachments:(BOOL)placeAttachments;
 
+/**
+ 绘制 attachment，如果 placeAttachments 是 YES 的话，自动调用
+
+ @param attributedString 绘制所需的 attribtued string
+ @param layoutFrame 绘制所需的 layout frame
+ @param context 绘制所需的 context
+ */
 - (void)drawAttachmentsWithAttributedString:(NSAttributedString *)attributedString
                                 layoutFrame:(PPTextLayoutFrame *)layoutFrame
                                     context:(CGContextRef)context;
 
+/**
+ 绘制高亮
+
+ @param highlightRange 绘制所需的 highlightRange
+ @param rect 绘制所需的 rect
+ @param context 绘制所需的 context
+ */
 - (void)drawHighlightedBackgroundForHighlightRange:(PPTextHighlightRange *)highlightRange
                                               rect:(CGRect)rect context:(CGContextRef)context;
 @end
@@ -76,7 +93,18 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface PPTextRenderer (PPTextRendererDebug)
+
+/**
+ 开启 DEBUG 模式，默认关闭，高亮显示 draw frame / baseline / line
+ */
 @property (nonatomic, class, assign) BOOL debugModeEnabled;
+
+/**
+ 如果开启 DEBUG 模式将会自动调用这个方法进行高亮绘制
+
+ @param layoutFrame 需要高亮绘制的 layoutFrame
+ @param context 需要高亮绘制的 context
+ */
 - (void)debugModeDrawLineFramesWithLayoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context;
 @end
 

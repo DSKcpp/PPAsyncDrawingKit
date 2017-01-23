@@ -120,38 +120,54 @@
 {
     NSUInteger drawingCount= self.drawingCount;
     PPButtonInfo *buttonInfo = _buttonInfo;
-    if (buttonInfo) {
-        [self updateSubviewFrames];
-        if (drawingCount == self.drawingCount) {
-            UIImage *backgroundImage = buttonInfo.backgroundImage;
-            UIImage *image = buttonInfo.image;
-            UIColor *titleColor = buttonInfo.titleColor;
-            NSString *title = buttonInfo.title;
-            UIFont *titleFont = _titleFont;
-            CGRect backgroundFrame = _backgroundFrame;
-            CGRect imageFrame = _imageFrame;
-            CGRect titleFrame = _titleFrame;
-            if (drawingCount == self.drawingCount) {
-                CGContextSaveGState(context);
-                CGContextSetInterpolationQuality(context, kCGInterpolationNone);
-                [backgroundImage drawInRect:backgroundFrame];
-                if (drawingCount == self.drawingCount) {
-                    [image drawInRect:imageFrame];
-                    if (title) {
-                        [title pp_drawInRect:titleFrame withFont:titleFont textColor:titleColor lineBreakMode:NSLineBreakByWordWrapping];
-                    } else {
-                        
-                    }
-                    if (drawingCount == self.drawingCount) {
-                        CGContextRestoreGState(context);
-                        _renderedImage = image;
-                        _renderedTitle = title;
-                        _renderedBackgroundImage = backgroundImage;
+    
+    BOOL (^needCancel)() = ^BOOL() {
+        return drawingCount != self.drawingCount;
+    };
+    
+    if (!buttonInfo) {
+        return NO;
+    }
+    
+    [self updateSubviewFrames];
+    if (needCancel()) {
+        return NO;
+    }
+    
+    UIImage *backgroundImage = buttonInfo.backgroundImage;
+    UIImage *image = buttonInfo.image;
+    UIColor *titleColor = buttonInfo.titleColor;
+    NSString *title = buttonInfo.title;
+    UIFont *titleFont = _titleFont;
+    CGRect backgroundFrame = _backgroundFrame;
+    CGRect imageFrame = _imageFrame;
+    CGRect titleFrame = _titleFrame;
+    if (needCancel()) {
+        return NO;
+    }
+    CGContextSaveGState(context);
+    CGContextSetInterpolationQuality(context, kCGInterpolationNone);
+    [backgroundImage drawInRect:backgroundFrame];
+    
+    if (needCancel()) {
+        CGContextRestoreGState(context);
+        return NO;
+    }
+    
+    [image drawInRect:imageFrame];
+    if (title) {
+        NSDictionary *attribtues = @{NSFontAttributeName : titleFont, NSForegroundColorAttributeName : titleColor};
+        [title drawInRect:titleFrame withAttributes:attribtues];
+//                        [title pp_drawInRect:titleFrame withFont:titleFont textColor:titleColor lineBreakMode:NSLineBreakByWordWrapping];
+    } else {
+        
+    }
+    if (drawingCount == self.drawingCount) {
+        
+        _renderedImage = image;
+        _renderedTitle = title;
+        _renderedBackgroundImage = backgroundImage;
 //                        _renderedBoundsSize = 
-                    }
-                }
-            }
-        }
     }
     return YES;
 }
@@ -159,15 +175,16 @@
 - (void)setTitle:(NSString *)title forState:(UIControlState)state
 {
     NSString *stateString = [self stringOfState:state];
-    NSString *currentTitle = _titles[stateString];
-    if ((title || currentTitle) && ![title isEqualToString:currentTitle]) {
+    NSString *oldTitle = _titles[stateString];
+    
+    if ((title || oldTitle) && ![title isEqualToString:oldTitle]) {
         if (title) {
             [_titles setObject:title forKey:stateString];
         } else {
             [_titles removeObjectForKey:stateString];
         }
         if (self.state == state) {
-            [self updateTitle:title];
+            [self _updateTitle:title];
         } else {
             BOOL stateEqualNormal = state == UIControlStateNormal;
             if (!self.state) {
@@ -175,7 +192,6 @@
             }
         }
     }
-
 }
 
 - (void)setBackgroundImage:(UIImage *)backgroundImage forState:(UIControlState)state
@@ -189,7 +205,7 @@
             [_backgroundImages removeObjectForKey:stateString];
         }
         if (self.state == state) {
-            [self updateBackgroundImage:backgroundImage];
+            [self _updateBackgroundImage:backgroundImage];
         }
     }
 }
@@ -203,7 +219,7 @@
         [_images removeObjectForKey:stateString];
     }
     if (self.state == state) {
-        [self updateImage:image];
+        [self _updateImage:image];
     }
 }
 
@@ -249,7 +265,7 @@
     return _titleColors[stateKey];
 }
 
-- (void)updateTitle:(NSString *)title
+- (void)_updateTitle:(NSString *)title
 {
     PPButtonInfo *buttonInfo = _buttonInfo;
     if (![buttonInfo.title isEqualToString:title]) {
@@ -268,7 +284,7 @@
     }
 }
 
-- (void)updateImage:(UIImage *)image
+- (void)_updateImage:(UIImage *)image
 {
     PPButtonInfo *buttonInfo = _buttonInfo;
     if (buttonInfo.image != image) {
@@ -287,7 +303,7 @@
     }
 }
 
-- (void)updateBackgroundImage:(UIImage *)backgroundImage
+- (void)_updateBackgroundImage:(UIImage *)backgroundImage
 {
     PPButtonInfo *buttonInfo = _buttonInfo;
     if (buttonInfo.backgroundImage != backgroundImage) {
@@ -309,14 +325,14 @@
 
 - (void)updateContentsAndRelayout:(BOOL)relayout
 {
-    [self updateButtonInfo];
+    [self _updateButtonInfo];
     if (relayout) {
         [self setNeedsUpdateFrame];
     }
     [self setNeedsDisplay];
 }
 
-- (void)updateButtonInfo
+- (void)_updateButtonInfo
 {
     NSString *stateKey = [self stringOfState:_trackingState];
     NSString *normalStateKey = [self stringOfState:UIControlStateNormal];

@@ -239,8 +239,8 @@ static BOOL asyncDrawingEnabled = YES;
 
 - (dispatch_queue_t)internalDrawQueue
 {
-    if (_drawQueue) {
-        return _drawQueue;
+    if (_asyncDrawQueue) {
+        return _asyncDrawQueue;
     } else {
         return PPDrawConcurrentQueue();
     }

@@ -79,6 +79,7 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
     CGPoint touchesBeginPoint = _touchesBeginPoint;
     
     BOOL touchInside = YES;
+    CGFloat left = touchView.bounds.size.width - touchesBeginPoint.x;
     if (point.x > touchesBeginPoint.x) {
         touchInside = NO;
     }
@@ -145,11 +146,6 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
 @end
 
 @implementation PPTextRenderer (PPTextRendererDrawing)
-- (void)draw
-{
-    [self drawInContext:UIGraphicsGetCurrentContext()];
-}
-
 - (void)drawInContext:(CGContextRef)context
 {
     [self drawInContext:context visibleRect:CGRectNull placeAttachments:YES];

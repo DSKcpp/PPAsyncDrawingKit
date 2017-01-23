@@ -33,7 +33,6 @@ PPAsyncDrawingKit
 * Editable text view
 * Animation Image
 * 目前没有注释，过些日子补上
-* Text view 隔行点击
 * 更多的 CoreText 样式
 
 #How To Use

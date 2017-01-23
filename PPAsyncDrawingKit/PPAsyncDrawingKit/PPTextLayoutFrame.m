@@ -145,7 +145,7 @@
         [self.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
             NSRange lineRange = line.stringRange;
             if (PPNSRangeStart(range) <= PPNSRangeEnd(lineRange)) {
-                if (TRUE) {
+                if (PPNSRangeStart(lineRange) <= PPNSRangeEnd(range)) {
                     CGFloat x = line.baselineOrigin.x;
                     CGFloat y = line.baselineOrigin.y;
                     CGFloat left = [line offsetXForCharacterAtIndex:range.location] + x;
