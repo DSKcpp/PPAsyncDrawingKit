@@ -57,9 +57,15 @@ see `Demo\PPAsyncDrawingKit.xcodeproj`
 ![](http://ww4.sinaimg.cn/large/9bffd8f9gw1fbk3ht0t1zj20a108btat.jpg)
 
 ###PPTextView
+####Highlight
+![](http://wx1.sinaimg.cn/mw690/9bffd8f9gy1fc3swnwu13j20cs01omwy.jpg)
+####Border
+![](http://wx1.sinaimg.cn/mw690/9bffd8f9gy1fc3swo0s44j20cs01omwy.jpg)
+####Truncated Line
+![](http://wx2.sinaimg.cn/large/9bffd8f9gy1fc3swnrx05j20ku066wes.jpg)
 
 ###PPMultiplexTextView
-利用 `CoreText` 将传入的多个 `AttributedString`，渲染到一个 `View` 上。
+将多个 `AttributedString`，绘制到一个 `View` 上。
 
 左边只有一个 `View`。
 ![](http://ww4.sinaimg.cn/large/9bffd8f9gw1fbi1ji8hbyj21kw0u67fm.jpg)

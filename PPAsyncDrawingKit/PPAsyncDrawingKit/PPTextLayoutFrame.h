@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithCTFrame:(CTFrameRef)frame layout:(PPTextLayout *)layout;
 - (void)setupWithCTFrame:(CTFrameRef)frame;
-- (nullable CTLineRef)textLayout:(PPTextLayout *)layout lastLineRef:(CTLineRef)lastLineRef;
+- (nullable CTLineRef)createTruncatedLine:(PPTextLayout *)layout lastLineRef:(CTLineRef)lastLineRef;
 @end
 
 @interface PPTextLayoutFrame (LayoutResult)

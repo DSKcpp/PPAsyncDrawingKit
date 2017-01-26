@@ -44,7 +44,7 @@
                 PPTextLayoutLine *line = [[PPTextLayoutLine alloc] initWithCTLine:lineRef origin:position layout:self.layout];
                 [lines addObject:line];
             } else {
-                CTLineRef truncatedLine = [self textLayout:self.layout lastLineRef:lineRef];
+                CTLineRef truncatedLine = [self createTruncatedLine:self.layout lastLineRef:lineRef];
                 PPTextLayoutLine *line = [[PPTextLayoutLine alloc] initWithCTLine:truncatedLine origin:position layout:self.layout];
                 [lines addObject:line];
                 break;
@@ -74,7 +74,7 @@
 }
 
 
-- (CTLineRef)textLayout:(PPTextLayout *)layout lastLineRef:(CTLineRef)lastLineRef
+- (CTLineRef)createTruncatedLine:(PPTextLayout *)layout lastLineRef:(CTLineRef)lastLineRef
 {
     if (!lastLineRef) {
         return nil;
