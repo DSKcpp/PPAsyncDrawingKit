@@ -102,6 +102,9 @@
         _gridImageBottom = 12.0f;
         _sourceFontSize = 12.0f;
         _headerAreaHeight = 65.0f;
+        _numberOfLines = 7;
+        _defaultMargin = 10.0f;
+        _minHeight = 136.0f;
     }
     return self;
 }

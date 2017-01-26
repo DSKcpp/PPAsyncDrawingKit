@@ -30,6 +30,9 @@
 
 - (void)addTextLayout:(PPTextLayout *)textLayout
 {
+    if (!textLayout) {
+        return;
+    }
     [_internalTextLayouts addObject:textLayout];
 }
 

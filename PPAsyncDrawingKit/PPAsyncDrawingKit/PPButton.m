@@ -43,14 +43,6 @@
 @end
 
 @implementation PPButton
-{
-    struct {
-        BOOL titleChange;
-        BOOL imageChange;
-        BOOL backgroundImageChange;
-        BOOL boundsSizeChange;
-    } _pending;
-}
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -185,11 +177,6 @@
         }
         if (self.state == state) {
             [self _updateTitle:title];
-        } else {
-            BOOL stateEqualNormal = state == UIControlStateNormal;
-            if (!self.state) {
-                
-            }
         }
     }
 }
@@ -232,11 +219,8 @@
         } else {
             [_titleColors removeObjectForKey:stateString];
         }
-        [self setNeedsUpdateFrame];
         if (self.state == state) {
-//            self.titleLabel.textColor = color;
-            _buttonInfo.titleColor = color;
-            [self setNeedsDisplayAsync];
+            [self _updateTitleColor:color];
         }
     }
 }
@@ -270,18 +254,17 @@
     PPButtonInfo *buttonInfo = _buttonInfo;
     if (![buttonInfo.title isEqualToString:title]) {
         buttonInfo.title = title;
-        if (!_pending.titleChange) {
-            _pending.titleChange = YES;
+        if (![buttonInfo.title isEqualToString:_renderedTitle]) {
             [self setNeedsUpdateFrame];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                _pending.titleChange = NO;
-                if (![buttonInfo.title isEqualToString:_renderedTitle]) {
-                    [self setNeedsUpdateFrame];
-                    [self setNeedsDisplayAsync];
-                }
-            });
+            [self setNeedsDisplayAsync];
         }
     }
+}
+
+- (void)_updateTitleColor:(UIColor *)titleColor
+{
+    _buttonInfo.titleColor = titleColor;
+    [self setNeedsDisplayAsync];
 }
 
 - (void)_updateImage:(UIImage *)image
@@ -289,16 +272,9 @@
     PPButtonInfo *buttonInfo = _buttonInfo;
     if (buttonInfo.image != image) {
         buttonInfo.image = image;
-        if (!_pending.imageChange) {
-            _pending.imageChange = YES;
+        if (buttonInfo.image != _renderedImage) {
             [self setNeedsUpdateFrame];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                _pending.imageChange = NO;
-                if (buttonInfo.image != _renderedImage) {
-                    [self setNeedsUpdateFrame];
-                    [self setNeedsDisplayAsync];
-                }
-            });
+            [self setNeedsDisplayAsync];
         }
     }
 }
@@ -308,17 +284,9 @@
     PPButtonInfo *buttonInfo = _buttonInfo;
     if (buttonInfo.backgroundImage != backgroundImage) {
         buttonInfo.backgroundImage = backgroundImage;
-        if (!_pending.backgroundImageChange) {
-            _pending.backgroundImageChange = YES;
+        if (buttonInfo.backgroundImage != _renderedBackgroundImage) {
             [self setNeedsUpdateFrame];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                _pending.backgroundImageChange = NO;
-                UIImage *bgImg = buttonInfo.backgroundImage;
-                if (bgImg != _renderedBackgroundImage) {
-                    [self setNeedsUpdateFrame];
-                    [self setNeedsDisplayAsync];
-                }
-            });
+            [self setNeedsDisplayAsync];
         }
     }
 }

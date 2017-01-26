@@ -18,6 +18,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) UIEdgeInsets contentEdgeInsets;
 @property (nonatomic, assign) UIEdgeInsets titleEdgeInsets;
 @property (nonatomic, assign) UIControlState trackingState;
+/**
+ how to position content hozontally inside control.
+ */
+@property (nonatomic, assign) UIControlContentHorizontalAlignment contentHorizontalAlignment;
+
+/**
+ how to position content vertically inside control.
+ */
+@property (nonatomic, assign) UIControlContentVerticalAlignment contentVerticalAlignment;
 
 - (instancetype)initWithFrame:(CGRect)frame;
 

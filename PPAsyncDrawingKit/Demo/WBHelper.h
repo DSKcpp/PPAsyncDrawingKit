@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign, readonly) CGFloat leftSpacing;
 @property (nonatomic, assign, readonly) CGFloat rightSpacing;
+@property (nonatomic, assign, readonly) CGFloat defaultMargin;
 
 #pragma mark - Title Area
 @property (nonatomic, assign, readonly) CGFloat titleAreaHeight;
@@ -55,6 +56,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - ActionButtons Area
 @property (nonatomic, assign, readonly) CGFloat actionButtonsHeight;
+
+@property (nonatomic, assign, readonly) CGFloat minHeight;
+
+@property (nonatomic, assign, readonly) NSInteger numberOfLines;
 @end
 
 

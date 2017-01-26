@@ -10,7 +10,6 @@
 #import <PPAsyncDrawingKit/PPTextLayout.h>
 #import <PPAsyncDrawingKit/NSAttributedString+PPAsyncDrawingKit.h>
 
-@class PPTextLayout;
 @class PPTextHighlightRange;
 @class PPTextView;
 

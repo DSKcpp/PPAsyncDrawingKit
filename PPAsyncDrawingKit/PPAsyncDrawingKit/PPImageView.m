@@ -170,7 +170,9 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
     }
     
     UIImage *image = _image;
-    [image pp_drawInRect:rect contentMode:_contentMode withContext:context];
+    if (image) {
+        [image pp_drawInRect:rect contentMode:_contentMode withContext:context];
+    }
     
     CGPathRef path = (__bridge CGPathRef)(userInfo[PPImageViewRoundPath]);
     if (path) {

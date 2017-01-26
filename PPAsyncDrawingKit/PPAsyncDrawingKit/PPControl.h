@@ -47,20 +47,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL redrawsAutomaticallyWhenStateChange;
 
 /**
- how to position content hozontally inside control.
- */
-@property (nonatomic, assign) UIControlContentHorizontalAlignment contentHorizontalAlignment;
-
-/**
- how to position content vertically inside control.
- */
-@property (nonatomic, assign) UIControlContentVerticalAlignment contentVerticalAlignment;
-
-/**
  could be more than one state (e.g. disabled|selected). synthesized from other flags.
  */
 @property (nonatomic, assign, readonly) UIControlState state;
 
+/**
+ 一开始按下的位置
+ */
 @property (nonatomic, assign, readonly) CGPoint touchStartPoint;
 
 /**
@@ -68,7 +61,23 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly) NSSet *allTargets;
 
+
+/**
+ 添加触摸事件
+
+ @param target a target
+ @param action an action
+ @param controlEvents 需要响应哪一种事件
+ */
 - (void)addTarget:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents;
+
+/**
+ 移除触摸事件
+
+ @param target a target
+ @param action an action
+ @param controlEvents 需要移除哪一种事件
+ */
 - (void)removeTarget:(id)target action:(SEL)action fotControlEvents:(UIControlEvents)controlEvents;
 
 - (BOOL)beginTrackingWithTouch:(nullable UITouch *)touch withEvent:(nullable UIEvent *)event;

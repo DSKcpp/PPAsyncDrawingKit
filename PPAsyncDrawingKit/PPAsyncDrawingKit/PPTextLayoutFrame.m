@@ -86,26 +86,23 @@
     }
     
     CGFloat maxWidth = layout.size.width;
-    CGFloat width = CTLineGetTypographicBounds(lastLineRef, NULL, NULL, NULL);
-//        if (width < maxWidth) {
-//            return truncateLine;
-//        }
     NSAttributedString *attributedString = layout.attributedString;
-    NSDictionary<NSString *, id> *truncateTokenAttributes = [attributedString attributesAtIndex:stringRange.location effectiveRange:nil];
-    NSArray *keys = @[(id)kCTForegroundColorAttributeName, (id)kCTFontAttributeName, (id)kCTParagraphStyleAttributeName];
-    truncateTokenAttributes = [truncateTokenAttributes dictionaryWithValuesForKeys:keys];
-    NSMutableDictionary *finalTokenAttributes = @{}.mutableCopy;
-    [truncateTokenAttributes enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        if (obj != [NSNull null]) {
-            finalTokenAttributes[key] = obj;
-        }
-    }];
     NSAttributedString *truncateToken;
     if (layout.truncationString) {
         truncateToken = layout.truncationString;
     } else {
+        NSDictionary<NSString *, id> *truncateTokenAttributes = [attributedString attributesAtIndex:stringRange.location effectiveRange:nil];
+        NSArray *keys = @[(id)kCTForegroundColorAttributeName, (id)kCTFontAttributeName, (id)kCTParagraphStyleAttributeName];
+        truncateTokenAttributes = [truncateTokenAttributes dictionaryWithValuesForKeys:keys];
+        NSMutableDictionary *finalTokenAttributes = @{}.mutableCopy;
+        [truncateTokenAttributes enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+            if (obj != [NSNull null]) {
+                finalTokenAttributes[key] = obj;
+            }
+        }];
         truncateToken = [[NSAttributedString alloc] initWithString:@"\u2026" attributes:finalTokenAttributes];
     }
+    
     CTLineRef truncateTokenLine = CTLineCreateWithAttributedString((CFAttributedStringRef)truncateToken);
     
     NSMutableAttributedString *lastLineAttrStr = [attributedString attributedSubstringFromRange:PPNSRangeFromCFRange(stringRange)].mutableCopy;

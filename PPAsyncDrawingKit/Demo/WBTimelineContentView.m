@@ -173,6 +173,7 @@
 {
     WBTimelinePreset *preset = [WBTimelinePreset sharedInstance];
     _avatarView = [[PPWebImageView alloc] initWithFrame:CGRectMake(preset.leftSpacing, 0, preset.avatarSize, preset.avatarSize)];
+    _avatarView.contentMode = UIViewContentModeScaleAspectFill;
     _avatarView.cornerRadius = preset.avatarCornerRadius;
     _avatarView.borderColor = [UIColor blackColor];
     _avatarView.borderWidth = 0.1f;

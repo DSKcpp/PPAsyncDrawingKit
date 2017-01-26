@@ -35,15 +35,17 @@
     drawingContext.metaInfoFrame = CGRectMake(preset.nicknameLeft, preset.avatarSize + titleHeight, avatarMaxWidth, 20.0f);
     totalHeight += preset.headerAreaHeight;
     
-    CGFloat height = [drawingContext.textAttributedText pp_heightConstrainedToWidth:maxWidth];
+    NSInteger numberOfLines = drawingContext.timelineItem.isLongText ? preset.numberOfLines : 0;
+    CGFloat height = [drawingContext.textAttributedText pp_sizeConstrainedToWidth:maxWidth numberOfLines:numberOfLines].height;
     drawingContext.textFrame = CGRectMake(preset.leftSpacing, totalHeight, maxWidth, height);
     totalHeight += height;
     if (drawingContext.hasQuoted) {
         CGFloat qouteHeight = 0;
-        CGFloat height = [drawingContext.quotedAttributedText pp_heightConstrainedToWidth:maxWidth];
-        drawingContext.quotedFrame = CGRectMake(preset.leftSpacing, CGRectGetMaxY(drawingContext.textFrame) + 10, maxWidth, height);
-        qouteHeight += height + 10;
-        totalHeight += height + 10;
+        NSInteger numberOfLines = drawingContext.timelineItem.retweeted_status.isLongText ? preset.numberOfLines : 0;
+        CGFloat height = [drawingContext.quotedAttributedText pp_sizeConstrainedToWidth:maxWidth numberOfLines:numberOfLines].height;
+        drawingContext.quotedFrame = CGRectMake(preset.leftSpacing, CGRectGetMaxY(drawingContext.textFrame) + preset.defaultMargin, maxWidth, height);
+        qouteHeight += height + preset.defaultMargin;
+        totalHeight += height + preset.defaultMargin;
         
         NSUInteger picCount = drawingContext.timelineItem.retweeted_status.pic_infos.count;
         if (picCount == 0) {
@@ -51,34 +53,34 @@
         } else if (picCount == 1) {
             CGFloat width = preset.verticalImageWidth;
             CGFloat height = preset.verticalImageHeight;
-            drawingContext.photoFrame = CGRectMake(preset.leftSpacing, totalHeight + 10, width, height);
-            qouteHeight += height + 10.0f;
-            totalHeight += height + 10.0f;
+            drawingContext.photoFrame = CGRectMake(preset.leftSpacing, totalHeight + preset.defaultMargin, width, height);
+            qouteHeight += height + preset.defaultMargin;
+            totalHeight += height + preset.defaultMargin;
         } else {
             NSUInteger rows = ceilf(picCount / 3.0f);
             CGFloat height = rows * preset.gridImageSize;
-            drawingContext.photoFrame = CGRectMake(preset.leftSpacing, totalHeight + 10, maxWidth, height);
-            qouteHeight += height + 10.0f;
-            totalHeight += height + 10.0f;
+            drawingContext.photoFrame = CGRectMake(preset.leftSpacing, totalHeight + preset.defaultMargin, maxWidth, height);
+            qouteHeight += height + preset.defaultMargin;
+            totalHeight += height + preset.defaultMargin;
         }
-        qouteHeight += 10.0f;
-        totalHeight += 10.0f;
+        qouteHeight += preset.defaultMargin;
+        totalHeight += preset.defaultMargin;
         drawingContext.quotedContentBackgroundViewFrame = CGRectMake(0, CGRectGetMinY(drawingContext.quotedFrame) - 5, drawingContext.contentWidth, qouteHeight + 5);
     } else {
         NSUInteger picCount = drawingContext.timelineItem.pic_infos.count;
         if (picCount == 0) {
             drawingContext.photoFrame = CGRectZero;
-            totalHeight += 10.0f;
+            totalHeight += preset.defaultMargin;
         } else if (picCount == 1) {
             CGFloat width = preset.verticalImageWidth;
             CGFloat height = preset.verticalImageHeight;
-            drawingContext.photoFrame = CGRectMake(preset.leftSpacing, totalHeight + 10, width, height);
-            totalHeight += height + 20.0f;
+            drawingContext.photoFrame = CGRectMake(preset.leftSpacing, totalHeight + preset.defaultMargin, width, height);
+            totalHeight += height + preset.defaultMargin * 2.0f;
         } else {
             NSUInteger rows = ceilf(picCount / 3.0f);
             CGFloat height = rows * preset.gridImageSize;
-            drawingContext.photoFrame = CGRectMake(preset.leftSpacing, totalHeight + 10, maxWidth, height);
-            totalHeight += height + 20.0f;
+            drawingContext.photoFrame = CGRectMake(preset.leftSpacing, totalHeight + preset.defaultMargin, maxWidth, height);
+            totalHeight += height + preset.defaultMargin * 2.0f;
         }
     }
 
@@ -89,8 +91,8 @@
     
     drawingContext.textContentBackgroundViewFrame = CGRectMake(0, titleHeight, drawingContext.contentWidth, totalHeight - titleHeight);
     drawingContext.actionButtonsViewFrame = CGRectMake(0, CGRectGetMaxY(drawingContext.textContentBackgroundViewFrame), drawingContext.contentWidth, preset.actionButtonsHeight);
-    totalHeight += preset.actionButtonsHeight + 10.0f;
-    drawingContext.contentHeight = MAX(totalHeight, 136.0f);
+    totalHeight += preset.actionButtonsHeight + preset.defaultMargin;
+    drawingContext.contentHeight = MAX(totalHeight, preset.minHeight);
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -132,11 +134,14 @@
 
 - (void)drawingDidFinishAsynchronously:(BOOL)async success:(BOOL)success
 {
-    
+    if (success) {
+        [self addAttachmentViews];
+    }
 }
 
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously userInfo:(NSDictionary *)userInfo
 {
+    WBTimelinePreset *preset = [WBTimelinePreset sharedInstance];
     WBTimelineTableViewCellDrawingContext *drawingContext = self.drawingContext;
     if (drawingContext.hasTitle) {
         self.titleTextLayout.attributedString = drawingContext.titleAttributedText;
@@ -148,11 +153,14 @@
     self.sourceTextLayout.frame = drawingContext.metaInfoFrame;
     [self.sourceTextLayout.textRenderer drawInContext:context];
     
+    self.contentTextLayout.numberOfLines = drawingContext.timelineItem.isLongText ? preset.numberOfLines : 0;
     self.contentTextLayout.attributedString = drawingContext.textAttributedText;
     self.contentTextLayout.frame = drawingContext.textFrame;
     [self.contentTextLayout.textRenderer drawInContext:context];
     
     if (drawingContext.hasQuoted) {
+        NSInteger numberOfLines = drawingContext.timelineItem.retweeted_status.isLongText ? preset.numberOfLines : 0;
+        self.quotedTextLayout.numberOfLines = numberOfLines;
         self.quotedTextLayout.attributedString = drawingContext.quotedAttributedText;
         self.quotedTextLayout.frame = drawingContext.quotedFrame;
         [self.quotedTextLayout.textRenderer drawInContext:context];
