@@ -66,7 +66,7 @@
             
         } else {
             mutablePath = CGPathCreateMutable();
-            CGRect rect = CGRectMake(0, 0, self.size.width, 20000);
+            CGRect rect = CGRectMake(0, 0, self.maxSize.width, 20000);
             CGAffineTransform transform = CGAffineTransformIdentity;
             CGPathAddRect(mutablePath, &transform, rect);
         }
@@ -138,15 +138,15 @@
     }
 }
 
-- (CGSize)size
+- (CGSize)maxSize
 {
     return _frame.size;
 }
 
-- (void)setSize:(CGSize)size
+- (void)setMaxSize:(CGSize)maxSize
 {
-    if (!CGSizeEqualToSize(_frame.size, size)) {
-        _frame.size = size;
+    if (!CGSizeEqualToSize(_frame.size, maxSize)) {
+        _frame.size = maxSize;
         _needsLayout = YES;
     }
 }
@@ -195,12 +195,12 @@
 @implementation PPTextLayout (PPTextLayoutCoordinates)
 - (CGPoint)convertPointToCoreText:(CGPoint)point
 {
-    return CGPointMake(point.x, self.size.height - point.y);
+    return CGPointMake(point.x, self.maxSize.height - point.y);
 }
 
 - (CGPoint)convertPointFromCoreText:(CGPoint)point
 {
-    return CGPointMake(point.x, self.size.height - point.y);
+    return CGPointMake(point.x, self.maxSize.height - point.y);
 }
 
 - (CGRect)convertRectToCoreText:(CGRect)rect

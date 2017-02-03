@@ -158,7 +158,7 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
     NSAttributedString *attributedString = self.textLayout.attributedString;
     if (attributedString.length > 0) {
         if (!CGRectIsNull(visibleRect)) {
-            self.textLayout.size = visibleRect.size;
+            self.textLayout.maxSize = visibleRect.size;
         }
         PPTextLayoutFrame *layoutFrame = self.textLayout.layoutFrame;
         if (layoutFrame) {
@@ -388,7 +388,7 @@ static BOOL textRendererDebugModeEnabled = NO;
 - (void)debugModeDrawLineFramesWithLayoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context
 {
     CGPoint origin = self.drawingOrigin;
-    CGSize size = self.textLayout.size;
+    CGSize size = self.textLayout.maxSize;
     CGContextSaveGState(context);
     CGContextSetAlpha(context, 0.1f);
     CGContextSetFillColorWithColor(context, [UIColor grayColor].CGColor);

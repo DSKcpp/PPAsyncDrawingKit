@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, strong) NSAttributedString *truncationString;
 @property (nonatomic, assign) NSUInteger numberOfLines;
 @property (nullable, nonatomic, strong) NSArray<UIBezierPath *> *exclusionPaths;
-@property (nonatomic, assign) CGSize size;
+@property (nonatomic, assign) CGSize maxSize;
 @property (nonatomic, assign) CGPoint origin;
 @property (nonatomic, assign) CGRect frame;
 @property (nonatomic, strong) NSAttributedString *attributedString;

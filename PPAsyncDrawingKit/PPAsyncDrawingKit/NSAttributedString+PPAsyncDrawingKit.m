@@ -85,7 +85,7 @@ static CTLineBreakMode NSLineBreakModeToCTLineBreakMode(NSLineBreakMode nsLineBr
     textLayout.numberOfLines = 0;
     textLayout.attributedString = self;
     textLayout.exclusionPaths = exclusionPaths;
-    textLayout.size = CGSizeMake(width, 20000);
+    textLayout.maxSize = CGSizeMake(width, 20000);
     return textLayout.layoutHeight;
 }
 
@@ -113,7 +113,7 @@ static CTLineBreakMode NSLineBreakModeToCTLineBreakMode(NSLineBreakMode nsLineBr
 {
     PPTextLayout *textLayout = [NSAttributedString textLayoutForCurrentThread];
     textLayout.attributedString = self;
-    textLayout.size = size;
+    textLayout.maxSize = size;
     textLayout.numberOfLines = numberOfLines;
     CGSize resultSize;
     if (textLayout) {

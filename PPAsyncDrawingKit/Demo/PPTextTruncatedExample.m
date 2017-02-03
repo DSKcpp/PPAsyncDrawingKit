@@ -28,10 +28,14 @@
     [attributedString pp_setFont:[UIFont systemFontOfSize: 15.0f]];
     [attributedString pp_setColor:[UIColor blackColor]];
     
+    PPTextLayout *textLayout = [PPTextLayout new];
+    textLayout.attributedString = attributedString;
+    textLayout.numberOfLines = 5;
+    textLayout.maxSize = maxSize;
+    
     PPTextView *textView = [[PPTextView alloc] init];
-    textView.attributedString = attributedString;
-    textView.numberOfLines = 5;
-    textView.size = [attributedString pp_sizeConstrainedToSize:maxSize numberOfLines:5];
+    textView.textLayout = textLayout;
+    textView.size = textLayout.layoutSize;
     textView.left = 12.0f;
     textView.top = 76.0f;
     [self.view addSubview:textView];

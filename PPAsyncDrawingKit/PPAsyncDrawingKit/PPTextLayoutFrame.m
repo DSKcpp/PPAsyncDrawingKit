@@ -85,7 +85,7 @@
         return lastLineRef;
     }
     
-    CGFloat maxWidth = layout.size.width;
+    CGFloat maxWidth = layout.maxSize.width;
     NSAttributedString *attributedString = layout.attributedString;
     NSAttributedString *truncateToken;
     if (layout.truncationString) {
