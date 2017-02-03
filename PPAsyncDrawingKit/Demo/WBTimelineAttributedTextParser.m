@@ -8,11 +8,11 @@
 
 #import "WBTimelineAttributedTextParser.h"
 #import "NSString+PPAsyncDrawingKit.h"
-#import "WBUITextAttachment.h"
 #import "WBHelper.h"
 #import "NSAttributedString+PPAsyncDrawingKit.h"
 #import "PPTextAttributes.h"
 #import "WBTimelineItem.h"
+#import "PPTextAttachment.h"
 
 @implementation WBTimelineAttributedTextParser
 + (instancetype)textParserWithTimelineItem:(WBTimelineItem *)timelineItem
@@ -64,7 +64,7 @@
                 size = CGSizeMake(fontSize - fontSize * scale * 2, fontSize - fontSize * scale * 2);
 //                NSURL *URL = [WBTimelineAttributedTextParser defaultURLForImageURL:urlStruct.url_type_pic];
                 UIImage *image = [UIImage imageNamed:@"timeline_card_small_web"];
-                WBUITextAttachment *attachment = [WBUITextAttachment attachmentWithContents:image type:0 contentSize:size];
+                PPTextAttachment *attachment = [PPTextAttachment attachmentWithContents:image type:0 contentSize:size];
                 attachment.replacementText = urlStruct.short_url;
                 PPTextFontMetrics *font = [[PPTextFontMetrics alloc] init];
                 font.ascent = ascent;
@@ -128,7 +128,7 @@
             fontMetrics.descent = -font.descender;
             CGFloat w = fontMetrics.ascent + fontMetrics.descent;
             CGSize size = CGSizeMake(w, w);
-            WBUITextAttachment *attachment = [WBUITextAttachment attachmentWithContents:image type:UIViewContentModeScaleToFill contentSize:size];
+            PPTextAttachment *attachment = [PPTextAttachment attachmentWithContents:image type:UIViewContentModeScaleToFill contentSize:size];
             attachment.contentEdgeInsets = UIEdgeInsetsMake(0, 1, 0, 1);
             attachment.replacementText = [string substringWithRange:range];
             attachment.baselineFontMetrics = fontMetrics;

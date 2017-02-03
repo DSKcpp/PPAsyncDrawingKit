@@ -1,4 +1,4 @@
-一年 iOS，急需工作，快要露宿街头，上海地区，邮箱：dskcpp@gmail.com
+一年 iOS，求职中，上海地区，邮箱：dskcpp@gmail.com
 PPAsyncDrawingKit
 ------------------------
 [![Build Status](https://travis-ci.org/DSKcpp/PPAsyncDrawingKit.svg?branch=master)](https://travis-ci.org/DSKcpp/PPAsyncDrawingKit)
@@ -148,9 +148,7 @@ textView.top = 76.0f;
 ```Obj-C
 [PPTextRenderer setDebugModeEnabled:YES];
 ```
-灰色区域表示绘制的最大 frame
-黄色区域表示文字的真实 frame
-红线表示 Base line
+灰色区域表示绘制的最大 frame，黄色区域表示文字的真实 frame，红线表示 Base line
 ###PPMultiplexTextView
 将多个 `AttributedString`，绘制到一个 `View` 上。
 

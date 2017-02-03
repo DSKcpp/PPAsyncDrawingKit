@@ -77,7 +77,6 @@
 		866FDFDB1E260B6800C513DF /* WBWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDFD91E260B6800C513DF /* WBWebViewController.m */; };
 		866FDFDE1E260B7F00C513DF /* WBHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDFDD1E260B7F00C513DF /* WBHelper.m */; };
 		866FDFE31E260B9700C513DF /* WBTimelineAttributedTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDFE01E260B9700C513DF /* WBTimelineAttributedTextParser.m */; };
-		866FDFE41E260B9700C513DF /* WBUITextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDFE21E260B9700C513DF /* WBUITextAttachment.m */; };
 		866FDFE91E260BC100C513DF /* PPTextAttributedExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDFE61E260BC100C513DF /* PPTextAttributedExample.m */; };
 		866FDFEA1E260BC100C513DF /* PPTextExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDFE81E260BC100C513DF /* PPTextExample.m */; };
 		866FDFED1E260BCA00C513DF /* ImageViewTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDFEC1E260BCA00C513DF /* ImageViewTableViewController.m */; };
@@ -228,8 +227,6 @@
 		866FDFDD1E260B7F00C513DF /* WBHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WBHelper.m; path = Demo/WBHelper.m; sourceTree = SOURCE_ROOT; };
 		866FDFDF1E260B9700C513DF /* WBTimelineAttributedTextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WBTimelineAttributedTextParser.h; path = Demo/WBTimelineAttributedTextParser.h; sourceTree = SOURCE_ROOT; };
 		866FDFE01E260B9700C513DF /* WBTimelineAttributedTextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WBTimelineAttributedTextParser.m; path = Demo/WBTimelineAttributedTextParser.m; sourceTree = SOURCE_ROOT; };
-		866FDFE11E260B9700C513DF /* WBUITextAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WBUITextAttachment.h; path = Demo/WBUITextAttachment.h; sourceTree = SOURCE_ROOT; };
-		866FDFE21E260B9700C513DF /* WBUITextAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WBUITextAttachment.m; path = Demo/WBUITextAttachment.m; sourceTree = SOURCE_ROOT; };
 		866FDFE51E260BC100C513DF /* PPTextAttributedExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextAttributedExample.h; sourceTree = "<group>"; };
 		866FDFE61E260BC100C513DF /* PPTextAttributedExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextAttributedExample.m; sourceTree = "<group>"; };
 		866FDFE71E260BC100C513DF /* PPTextExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextExample.h; sourceTree = "<group>"; };
@@ -619,8 +616,6 @@
 				866FDFC81E260B3800C513DF /* PPAttributedTextRange.m */,
 				866FDFDF1E260B9700C513DF /* WBTimelineAttributedTextParser.h */,
 				866FDFE01E260B9700C513DF /* WBTimelineAttributedTextParser.m */,
-				866FDFE11E260B9700C513DF /* WBUITextAttachment.h */,
-				866FDFE21E260B9700C513DF /* WBUITextAttachment.m */,
 			);
 			name = Parser;
 			path = Demo;
@@ -931,7 +926,6 @@
 				86AE96031E2CC20D00DDD90A /* UIView+WebCacheOperation.m in Sources */,
 				86AE96021E2CC20D00DDD90A /* UIView+WebCache.m in Sources */,
 				866FDFED1E260BCA00C513DF /* ImageViewTableViewController.m in Sources */,
-				866FDFE41E260B9700C513DF /* WBUITextAttachment.m in Sources */,
 				866FDFB31E260A6000C513DF /* WBTimelineItem.m in Sources */,
 				86EB758F1D2393CC005F14A1 /* main.m in Sources */,
 				86AE95C41E2CC13000DDD90A /* AppDelegate.m in Sources */,

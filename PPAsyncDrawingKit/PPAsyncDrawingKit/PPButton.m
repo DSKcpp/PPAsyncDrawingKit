@@ -148,6 +148,12 @@
     
     [image drawInRect:imageFrame];
     if (title) {
+        if (!titleFont) {
+            titleFont = [UIFont systemFontOfSize:15.0f];
+        }
+        if (!titleColor) {
+            titleColor = [UIColor blackColor];
+        }
         NSDictionary *attribtues = @{NSFontAttributeName : titleFont, NSForegroundColorAttributeName : titleColor};
         [title drawInRect:titleFrame withAttributes:attribtues];
 //                        [title pp_drawInRect:titleFrame withFont:titleFont textColor:titleColor lineBreakMode:NSLineBreakByWordWrapping];

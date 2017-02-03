@@ -94,9 +94,9 @@
 
 - (void)createSubviews
 {
-    [self addSubview:self.titleBgImageView];
-    [self addSubview:self.titleIcon];
-    [self addSubview:self.itemContentBgImageView];
+    [self createTitleBgImageView];
+    [self createTitleIcon];
+    [self createItemContentBgImageView];
     [self createItemContentBackgroundView];
     [self createTextContentView];
     [self createNicknameLabel];
@@ -105,68 +105,61 @@
     [self createPhotoImageView];
 }
 
-- (WBColorImageView *)titleBgImageView
+- (void)createTitleBgImageView
 {
-    if (!_titleBgImageView) {
-        _titleBgImageView = [[WBColorImageView alloc] init];
-        _titleBgImageView.userInteractionEnabled = YES;
-        [_titleBgImageView setBackgroundColor:[UIColor whiteColor] boolOwn:YES];
-        
-    }
-    return _titleBgImageView;
+    _titleBgImageView = [[WBColorImageView alloc] init];
+    _titleBgImageView.userInteractionEnabled = YES;
+    [_titleBgImageView setBackgroundColor:[UIColor whiteColor] boolOwn:YES];
+    [self addSubview:_titleBgImageView];
 }
 
-- (PPImageView *)titleIcon
+- (void)createTitleIcon
 {
-    if (!_titleIcon) {
-        WBTimelinePreset *preset = [WBTimelinePreset sharedInstance];
-        _titleIcon = [[PPImageView alloc] initWithFrame:CGRectMake(preset.titleIconLeft, preset.titleIconTop, preset.titleIconSize, preset.titleIconSize)];
-        _titleIcon.image = [UIImage imageNamed:@"timeline_title_promotions"];
-    }
-    return _titleIcon;
+    WBTimelinePreset *preset = [WBTimelinePreset sharedInstance];
+    _titleIcon = [[PPImageView alloc] initWithFrame:CGRectMake(preset.titleIconLeft, preset.titleIconTop, preset.titleIconSize, preset.titleIconSize)];
+    _titleIcon.image = [UIImage imageNamed:@"timeline_title_promotions"];
+    [self addSubview:_titleIcon];
 }
 
-- (WBColorImageView *)itemContentBgImageView
+- (void)createItemContentBgImageView
 {
-    if (!_itemContentBgImageView) {
-        CGFloat width = [UIScreen mainScreen].bounds.size.width;
-        UIView *topLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 0.5f)];
-        topLineView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
-        UIView *bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 0.5f)];
-        bottomLineView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
-        _itemContentBgImageView = [[WBColorImageView alloc] init];
-        _itemContentBgImageView.userInteractionEnabled = YES;
-        [_itemContentBgImageView setBackgroundColor:[UIColor whiteColor]];
-        _itemContentBgImageView.highLightBackgroundColor = [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1.0];
-        _itemContentBgImageView.topLineView = topLineView;
-        _itemContentBgImageView.bottomLineView = bottomLineView;
-        [_itemContentBgImageView addSubview:topLineView];
-        [_itemContentBgImageView addSubview:bottomLineView];
-    }
-    return _itemContentBgImageView;
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    UIView *topLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 0.5f)];
+    topLineView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
+    UIView *bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 0.5f)];
+    bottomLineView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
+    _itemContentBgImageView = [[WBColorImageView alloc] init];
+    _itemContentBgImageView.userInteractionEnabled = YES;
+    [_itemContentBgImageView setBackgroundColor:[UIColor whiteColor]];
+    _itemContentBgImageView.highLightBackgroundColor = [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1.0];
+    _itemContentBgImageView.topLineView = topLineView;
+    _itemContentBgImageView.bottomLineView = bottomLineView;
+    [_itemContentBgImageView addSubview:topLineView];
+    [_itemContentBgImageView addSubview:bottomLineView];
+    [self addSubview:_itemContentBgImageView];
 }
 
 - (void)createItemContentBackgroundView
 {
-    self.quotedItemBorderButton = [[UIButton alloc] init];
-    [self.quotedItemBorderButton setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1]] forState:UIControlStateNormal];
-    [self.quotedItemBorderButton setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1]] forState:UIControlStateHighlighted];
-    [self addSubview:self.quotedItemBorderButton];
+    _quotedItemBorderButton = [[UIButton alloc] init];
+    [_quotedItemBorderButton setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1]] forState:UIControlStateNormal];
+    [_quotedItemBorderButton setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1]] forState:UIControlStateHighlighted];
+    [self addSubview:_quotedItemBorderButton];
 }
 
 - (void)createNicknameLabel
 {
-    self.nameLabel = [[WBNameLabel alloc] initWithFrame:CGRectZero];
-    [self.nameLabel addTarget:self action:@selector(selectedNameLabel:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:self.nameLabel];
+    _nameLabel = [[WBNameLabel alloc] initWithFrame:CGRectZero];
+    [_nameLabel addTarget:self action:@selector(selectedNameLabel:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:_nameLabel];
 }
 
 - (void)createTextContentView
 {
-    self.textContentView = [[WBTimelineTextContentView alloc] init];
-    self.textContentView.enableAsyncDrawing = YES;
-    self.textContentView.delegate = self;
-    [self addSubview:self.textContentView];
+    _textContentView = [[WBTimelineTextContentView alloc] init];
+    _textContentView.enableAsyncDrawing = YES;
+    _textContentView.delegate = self;
+    [self addSubview:_textContentView];
 }
 
 - (void)createAvatarView
@@ -185,14 +178,14 @@
 - (void)createActionButtonsView
 {
     CGFloat height = [WBTimelinePreset sharedInstance].actionButtonsHeight;
-    self.actionButtonsView = [[WBTimelineActionButtonsView alloc] initWithFrame:CGRectMake(0, 0, 0, height)];
-    [self addSubview:self.actionButtonsView];
+    _actionButtonsView = [[WBTimelineActionButtonsView alloc] initWithFrame:CGRectMake(0, 0, 0, height)];
+    [self addSubview:_actionButtonsView];
 }
 
 - (void)createPhotoImageView
 {
-    self.photoImageView = [[WBTimelineImageContentView alloc] init];
-    [self addSubview:self.photoImageView];
+    _photoImageView = [[WBTimelineImageContentView alloc] init];
+    [self addSubview:_photoImageView];
 }
 
 - (void)setTimelineItem:(WBTimelineItem *)timelineItem
@@ -216,6 +209,7 @@
         } else {
             self.photoImageView.pictures = timelineItem.pic_infos.allValues;
         }
+        self.titleIcon.hidden = !drawingContext.hasTitle;
         self.avatarView.frame = drawingContext.avatarFrame;
         self.quotedItemBorderButton.frame = drawingContext.quotedContentBackgroundViewFrame;
         [self.avatarView setImageURL:[NSURL URLWithString:timelineItem.user.avatar_large] placeholderImage:[UIImage imageNamed:@"avatar"]];

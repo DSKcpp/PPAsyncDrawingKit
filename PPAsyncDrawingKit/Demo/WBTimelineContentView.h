@@ -42,15 +42,15 @@
 
 @interface WBTimelineContentView : UIView
 @property (nonatomic, strong) WBTimelineItem *timelineItem;
-@property (nonatomic, strong) PPWebImageView *avatarView;
-@property (nonatomic, strong) WBNameLabel *nameLabel;
-@property (nonatomic, strong) WBTimelineTextContentView *textContentView;
-@property (nonatomic, strong) WBTimelineActionButtonsView *actionButtonsView;
-@property (nonatomic, strong) WBColorImageView *titleBgImageView;
-@property (nonatomic, strong) WBColorImageView *itemContentBgImageView;
-@property (nonatomic, strong) UIButton *quotedItemBorderButton;
-@property (nonatomic, strong) WBTimelineImageContentView *photoImageView;
-@property (nonatomic, strong) PPImageView *titleIcon;
+@property (nonatomic, strong, readonly) PPWebImageView *avatarView;
+@property (nonatomic, strong, readonly) WBNameLabel *nameLabel;
+@property (nonatomic, strong, readonly) WBTimelineTextContentView *textContentView;
+@property (nonatomic, strong, readonly) WBTimelineActionButtonsView *actionButtonsView;
+@property (nonatomic, strong, readonly) WBColorImageView *titleBgImageView;
+@property (nonatomic, strong, readonly) WBColorImageView *itemContentBgImageView;
+@property (nonatomic, strong, readonly) UIButton *quotedItemBorderButton;
+@property (nonatomic, strong, readonly) WBTimelineImageContentView *photoImageView;
+@property (nonatomic, strong, readonly) PPImageView *titleIcon;
 @property (nonatomic, assign) BOOL highlighted;
 @property (nonatomic, assign) CGFloat contentWidth;
 @property (nonatomic, weak) id<WBTimelineTableViewCellDelegate> delegate;
