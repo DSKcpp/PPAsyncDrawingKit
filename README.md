@@ -16,8 +16,8 @@ PPAsyncDrawingKit
 * 保持 FPS 在低端设备上稳定在 60，减小抖动
 * 使用简单
 * 高性能圆角图片
-* 排版，绘制 `AttributedString` 富文本
-* 异构 `TextView`，避免创建大量 `Label`
+* 排版，绘制富文本
+* 一次性绘制多个富文本到同一个 `view` 上，减少创建多个 `view`
 
 
 | UIKit | PPAsyncDrawingKit | More |
@@ -32,11 +32,12 @@ PPAsyncDrawingKit
 #TODO
 * Editable text view
 * Animation Image
-* 目前没有注释，过些日子补上
+* 完善注释
+* Button 的 frame 计算
 * 更多的 CoreText 样式
 
 #How To Use
-see `Demo\PPAsyncDrawingKit.xcodeproj`
+see `xcode project`
 
 #Demo
 为了达到效果，请在真机运行 Demo。
@@ -47,7 +48,7 @@ see `Demo\PPAsyncDrawingKit.xcodeproj`
 * 使用多线程进行绘制，基本能稳定在60 左右
 * 在主线程进行绘制，抖动较大，有非常明显的卡顿
 
-![](http://ww2.sinaimg.cn/large/9bffd8f9gw1fbka8hdcusj20ks0jugmz.jpg)
+![](http://ww4.sinaimg.cn/large/9bffd8f9jw1fcde9s4ac1j20jy0jsdh7.jpg)
 
 ###PPImageView
 高性能圆角 ImageView
