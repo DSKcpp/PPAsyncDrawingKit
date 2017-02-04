@@ -124,7 +124,7 @@
 - (void)setDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext
 {
     _drawingContext = drawingContext;
-    [self setNeedsDisplayAsync];
+    [self setNeedsDisplay];
 }
 
 - (void)drawingWillStartAsynchronously:(BOOL)async

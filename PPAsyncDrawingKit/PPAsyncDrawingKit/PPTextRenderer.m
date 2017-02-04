@@ -48,7 +48,7 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
 #pragma mark - Event
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    UIView *touchView = self.eventDelegateContextView;
+    PPAsyncDrawingView *touchView = self.eventDelegateContextView;
     if (!touchView) {
         return;
     }
@@ -63,6 +63,7 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
     PPTextHighlightRange *range = [self highlightRangeForLayoutLocation:point];
     if (range) {
         self.pressingHighlightRange = range;
+        touchView.drawingType = PPAsyncDrawingTypeTouch;
         [touchView setNeedsDisplay];
     }
     _touchesBeginPoint = point;
@@ -70,7 +71,7 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    UIView *touchView = self.eventDelegateContextView;
+    PPAsyncDrawingView *touchView = self.eventDelegateContextView;
     UITouch *touch = touches.anyObject;
     CGPoint point = CGPointZero;
     if (touch) {
@@ -79,24 +80,25 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
     CGPoint touchesBeginPoint = _touchesBeginPoint;
     
     BOOL touchInside = YES;
-    CGFloat left = touchView.bounds.size.width - touchesBeginPoint.x;
-    if (point.x > touchesBeginPoint.x) {
-        touchInside = NO;
-    }
+//    CGFloat left = touchView.bounds.size.width - touchesBeginPoint.x;
+//    if (point.x > touchesBeginPoint.x) {
+//        touchInside = NO;
+//    }
     if (!touchInside) {
         PPTextHighlightRange *r = _pressingHighlightRange;
         if (r) {
             _pressingHighlightRange = nil;
             _savedPressingHighlightRange = r;
+            touchView.drawingType = PPAsyncDrawingTypeTouch;
             [touchView setNeedsDisplay];
         }
     } else {
         if (_savedPressingHighlightRange) {
             _pressingHighlightRange = _savedPressingHighlightRange;
+            touchView.drawingType = PPAsyncDrawingTypeTouch;
             [touchView setNeedsDisplay];
         }
     }
-
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -108,7 +110,8 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
             [self eventDelegateDidPressHighlightRange:high];
         });
         self.pressingHighlightRange = nil;
-        UIView *touchView = self.eventDelegateContextView;
+        PPAsyncDrawingView *touchView = self.eventDelegateContextView;
+        touchView.drawingType = PPAsyncDrawingTypeTouch;
         [touchView setNeedsDisplay];
     }
 }
@@ -118,7 +121,9 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
     _savedPressingHighlightRange = nil;
     if (_pressingHighlightRange) {
         _pressingHighlightRange = nil;
-        [self.eventDelegateContextView setNeedsDisplay];
+        PPAsyncDrawingView *touchView = self.eventDelegateContextView;
+        touchView.drawingType = PPAsyncDrawingTypeTouch;
+        [touchView setNeedsDisplay];
     }
 }
 
@@ -296,7 +301,7 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
 @end
 
 @implementation PPTextRenderer (PPTextRendererEvents)
-- (UIView *)eventDelegateContextView
+- (PPAsyncDrawingView *)eventDelegateContextView
 {
     if (_eventDelegateFlags.contextViewForTextRenderer) {
         return [_eventDelegate contextViewForTextRenderer:self];

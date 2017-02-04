@@ -129,11 +129,11 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
 {
     if (_image == image) {
         if (image == nil || self.layer.contents == nil) {
-            [self setNeedsDisplayAsync];
+            [self setNeedsDisplay];
         }
     } else {
         _image = image;
-        [self setNeedsDisplayAsync];
+        [self setNeedsDisplay];
     }
 }
 

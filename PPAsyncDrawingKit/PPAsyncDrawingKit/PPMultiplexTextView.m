@@ -108,7 +108,7 @@
     [super touchesCancelled:touches withEvent:event];
 }
 
-- (UIView *)contextViewForTextRenderer:(PPTextRenderer *)textRenderer
+- (PPAsyncDrawingView *)contextViewForTextRenderer:(PPTextRenderer *)textRenderer
 {
     return self;
 }

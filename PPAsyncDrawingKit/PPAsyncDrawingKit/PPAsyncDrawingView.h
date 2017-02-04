@@ -8,20 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import <CoreGraphics/CoreGraphics.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- 异步绘制策略，默认 None
+ 绘制类型，默认情况下是 Normal，非特殊情况无需手动修改状态
 
- - PPAsyncDrawingPolicyNone: 默认，将根据 contentsChangedAfterLastAsyncDrawing 来判断是否异步绘制
- - PPAsyncDrawingPolicyMainThread: 强制在主线程进行绘制
- - PPAsyncDrawingPolicyMultiThread: 强制使用多线程进行绘制
+ - PPAsyncDrawingTypeNormal: 普通状态，根据 asyncDrawing 判断是否异步绘制
+ - PPAsyncDrawingTypeTouch: 触摸状态，强制在主线程绘制
  */
-typedef NS_ENUM(NSUInteger, PPAsyncDrawingPolicy) {
-    PPAsyncDrawingPolicyNone,
-    PPAsyncDrawingPolicyMainThread,
-    PPAsyncDrawingPolicyMultiThread
+typedef NS_ENUM(NSUInteger, PPAsyncDrawingType) {
+    PPAsyncDrawingTypeNormal,
+    PPAsyncDrawingTypeTouch
 };
 
 /**
@@ -41,15 +40,14 @@ typedef NS_ENUM(NSUInteger, PPAsyncDrawingPolicy) {
 @property (nullable, nonatomic, assign) dispatch_queue_t asyncDrawQueue;
 
 /**
- 默认是 NO，如果 drawingPolicy 是 None 的话，将有这个属性来判断是否异步绘制，一般在滚动的时候设为 YES，进行点击事件时设置为 NO，
- 防止出现闪烁，YES 表示使用异步绘制
+ 是否使用多线程进行绘制，默认是 YES
  */
-@property (nonatomic, assign) BOOL contentsChangedAfterLastAsyncDrawing;
+@property (nonatomic, assign) BOOL asyncDrawing;
 
 /**
- 绘制策略，参考 Enum 定义 Line 的注释
+ 当前绘制类型，具体查看 PPAsyncDrawingType 定义
  */
-@property (nonatomic, assign) PPAsyncDrawingPolicy drawingPolicy;
+@property (nonatomic, assign) PPAsyncDrawingType drawingType;
 
 /**
  表示一个 View 绘制的次数，自增，用来打断快速滑动时的绘制，提高性能
@@ -105,12 +103,6 @@ typedef NS_ENUM(NSUInteger, PPAsyncDrawingPolicy) {
  @param success 如果绘制被打断，则是 NO，成功的绘制完成，则是 YES
  */
 - (void)drawingDidFinishAsynchronously:(BOOL)asynchronously success:(BOOL)success;
-
-
-/**
- 马上异步绘制一次，会调用 setNeedsDisplay
- */
-- (void)setNeedsDisplayAsync;
 @end
 
 NS_ASSUME_NONNULL_END

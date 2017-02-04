@@ -262,7 +262,7 @@
         buttonInfo.title = title;
         if (![buttonInfo.title isEqualToString:_renderedTitle]) {
             [self setNeedsUpdateFrame];
-            [self setNeedsDisplayAsync];
+            [self setNeedsDisplay];
         }
     }
 }
@@ -270,7 +270,7 @@
 - (void)_updateTitleColor:(UIColor *)titleColor
 {
     _buttonInfo.titleColor = titleColor;
-    [self setNeedsDisplayAsync];
+    [self setNeedsDisplay];
 }
 
 - (void)_updateImage:(UIImage *)image
@@ -280,7 +280,7 @@
         buttonInfo.image = image;
         if (buttonInfo.image != _renderedImage) {
             [self setNeedsUpdateFrame];
-            [self setNeedsDisplayAsync];
+            [self setNeedsDisplay];
         }
     }
 }
@@ -292,7 +292,7 @@
         buttonInfo.backgroundImage = backgroundImage;
         if (buttonInfo.backgroundImage != _renderedBackgroundImage) {
             [self setNeedsUpdateFrame];
-            [self setNeedsDisplayAsync];
+            [self setNeedsDisplay];
         }
     }
 }

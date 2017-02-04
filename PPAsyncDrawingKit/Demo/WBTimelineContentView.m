@@ -458,7 +458,7 @@
 {
     if (_user != user) {
         _user = user;
-        [self setNeedsDisplayAsync];
+        [self setNeedsDisplay];
     }
 }
 

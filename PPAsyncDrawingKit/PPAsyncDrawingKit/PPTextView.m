@@ -97,7 +97,7 @@
 - (void)setAttributedString:(NSAttributedString *)attributedString
 {
     self.textLayout.attributedString = attributedString.copy;
-    [self setNeedsDisplayAsync];
+    [self setNeedsDisplay];
 }
 
 - (CGSize)sizeThatFits:(CGSize)size
@@ -114,7 +114,7 @@
 //    [super setFrame:frame];
 //}
 
-- (UIView *)contextViewForTextRenderer:(PPTextRenderer *)textRenderer
+- (PPAsyncDrawingView *)contextViewForTextRenderer:(PPTextRenderer *)textRenderer
 {
     return self;
 }

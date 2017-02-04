@@ -19,6 +19,15 @@ static dispatch_queue_t PPDrawConcurrentQueue(void) {
     return queue;
 }
 
+static CGFloat PPScale() {
+    static CGFloat scale;
+    static dispatch_once_t token;
+    dispatch_once(&token, ^{
+        scale = [UIScreen mainScreen].scale;
+    });
+    return scale;
+}
+
 @interface _PPAsyncDrawingViewLayer : CALayer
 @property (nonatomic, assign, readonly) atomic_uint drawingCount;
 
@@ -66,10 +75,11 @@ static BOOL asyncDrawingEnabled = YES;
 
 - (void)_initializeInstance
 {
-    self.drawingPolicy = PPAsyncDrawingPolicyNone;
     self.opaque = NO;
-    self.layer.contentsScale = [UIScreen mainScreen].scale;
-    self.clearsContextBeforeDrawing = YES;
+    self.layer.contentsScale = PPScale();
+    _asyncDrawing = YES;
+    _clearsContextBeforeDrawing = YES;
+    _drawingType = PPAsyncDrawingTypeNormal;
 }
 
 - (NSDictionary *)currentDrawingUserInfo
@@ -78,12 +88,6 @@ static BOOL asyncDrawingEnabled = YES;
 }
 
 #pragma mark - drawing
-- (void)setNeedsDisplayAsync
-{
-    self.contentsChangedAfterLastAsyncDrawing = YES;
-    [self setNeedsDisplay];
-}
-
 - (void)drawRect:(CGRect)rect
 {
     [self drawingWillStartAsynchronously:NO];
@@ -175,15 +179,15 @@ static BOOL asyncDrawingEnabled = YES;
                 return;
             }
             layer.contents = (__bridge id _Nullable)(image.CGImage);
-            self.clearsContextBeforeDrawing = YES;
-            self.contentsChangedAfterLastAsyncDrawing = NO;
+            _clearsContextBeforeDrawing = YES;
+            _drawingType = PPAsyncDrawingTypeNormal;
             drawingFinished(asynchronously);
         });
     };
     
     drawingStarted(asynchronously);
     if (asynchronously) {
-        if (self.clearsContextBeforeDrawing) {
+        if (_clearsContextBeforeDrawing) {
             layer.contents = nil;
         }
         dispatch_async(self.internalDrawQueue, drawingContents);
@@ -206,12 +210,10 @@ static BOOL asyncDrawingEnabled = YES;
 
 - (BOOL)drawCurrentContentAsynchronously
 {
-    if (_drawingPolicy == PPAsyncDrawingPolicyMultiThread) {
-        return YES;
-    } else if (_drawingPolicy == PPAsyncDrawingPolicyMainThread) {
+    if (_drawingType == PPAsyncDrawingTypeTouch) {
         return NO;
     } else {
-        return self.contentsChangedAfterLastAsyncDrawing;
+        return _asyncDrawing;
     }
 }
 
@@ -235,7 +237,6 @@ static BOOL asyncDrawingEnabled = YES;
 {
     return self.drawingLayer.drawingCount;
 }
-
 
 - (dispatch_queue_t)internalDrawQueue
 {

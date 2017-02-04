@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <PPAsyncDrawingKit/PPTextAttributes.h>
 
+@class PPAsyncDrawingView;
 @class PPTextLayoutFrame;
 @class PPTextAttachment;
 @class PPTextRenderer;
@@ -18,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol PPTextRendererEventDelegate <NSObject>
 - (void)textRenderer:(PPTextRenderer *)textRenderer didPressHighlightRange:(PPTextHighlightRange *)highlightRange;
-- (UIView *)contextViewForTextRenderer:(PPTextRenderer *)textRenderer;
+- (PPAsyncDrawingView *)contextViewForTextRenderer:(PPTextRenderer *)textRenderer;
 
 @optional
 - (BOOL)textRenderer:(PPTextRenderer *)textRenderer shouldInteractWithHighlightRange:(PPTextHighlightRange *)highlightRange;
@@ -78,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PPTextRenderer (PPTextRendererEvents)
 - (nullable PPTextHighlightRange *)highlightRangeForLayoutLocation:(CGPoint)location;
 - (void)eventDelegateDidPressHighlightRange:(PPTextHighlightRange *)highlightRange;
-- (nullable UIView *)eventDelegateContextView;
+- (nullable PPAsyncDrawingView *)eventDelegateContextView;
 @end
 
 @interface PPTextRenderer (PPTextRendererPreviewing)
