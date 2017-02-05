@@ -39,6 +39,8 @@
     
     BOOL _privateTracking;
     BOOL _needsUpdateFrame;
+    
+    UIControlState _trackingState;
 }
 @end
 
@@ -309,6 +311,7 @@
 - (void)_updateButtonInfo
 {
     NSString *stateKey = [self stringOfState:_trackingState];
+    NSLog(@"%@", stateKey);
     NSString *normalStateKey = [self stringOfState:UIControlStateNormal];
     UIImage *backgroundImage = _backgroundImages[stateKey];
     if (!backgroundImage) {

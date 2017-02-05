@@ -44,6 +44,29 @@
     return YES;
 }
 
+- (void)drawingWillStartAsynchronously:(BOOL)async
+{
+    [self removeAttachmentViews];
+}
+
+- (void)drawingDidFinishAsynchronously:(BOOL)async success:(BOOL)success
+{
+    if (success) {
+        self.hidden = NO;
+        [self addAttachmentViews];
+    }
+}
+
+- (void)removeAttachmentViews
+{
+    
+}
+
+- (void)addAttachmentViews
+{
+    
+}
+
 - (PPTextRenderer *)rendererAtPoint:(CGPoint)point
 {
     for (PPTextLayout *textLayout in _internalTextLayouts) {

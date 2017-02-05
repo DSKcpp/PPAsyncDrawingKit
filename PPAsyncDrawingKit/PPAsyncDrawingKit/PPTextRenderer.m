@@ -361,7 +361,9 @@ static BOOL textRendererDebugModeEnabled = NO;
     }
     [subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull subview, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([subview isKindOfClass:[PPAsyncDrawingView class]]) {
-            [subview setNeedsDisplay];
+            PPAsyncDrawingView *v = (PPAsyncDrawingView *)subview;
+            v.drawingType = PPAsyncDrawingTypeTouch;
+            [v setNeedsDisplay];
         }
         [self drawDebugInView:subview];
     }];

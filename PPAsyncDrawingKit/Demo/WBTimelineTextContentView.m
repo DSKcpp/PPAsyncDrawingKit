@@ -124,19 +124,8 @@
 - (void)setDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext
 {
     _drawingContext = drawingContext;
+    self.hidden = YES;
     [self setNeedsDisplay];
-}
-
-- (void)drawingWillStartAsynchronously:(BOOL)async
-{
-    [self removeAttachmentViews];
-}
-
-- (void)drawingDidFinishAsynchronously:(BOOL)async success:(BOOL)success
-{
-    if (success) {
-        [self addAttachmentViews];
-    }
 }
 
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously userInfo:(NSDictionary *)userInfo
@@ -166,16 +155,6 @@
         [self.quotedTextLayout.textRenderer drawInContext:context];
     }
     return YES;
-}
-
-- (void)removeAttachmentViews
-{
-    
-}
-
-- (void)addAttachmentViews
-{
-    
 }
 
 - (void)textRenderer:(PPTextRenderer *)textRenderer didPressHighlightRange:(PPTextHighlightRange *)highlightRange

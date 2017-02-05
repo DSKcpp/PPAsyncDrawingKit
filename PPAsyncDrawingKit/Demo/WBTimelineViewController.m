@@ -15,9 +15,10 @@
 #import "PPImageCache.h"
 #import "WBTimelineAttributedTextParser.h"
 #import "NSString+PPASDK.h"
+#import "PPTableView.h"
 
 @interface WBTimelineViewController () <UITableViewDelegate, UITableViewDataSource, WBTimelineTableViewCellDelegate>
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) PPTableView *tableView;
 @property (nonatomic, strong) NSMutableArray<WBTimelineItem *> *timelineItems;
 @end
 
@@ -27,7 +28,7 @@
 {
     if (self = [super init]) {
         _timelineItems = @[].mutableCopy;
-        _tableView = [[UITableView alloc] init];
+        _tableView = [[PPTableView alloc] init];
     }
     return self;
 }

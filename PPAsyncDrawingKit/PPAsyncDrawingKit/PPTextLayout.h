@@ -13,14 +13,21 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ 有关 Text 的属性都有这个类负责
+ */
 @interface PPTextLayout : NSObject
-@property (nullable, nonatomic, strong) NSAttributedString *truncationString;
 @property (nonatomic, assign) NSUInteger numberOfLines;
 @property (nullable, nonatomic, strong) NSArray<UIBezierPath *> *exclusionPaths;
+
 @property (nonatomic, assign) CGSize maxSize;
 @property (nonatomic, assign) CGPoint origin;
 @property (nonatomic, assign) CGRect frame;
-@property (nonatomic, strong) NSAttributedString *attributedString;
+
+@property (nullable, nonatomic, copy, readonly) NSString *plainText;
+@property (nullable, nonatomic, strong) NSAttributedString *attributedString;
+@property (nullable, nonatomic, strong) NSAttributedString *truncationString;
+
 @property (nonatomic, strong, readonly) PPTextLayoutFrame *layoutFrame;
 @property (nonatomic, strong, readonly) PPTextRenderer *textRenderer;
 

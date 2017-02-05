@@ -112,6 +112,7 @@
 		86AE96021E2CC20D00DDD90A /* UIView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AE95ED1E2CC20D00DDD90A /* UIView+WebCache.m */; };
 		86AE96031E2CC20D00DDD90A /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AE95EF1E2CC20D00DDD90A /* UIView+WebCacheOperation.m */; };
 		86AE96091E2CCAF000DDD90A /* PPImageView+SDWebImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AE96081E2CCAF000DDD90A /* PPImageView+SDWebImage.m */; };
+		86C1E67C1E4657B30070E2F6 /* PPTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C1E67B1E4657B30070E2F6 /* PPTableView.m */; };
 		86E3D1B71E1DE3F300ED53D2 /* WBTimelineJSON.json in Resources */ = {isa = PBXBuildFile; fileRef = 86E3D1B61E1DE3F300ED53D2 /* WBTimelineJSON.json */; };
 		86EB758F1D2393CC005F14A1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EB758E1D2393CC005F14A1 /* main.m */; };
 		86EB75951D2393CC005F14A1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EB75941D2393CC005F14A1 /* ViewController.m */; };
@@ -292,6 +293,8 @@
 		86AE95EF1E2CC20D00DDD90A /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
 		86AE96071E2CCAF000DDD90A /* PPImageView+SDWebImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PPImageView+SDWebImage.h"; path = "Demo/PPImageView+SDWebImage.h"; sourceTree = SOURCE_ROOT; };
 		86AE96081E2CCAF000DDD90A /* PPImageView+SDWebImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "PPImageView+SDWebImage.m"; path = "Demo/PPImageView+SDWebImage.m"; sourceTree = SOURCE_ROOT; };
+		86C1E67A1E4657B30070E2F6 /* PPTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPTableView.h; path = Demo/PPTableView.h; sourceTree = SOURCE_ROOT; };
+		86C1E67B1E4657B30070E2F6 /* PPTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPTableView.m; path = Demo/PPTableView.m; sourceTree = SOURCE_ROOT; };
 		86E3D1B61E1DE3F300ED53D2 /* WBTimelineJSON.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = WBTimelineJSON.json; path = ../Demo/WBTimelineJSON.json; sourceTree = "<group>"; };
 		86EB758A1D2393CC005F14A1 /* PPAsyncDrawingKit-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PPAsyncDrawingKit-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		86EB758E1D2393CC005F14A1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ../Demo/main.m; sourceTree = "<group>"; };
@@ -713,6 +716,8 @@
 				866FE0111E260D3D00C513DF /* NSString+PPASDK.m */,
 				86AE95C51E2CC20D00DDD90A /* SDWebImage */,
 				861EB1DC1DB11E82005C07C7 /* YYModel */,
+				86C1E67A1E4657B30070E2F6 /* PPTableView.h */,
+				86C1E67B1E4657B30070E2F6 /* PPTableView.m */,
 			);
 			name = Other;
 			path = ../Demo/Other;
@@ -935,6 +940,7 @@
 				866FDFC51E260AD200C513DF /* YYClassInfo.m in Sources */,
 				866FE00C1E260D2C00C513DF /* UIView+Frame.m in Sources */,
 				866FDFF01E260BD300C513DF /* PPButtonExample.m in Sources */,
+				86C1E67C1E4657B30070E2F6 /* PPTableView.m in Sources */,
 				866FE0121E260D3D00C513DF /* NSString+PPASDK.m in Sources */,
 				86AE95F21E2CC20D00DDD90A /* NSData+ImageContentType.m in Sources */,
 				866FDFDA1E260B6800C513DF /* WBTimelineViewController.m in Sources */,

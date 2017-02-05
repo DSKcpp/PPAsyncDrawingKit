@@ -91,6 +91,7 @@
     if (_attributedString != attributedString) {
         @synchronized (self) {
             _attributedString = attributedString;
+            _plainText = attributedString.string;
         }
         _needsLayout = YES;
     }

@@ -41,8 +41,5 @@
 @property (nonatomic, weak) id<WBTimelineTextContentViewDelegate> delegate;
 
 + (void)renderDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext;
-
-- (void)removeAttachmentViews;
-- (void)addAttachmentViews;
 - (void)setDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext;
 @end
