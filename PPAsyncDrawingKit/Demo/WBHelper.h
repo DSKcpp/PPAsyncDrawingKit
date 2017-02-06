@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) CGFloat leftSpacing;
 @property (nonatomic, assign, readonly) CGFloat rightSpacing;
 @property (nonatomic, assign, readonly) CGFloat defaultMargin;
+@property (nonatomic, assign, readonly) CGFloat maxWidth;
 
 #pragma mark - Title Area
 @property (nonatomic, assign, readonly) CGFloat titleAreaHeight;

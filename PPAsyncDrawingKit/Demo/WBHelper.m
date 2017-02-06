@@ -82,6 +82,7 @@
     if (self = [super init]) {
         _leftSpacing = 12.0f;
         _rightSpacing = 12.0f;
+        _maxWidth = [UIScreen mainScreen].bounds.size.width - _leftSpacing * 2.0f;
         _actionButtonsHeight = 34.0f;
         _titleAreaHeight = 34.0f;
         _titleIconTop = 9.5f;

@@ -43,9 +43,7 @@
 
 - (void)setImageURL:(NSURL *)imageURL placeholderImage:(UIImage *)placeholderImage progressBlock:(PPImageDownloaderProgress)progressBlock completeBlock:(PPImageDownloaderCompletion)completeBlock
 {
-    PPAssert(imageURL, @"image download URL not nil");
-    
-    if (_imageURL == imageURL) {
+    if (!imageURL || _imageURL == imageURL) {
         return;
     }
     

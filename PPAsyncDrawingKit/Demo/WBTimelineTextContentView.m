@@ -85,8 +85,8 @@
     }
 
     if (drawingContext.timelineItem.page_info) {
-//        drawingContext.largeFrame = CGRectMake(preset.leftSpacing, totalHeight, maxWidth, 71.0f);
-//        totalHeight += 71.0f;
+        drawingContext.largeFrame = CGRectMake(preset.leftSpacing, totalHeight, maxWidth, 70.0f);
+        totalHeight += 80.0f;
     }
     
     drawingContext.textContentBackgroundViewFrame = CGRectMake(0, titleHeight, drawingContext.contentWidth, totalHeight - titleHeight);
@@ -124,6 +124,8 @@
 - (void)setDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext
 {
     _drawingContext = drawingContext;
+    _largeCardView.frame = drawingContext.largeFrame;
+    _largeCardView.pageInfo = drawingContext.timelineItem.page_info;
     self.hidden = YES;
     [self setNeedsDisplay];
 }

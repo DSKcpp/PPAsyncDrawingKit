@@ -243,7 +243,7 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
         CGFloat y = rect.origin.y;
         CGFloat width = rect.size.width;
         CGFloat height = rect.size.height;
-        CGFloat radius = 5.0f;
+        CGFloat radius = 4.0f;
         CGContextMoveToPoint(context, x + radius, y);
         x += width;
         CGContextAddLineToPoint(context, x + width - radius, y);
