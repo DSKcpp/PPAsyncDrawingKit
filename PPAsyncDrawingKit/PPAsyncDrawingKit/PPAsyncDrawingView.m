@@ -90,9 +90,14 @@ static BOOL asyncDrawingEnabled = YES;
 #pragma mark - drawing
 - (void)drawRect:(CGRect)rect
 {
-    [self drawingWillStartAsynchronously:NO];
-    [self drawInRect:rect withContext:UIGraphicsGetCurrentContext() asynchronously:NO userInfo:[self currentDrawingUserInfo]];
-    [self drawingDidFinishAsynchronously:NO success:YES];
+    BOOL asynchronously = NO;
+    if ([self drawCurrentContentAsynchronously] && [PPAsyncDrawingView globallyAsyncDrawingEnabled]) {
+        asynchronously = YES;
+    }
+    
+    [self drawingWillStartAsynchronously:asynchronously];
+    [self drawInRect:rect withContext:UIGraphicsGetCurrentContext() asynchronously:asynchronously];
+    [self drawingDidFinishAsynchronously:asynchronously success:YES];
 }
 
 - (void)displayLayer:(CALayer *)layer
@@ -122,7 +127,6 @@ static BOOL asyncDrawingEnabled = YES;
     
     [layer increaseDrawingCount];
     atomic_int drawCount = [layer drawingCount];
-    NSDictionary *userInfo = [self currentDrawingUserInfo];
     
     BOOL (^needCancel)(void) = ^BOOL(void) {
         return drawCount != [layer drawingCount];
@@ -151,8 +155,7 @@ static BOOL asyncDrawingEnabled = YES;
             CGContextFillRect(context, CGRectMake(0, 0, size.width * scale, size.height * scale));
         }
         BOOL drawingSuccess = [self drawInRect:CGRectMake(0, 0, size.width, size.height)
-                                   withContext:context asynchronously:asynchronously
-                                      userInfo:userInfo];
+                                   withContext:context asynchronously:asynchronously];
         
         CGContextRestoreGState(context);
         if (!drawingSuccess) {
@@ -202,11 +205,6 @@ static BOOL asyncDrawingEnabled = YES;
 {
     return YES;
 }
-
-- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously userInfo:(NSDictionary *)userInfo
-{
-    return [self drawInRect:rect withContext:context asynchronously:asynchronously];
-}	
 
 - (BOOL)drawCurrentContentAsynchronously
 {

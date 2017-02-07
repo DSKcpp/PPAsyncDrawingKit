@@ -36,7 +36,7 @@
     [_internalTextLayouts addObject:textLayout];
 }
 
-- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously userInfo:(NSDictionary *)userInfo
+- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously
 {
     [_internalTextLayouts enumerateObjectsUsingBlock:^(PPTextLayout * _Nonnull textLayout, NSUInteger idx, BOOL * _Nonnull stop) {
         [textLayout.textRenderer drawInContext:context];

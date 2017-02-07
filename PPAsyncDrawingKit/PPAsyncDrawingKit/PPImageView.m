@@ -159,8 +159,9 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
     return userInfo;
 }
 
-- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously userInfo:(NSDictionary *)userInfo
+- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously
 {
+    NSDictionary *userInfo = self.currentDrawingUserInfo;
     if (self.showsCornerRadius) {
         CGPathRef path = (__bridge CGPathRef)(userInfo[PPImageViewRoundPath]);
         if (path) {

@@ -102,7 +102,7 @@
     [self setNeedsDisplay];
 }
 
-- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously userInfo:(nullable NSDictionary *)userInfo
+- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously
 {
     CGFloat w = self.frame.size.width;
     CGFloat y = 0;

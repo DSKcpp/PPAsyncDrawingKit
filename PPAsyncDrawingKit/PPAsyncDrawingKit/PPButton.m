@@ -110,7 +110,7 @@
     }
 }
 
-- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously userInfo:(NSDictionary *)userInfo
+- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously
 {
     NSUInteger drawingCount= self.drawingCount;
     PPButtonInfo *buttonInfo = _buttonInfo;

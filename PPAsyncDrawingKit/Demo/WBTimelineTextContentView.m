@@ -130,7 +130,7 @@
     [self setNeedsDisplay];
 }
 
-- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously userInfo:(NSDictionary *)userInfo
+- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously
 {
     WBTimelinePreset *preset = [WBTimelinePreset sharedInstance];
     WBTimelineTableViewCellDrawingContext *drawingContext = self.drawingContext;

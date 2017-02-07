@@ -69,7 +69,7 @@ typedef NS_ENUM(NSUInteger, PPAsyncDrawingType) {
 - (nullable NSDictionary *)currentDrawingUserInfo;
 
 /**
- 绘制方法，自动调用，必须实现，和下面的方法只需要实现其中一个即可
+ 绘制方法，自动调用，必须实现
 
  @param rect 绘制 context 所在的 rect
  @param context 绘制所需的 context，不能为空
@@ -77,17 +77,6 @@ typedef NS_ENUM(NSUInteger, PPAsyncDrawingType) {
  @return 是否绘制成功
  */
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously;
-
-/**
- 绘制方法，自动调用，必须实现，和上面的方法只需要实现其中一个即可
-
- @param rect 绘制 context 所在的 rect
- @param context 绘制所需的 context，不能为空
- @param asynchronously 是否异步绘制
- @param userInfo 绘制所需的参数，来自 currentDrawingUserInfo
- @return 是否绘制成功
- */
-- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously userInfo:(nullable NSDictionary *)userInfo;
 
 /**
  绘制将要开始时会来到这个方法，可以做一些事情
