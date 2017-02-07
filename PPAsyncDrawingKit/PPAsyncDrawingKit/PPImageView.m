@@ -137,11 +137,6 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
     }
 }
 
-- (void)displayLayer:(CALayer *)layer
-{
-    [super displayLayer:layer];
-}
-
 - (NSDictionary *)currentDrawingUserInfo
 {
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];

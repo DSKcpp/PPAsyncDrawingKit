@@ -311,7 +311,6 @@
 - (void)_updateButtonInfo
 {
     NSString *stateKey = [self stringOfState:_trackingState];
-    NSLog(@"%@", stateKey);
     NSString *normalStateKey = [self stringOfState:UIControlStateNormal];
     UIImage *backgroundImage = _backgroundImages[stateKey];
     if (!backgroundImage) {
@@ -320,34 +319,22 @@
     }
     
     UIImage *image = _images[stateKey];
-    BOOL imageIfNil = image == nil;
     if (!image) {
-        imageIfNil = _trackingState == UIControlStateHighlighted;
-    }
-    if (imageIfNil) {
         image = _images[normalStateKey];
         [self setNeedsUpdateFrame];
     }
     
     UIColor *titleColor = _titleColors[stateKey];
-    BOOL titleColorIfNil = titleColor == nil;
     if (!titleColor) {
-        titleColorIfNil = _trackingState == UIControlStateHighlighted;
-    }
-    if (titleColorIfNil) {
         titleColor = _titleColors[normalStateKey];
     }
     
     NSString *title = _titles[stateKey];
-    BOOL titleIfNil = title == nil;
     if (!title) {
-        titleIfNil = _trackingState == UIControlStateHighlighted;
-    }
-    if (titleIfNil) {
         title = _titles[normalStateKey];
         [self setNeedsUpdateFrame];
     }
-    
+
     PPButtonInfo *buttonInfo = _buttonInfo;
     buttonInfo.backgroundImage = backgroundImage;
     buttonInfo.image = image;

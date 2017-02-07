@@ -90,14 +90,7 @@ static BOOL asyncDrawingEnabled = YES;
 #pragma mark - drawing
 - (void)drawRect:(CGRect)rect
 {
-    BOOL asynchronously = NO;
-    if ([self drawCurrentContentAsynchronously] && [PPAsyncDrawingView globallyAsyncDrawingEnabled]) {
-        asynchronously = YES;
-    }
-    
-    [self drawingWillStartAsynchronously:asynchronously];
-    [self drawInRect:rect withContext:UIGraphicsGetCurrentContext() asynchronously:asynchronously];
-    [self drawingDidFinishAsynchronously:asynchronously success:YES];
+    [super drawRect:rect];
 }
 
 - (void)displayLayer:(CALayer *)layer

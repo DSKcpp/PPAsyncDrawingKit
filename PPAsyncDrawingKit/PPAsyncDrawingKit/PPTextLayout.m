@@ -90,7 +90,7 @@
 {
     if (_attributedString != attributedString) {
         @synchronized (self) {
-            _attributedString = attributedString;
+            _attributedString = attributedString.copy;
             _plainText = attributedString.string;
         }
         _needsLayout = YES;

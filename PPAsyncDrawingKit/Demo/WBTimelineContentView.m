@@ -291,15 +291,11 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     if ([self touchesInsideQuotedItemBorder:touches]) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            _flags.trackingQuotedItemBorder = YES;
-            self.quotedItemBorderButton.highlighted = YES;
-        });
+        _flags.trackingQuotedItemBorder = YES;
+        self.quotedItemBorderButton.highlighted = YES;
     } else if ([self touchesInsideTitleBorder:touches]) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            _flags.trackingTitleBorder = YES;
-            self.titleBgImageView.highlighted = YES;
-        });
+        _flags.trackingTitleBorder = YES;
+        self.titleBgImageView.highlighted = YES;
     } else if (![self touchesInsideActionButtonsArea:touches]) {
         [super touchesBegan:touches withEvent:event];
     }

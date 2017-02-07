@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGRect frame;
 
 @property (nullable, nonatomic, copy, readonly) NSString *plainText;
-@property (nullable, nonatomic, strong) NSAttributedString *attributedString;
+@property (nullable, nonatomic, copy) NSAttributedString *attributedString;
 @property (nullable, nonatomic, strong) NSAttributedString *truncationString;
 
 @property (nonatomic, strong, readonly) PPTextLayoutFrame *layoutFrame;

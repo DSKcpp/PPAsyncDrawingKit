@@ -99,11 +99,7 @@
 - (void)setPageInfo:(WBTimelinePageInfo *)pageInfo
 {
     _pageInfo = pageInfo;
-    [self setNeedsDisplay];
-}
-
-- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously
-{
+    
     CGFloat w = self.frame.size.width;
     CGFloat y = 0;
     
@@ -144,14 +140,14 @@
     if (title) {
         _titleTextLayout.frame = CGRectMake(0, titleY, w, titleH);
         _titleTextLayout.attributedString = title;
-        [_titleTextLayout.textRenderer drawInContext:context];
     }
     
     if (desc) {
         _descTextLayout.frame = CGRectMake(0, y, w, descH);
         _descTextLayout.attributedString = desc;
-        [_descTextLayout.textRenderer drawInContext:context];
     }
-    return YES;
+    
+    [self setNeedsDisplay];
 }
+
 @end

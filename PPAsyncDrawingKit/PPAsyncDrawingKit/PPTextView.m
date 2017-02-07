@@ -96,7 +96,7 @@
 
 - (void)setAttributedString:(NSAttributedString *)attributedString
 {
-    self.textLayout.attributedString = attributedString.copy;
+    self.textLayout.attributedString = attributedString;
     [self setNeedsDisplay];
 }
 
