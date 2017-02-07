@@ -149,7 +149,6 @@
 @property (nonatomic, assign) NSInteger act_status;
 @property (nonatomic, strong) WBPageActionLog *actionlog;
 
-- (Class)timelineModelViewClass;
 - (Class)modelViewClass;
 @end
 

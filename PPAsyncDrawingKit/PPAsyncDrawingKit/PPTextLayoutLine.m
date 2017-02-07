@@ -91,7 +91,6 @@
 - (NSUInteger)characterIndexForBoundingPosition:(CGPoint)position
 {
     if (_lineRef) {
-        [self locationDeltaFromRealRangeToLineRefRange];
         return CTLineGetStringRange(_lineRef).length;
     } else {
         return _stringRange.length;

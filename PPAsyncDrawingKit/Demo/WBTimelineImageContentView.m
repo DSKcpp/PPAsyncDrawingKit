@@ -30,7 +30,6 @@
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         imageView.userInteractionEnabled = YES;
         [imageView addTarget:self action:@selector(imageSelected:) forControlEvents:UIControlEventTouchUpInside];
-        imageView.enableAsyncDrawing = self.enableAsyncDrawing;
         [self.contentImageViewAry addObject:imageView];
     }
     return imageView;

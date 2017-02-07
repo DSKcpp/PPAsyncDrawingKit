@@ -158,7 +158,6 @@
         }
         NSDictionary *attribtues = @{NSFontAttributeName : titleFont, NSForegroundColorAttributeName : titleColor};
         [title drawInRect:titleFrame withAttributes:attribtues];
-//                        [title pp_drawInRect:titleFrame withFont:titleFont textColor:titleColor lineBreakMode:NSLineBreakByWordWrapping];
     } else {
         
     }

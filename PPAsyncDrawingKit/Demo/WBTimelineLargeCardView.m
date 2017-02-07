@@ -15,7 +15,7 @@
 
 + (CGSize)sizeConstraintToWidth:(CGFloat)width forPageInfo:(WBTimelinePageInfo *)pageInfo displayType:(NSInteger)type
 {
-    return [[pageInfo timelineModelViewClass] sizeConstraintToWidth:width forPageInfo:pageInfo displayType:type];
+    return [[pageInfo modelViewClass] sizeConstraintToWidth:width forPageInfo:pageInfo displayType:type];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -35,7 +35,7 @@
     self.hidden = !pageInfo;
     _pageInfo = pageInfo;
     if (!_cardView) {
-        Class cls = [pageInfo timelineModelViewClass];
+        Class cls = [pageInfo modelViewClass];
         WBPageInfoBaseCardView *card = [[cls alloc] init];
         card.frame = self.bounds;
         _cardView = card;

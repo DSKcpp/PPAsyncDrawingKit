@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PPExampleViewController.h"
 
-@interface PPTextExample : UITableViewController
+@interface PPTextExample : PPExampleViewController
 
 @end

@@ -26,6 +26,9 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
 @end
 
 @implementation PPImageView
+@synthesize animationDuration = _animationDuration;
+@synthesize currentAnimationImageIndex = _currentAnimationImageIndex;
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
@@ -187,4 +190,31 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
     }
 }
 
+- (void)startAnimating
+{
+//    UIImageView
+//    _animationDuration = 1;
+    _currentAnimationImageIndex = 0;
+    CADisplayLink *displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(setAnimationImage:)];
+    displayLink.frameInterval = 2;
+    [displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+    
+}
+
+- (void)stopAnimating
+{
+    
+}
+
+- (void)setAnimationImage:(CADisplayLink *)displayLink
+{
+    if (self.image.images.count > 0) {
+        UIImage *image = self.image.images[_currentAnimationImageIndex];
+        self.layer.contents = (__bridge id _Nullable)(image.CGImage);
+        _currentAnimationImageIndex += 1;
+        if (_currentAnimationImageIndex == self.image.images.count) {
+            _currentAnimationImageIndex = 0;
+        }
+    }
+}
 @end

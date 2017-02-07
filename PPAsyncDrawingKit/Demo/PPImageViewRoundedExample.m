@@ -6,7 +6,7 @@
 //  Copyright © 2016年 DSKcpp. All rights reserved.
 //
 
-#import "ImageViewTableViewController.h"
+#import "PPImageViewRoundedExample.h"
 #import "PPImageView.h"
 
 @interface AvatarImageCell : UITableViewCell @end
@@ -39,11 +39,7 @@
 
 @end
 
-@interface ImageViewTableViewController ()
-
-@end
-
-@implementation ImageViewTableViewController
+@implementation PPImageViewRoundedExample
 
 - (void)viewDidLoad
 {

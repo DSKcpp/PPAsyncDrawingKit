@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "ImageViewTableViewController.h"
 #import "WBTimelineViewController.h"
 #import "PPTextExample.h"
 #import "YYFPSLabel.h"
@@ -16,6 +15,7 @@
 #import "UIView+Frame.h"
 #import "PPTextRenderer.h"
 #import "PPButtonExample.h"
+#import "PPImageExample.h"
 
 @interface PPDemoToolBar : UIView
 
@@ -87,31 +87,11 @@
     CGFloat height = 35.0f;
     PPDemoToolBar *toolBar = [[PPDemoToolBar alloc] initWithFrame:CGRectMake(0, self.view.bottom - height, self.view.width, height)];
     [[UIApplication sharedApplication].keyWindow addSubview:toolBar];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-//    [[PPImageCache sharedCache] cleanDiskCache];
-//    [[PPImageCache sharedCache] cleanMemoryCache];
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.row == 0) {
-        ImageViewTableViewController * viewController = [[ImageViewTableViewController alloc] init];
-        [self.navigationController pushViewController:viewController animated:YES];
-    } else if (indexPath.row == 1) {
-        PPTextExample * viewController = [[PPTextExample alloc] init];
-        [self.navigationController pushViewController:viewController animated:YES];
-    } else if (indexPath.row == 2) {
-        PPButtonExample * viewController = [[PPButtonExample alloc] init];
-        [self.navigationController pushViewController:viewController animated:YES];
-    } else if (indexPath.row == 3) {
-        WBTimelineViewController * viewController = [[WBTimelineViewController alloc] init];
-        [self.navigationController pushViewController:viewController animated:YES];
-    }
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    self.tableViewItems = @[[ExampleItem t:@"Image View Example" c:[PPImageExample class]],
+                            [ExampleItem t:@"Text View Example" c:[PPTextExample class]],
+                            [ExampleItem t:@"Button Example" c:[PPButtonExample class]],
+                            [ExampleItem t:@"Feeds List Example" c:[WBTimelineViewController class]]];
 }
 
 @end

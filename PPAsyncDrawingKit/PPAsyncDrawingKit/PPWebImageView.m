@@ -87,7 +87,7 @@
 }
 - (void)setFinalImage:(UIImage *)image
 {
-    [self setFinalImage:image isGIf:NO];
+    [self setFinalImage:image isGIf:image.images.count];
 }
 
 - (void)setFinalImage:(UIImage *)image isGIf:(BOOL)isGIf
@@ -98,6 +98,12 @@
     } else {
         [self setImage:image];
     }
+}
+
+- (void)setGifImage:(UIImage *)image
+{
+    [self setImage:image];
+    [self startAnimating];
 }
 
 - (void)imageDrawingFinished

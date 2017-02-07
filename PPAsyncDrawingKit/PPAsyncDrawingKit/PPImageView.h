@@ -13,18 +13,27 @@ NS_ASSUME_NONNULL_BEGIN
 UIKIT_EXTERN NSString * const PPImageViewRoundPath;
 UIKIT_EXTERN NSString * const PPImageViewBorderPath;
 
-@interface PPImageView : PPControl
+@protocol PPAnimatedImageProtocol <NSObject>
+@property (nonatomic, assign) NSTimeInterval animationDuration;
+@property (nonatomic, assign) NSUInteger currentAnimationImageIndex;
+
+- (void)startAnimating;
+- (void)stopAnimating;
+@end
+
+@interface PPImageView : PPControl <PPAnimatedImageProtocol>
 @property (nullable, nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) UIColor *borderColor;
 @property (nonatomic, assign) CGFloat borderWidth;
 @property (nonatomic, assign) CGFloat cornerRadius;
 @property (nonatomic, assign) UIRectCorner roundedCorners;
+@property (nonatomic, assign) UIViewContentMode contentMode;
+
 @property (nonatomic, assign) BOOL showsCornerRadius;
 @property (nonatomic, assign) BOOL showsBorderCornerRadius;
 @property (nonatomic, assign) BOOL enableAsyncDrawing;
 @property (nonatomic, assign) BOOL isNeedChangeContentModel;
 @property (nonatomic, assign) BOOL updatePathWhenViewSizeChanges;
-@property (nonatomic, assign) UIViewContentMode contentMode;
 
 - (instancetype)initWithFrame:(CGRect)frame;
 - (instancetype)initWithImage:(UIImage *)image;

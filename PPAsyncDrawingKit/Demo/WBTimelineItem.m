@@ -60,16 +60,9 @@
 @end
 
 @implementation WBTimelinePageInfo
-- (Class)timelineModelViewClass
-{
-    Class cls = [self modelViewClass];
-    return cls;
-}
-
 - (Class)modelViewClass
 {
     Class cls;
-    NSLog(@"%zd", _type);
     switch (_type) {
         case 0:
             cls = [WBPageInfoBaseCardView class];

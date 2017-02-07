@@ -24,6 +24,7 @@
     } else {
         image = [UIImage imageWithData:data];
     }
+    NSLog(@"%zd", image.images.count);
     return image;
 }
 
@@ -48,15 +49,17 @@
     if (count <= 1) {
         staticImage = [[UIImage alloc] initWithData:data];
     } else {
-        // we will only retrieve the 1st frame. the full GIF support is available via the FLAnimatedImageView category.
-        // this here is only code to allow drawing animated images as static ones
         CGFloat scale = 1;
         scale = [UIScreen mainScreen].scale;
         
-        CGImageRef CGImage = CGImageSourceCreateImageAtIndex(source, 0, NULL);
-        UIImage *frameImage = [UIImage imageWithCGImage:CGImage scale:scale orientation:UIImageOrientationUp];
-        staticImage = [UIImage animatedImageWithImages:@[frameImage] duration:0.0f];
-        CGImageRelease(CGImage);
+        NSMutableArray *images = @[].mutableCopy;
+        for (NSInteger i = 0; i < count; i++) {
+            CGImageRef CGImage = CGImageSourceCreateImageAtIndex(source, i, NULL);
+            UIImage *frameImage = [UIImage imageWithCGImage:CGImage scale:scale orientation:UIImageOrientationUp];
+            [images addObject:frameImage];
+            CGImageRelease(CGImage);
+        }
+        staticImage = [UIImage animatedImageWithImages:images duration:0.0f];
     }
     
     CFRelease(source);
