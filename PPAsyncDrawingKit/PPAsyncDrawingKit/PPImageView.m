@@ -8,6 +8,7 @@
 
 #import "PPImageView.h"
 #import "UIImage+PPAsyncDrawingKit.h"
+#import "PPWeakProxy.h"
 
 NSString * const PPImageViewRoundPath = @"PPImageViewRoundPath";
 NSString * const PPImageViewBorderPath = @"PPImageViewBorderPath";
@@ -22,6 +23,7 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
 {
     CGPathRef _roundPathRef;
     CGPathRef _borderPathRef;
+    CADisplayLink *_displayLink;
 }
 @end
 
@@ -192,18 +194,15 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
 
 - (void)startAnimating
 {
-//    UIImageView
-//    _animationDuration = 1;
     _currentAnimationImageIndex = 0;
-    CADisplayLink *displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(setAnimationImage:)];
-    displayLink.frameInterval = 2;
-    [displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
-    
+    _displayLink = [CADisplayLink displayLinkWithTarget:[PPWeakProxy weakProxyWithTarget:self] selector:@selector(setAnimationImage:)];
+    _displayLink.frameInterval = 2;
+    [_displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
 }
 
 - (void)stopAnimating
 {
-    
+    _displayLink.paused = YES;
 }
 
 - (void)setAnimationImage:(CADisplayLink *)displayLink
@@ -216,5 +215,11 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
             _currentAnimationImageIndex = 0;
         }
     }
+}
+
+- (void)dealloc
+{
+    [self stopAnimating];
+    _displayLink = nil;
 }
 @end

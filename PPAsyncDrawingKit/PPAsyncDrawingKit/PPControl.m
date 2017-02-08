@@ -151,7 +151,7 @@
     BOOL touchInside = [self pointInside:point withEvent:event];
     _touchInside = touchInside;
     self.highlighted = YES;
-    if (self.tracking) {
+    if (_tracking) {
         BOOL continueTracking = [self continueTrackingWithTouch:touch withEvent:event];;
         _tracking = continueTracking;
         if (continueTracking) {
@@ -165,6 +165,13 @@
                 controlEvents = controlEvents | UIControlEventTouchDragExit;
             }
             [self _sendActionsForControlEvents:controlEvents withEvent:event];
+        }
+    } else {
+        if (!touchInside) {
+            [self _sendActionsForControlEvents:UIControlEventTouchDragOutside withEvent:event];
+        } else {
+            [self _sendActionsForControlEvents:UIControlEventTouchDragInside withEvent:event];
+            _tracking = YES;
         }
     }
 }
@@ -180,7 +187,7 @@
     }
     _touchInside = [self pointInside:point withEvent:event];
     self.highlighted = NO;
-    if (self.tracking) {
+    if (_tracking) {
         [self endTrackingWithTouch:touch withEvent:event];
         UIControlEvents controlEvents = UIControlEventTouchUpOutside;
         if (self.touchInside) {

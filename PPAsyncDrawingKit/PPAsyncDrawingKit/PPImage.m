@@ -24,7 +24,6 @@
     } else {
         image = [UIImage imageWithData:data];
     }
-    NSLog(@"%zd", image.images.count);
     return image;
 }
 

@@ -90,6 +90,8 @@
 		86772BAA1E49DEB2002DBA1E /* PPExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86772BA91E49DEB2002DBA1E /* PPExampleViewController.m */; };
 		86772BAD1E49E37B002DBA1E /* PPImageViewAnimationExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 86772BAC1E49E37B002DBA1E /* PPImageViewAnimationExample.m */; };
 		86772BB01E4AE2C1002DBA1E /* PPDemoToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 86772BAF1E4AE2C1002DBA1E /* PPDemoToolBar.m */; };
+		86772BB31E4B0E7B002DBA1E /* PPWeakProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 86772BB11E4B0E7A002DBA1E /* PPWeakProxy.h */; };
+		86772BB41E4B0E7B002DBA1E /* PPWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 86772BB21E4B0E7A002DBA1E /* PPWeakProxy.m */; };
 		86AE95A91E2CBBF100DDD90A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86AE95A71E2CBBF100DDD90A /* LaunchScreen.storyboard */; };
 		86AE95AA1E2CBBF100DDD90A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86AE95A81E2CBBF100DDD90A /* Main.storyboard */; };
 		86AE95AD1E2CBC0C00DDD90A /* PPEditableTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 86AE95AB1E2CBC0C00DDD90A /* PPEditableTextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -259,6 +261,8 @@
 		86772BAC1E49E37B002DBA1E /* PPImageViewAnimationExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPImageViewAnimationExample.m; path = Demo/PPImageViewAnimationExample.m; sourceTree = SOURCE_ROOT; };
 		86772BAE1E4AE2C1002DBA1E /* PPDemoToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPDemoToolBar.h; path = Demo/PPDemoToolBar.h; sourceTree = SOURCE_ROOT; };
 		86772BAF1E4AE2C1002DBA1E /* PPDemoToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPDemoToolBar.m; path = Demo/PPDemoToolBar.m; sourceTree = SOURCE_ROOT; };
+		86772BB11E4B0E7A002DBA1E /* PPWeakProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPWeakProxy.h; path = PPAsyncDrawingKit/PPWeakProxy.h; sourceTree = "<group>"; };
+		86772BB21E4B0E7A002DBA1E /* PPWeakProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPWeakProxy.m; path = PPAsyncDrawingKit/PPWeakProxy.m; sourceTree = "<group>"; };
 		86AE95A71E2CBBF100DDD90A /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ../Demo/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		86AE95A81E2CBBF100DDD90A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../Demo/Main.storyboard; sourceTree = "<group>"; };
 		86AE95AB1E2CBC0C00DDD90A /* PPEditableTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPEditableTextView.h; path = PPAsyncDrawingKit/PPEditableTextView.h; sourceTree = "<group>"; };
@@ -627,6 +631,8 @@
 				866FDF841E25FFEB00C513DF /* PPImageCache.m */,
 				862EEE141E2E2A81007F36A7 /* PPImageDownloader.h */,
 				862EEE151E2E2A81007F36A7 /* PPImageDownloader.m */,
+				86772BB11E4B0E7A002DBA1E /* PPWeakProxy.h */,
+				86772BB21E4B0E7A002DBA1E /* PPWeakProxy.m */,
 			);
 			name = Component;
 			sourceTree = "<group>";
@@ -783,6 +789,7 @@
 				86AE95AD1E2CBC0C00DDD90A /* PPEditableTextView.h in Headers */,
 				862EEE161E2E2A81007F36A7 /* PPImageDownloader.h in Headers */,
 				866FDF7D1E25FF9400C513DF /* NSString+PPAsyncDrawingKit.h in Headers */,
+				86772BB31E4B0E7B002DBA1E /* PPWeakProxy.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -899,6 +906,7 @@
 				866FDFA21E26006400C513DF /* UIImage+PPAsyncDrawingKit.m in Sources */,
 				866FDF6A1E25FF6100C513DF /* PPTextFontMetrics.m in Sources */,
 				866FDFA61E26007000C513DF /* NSData+PPImageContentType.m in Sources */,
+				86772BB41E4B0E7B002DBA1E /* PPWeakProxy.m in Sources */,
 				86AE95B21E2CBC1A00DDD90A /* NSThread+PPTextRenderer.m in Sources */,
 				866FDF741E25FF6100C513DF /* PPTextRenderer.m in Sources */,
 				866FDF481E25FF2100C513DF /* PPAsyncDrawingView.m in Sources */,

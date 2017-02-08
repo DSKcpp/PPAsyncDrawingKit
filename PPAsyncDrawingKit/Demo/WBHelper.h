@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface WBEmoticonManager : NSObject
-@property (strong, class, readonly) WBEmoticonManager *sharedMangaer;
+@property (nonatomic, strong, class, readonly) WBEmoticonManager *sharedMangaer;
 @property (nonatomic, strong, readonly) NSDictionary *config;
 
 - (nullable UIImage *)imageWithEmotionName:(NSString *)name;
