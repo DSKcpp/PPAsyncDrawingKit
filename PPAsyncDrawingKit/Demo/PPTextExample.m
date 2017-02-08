@@ -7,9 +7,6 @@
 //
 
 #import "PPTextExample.h"
-#import "PPTextAttributedExample.h"
-#import "PPTextEditableExample.h"
-#import "PPTextTruncatedExample.h"
 
 @implementation PPTextExample
 
@@ -17,8 +14,8 @@
 {
     [super viewDidLoad];
     
-    self.tableViewItems = @[[ExampleItem t:@"Text Attributed Example" c:[PPTextAttributedExample class]],
-                            [ExampleItem t:@"Text Truncated Example" c:[PPTextTruncatedExample class]],
-                            [ExampleItem t:@"Text Editable Example" c:[PPTextEditableExample class]]];
+    self.tableViewItems = @[[ExampleItem t:@"Text Attributed Example" c:@"PPTextAttributedExample"],
+                            [ExampleItem t:@"Text Truncated Example" c:@"PPTextTruncatedExample"],
+                            [ExampleItem t:@"Text Editable Example" c:@"PPTextEditableExample"]];
 }
 @end

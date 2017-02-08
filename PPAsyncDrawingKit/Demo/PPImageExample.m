@@ -7,8 +7,6 @@
 //
 
 #import "PPImageExample.h"
-#import "PPImageViewRoundedExample.h"
-#import "PPImageViewAnimationExample.h"
 
 @implementation PPImageExample
 
@@ -16,7 +14,7 @@
 {
     [super viewDidLoad];
     
-    self.tableViewItems = @[[ExampleItem t:@"Rounded Image Example" c:[PPImageViewRoundedExample class]],
-                            [ExampleItem t:@"Animation Image Example" c:[PPImageViewAnimationExample class]]];
+    self.tableViewItems = @[[ExampleItem t:@"Rounded Image Example" c:@"PPImageViewRoundedExample"],
+                            [ExampleItem t:@"Animation Image Example" c:@"PPImageViewAnimationExample"]];
 }
 @end

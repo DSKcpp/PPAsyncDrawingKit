@@ -9,7 +9,7 @@
 #import "ExampleItem.h"
 
 @implementation ExampleItem
-+ (ExampleItem *)t:(NSString *)title c:(Class)className
++ (ExampleItem *)t:(NSString *)title c:(NSString *)className;
 {
     ExampleItem *this = [self new];
     this.title = title;

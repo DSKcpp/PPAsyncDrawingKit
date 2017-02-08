@@ -10,7 +10,7 @@
 
 @interface ExampleItem : NSObject
 @property (nonatomic, copy) NSString *title;
-@property (nonatomic, assign) Class clsName;
+@property (nonatomic, copy) NSString *clsName;
 
-+ (ExampleItem *)t:(NSString *)title c:(Class)className;
++ (ExampleItem *)t:(NSString *)title c:(NSString *)className;
 @end

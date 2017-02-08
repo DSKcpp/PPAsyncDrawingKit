@@ -38,7 +38,8 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     ExampleItem *item = _tableViewItems[indexPath.row];
-    UIViewController *viewController = [[item.clsName alloc] init];
+    Class cls = NSClassFromString(item.clsName);
+    UIViewController *viewController = [cls new];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 

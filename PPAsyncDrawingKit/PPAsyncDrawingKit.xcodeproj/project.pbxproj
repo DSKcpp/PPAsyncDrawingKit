@@ -89,6 +89,7 @@
 		86772BA41E49DB81002DBA1E /* ExampleItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 86772BA31E49DB81002DBA1E /* ExampleItem.m */; };
 		86772BAA1E49DEB2002DBA1E /* PPExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86772BA91E49DEB2002DBA1E /* PPExampleViewController.m */; };
 		86772BAD1E49E37B002DBA1E /* PPImageViewAnimationExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 86772BAC1E49E37B002DBA1E /* PPImageViewAnimationExample.m */; };
+		86772BB01E4AE2C1002DBA1E /* PPDemoToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 86772BAF1E4AE2C1002DBA1E /* PPDemoToolBar.m */; };
 		86AE95A91E2CBBF100DDD90A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86AE95A71E2CBBF100DDD90A /* LaunchScreen.storyboard */; };
 		86AE95AA1E2CBBF100DDD90A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86AE95A81E2CBBF100DDD90A /* Main.storyboard */; };
 		86AE95AD1E2CBC0C00DDD90A /* PPEditableTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 86AE95AB1E2CBC0C00DDD90A /* PPEditableTextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -256,6 +257,8 @@
 		86772BA91E49DEB2002DBA1E /* PPExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPExampleViewController.m; path = Demo/PPExampleViewController.m; sourceTree = SOURCE_ROOT; };
 		86772BAB1E49E37B002DBA1E /* PPImageViewAnimationExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPImageViewAnimationExample.h; path = Demo/PPImageViewAnimationExample.h; sourceTree = SOURCE_ROOT; };
 		86772BAC1E49E37B002DBA1E /* PPImageViewAnimationExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPImageViewAnimationExample.m; path = Demo/PPImageViewAnimationExample.m; sourceTree = SOURCE_ROOT; };
+		86772BAE1E4AE2C1002DBA1E /* PPDemoToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPDemoToolBar.h; path = Demo/PPDemoToolBar.h; sourceTree = SOURCE_ROOT; };
+		86772BAF1E4AE2C1002DBA1E /* PPDemoToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPDemoToolBar.m; path = Demo/PPDemoToolBar.m; sourceTree = SOURCE_ROOT; };
 		86AE95A71E2CBBF100DDD90A /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ../Demo/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		86AE95A81E2CBBF100DDD90A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../Demo/Main.storyboard; sourceTree = "<group>"; };
 		86AE95AB1E2CBC0C00DDD90A /* PPEditableTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPEditableTextView.h; path = PPAsyncDrawingKit/PPEditableTextView.h; sourceTree = "<group>"; };
@@ -738,6 +741,8 @@
 				86C1E67B1E4657B30070E2F6 /* PPTableView.m */,
 				86772BA21E49DB81002DBA1E /* ExampleItem.h */,
 				86772BA31E49DB81002DBA1E /* ExampleItem.m */,
+				86772BAE1E4AE2C1002DBA1E /* PPDemoToolBar.h */,
+				86772BAF1E4AE2C1002DBA1E /* PPDemoToolBar.m */,
 			);
 			name = Other;
 			path = ../Demo/Other;
@@ -954,6 +959,7 @@
 				86AE96031E2CC20D00DDD90A /* UIView+WebCacheOperation.m in Sources */,
 				86AE96021E2CC20D00DDD90A /* UIView+WebCache.m in Sources */,
 				866FDFED1E260BCA00C513DF /* PPImageViewRoundedExample.m in Sources */,
+				86772BB01E4AE2C1002DBA1E /* PPDemoToolBar.m in Sources */,
 				866FDFB31E260A6000C513DF /* WBTimelineItem.m in Sources */,
 				86EB758F1D2393CC005F14A1 /* main.m in Sources */,
 				86AE95C41E2CC13000DDD90A /* AppDelegate.m in Sources */,
