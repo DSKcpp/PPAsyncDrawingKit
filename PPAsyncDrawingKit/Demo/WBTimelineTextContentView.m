@@ -110,7 +110,6 @@
         self.sourceTextLayout.numberOfLines = 1;
         self.attachmentViews = [NSMutableArray array];
         self.attachments = [NSMutableArray array];
-        self.isSourceRectBeReset = NO;
         [self addTextLayout:self.contentTextLayout];
         [self addTextLayout:self.quotedTextLayout];
         [self addTextLayout:self.titleTextLayout];

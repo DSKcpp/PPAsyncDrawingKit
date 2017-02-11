@@ -30,7 +30,6 @@
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         imageView.userInteractionEnabled = YES;
         [imageView addTarget:self action:@selector(imageSelected:) forControlEvents:UIControlEventTouchUpInside];
-        [self.contentImageViewAry addObject:imageView];
     }
     return imageView;
 }
@@ -38,14 +37,6 @@
 - (void)imageSelected:(WBTimelineImageView *)imageView
 {
     NSLog(@"%@", imageView);
-}
-
-- (NSMutableArray<WBTimelineImageView *> *)contentImageViewAry
-{
-    if (!_contentImageViewAry) {
-        _contentImageViewAry = [NSMutableArray array];
-    }
-    return _contentImageViewAry;
 }
 
 - (NSMutableArray *)imageViews
@@ -98,7 +89,6 @@
         }
         NSString *url = obj.bmiddle.url;
         [imageView setImageURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"avatar"]];
-//        [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"avatar"]];
         imageView.hidden = NO;
         [weakSelf addSubview:imageView];
         [imageViews addObject:imageView];

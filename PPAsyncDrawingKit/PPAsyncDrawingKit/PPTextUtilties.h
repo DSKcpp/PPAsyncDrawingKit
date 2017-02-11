@@ -19,6 +19,7 @@ static inline NSRange PPNSRangeFromCFRange(CFRange range) {
 static inline NSUInteger PPNSRangeStart(NSRange range) {
     return range.location;
 }
+
 static inline NSUInteger PPNSRangeEnd(NSRange range) {
     return range.location + range.length;
 }

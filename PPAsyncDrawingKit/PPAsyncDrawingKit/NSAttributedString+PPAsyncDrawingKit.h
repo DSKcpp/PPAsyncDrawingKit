@@ -20,18 +20,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSAttributedString (PPAsyncDrawingKit)
 
 /**
- get text renderer from current thread.
-
- @return cuttend thread text renderer
+ 获取当前线程的 PPTextLayout
  */
-+ (nullable PPTextLayout *)textLayoutForCurrentThread;
+@property (nonatomic, class, readonly) PPTextLayout *textLayoutForCurrentThread;
+@property (nonatomic, assign) NSRange pp_stringRange;
 
-/**
- get attributed string range.
-
- @return 0 - length range
- */
-- (NSRange)pp_stringRange;
++ (instancetype)pp_attributedStringWithTextAttachment:(PPTextAttachment *)textAttachment;
++ (instancetype)pp_attributedStringWithTextAttachment:(PPTextAttachment *)textAttachment attributes:(nullable NSDictionary *)attributes;
 
 /**
  calculate attributed string height with max width.
@@ -45,10 +40,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (CGSize)pp_sizeConstrainedToWidth:(CGFloat)width numberOfLines:(NSInteger)numberOfLines;
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size;
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines;
-- (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines derivedLineCount:(NSInteger)derivedLineCount;
-
-+ (instancetype)pp_attributedStringWithTextAttachment:(PPTextAttachment *)textAttachment;
-+ (instancetype)pp_attributedStringWithTextAttachment:(PPTextAttachment *)textAttachment attributes:(nullable NSDictionary *)attributes;
 
 - (CGSize)pp_drawInRect:(CGRect)rect;
 - (CGSize)pp_drawInRect:(CGRect)rect context:(CGContextRef)context;

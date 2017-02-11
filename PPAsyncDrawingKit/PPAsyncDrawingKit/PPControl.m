@@ -150,7 +150,7 @@
     }
     BOOL touchInside = [self pointInside:point withEvent:event];
     _touchInside = touchInside;
-    self.highlighted = YES;
+    self.highlighted = touchInside;
     if (_tracking) {
         BOOL continueTracking = [self continueTrackingWithTouch:touch withEvent:event];;
         _tracking = continueTracking;

@@ -9,6 +9,7 @@
 #import "PPImage.h"
 #import "NSData+PPImageContentType.h"
 #import "PPImage+WebP.h"
+#import "PPAsyncDrawingView.h"
 
 @implementation PPImage
 + (UIImage *)imageWithData:(NSData *)data
@@ -48,8 +49,7 @@
     if (count <= 1) {
         staticImage = [[UIImage alloc] initWithData:data];
     } else {
-        CGFloat scale = 1;
-        scale = [UIScreen mainScreen].scale;
+        CGFloat scale = PPScreenScale();
         
         NSMutableArray *images = @[].mutableCopy;
         for (NSInteger i = 0; i < count; i++) {

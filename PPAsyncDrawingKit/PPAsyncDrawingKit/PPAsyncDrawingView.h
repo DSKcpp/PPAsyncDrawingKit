@@ -12,6 +12,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+CGFloat PPScreenScale();
+
 /**
  绘制类型，默认情况下是 Normal，非特殊情况无需手动修改状态
 

@@ -80,9 +80,10 @@
 - (instancetype)init
 {
     if (self = [super init]) {
+        CGFloat w = [UIScreen mainScreen].bounds.size.width;
         _leftSpacing = 12.0f;
         _rightSpacing = 12.0f;
-        _maxWidth = [UIScreen mainScreen].bounds.size.width - _leftSpacing * 2.0f;
+        _maxWidth = w - _leftSpacing * 2.0f;
         _actionButtonsHeight = 34.0f;
         _titleAreaHeight = 34.0f;
         _titleIconTop = 9.5f;
@@ -96,7 +97,7 @@
         _nicknameTop = 17.0f;
         _nicknameFontSize = 16.0f;
         _gridImageSpacing = 4.0f;
-        _gridImageSize = ([UIScreen mainScreen].bounds.size.width - _gridImageSpacing * 2.0f - _leftSpacing * 2.0f) / 3.0f;
+        _gridImageSize = (_maxWidth - _gridImageSpacing * 2.0f) / 3.0f;
         _verticalImageWidth = 148.0f;
         _verticalImageHeight = 196.0f;
         _gridImageTop = 10.0f;

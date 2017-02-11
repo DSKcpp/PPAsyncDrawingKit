@@ -106,11 +106,6 @@ static CTLineBreakMode NSLineBreakModeToCTLineBreakMode(NSLineBreakMode nsLineBr
 
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines
 {
-    return [self pp_sizeConstrainedToSize:size numberOfLines:numberOfLines derivedLineCount:0];
-}
-
-- (CGSize)pp_sizeConstrainedToSize:(CGSize)size numberOfLines:(NSInteger)numberOfLines derivedLineCount:(NSInteger)derivedLineCount
-{
     PPTextLayout *textLayout = [NSAttributedString textLayoutForCurrentThread];
     textLayout.attributedString = self;
     textLayout.maxSize = size;
@@ -121,7 +116,6 @@ static CTLineBreakMode NSLineBreakModeToCTLineBreakMode(NSLineBreakMode nsLineBr
     } else {
         resultSize = CGSizeZero;
     }
-    //    textLayout.containingLineCount
     return resultSize;
 }
 

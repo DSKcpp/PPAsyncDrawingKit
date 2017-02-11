@@ -16,7 +16,6 @@
 
 @interface WBTimelineImageContentView : UIView
 @property (nonatomic, strong) NSMutableArray<WBTimelineImageView *> *idleContentImageViewAry;
-@property (nonatomic, strong) NSMutableArray<WBTimelineImageView *> *contentImageViewAry;
 @property (nonatomic, strong) WBTimelineItem *timelineItem;
 @property (nonatomic, assign) BOOL highlighted;
 @property (nonatomic, strong) NSArray<WBTimelinePicture *> *pictures;

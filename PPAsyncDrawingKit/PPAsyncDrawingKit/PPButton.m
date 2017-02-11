@@ -331,6 +331,8 @@
     NSString *title = _titles[stateKey];
     if (!title) {
         title = _titles[normalStateKey];
+    }
+    if (![title isEqualToString:_renderedTitle]) {
         [self setNeedsUpdateFrame];
     }
 
@@ -388,12 +390,14 @@
     if (touch) {
         point = [touch locationInView:self];
     }
-    BOOL isCancel = CGRectContainsPoint(self.bounds, point);
-    if (!isCancel) {
+    BOOL touchInside = CGRectContainsPoint(self.bounds, point);
+    if (!touchInside) {
         [self sendActionsForControlEvents:UIControlEventTouchCancel];
         [self cancelTrackingWithEvent:event];
+    } else {
+        _trackingState = UIControlStateHighlighted;
     }
-    return isCancel;
+    return touchInside;
 }
 
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event

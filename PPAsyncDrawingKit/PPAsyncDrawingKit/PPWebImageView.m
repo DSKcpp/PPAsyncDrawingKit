@@ -92,6 +92,7 @@
 
 - (void)setFinalImage:(UIImage *)image isGIf:(BOOL)isGIf
 {
+    [self stopAnimating];
     self.clearsContextBeforeDrawing = NO;
     if (isGIf) {
         [self setGifImage:image];

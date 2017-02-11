@@ -157,7 +157,6 @@
 - (void)createTextContentView
 {
     _textContentView = [[WBTimelineTextContentView alloc] init];
-    _textContentView.enableAsyncDrawing = YES;
     _textContentView.delegate = self;
     [self addSubview:_textContentView];
 }

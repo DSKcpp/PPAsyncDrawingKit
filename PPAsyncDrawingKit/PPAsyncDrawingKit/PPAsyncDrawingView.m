@@ -10,7 +10,7 @@
 #import <stdatomic.h>
 #import "PPAssert.h"
 
-static dispatch_queue_t PPDrawConcurrentQueue(void) {
+static inline dispatch_queue_t PPDrawConcurrentQueue(void) {
     static dispatch_queue_t queue;
     static dispatch_once_t token;
     dispatch_once(&token, ^{
@@ -19,7 +19,7 @@ static dispatch_queue_t PPDrawConcurrentQueue(void) {
     return queue;
 }
 
-static CGFloat PPScale() {
+CGFloat PPScreenScale() {
     static CGFloat scale;
     static dispatch_once_t token;
     dispatch_once(&token, ^{
@@ -76,7 +76,7 @@ static BOOL asyncDrawingEnabled = YES;
 - (void)_initializeInstance
 {
     self.opaque = NO;
-    self.layer.contentsScale = PPScale();
+    self.layer.contentsScale = PPScreenScale();
     _asyncDrawing = YES;
     _clearsContextBeforeDrawing = YES;
     _drawingType = PPAsyncDrawingTypeNormal;
