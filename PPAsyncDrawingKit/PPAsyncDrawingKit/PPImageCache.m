@@ -27,6 +27,46 @@ static NSString *_PPNSStringMD5(NSString *string) {
             ];
 }
 
+@interface PPImageIOTask ()
+{
+    BOOL _invalid;
+}
+@end
+
+
+@implementation PPImageIOTask
++ (PPImageIOTask *)taskForURL:(NSString *)URL
+{
+    NSMutableDictionary<NSString *, PPImageIOTask *> *ioTasks = [PPImageCache sharedCache].ioTasks;
+    PPImageIOTask *task = ioTasks[URL];
+    if (!task) {
+        task = [[PPImageIOTask alloc] initWithURL:URL];
+        ioTasks[URL] = task;
+    }
+    return task;
+}
+
+- (instancetype)initWithURL:(NSString *)URL
+{
+    if (self = [super init]) {
+        _URL = URL;
+    }
+    return self;
+}
+
+- (BOOL)isCancelled
+{
+    return _invalid;
+}
+
+- (void)cancel
+{
+    _invalid = YES;
+    [[PPImageCache sharedCache].ioTasks removeObjectForKey:_URL];
+}
+
+@end
+
 @interface PPImageCache ()
 {
     NSCache<NSString *, UIImage *> *_cache;
@@ -62,6 +102,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
         if ([fileManager fileExistsAtPath:_cachePath]) {
             [fileManager createDirectoryAtPath:_cachePath withIntermediateDirectories:YES attributes:nil error:nil];
         }
+        _ioTasks = @{}.mutableCopy;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveMemoryWarning:) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
 //        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkAndAutoClean) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -130,10 +171,10 @@ static NSString *_PPNSStringMD5(NSString *string) {
     return [PPImage imageWithContentsOfFile:[self cachePathForKey:key]];
 }
 
-- (void)imageForURL:(NSString *)URL callback:(nonnull void (^)(UIImage * _Nullable, PPImageCacheType))callback
+- (PPImageIOTask *)imageForURL:(NSString *)URL callback:(nonnull void (^)(UIImage * _Nullable, PPImageCacheType))callback
 {
     if (!callback) {
-        return;
+        return nil;
     }
     
     UIImage *image = [self imageFromMemoryCacheForURL:URL];
@@ -142,7 +183,11 @@ static NSString *_PPNSStringMD5(NSString *string) {
             callback(image, PPImageCacheTypeMemory);
         });
     } else {
+        PPImageIOTask *task = [PPImageIOTask taskForURL:URL];
         dispatch_async(_ioQueue, ^{
+            if (task.isCancelled) {
+                return;
+            }
             UIImage *image = [self imageFromDiskCacheForURL:URL];
             if (image) {
                 [self storeImage:image forURL:URL];
@@ -151,7 +196,9 @@ static NSString *_PPNSStringMD5(NSString *string) {
                 callback(image, PPImageCacheTypeDisk);
             });
         });
+        return task;
     }
+    return nil;
 }
 
 - (BOOL)imageCachedForURL:(NSString *)URL
@@ -253,5 +300,10 @@ static NSString *_PPNSStringMD5(NSString *string) {
 - (void)cleanMemoryCache
 {
     [_cache removeAllObjects];
+}
+
+- (void)cancelImageIOWithTask:(PPImageIOTask *)IOTask
+{
+    [IOTask cancel];
 }
 @end

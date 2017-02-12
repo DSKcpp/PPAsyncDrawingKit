@@ -11,7 +11,8 @@
 
 @interface PPWebImageView ()
 {
-    PPImageDownloaderTask *_task;
+    PPImageDownloaderTask *_downloadTask;
+    PPImageIOTask *_ioTask;
 }
 @end
 
@@ -58,7 +59,7 @@
             [self setFinalImage:image];
         }
     } else {
-        [[PPImageCache sharedCache] imageForURL:imageURL.absoluteString callback:^(UIImage * _Nullable image, PPImageCacheType cacheType) {
+        PPImageIOTask *ioTask = [[PPImageCache sharedCache] imageForURL:imageURL.absoluteString callback:^(UIImage * _Nullable image, PPImageCacheType cacheType) {
             if (image) {
                 [self setImageLoaderImage:image URL:imageURL];
             } else {
@@ -72,10 +73,12 @@
                     }
                 }];
                 if ([_imageURL isEqual:imageURL]) {
-                    _task = task;
+                    _downloadTask = task;
                 }
             }
         }];
+        _ioTask = ioTask;
+        
     }
 }
 
@@ -114,9 +117,15 @@
 
 - (void)cancelCurrentImageLoading
 {
-    if (_task) {
-        [[PPImageDownloader sharedImageDownloader] cancelImageDownloaderWithTask:_task];
+    if (_downloadTask) {
+        [[PPImageDownloader sharedImageDownloader] cancelImageDownloaderWithTask:_downloadTask];
+        _downloadTask = nil;
     }
-    _task = nil;
+    
+    if (_ioTask) {
+        [[PPImageCache sharedCache] cancelImageIOWithTask:_ioTask];
+        _ioTask = nil;
+    }
+    
 }
 @end

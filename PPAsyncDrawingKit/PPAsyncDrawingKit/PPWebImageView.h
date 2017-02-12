@@ -12,12 +12,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-//typedef NS_ENUM(NSUInteger, PPWebImageViewLoadState) {
-//    PPWebImageViewLoadState,
-//    PPWebImageViewLoadState,
-//    PPWebImageViewLoadState,
-//};
-
 @interface PPWebImageView : PPImageView
 @property (nonatomic, assign) int loadState;
 @property (nonatomic, assign) BOOL allowPlayGif;

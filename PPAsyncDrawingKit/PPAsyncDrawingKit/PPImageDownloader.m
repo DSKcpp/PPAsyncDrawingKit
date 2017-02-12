@@ -71,7 +71,6 @@
     self.sessionDownloadTask = newTask;
     
     return self.sessionDownloadTask;
-
 }
 
 @end

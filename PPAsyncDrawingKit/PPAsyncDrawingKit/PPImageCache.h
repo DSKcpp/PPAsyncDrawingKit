@@ -18,12 +18,22 @@ typedef NS_ENUM(NSUInteger, PPImageCacheType) {
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface PPImageIOTask : NSObject
+@property (nonatomic, strong, readonly) NSString *URL;
+
++ (PPImageIOTask *)taskForURL:(NSString *)URL;
+- (instancetype)initWithURL:(NSString *)URL;
+- (BOOL)isCancelled;
+- (void)cancel;
+@end
+
 @interface PPImageCache : NSObject
 @property (nonatomic, class, strong, readonly) PPImageCache *sharedCache;
 @property (nonatomic, assign) NSUInteger maxMemorySize;
 @property (nonatomic, assign) NSUInteger maxCacheSize;
 @property (nonatomic, assign) CGFloat maxCacheAge;
 @property (nonatomic, copy, readonly) NSString *cachePath;
+@property (nonatomic, strong, readonly) NSMutableDictionary<NSString *, PPImageIOTask *> *ioTasks;
 
 - (nullable NSString *)keyWithURL:(NSString *)URL;
 - (NSString *)cachePathForKey:(NSString *)key;
@@ -31,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable UIImage *)imageForURL:(NSString *)URL;
 - (nullable UIImage *)imageFromMemoryCacheForURL:(NSString *)URL;
 - (nullable UIImage *)imageFromDiskCacheForURL:(NSString *)URL;
-- (void)imageForURL:(NSString *)URL callback:(void(^)(UIImage * _Nullable image, PPImageCacheType cacheType))callback;
+- (PPImageIOTask *)imageForURL:(NSString *)URL callback:(void(^)(UIImage * _Nullable image, PPImageCacheType cacheType))callback;
 
 - (void)storeImage:(UIImage *)image forURL:(NSString *)URL;
 - (void)storeImage:(nullable UIImage *)image data:(nullable NSData *)data forURL:(NSString *)URL toDisk:(BOOL)toDisk;
@@ -45,6 +55,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)cacheSize;
 - (void)cleanDiskCache;
 - (void)cleanMemoryCache;
+
+- (void)cancelImageIOWithTask:(PPImageIOTask *)IOTask;
 @end
 
 NS_ASSUME_NONNULL_END
