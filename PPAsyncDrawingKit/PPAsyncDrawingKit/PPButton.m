@@ -39,8 +39,6 @@
     
     BOOL _privateTracking;
     BOOL _needsUpdateFrame;
-    
-    UIControlState _trackingState;
 }
 @end
 
@@ -73,10 +71,8 @@
         [super setEnabled:enabled];
         CGFloat alpha;
         if (!enabled || self.state == UIControlStateDisabled) {
-            _trackingState = UIControlStateDisabled;
             alpha = 0.5f;
         } else {
-            _trackingState = UIControlStateNormal;
             alpha = 1.0f;
         }
         self.alpha = alpha;
@@ -89,17 +85,21 @@
     _titleColors = @{}.mutableCopy;
     _images = @{}.mutableCopy;
     _backgroundImages = @{}.mutableCopy;
+    
     self.clearsContextBeforeDrawing = NO;
     self.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    
     PPButtonInfo *buttonInfo = [PPButtonInfo new];
     buttonInfo.titleFont = _titleFont;
     _buttonInfo = buttonInfo;
-    self.titleEdgeInsets = UIEdgeInsetsZero;
-    self.contentEdgeInsets = UIEdgeInsetsZero;
-    self.imageEdgeInsets = UIEdgeInsetsZero;
+    
+    _titleEdgeInsets = UIEdgeInsetsZero;
+    _imageEdgeInsets = UIEdgeInsetsZero;
+    
     NSString * state = [self stringOfState:UIControlStateNormal];
     [_titleColors setObject:[UIColor blackColor] forKey:state];
+    
     [self setNeedsUpdateFrame];
 }
 
@@ -309,7 +309,7 @@
 
 - (void)_updateButtonInfo
 {
-    NSString *stateKey = [self stringOfState:_trackingState];
+    NSString *stateKey = [self stringOfState:self.state];
     NSString *normalStateKey = [self stringOfState:UIControlStateNormal];
     UIImage *backgroundImage = _backgroundImages[stateKey];
     if (!backgroundImage) {
@@ -359,17 +359,16 @@
 - (void)actualUpdateSubviewFrames
 {
     CGRect bounds = self.bounds;
-    UIEdgeInsets contentEdgeInsets = _contentEdgeInsets;
-    CGFloat x = CGRectGetMinX(bounds);
-    CGFloat y = CGRectGetMinY(bounds);
     CGFloat width = CGRectGetWidth(bounds);
     CGFloat height = CGRectGetHeight(bounds);
     
-    _backgroundFrame = UIEdgeInsetsInsetRect(bounds, contentEdgeInsets);
+    _backgroundFrame = bounds;
+    
     CGSize imageSize = _buttonInfo.image.size;
     CGSize titleSize = [_buttonInfo.title pp_sizeWithFont:_titleFont constrainedToSize:CGSizeMake(width - imageSize.width, height) lineBreakMode:NSLineBreakByWordWrapping];
     CGFloat totalW = imageSize.width + titleSize.width;
     CGFloat left = (width - totalW) / 2.0f;
+    
     _imageFrame = CGRectMake(left, height / 2.0f - imageSize.height / 2.0f, imageSize.width, imageSize.height);
     _titleFrame = CGRectMake(CGRectGetMaxX(_imageFrame), height / 2.0f - titleSize.height / 2.0f, titleSize.width, titleSize.height);
     _needsUpdateFrame = NO;
@@ -378,7 +377,6 @@
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
     _privateTracking = YES;
-    _trackingState = UIControlStateHighlighted;
     [self updateContentsAndRelayout:NO];
     return YES;
 }
@@ -394,22 +392,18 @@
     if (!touchInside) {
         [self sendActionsForControlEvents:UIControlEventTouchCancel];
         [self cancelTrackingWithEvent:event];
-    } else {
-        _trackingState = UIControlStateHighlighted;
     }
     return touchInside;
 }
 
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    _trackingState = UIControlStateNormal;
     [self updateContentsAndRelayout:NO];
     _privateTracking = NO;
 }
 
 - (void)cancelTrackingWithEvent:(UIEvent *)event
 {
-    _trackingState = UIControlStateNormal;
     [self updateContentsAndRelayout:NO];
     _privateTracking = NO;
 }
@@ -436,24 +430,4 @@
 }
 
 - (void)didCommitBoundsSizeChange { }
-
-- (NSString *)stringOfState:(UIControlState)state
-{
-    switch (state) {
-        case UIControlStateNormal:
-            return @"UIControlStateNormal";
-        case UIControlStateHighlighted:
-            return @"UIControlStateHighlighted";
-        case UIControlStateDisabled:
-            return @"UIControlStateDisabled";
-        case UIControlStateSelected:
-            return @"UIControlStateSelected";
-        case UIControlStateFocused:
-            return @"UIControlStateFocused";
-        case UIControlStateApplication:
-            return @"UIControlStateApplication";
-        case UIControlStateReserved:
-            return @"UIControlStateReserved";
-    }
-}
 @end

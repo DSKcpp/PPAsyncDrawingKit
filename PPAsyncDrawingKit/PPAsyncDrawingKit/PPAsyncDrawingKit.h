@@ -34,6 +34,7 @@ FOUNDATION_EXPORT const unsigned char PPAsyncDrawingKitVersionString[];
 #import <PPAsyncDrawingKit/PPTextUtilties.h>
 #import <PPAsyncDrawingKit/NSAttributedString+PPAsyncDrawingKit.h>
 #import <PPAsyncDrawingKit/NSString+PPAsyncDrawingKit.h>
+#import <PPAsyncDrawingKit/NSThread+PPTextRenderer.h>
 
 // Image
 #import <PPAsyncDrawingKit/PPImageView.h>
@@ -43,6 +44,7 @@ FOUNDATION_EXPORT const unsigned char PPAsyncDrawingKitVersionString[];
 #import <PPAsyncDrawingKit/PPImage+WebP.h>
 #import <PPAsyncDrawingKit/UIImage+PPAsyncDrawingKit.h>
 #import <PPAsyncDrawingKit/NSData+PPImageContentType.h>
+#import <PPAsyncDrawingKit/PPWeakProxy.h>
 
 // Button
 #import <PPAsyncDrawingKit/PPButton.h>

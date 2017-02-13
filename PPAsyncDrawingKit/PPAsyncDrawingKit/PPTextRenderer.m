@@ -81,7 +81,7 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
     if (touch) {
         point = [touch locationInView:touchView];
     }
-    CGPoint touchesBeginPoint = _touchesBeginPoint;
+//    CGPoint touchesBeginPoint = _touchesBeginPoint;
     
     BOOL touchInside = YES;
 //    CGFloat left = touchView.bounds.size.width - touchesBeginPoint.x;

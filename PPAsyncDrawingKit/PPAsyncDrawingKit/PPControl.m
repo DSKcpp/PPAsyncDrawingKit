@@ -254,4 +254,24 @@
     return [NSSet setWithArray:targets];
 }
 
+- (NSString *)stringOfState:(UIControlState)state
+{
+    switch (state) {
+        case UIControlStateNormal:
+            return @"UIControlStateNormal";
+        case UIControlStateHighlighted:
+            return @"UIControlStateHighlighted";
+        case UIControlStateDisabled:
+            return @"UIControlStateDisabled";
+        case UIControlStateSelected:
+            return @"UIControlStateSelected";
+        case UIControlStateFocused:
+            return @"UIControlStateFocused";
+        case UIControlStateApplication:
+            return @"UIControlStateApplication";
+        case UIControlStateReserved:
+            return @"UIControlStateReserved";
+    }
+}
+
 @end

@@ -142,16 +142,6 @@
                                           options:(SDWebImageOptions)options
                                          progress:(nullable SDWebImageDownloaderProgressBlock)progressBlock
                                         completed:(nullable SDExternalCompletionBlock)completedBlock;
-
-/**
- * Download an array of images and starts them in an animation loop
- *
- * @param arrayOfURLs An array of NSURL
- */
-- (void)sd_setAnimationImagesWithURLs:(nonnull NSArray<NSURL *> *)arrayOfURLs;
-
-- (void)sd_cancelCurrentAnimationImagesLoad;
-
 @end
 
 #endif

@@ -10,8 +10,6 @@
 		860FC3A91DF2D45E0037AE51 /* emoticon_info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 860FC3A81DF2D45E0037AE51 /* emoticon_info.plist */; };
 		862EEE161E2E2A81007F36A7 /* PPImageDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 862EEE141E2E2A81007F36A7 /* PPImageDownloader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		862EEE171E2E2A81007F36A7 /* PPImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 862EEE151E2E2A81007F36A7 /* PPImageDownloader.m */; };
-		862EEE1A1E2FB6D1007F36A7 /* PPTextTruncatedExample.h in Headers */ = {isa = PBXBuildFile; fileRef = 862EEE181E2FB6D0007F36A7 /* PPTextTruncatedExample.h */; };
-		862EEE1B1E2FB6D1007F36A7 /* PPTextTruncatedExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 862EEE191E2FB6D0007F36A7 /* PPTextTruncatedExample.m */; };
 		864606AF1E2618C000A8CB07 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8659A9121E15BEF700BC9F91 /* WebKit.framework */; };
 		864606B31E261B1700A8CB07 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 864606AD1E2618A600A8CB07 /* WebP.framework */; };
 		864606B51E261B2700A8CB07 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 864606AD1E2618A600A8CB07 /* WebP.framework */; };
@@ -88,8 +86,9 @@
 		86772BAA1E49DEB2002DBA1E /* PPExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86772BA91E49DEB2002DBA1E /* PPExampleViewController.m */; };
 		86772BAD1E49E37B002DBA1E /* PPImageViewAnimationExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 86772BAC1E49E37B002DBA1E /* PPImageViewAnimationExample.m */; };
 		86772BB01E4AE2C1002DBA1E /* PPDemoToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 86772BAF1E4AE2C1002DBA1E /* PPDemoToolBar.m */; };
-		86772BB31E4B0E7B002DBA1E /* PPWeakProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 86772BB11E4B0E7A002DBA1E /* PPWeakProxy.h */; };
+		86772BB31E4B0E7B002DBA1E /* PPWeakProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 86772BB11E4B0E7A002DBA1E /* PPWeakProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		86772BB41E4B0E7B002DBA1E /* PPWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 86772BB21E4B0E7A002DBA1E /* PPWeakProxy.m */; };
+		86772BB51E524AD7002DBA1E /* PPTextTruncatedExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 862EEE191E2FB6D0007F36A7 /* PPTextTruncatedExample.m */; };
 		86AE95A91E2CBBF100DDD90A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86AE95A71E2CBBF100DDD90A /* LaunchScreen.storyboard */; };
 		86AE95AA1E2CBBF100DDD90A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86AE95A81E2CBBF100DDD90A /* Main.storyboard */; };
 		86AE95AD1E2CBC0C00DDD90A /* PPEditableTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 86AE95AB1E2CBC0C00DDD90A /* PPEditableTextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -767,7 +766,6 @@
 				866FDF9D1E26005A00C513DF /* PPImage+WebP.h in Headers */,
 				864606BA1E27C17A00A8CB07 /* PPAssert.h in Headers */,
 				866FDF691E25FF6100C513DF /* PPTextFontMetrics.h in Headers */,
-				862EEE1A1E2FB6D1007F36A7 /* PPTextTruncatedExample.h in Headers */,
 				866FDF7B1E25FF9400C513DF /* NSAttributedString+PPAsyncDrawingKit.h in Headers */,
 				866FDF811E25FFC100C513DF /* PPImage.h in Headers */,
 				866FDF671E25FF6100C513DF /* PPTextAttributes.h in Headers */,
@@ -781,8 +779,8 @@
 				866FDF651E25FF6100C513DF /* PPTextAttachment.h in Headers */,
 				86AE95AD1E2CBC0C00DDD90A /* PPEditableTextView.h in Headers */,
 				862EEE161E2E2A81007F36A7 /* PPImageDownloader.h in Headers */,
-				866FDF7D1E25FF9400C513DF /* NSString+PPAsyncDrawingKit.h in Headers */,
 				86772BB31E4B0E7B002DBA1E /* PPWeakProxy.h in Headers */,
+				866FDF7D1E25FF9400C513DF /* NSString+PPAsyncDrawingKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -904,7 +902,6 @@
 				866FDF741E25FF6100C513DF /* PPTextRenderer.m in Sources */,
 				866FDF481E25FF2100C513DF /* PPAsyncDrawingView.m in Sources */,
 				866FDF9A1E26004B00C513DF /* PPImageView.m in Sources */,
-				862EEE1B1E2FB6D1007F36A7 /* PPTextTruncatedExample.m in Sources */,
 				866FDF7E1E25FF9400C513DF /* NSString+PPAsyncDrawingKit.m in Sources */,
 				866FDF4C1E25FF2C00C513DF /* PPControl.m in Sources */,
 				866FDF821E25FFC100C513DF /* PPImage.m in Sources */,
@@ -930,6 +927,7 @@
 				86772BA41E49DB81002DBA1E /* ExampleItem.m in Sources */,
 				86AE95FB1E2CC20D00DDD90A /* SDWebImagePrefetcher.m in Sources */,
 				866FDFC61E260AD200C513DF /* YYFPSLabel.m in Sources */,
+				86772BB51E524AD7002DBA1E /* PPTextTruncatedExample.m in Sources */,
 				866FDFDE1E260B7F00C513DF /* WBHelper.m in Sources */,
 				86AE96091E2CCAF000DDD90A /* PPImageView+SDWebImage.m in Sources */,
 				866FDFBC1E260AAA00C513DF /* WBTimelineContentView.m in Sources */,

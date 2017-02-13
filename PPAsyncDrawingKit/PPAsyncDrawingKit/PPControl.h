@@ -61,7 +61,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly) NSSet *allTargets;
 
-
 /**
  添加触摸事件
 
@@ -88,11 +87,22 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSArray<NSString *> *)actionsForTarget:(nullable id)target forControlEvent:(UIControlEvents)controlEvent;    // single event. returns NSArray of NSString selector names. returns nil if none
 
 /**
- send the action. the first method is called for the event and is a point at which you can observe or override behavior. it is called repeately by the second.
+ 发送 action 到指定的 target
+
+ @param action action
+ @param target target
+ @param event event
  */
 - (void)sendAction:(SEL)action to:(nullable id)target forEvent:(nullable UIEvent *)event;
 
-- (void)sendActionsForControlEvents:(UIControlEvents)controlEvents;                        // send all actions associated with events
+/**
+ 发送所有和 controlEvents 有关的 actions
+
+ @param controlEvents controlEvents
+ */
+- (void)sendActionsForControlEvents:(UIControlEvents)controlEvents;
+
+- (NSString *)stringOfState:(UIControlState)state;
 @end
 
 NS_ASSUME_NONNULL_END

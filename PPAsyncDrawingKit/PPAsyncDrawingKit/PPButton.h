@@ -15,7 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PPButton : PPControl
 @property (nonatomic, strong) UIFont *titleFont;
 @property (nonatomic, assign) UIEdgeInsets imageEdgeInsets;
-@property (nonatomic, assign) UIEdgeInsets contentEdgeInsets;
 @property (nonatomic, assign) UIEdgeInsets titleEdgeInsets;
 
 /**

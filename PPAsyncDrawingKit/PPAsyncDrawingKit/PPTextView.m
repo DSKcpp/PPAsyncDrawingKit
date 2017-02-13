@@ -79,16 +79,6 @@
     return _textLayout;
 }
 
-- (NSInteger)numberOfLines
-{
-    return self.textLayout.numberOfLines;
-}
-
-- (void)setNumberOfLines:(NSInteger)numberOfLines
-{
-    self.textLayout.numberOfLines = numberOfLines;
-}
-
 - (NSAttributedString *)attributedString
 {
     return self.textLayout.attributedString;
@@ -103,7 +93,7 @@
 - (CGSize)sizeThatFits:(CGSize)size
 {
     if (self.attributedString) {
-        return [self.attributedString pp_sizeConstrainedToSize:size numberOfLines:self.numberOfLines];
+        return [self.attributedString pp_sizeConstrainedToSize:size numberOfLines:self.textLayout.numberOfLines];
     } else {
         return size;
     }
