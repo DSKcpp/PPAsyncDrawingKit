@@ -145,43 +145,4 @@
     return YES;
 }
 
-+ (NSURL *)defaultURLForImageURL:(id)imageURL {
-    /*
-     微博 API 提供的图片 URL 有时并不能直接用，需要做一些字符串替换：
-     http://u1.sinaimg.cn/upload/2014/11/04/common_icon_membership_level6.png //input
-     http://u1.sinaimg.cn/upload/2014/11/04/common_icon_membership_level6_default.png //output
-     
-     http://img.t.sinajs.cn/t6/skin/public/feed_cover/star_003_y.png?version=2015080302 //input
-     http://img.t.sinajs.cn/t6/skin/public/feed_cover/star_003_os7.png?version=2015080302 //output
-     */
-    
-    if (!imageURL) return nil;
-    NSString *link = nil;
-    if ([imageURL isKindOfClass:[NSURL class]]) {
-        link = ((NSURL *)imageURL).absoluteString;
-    } else if ([imageURL isKindOfClass:[NSString class]]) {
-        link = imageURL;
-    }
-    if (link.length == 0) return nil;
-    
-    if ([link hasSuffix:@".png"]) {
-        // add "_default"
-        if (![link hasSuffix:@"_default.png"]) {
-            NSString *sub = [link substringToIndex:link.length - 4];
-            link = [sub stringByAppendingFormat:@"_default.png"];
-        }
-    } else {
-        // replace "_y.png" with "_os7.png"
-        NSRange range = [link rangeOfString:@"_y.png?version"];
-        if (range.location != NSNotFound) {
-            NSMutableString *mutable = link.mutableCopy;
-            [mutable replaceCharactersInRange:NSMakeRange(range.location + 1, 1) withString:@"os7"];
-            link = mutable;
-        }
-    }
-    
-    return [NSURL URLWithString:link];
-}
-
-
 @end

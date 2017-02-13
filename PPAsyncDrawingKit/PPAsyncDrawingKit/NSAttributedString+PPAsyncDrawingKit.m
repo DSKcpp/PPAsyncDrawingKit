@@ -63,7 +63,6 @@ static CTLineBreakMode NSLineBreakModeToCTLineBreakMode(NSLineBreakMode nsLineBr
 
 @implementation NSAttributedString (PPAsyncDrawingKit)
 
-
 - (NSRange)pp_stringRange
 {
     return NSMakeRange(0, self.length);

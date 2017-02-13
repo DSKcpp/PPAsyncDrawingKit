@@ -20,6 +20,7 @@
     WBTimelinePreset *preset = [WBTimelinePreset sharedInstance];
     CGFloat maxWidth = drawingContext.contentWidth - preset.leftSpacing * 2.0f;
     CGFloat totalHeight = 0.0f;
+    
     if (drawingContext.hasTitle) {
         drawingContext.titleBackgroundViewFrame = CGRectMake(0, 0, drawingContext.contentWidth, preset.titleAreaHeight);
         CGFloat height = [drawingContext.titleAttributedText pp_heightConstrainedToWidth:maxWidth];
@@ -28,10 +29,14 @@
         drawingContext.titleFrame = titleRect;
         totalHeight += preset.titleAreaHeight;
     }
+    
     CGFloat titleHeight = drawingContext.hasTitle ? preset.titleAreaHeight : 0;
     drawingContext.avatarFrame = CGRectMake(preset.leftSpacing, preset.avatarTop + titleHeight, preset.avatarSize, preset.avatarSize);
+    
     CGFloat avatarMaxWidth = maxWidth - preset.avatarSize - preset.leftSpacing;
+    
     drawingContext.nicknameFrame = CGRectMake(preset.nicknameLeft, totalHeight + preset.nicknameTop, avatarMaxWidth, 20);
+    
     drawingContext.metaInfoFrame = CGRectMake(preset.nicknameLeft, preset.avatarSize + titleHeight, avatarMaxWidth, 20.0f);
     totalHeight += preset.headerAreaHeight;
     
@@ -39,6 +44,7 @@
     CGFloat height = [drawingContext.textAttributedText pp_sizeConstrainedToWidth:maxWidth numberOfLines:numberOfLines].height;
     drawingContext.textFrame = CGRectMake(preset.leftSpacing, totalHeight, maxWidth, height);
     totalHeight += height;
+    
     if (drawingContext.hasQuoted) {
         CGFloat qouteHeight = 0;
         NSInteger numberOfLines = drawingContext.timelineItem.retweeted_status.isLongText ? preset.numberOfLines : 0;
@@ -90,8 +96,10 @@
     }
     
     drawingContext.textContentBackgroundViewFrame = CGRectMake(0, titleHeight, drawingContext.contentWidth, totalHeight - titleHeight);
+    
     drawingContext.actionButtonsViewFrame = CGRectMake(0, CGRectGetMaxY(drawingContext.textContentBackgroundViewFrame), drawingContext.contentWidth, preset.actionButtonsHeight);
     totalHeight += preset.actionButtonsHeight + preset.defaultMargin;
+    
     drawingContext.contentHeight = MAX(totalHeight, preset.minHeight);
 }
 
@@ -135,7 +143,11 @@
     WBTimelineTableViewCellDrawingContext *drawingContext = self.drawingContext;
     if (drawingContext.hasTitle) {
         self.titleTextLayout.attributedString = drawingContext.titleAttributedText;
-        self.titleTextLayout.frame = drawingContext.titleFrame;
+        CGRect rect = drawingContext.titleFrame;
+        if (!drawingContext.timelineItem.title.icon_url) {
+            rect.origin.x = preset.leftSpacing;
+        }
+        self.titleTextLayout.frame = rect;
         [self.titleTextLayout.textRenderer drawInContext:context];
     }
     

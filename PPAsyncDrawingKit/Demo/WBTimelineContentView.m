@@ -116,8 +116,7 @@
 - (void)createTitleIcon
 {
     WBTimelinePreset *preset = [WBTimelinePreset sharedInstance];
-    _titleIcon = [[PPImageView alloc] initWithFrame:CGRectMake(preset.titleIconLeft, preset.titleIconTop, preset.titleIconSize, preset.titleIconSize)];
-    _titleIcon.image = [UIImage imageNamed:@"timeline_title_promotions"];
+    _titleIcon = [[PPWebImageView alloc] initWithFrame:CGRectMake(preset.titleIconLeft, preset.titleIconTop, preset.titleIconSize, preset.titleIconSize)];
     [self addSubview:_titleIcon];
 }
 
@@ -144,6 +143,7 @@
     _quotedItemBorderButton = [[UIButton alloc] init];
     [_quotedItemBorderButton setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1]] forState:UIControlStateNormal];
     [_quotedItemBorderButton setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1]] forState:UIControlStateHighlighted];
+    [_quotedItemBorderButton addTarget:self action:@selector(tapQouted:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_quotedItemBorderButton];
 }
 
@@ -191,28 +191,43 @@
 {
     if (_timelineItem != timelineItem) {
         _timelineItem = timelineItem;
+        
         WBTimelineTableViewCellDrawingContext *drawingContext = timelineItem.drawingContext;
+        
         self.frame = CGRectMake(0, 10, self.frame.size.width, drawingContext.contentHeight);
+        
         self.titleBgImageView.frame = drawingContext.titleBackgroundViewFrame;
+        
         self.nameLabel.user = timelineItem.user;
         self.nameLabel.frame = drawingContext.nicknameFrame;
+        
         self.textContentView.drawingContext = drawingContext;
         self.textContentView.frame = CGRectMake(0, 0, drawingContext.contentWidth, drawingContext.contentHeight);
+        
         self.itemContentBgImageView.frame = drawingContext.textContentBackgroundViewFrame;
         self.itemContentBgImageView.bottomLineView.bottom = self.itemContentBgImageView.height;
+        
         self.actionButtonsView.bottom = drawingContext.contentHeight;
         self.actionButtonsView.frame = drawingContext.actionButtonsViewFrame;
+        
         self.photoImageView.frame = drawingContext.photoFrame;
         if (drawingContext.hasQuoted) {
             self.photoImageView.pictures = timelineItem.retweeted_status.pic_infos.allValues;
         } else {
             self.photoImageView.pictures = timelineItem.pic_infos.allValues;
         }
-        self.titleIcon.hidden = !drawingContext.hasTitle;
+        
+        if (drawingContext.hasTitle) {
+            self.titleIcon.hidden = !drawingContext.hasTitle;
+            [self.titleIcon setImageURL:[WBHelper defaultURLForImageURL:_timelineItem.title.icon_url]];
+        }
+        
         self.avatarView.frame = drawingContext.avatarFrame;
+        
         self.quotedItemBorderButton.frame = drawingContext.quotedContentBackgroundViewFrame;
+        
         [self.avatarView setImageURL:[NSURL URLWithString:timelineItem.user.avatar_large] placeholderImage:[UIImage imageNamed:@"avatar"]];
-//        [self.avatarView sd_setImageWithURL:[NSURL URLWithString:timelineItem.user.avatar_large] placeholderImage:[UIImage imageNamed:@"avatar"]];
+        
         [self.actionButtonsView setTimelineItem:timelineItem];
     }
 }
@@ -228,6 +243,13 @@
 {
     if ([_delegate respondsToSelector:@selector(tableViewCell:didSelectedNameLabel:)]) {
         [_delegate tableViewCell:_cell didSelectedNameLabel:_timelineItem.user];
+    }
+}
+
+- (void)tapQouted:(UIButton *)button
+{
+    if ([_delegate respondsToSelector:@selector(tableViewCell:didSelectedStatus:)]) {
+        [_delegate tableViewCell:_cell didSelectedStatus:_timelineItem.retweeted_status];
     }
 }
 
@@ -300,11 +322,6 @@
     }
 }
 
-- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    [super touchesMoved:touches withEvent:event];
-}
-
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     if (_flags.trackingQuotedItemBorder) {
@@ -325,6 +342,9 @@
         });
     } else {
         [super touchesEnded:touches withEvent:event];
+        if ([_delegate respondsToSelector:@selector(tableViewCell:didSelectedStatus:)]) {
+            [_delegate tableViewCell:_cell didSelectedStatus:_timelineItem];
+        }
     }
 }
 

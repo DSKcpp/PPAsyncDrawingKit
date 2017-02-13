@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  获取当前线程的 PPTextLayout
  */
 @property (nonatomic, class, readonly) PPTextLayout *textLayoutForCurrentThread;
-@property (nonatomic, assign) NSRange pp_stringRange;
+@property (nonatomic, assign, readonly) NSRange pp_stringRange;
 
 + (instancetype)pp_attributedStringWithTextAttachment:(PPTextAttachment *)textAttachment;
 + (instancetype)pp_attributedStringWithTextAttachment:(PPTextAttachment *)textAttachment attributes:(nullable NSDictionary *)attributes;

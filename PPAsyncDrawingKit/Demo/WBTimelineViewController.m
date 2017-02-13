@@ -148,6 +148,13 @@
     }
 }
 
+- (void)tableViewCell:(WBTimelineTableViewCell *)tableViewCell didSelectedStatus:(WBTimelineItem *)timeline
+{
+    NSString *URL = [NSString stringWithFormat:@"http://m.weibo.cn/status/%@", timeline.mblogid];
+    WBWebViewController *webViewController = [[WBWebViewController alloc] initWithURL:[NSURL URLWithString:URL]];
+    [self.navigationController pushViewController:webViewController animated:YES];
+}
+
 - (void)tableViewCell:(WBTimelineTableViewCell *)tableViewCell didSelectedAvatarView:(WBUser *)user
 {
     NSString *URL = [NSString stringWithFormat:@"http://m.weibo.cn/u/%@", user.idstr];

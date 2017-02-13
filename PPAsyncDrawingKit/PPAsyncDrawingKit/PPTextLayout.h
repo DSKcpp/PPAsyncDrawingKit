@@ -28,6 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSAttributedString *attributedString;
 @property (nullable, nonatomic, strong) NSAttributedString *truncationString;
 
+@property (nullable, nonatomic, strong) PPTextBackground *textBackground;
+@property (nullable, nonatomic, strong) PPTextBackground *highlighttextBackground;
+
 @property (nonatomic, strong, readonly) PPTextLayoutFrame *layoutFrame;
 @property (nonatomic, strong, readonly) PPTextRenderer *textRenderer;
 

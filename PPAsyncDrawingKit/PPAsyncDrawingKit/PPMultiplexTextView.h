@@ -11,11 +11,26 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ 根据 PPTextLayout 的frame，一次性渲染多个 AttributedString 到 View 上
+ */
 @interface PPMultiplexTextView : PPAsyncDrawingView <PPTextRendererEventDelegate>
 
+/**
+ 当前的 textLayouts
+ */
 @property (nullable, nonatomic, strong, readonly) NSArray<PPTextLayout *> *textLayouts;
+
+/**
+ 当前选中的 PPTextLayout 的 TextRenderer
+ */
 @property (nullable, nonatomic, strong, readonly) PPTextRenderer *respondTextRenderer;
 
+/**
+ 添加 PPTextLayout 到 View 上
+
+ @param textLayout PPTextLayout
+ */
 - (void)addTextLayout:(PPTextLayout *)textLayout;
 
 - (nullable PPTextRenderer *)rendererAtPoint:(CGPoint)point;

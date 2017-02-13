@@ -16,7 +16,8 @@ UIKIT_EXTERN NSString * const PPTextBorderAttributeName;
 UIKIT_EXTERN NSString * const PPTextAttachmentAttributeName;
 
 @interface PPTextBorder : NSObject
-@property (nonnull, nonatomic, strong) UIColor *fillColor;
+@property (nullable, nonatomic, strong) UIColor *fillColor;
+@property (nonatomic, assign) CGFloat cornerRadius;
 @end
 
 @interface PPTextHighlightRange : NSObject
@@ -26,6 +27,10 @@ UIKIT_EXTERN NSString * const PPTextAttachmentAttributeName;
 - (void)setTextColor:(nullable UIColor *)textColor;
 - (void)setFont:(nullable UIFont *)font;
 - (void)setBorder:(nullable PPTextBorder *)border;
+@end
+
+@interface PPTextBackground : NSObject
+@property (nullable, nonatomic, strong) UIColor *backgroundColor;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -17,6 +17,7 @@
 - (void)tableViewCell:(WBTimelineTableViewCell *)tableViewCell didPressHighlightRange:(PPTextHighlightRange *)highlightRange;
 - (void)tableViewCell:(WBTimelineTableViewCell *)tableViewCell didSelectedAvatarView:(WBUser *)user;
 - (void)tableViewCell:(WBTimelineTableViewCell *)tableViewCell didSelectedNameLabel:(WBUser *)user;
+- (void)tableViewCell:(WBTimelineTableViewCell *)tableViewCell didSelectedStatus:(WBTimelineItem *)timeline;
 @end
 
 @interface WBTimelineTableViewCell : UITableViewCell

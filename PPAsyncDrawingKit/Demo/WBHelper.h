@@ -12,7 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WBHelper : NSObject
-
++ (NSURL *)defaultURLForImageURL:(id)imageURL;
 @end
 
 @interface WBEmoticonManager : NSObject

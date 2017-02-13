@@ -50,7 +50,7 @@
 @property (nonatomic, strong, readonly) WBColorImageView *itemContentBgImageView;
 @property (nonatomic, strong, readonly) UIButton *quotedItemBorderButton;
 @property (nonatomic, strong, readonly) WBTimelineImageContentView *photoImageView;
-@property (nonatomic, strong, readonly) PPImageView *titleIcon;
+@property (nonatomic, strong, readonly) PPWebImageView *titleIcon;
 @property (nonatomic, assign) BOOL highlighted;
 @property (nonatomic, assign) CGFloat contentWidth;
 @property (nonatomic, weak) id<WBTimelineTableViewCellDelegate> delegate;

@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PPTextRenderer : UIResponder
 @property (nonatomic, weak) PPTextLayout *textLayout;
 @property (nullable, nonatomic, strong) PPTextHighlightRange *pressingHighlightRange;
+@property (nonatomic, assign) BOOL highlight;
 @property (nullable, nonatomic, weak) id<PPTextRendererEventDelegate> eventDelegate;
 
 + (PPTextRenderer *)textRendererWithTextLayout:(PPTextLayout *)textLayout;
@@ -74,6 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)drawHighlightedBackgroundForHighlightRange:(PPTextHighlightRange *)highlightRange
                                               rect:(CGRect)rect context:(CGContextRef)context;
+- (void)drawTextBackground:(PPTextBackground *)textBackground context:(CGContextRef)context;
 @end
 
 @interface PPTextRenderer (PPTextRendererEvents)

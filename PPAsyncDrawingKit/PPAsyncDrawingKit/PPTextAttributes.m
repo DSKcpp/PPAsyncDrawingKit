@@ -48,6 +48,15 @@ NSString * const PPTextAttachmentAttributeName = @"PPTextAttachment";
 @end
 
 @implementation PPTextBorder
-
+- (instancetype)init
+{
+    if (self = [super init]) {
+        _cornerRadius = 4.0f;
+    }
+    return self;
+}
 @end
 
+@implementation PPTextBackground
+
+@end

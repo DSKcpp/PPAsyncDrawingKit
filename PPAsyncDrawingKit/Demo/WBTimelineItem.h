@@ -50,7 +50,7 @@
 @property (nonatomic, strong) NSArray<NSString *> *pic_ids;
 @property (nonatomic, copy) NSString *bmiddle_pic;
 @property (nonatomic, copy) NSString *original_pic;
-@property (nonatomic, copy) NSString *geo;
+@property (nonatomic, copy) NSString *mblogid;
 @property (nonatomic, strong) WBUser *user;
 @property (nonatomic, assign) NSInteger reposts_count;
 @property (nonatomic, assign) NSInteger comments_count;

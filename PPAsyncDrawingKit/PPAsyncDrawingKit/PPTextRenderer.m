@@ -65,6 +65,10 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
         self.pressingHighlightRange = range;
         touchView.drawingType = PPAsyncDrawingTypeTouch;
         [touchView setNeedsDisplay];
+    } else if (self.textLayout.highlighttextBackground) {
+        touchView.drawingType = PPAsyncDrawingTypeTouch;
+        self.highlight = YES;
+        [touchView setNeedsDisplay];
     }
     _touchesBeginPoint = point;
 }
@@ -113,6 +117,11 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
         PPAsyncDrawingView *touchView = self.eventDelegateContextView;
         touchView.drawingType = PPAsyncDrawingTypeTouch;
         [touchView setNeedsDisplay];
+    } else if (self.textLayout.highlighttextBackground) {
+        PPAsyncDrawingView *touchView = self.eventDelegateContextView;
+        touchView.drawingType = PPAsyncDrawingTypeTouch;
+        self.highlight = NO;
+        [touchView setNeedsDisplay];
     }
 }
 
@@ -123,6 +132,11 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
         _pressingHighlightRange = nil;
         PPAsyncDrawingView *touchView = self.eventDelegateContextView;
         touchView.drawingType = PPAsyncDrawingTypeTouch;
+        [touchView setNeedsDisplay];
+    } else if (self.textLayout.highlighttextBackground) {
+        PPAsyncDrawingView *touchView = self.eventDelegateContextView;
+        touchView.drawingType = PPAsyncDrawingTypeTouch;
+        self.highlight = NO;
         [touchView setNeedsDisplay];
     }
 }
@@ -175,10 +189,20 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
                 [self.textLayout enumerateEnclosingRectsForCharacterRange:highlightRange.range usingBlock:^(CGRect rect, BOOL * _Nonnull stop) {
                     CGRect drawRect = [self convertRectFromLayout:rect];
                     [self drawHighlightedBackgroundForHighlightRange:highlightRange rect:drawRect context:context];
-                    
                 }];
             }
         }
+        
+        PPTextBackground *textBackground = self.textLayout.textBackground;
+        if (textBackground) {
+            [self drawTextBackground:textBackground context:context];
+        }
+        
+        PPTextBackground *highlightTextBackground = self.textLayout.highlighttextBackground;
+        if (highlightTextBackground && self.highlight) {
+            [self drawTextBackground:highlightTextBackground context:context];
+        }
+        
         [self drawTextInContext:context layout:self.textLayout];
         if (placeAttachments) {
             [self drawAttachmentsWithAttributedString:attributedString layoutFrame:layoutFrame context:context];
@@ -227,6 +251,16 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
     }];
 }
 
+- (void)drawTextBackground:(PPTextBackground *)textBackground context:(CGContextRef)context
+{
+    CGPoint origin = self.drawingOrigin;
+    CGSize size = self.textLayout.maxSize;
+    CGContextSaveGState(context);
+    CGContextSetFillColorWithColor(context, textBackground.backgroundColor.CGColor);
+    CGContextFillRect(context, CGRectMake(origin.x, origin.y, size.width, size.height));
+    CGContextRestoreGState(context);
+}
+
 - (void)drawHighlightedBackgroundForHighlightRange:(PPTextHighlightRange *)highlightRange rect:(CGRect)rect context:(CGContextRef)context
 {
     PPTextBorder *textBorder = highlightRange.attributes[PPTextBorderAttributeName];
@@ -243,7 +277,7 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
         CGFloat y = rect.origin.y;
         CGFloat width = rect.size.width;
         CGFloat height = rect.size.height;
-        CGFloat radius = 4.0f;
+        CGFloat radius = textBorder.cornerRadius;
         CGContextMoveToPoint(context, x + radius, y);
         x += width;
         CGContextAddLineToPoint(context, x + width - radius, y);

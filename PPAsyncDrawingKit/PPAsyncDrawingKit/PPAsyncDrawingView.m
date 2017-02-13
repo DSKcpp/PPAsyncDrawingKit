@@ -10,7 +10,7 @@
 #import <stdatomic.h>
 #import "PPAssert.h"
 
-static inline dispatch_queue_t PPDrawConcurrentQueue(void) {
+static dispatch_queue_t PPDrawConcurrentQueue() {
     static dispatch_queue_t queue;
     static dispatch_once_t token;
     dispatch_once(&token, ^{
@@ -151,12 +151,7 @@ static BOOL asyncDrawingEnabled = YES;
                                    withContext:context asynchronously:asynchronously];
         
         CGContextRestoreGState(context);
-        if (!drawingSuccess) {
-            UIGraphicsEndImageContext();
-            drawingInterrupted(asynchronously);
-            return;
-        }
-        if (needCancel()) {
+        if (!drawingSuccess || needCancel()) {
             UIGraphicsEndImageContext();
             drawingInterrupted(asynchronously);
             return;

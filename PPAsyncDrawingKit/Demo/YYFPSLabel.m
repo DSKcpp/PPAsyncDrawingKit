@@ -7,6 +7,7 @@
 //
 
 #import "YYFPSLabel.h"
+#import "PPWeakProxy.h"
 
 #define kSize CGSizeMake(55, 20)
 
@@ -40,7 +41,7 @@
         _subFont = [UIFont fontWithName:@"Courier" size:4];
     }
     
-    _link = [CADisplayLink displayLinkWithTarget:self selector:@selector(tick:)];
+    _link = [CADisplayLink displayLinkWithTarget:[PPWeakProxy weakProxyWithTarget:self] selector:@selector(tick:)];
     [_link addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
     return self;
 }
