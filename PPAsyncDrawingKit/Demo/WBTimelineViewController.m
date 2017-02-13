@@ -76,12 +76,12 @@
                 [_timelineItems addObject:timelineItem];
                 dispatch_semaphore_signal(semaphore);
             }
-
         }];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
+            self.navigationItem.title = [NSString stringWithFormat:@"%zd 条微博", _timelineItems.count];
             self.navigationItem.rightBarButtonItem.enabled = YES;
+            [self.tableView reloadData];
             loadingLabel.hidden = YES;
         });
     });

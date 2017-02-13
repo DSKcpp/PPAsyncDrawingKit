@@ -144,6 +144,7 @@
         _numberOfLines = 7;
         _defaultMargin = 10.0f;
         _minHeight = 136.0f;
+        _pageInfoHeight = 70.0f;
     }
     return self;
 }

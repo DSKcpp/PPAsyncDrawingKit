@@ -58,6 +58,8 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - ActionButtons Area
 @property (nonatomic, assign, readonly) CGFloat actionButtonsHeight;
 
+@property (nonatomic, assign, readonly) CGFloat pageInfoHeight;
+
 @property (nonatomic, assign, readonly) CGFloat minHeight;
 
 @property (nonatomic, assign, readonly) NSInteger numberOfLines;

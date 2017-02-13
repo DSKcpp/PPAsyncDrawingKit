@@ -91,8 +91,13 @@
     }
 
     if (drawingContext.timelineItem.page_info) {
-        drawingContext.largeFrame = CGRectMake(preset.leftSpacing, totalHeight, maxWidth, 70.0f);
-        totalHeight += 80.0f;
+        if (drawingContext.hasQuoted) {
+            CGRect rect = drawingContext.quotedContentBackgroundViewFrame;
+            rect.size.height += preset.pageInfoHeight;
+            drawingContext.quotedContentBackgroundViewFrame = rect;
+        }
+        drawingContext.largeFrame = CGRectMake(preset.leftSpacing, totalHeight, maxWidth, preset.pageInfoHeight);
+        totalHeight += preset.pageInfoHeight + preset.defaultMargin;
     }
     
     drawingContext.textContentBackgroundViewFrame = CGRectMake(0, titleHeight, drawingContext.contentWidth, totalHeight - titleHeight);

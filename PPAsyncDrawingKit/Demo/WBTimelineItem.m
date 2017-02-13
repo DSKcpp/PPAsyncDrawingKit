@@ -8,7 +8,6 @@
 
 #import "WBTimelineItem.h"
 #import "WBTimelineTableViewCell.h"
-#import "WBTimelineLargeCardView.h"
 #import "WBTimelineAttributedTextParser.h"
 #import "NSDate+PPASDK.h"
 #import "NSAttributedString+PPAsyncDrawingKit.h"
@@ -60,20 +59,7 @@
 @end
 
 @implementation WBTimelinePageInfo
-- (Class)modelViewClass
-{
-    Class cls;
-    switch (_type) {
-        case 0:
-            cls = [WBPageInfoBaseCardView class];
-            break;
-            
-        default:
-            cls = [WBPageInfoBaseCardView class];
-            break;
-    }
-    return cls;
-}
+
 @end
 
 @implementation WBPageActionLog

@@ -188,7 +188,7 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
             if (highlightRange) {
                 [self.textLayout enumerateEnclosingRectsForCharacterRange:highlightRange.range usingBlock:^(CGRect rect, BOOL * _Nonnull stop) {
                     CGRect drawRect = [self convertRectFromLayout:rect];
-                    [self drawHighlightedBackgroundForHighlightRange:highlightRange rect:drawRect context:context];
+                    [self drawBorder:highlightRange rect:drawRect context:context];
                 }];
             }
         }
@@ -261,7 +261,7 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
     CGContextRestoreGState(context);
 }
 
-- (void)drawHighlightedBackgroundForHighlightRange:(PPTextHighlightRange *)highlightRange rect:(CGRect)rect context:(CGContextRef)context
+- (void)drawBorder:(PPTextHighlightRange *)highlightRange rect:(CGRect)rect context:(CGContextRef)context
 {
     PPTextBorder *textBorder = highlightRange.attributes[PPTextBorderAttributeName];
     if (textBorder) {

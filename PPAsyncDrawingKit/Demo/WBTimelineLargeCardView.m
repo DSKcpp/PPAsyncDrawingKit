@@ -13,11 +13,6 @@
 
 @implementation WBTimelineLargeCardView
 
-+ (CGSize)sizeConstraintToWidth:(CGFloat)width forPageInfo:(WBTimelinePageInfo *)pageInfo displayType:(NSInteger)type
-{
-    return [[pageInfo modelViewClass] sizeConstraintToWidth:width forPageInfo:pageInfo displayType:type];
-}
-
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
@@ -35,9 +30,7 @@
     self.hidden = !pageInfo;
     _pageInfo = pageInfo;
     if (!_cardView) {
-        Class cls = [pageInfo modelViewClass];
-        WBPageInfoBaseCardView *card = [[cls alloc] init];
-        card.frame = self.bounds;
+        WBPageInfoBaseCardView *card = [[WBPageInfoBaseCardView alloc] initWithFrame:self.bounds];
         _cardView = card;
         [self addSubview:_cardView];
     }
@@ -48,16 +41,6 @@
 @end
 
 @implementation WBPageInfoBaseCardView
-+ (CGSize)sizeConstraintToWidth:(CGFloat)width forPageInfo:(WBTimelinePageInfo *)pageInfo displayType:(NSInteger)type
-{
-    CGFloat height = [[self class] heightConstraintToWidth:width forPageInfo:pageInfo displayType:type];
-    return CGSizeMake(width, height);
-}
-
-+ (CGFloat)heightConstraintToWidth:(CGFloat)width forPageInfo:(WBTimelinePageInfo *)pageInfo displayType:(NSInteger)type
-{
-    return 64.0f;
-}
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -101,7 +84,7 @@
     _pageInfo = pageInfo;
     
     CGFloat w = self.frame.size.width;
-    CGFloat y = 0;
+    CGFloat totalHeight = 5.0f;
     
     NSMutableAttributedString *title;
     CGFloat titleH = 0;
@@ -116,7 +99,7 @@
         [title pp_setFont:[UIFont systemFontOfSize:17.0f]];
         [title pp_setColor:[UIColor blackColor]];
         titleH = [title pp_sizeConstrainedToWidth:w numberOfLines:1].height;
-        y = titleH + 5;
+        totalHeight += titleH;
     }
     
     NSMutableAttributedString *desc;
@@ -132,18 +115,17 @@
         [desc pp_setFont:[UIFont systemFontOfSize:12.0f]];
         [desc pp_setColor:[UIColor blackColor]];
         descH = [desc pp_sizeConstrainedToWidth:w numberOfLines:1].height;
-        y += descH;
-        
+        totalHeight += descH;
     }
     
-    CGFloat titleY = (self.frame.size.height - y) / 2.0f;
+    CGFloat titleY = (self.frame.size.height - totalHeight) / 2.0f;
     if (title) {
         _titleTextLayout.frame = CGRectMake(0, titleY, w, titleH);
         _titleTextLayout.attributedString = title;
     }
     
     if (desc) {
-        _descTextLayout.frame = CGRectMake(0, y, w, descH);
+        _descTextLayout.frame = CGRectMake(0, titleY + titleH + 5.0f, w, descH);
         _descTextLayout.attributedString = desc;
     }
     

@@ -73,8 +73,16 @@ NS_ASSUME_NONNULL_BEGIN
  @param rect 绘制所需的 rect
  @param context 绘制所需的 context
  */
-- (void)drawHighlightedBackgroundForHighlightRange:(PPTextHighlightRange *)highlightRange
-                                              rect:(CGRect)rect context:(CGContextRef)context;
+- (void)drawBorder:(PPTextHighlightRange *)highlightRange
+              rect:(CGRect)rect
+           context:(CGContextRef)context;
+
+/**
+ 绘制背景
+
+ @param textBackground 背景
+ @param context 绘制所需的 context
+ */
 - (void)drawTextBackground:(PPTextBackground *)textBackground context:(CGContextRef)context;
 @end
 

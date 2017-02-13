@@ -23,14 +23,7 @@
 @property (nonatomic, strong) WBTimelineLargeCardTextView *textView;
 @property (nonatomic, strong) WBTimelinePageInfo *pageInfo;
 
-+ (CGSize)sizeConstraintToWidth:(CGFloat)width forPageInfo:(WBTimelinePageInfo *)pageInfo displayType:(NSInteger)type;
-+ (CGFloat)heightConstraintToWidth:(CGFloat)width forPageInfo:(WBTimelinePageInfo *)pageInfo displayType:(NSInteger)type;
 @end
-
-@interface WBVideoLargeCardView : WBPageInfoBaseCardView
-
-@end
-
 
 @protocol WBTimelineLargeCardViewDelegate <NSObject>
 
@@ -40,7 +33,6 @@
 @end
 
 @interface WBTimelineLargeCardView : UIButton
-+ (CGSize)sizeConstraintToWidth:(CGFloat)width forPageInfo:(WBTimelinePageInfo *)pageInfo displayType:(NSInteger)type;
 @property (nonatomic, assign) BOOL needsBackground;
 @property (nonatomic, assign) BOOL retweeted;
 @property (nonatomic, strong) WBPageInfoBaseCardView *cardView;
