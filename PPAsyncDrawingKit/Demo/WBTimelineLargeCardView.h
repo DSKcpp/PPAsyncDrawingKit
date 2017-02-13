@@ -10,7 +10,7 @@
 #import "PPAsyncDrawingView.h"
 #import "WBTimelineItem.h"
 #import "PPMultiplexTextView.h"
-#import "PPWebImageView.h"
+#import "PPImageView.h"
 
 @interface WBTimelineLargeCardTextView : PPMultiplexTextView
 @property (nonatomic, strong) WBTimelinePageInfo *pageInfo;
@@ -19,7 +19,7 @@
 @end
 
 @interface WBPageInfoBaseCardView : UIView
-@property (nonatomic, strong) PPWebImageView *imageView;
+@property (nonatomic, strong) PPImageView *imageView;
 @property (nonatomic, strong) WBTimelineLargeCardTextView *textView;
 @property (nonatomic, strong) WBTimelinePageInfo *pageInfo;
 

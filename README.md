@@ -25,7 +25,7 @@ PPAsyncDrawingKit
 | UIControl | PPControl |   |
 | UILabel | PPTextView  | PPMultiplexTextView |
 | UITextView | PPEditableTextView |   |
-| UIImageView | PPImageView | PPWebImageView |
+| UIImageView | PPImageView  |
 | UIButton | PPButton |   |
 
 
@@ -69,7 +69,7 @@ imageView.image = [UIImage imageNamed:@"avatar"];
 [self.contentView addSubview:imageView];
 
 ```
-####PPWebImageView
+####WebImage
 
 ```Obj-C
 [imageView setImageURL:[NSURL URLWithString:@"url"] placeholderImage:[UIImage imageNamed:@"avatar"]];

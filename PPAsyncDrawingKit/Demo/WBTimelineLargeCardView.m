@@ -49,7 +49,7 @@
         _textView = [[WBTimelineLargeCardTextView alloc] initWithFrame:CGRectMake(80, 0, w - 90, 70)];
         [self addSubview:_textView];
         
-        _imageView = [[PPWebImageView alloc] initWithFrame:CGRectMake(0, 0, 70, 70)];
+        _imageView = [[PPImageView alloc] initWithFrame:CGRectMake(0, 0, 70, 70)];
         _imageView.contentMode = UIViewContentModeScaleAspectFill;
         [self addSubview:_imageView];
     }

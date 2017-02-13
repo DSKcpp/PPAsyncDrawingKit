@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "WBTimelineItem.h"
-#import "PPWebImageView.h"
+#import "PPImageView.h"
 
-@interface WBTimelineImageView : PPWebImageView
+@interface WBTimelineImageView : PPImageView
 @property (nonatomic, strong) WBTimelineItem *timelineItem;
 @end
 

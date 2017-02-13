@@ -116,7 +116,7 @@
 - (void)createTitleIcon
 {
     WBTimelinePreset *preset = [WBTimelinePreset sharedInstance];
-    _titleIcon = [[PPWebImageView alloc] initWithFrame:CGRectMake(preset.titleIconLeft, preset.titleIconTop, preset.titleIconSize, preset.titleIconSize)];
+    _titleIcon = [[PPImageView alloc] initWithFrame:CGRectMake(preset.titleIconLeft, preset.titleIconTop, preset.titleIconSize, preset.titleIconSize)];
     [self addSubview:_titleIcon];
 }
 
@@ -164,7 +164,7 @@
 - (void)createAvatarView
 {
     WBTimelinePreset *preset = [WBTimelinePreset sharedInstance];
-    _avatarView = [[PPWebImageView alloc] initWithFrame:CGRectMake(preset.leftSpacing, 0, preset.avatarSize, preset.avatarSize)];
+    _avatarView = [[PPImageView alloc] initWithFrame:CGRectMake(preset.leftSpacing, 0, preset.avatarSize, preset.avatarSize)];
     _avatarView.contentMode = UIViewContentModeScaleAspectFill;
     _avatarView.cornerRadius = preset.avatarCornerRadius;
     _avatarView.borderColor = [UIColor blackColor];
@@ -232,7 +232,7 @@
     }
 }
 
-- (void)selectedAvatar:(PPWebImageView *)avarar
+- (void)selectedAvatar:(PPImageView *)avarar
 {
     if ([_delegate respondsToSelector:@selector(tableViewCell:didSelectedAvatarView:)]) {
         [_delegate tableViewCell:_cell didSelectedAvatarView:_timelineItem.user];

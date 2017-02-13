@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "PPDemoToolBar.h"
 #import "UIView+Frame.h"
+#import "PPImageCache.h"
 
 @implementation ViewController
 - (void)viewDidLoad
@@ -23,6 +24,8 @@
                             [ExampleItem t:@"Text View Example" c:@"PPTextExample"],
                             [ExampleItem t:@"Button Example" c:@"PPButtonExample"],
                             [ExampleItem t:@"Feeds List Example" c:@"WBTimelineViewController"]];
+    
+    [[PPImageCache sharedCache] cleanDiskCache];
 }
 
 @end

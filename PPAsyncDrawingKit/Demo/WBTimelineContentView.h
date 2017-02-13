@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "WBTimelineItem.h"
-#import "PPWebImageView.h"
+#import "PPImageView.h"
 #import "PPButton.h"
 #import "WBTimelineTextContentView.h"
 #import "WBTimelineImageContentView.h"
@@ -42,7 +42,7 @@
 
 @interface WBTimelineContentView : UIView
 @property (nonatomic, strong) WBTimelineItem *timelineItem;
-@property (nonatomic, strong, readonly) PPWebImageView *avatarView;
+@property (nonatomic, strong, readonly) PPImageView *avatarView;
 @property (nonatomic, strong, readonly) WBNameLabel *nameLabel;
 @property (nonatomic, strong, readonly) WBTimelineTextContentView *textContentView;
 @property (nonatomic, strong, readonly) WBTimelineActionButtonsView *actionButtonsView;
@@ -50,7 +50,7 @@
 @property (nonatomic, strong, readonly) WBColorImageView *itemContentBgImageView;
 @property (nonatomic, strong, readonly) UIButton *quotedItemBorderButton;
 @property (nonatomic, strong, readonly) WBTimelineImageContentView *photoImageView;
-@property (nonatomic, strong, readonly) PPWebImageView *titleIcon;
+@property (nonatomic, strong, readonly) PPImageView *titleIcon;
 @property (nonatomic, assign) BOOL highlighted;
 @property (nonatomic, assign) CGFloat contentWidth;
 @property (nonatomic, weak) id<WBTimelineTableViewCellDelegate> delegate;

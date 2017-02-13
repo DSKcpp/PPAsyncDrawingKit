@@ -97,7 +97,7 @@
 {
     if (self = [super init]) {
         _sessionDelegateQueue = [[NSOperationQueue alloc] init];
-        _sessionDelegateQueue.maxConcurrentOperationCount = 15;
+        _sessionDelegateQueue.maxConcurrentOperationCount = 10;
         _session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
                                                  delegate:self
                                             delegateQueue:_sessionDelegateQueue];

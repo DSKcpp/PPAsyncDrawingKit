@@ -24,6 +24,8 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
     CGPathRef _roundPathRef;
     CGPathRef _borderPathRef;
     CADisplayLink *_displayLink;
+    PPImageDownloaderTask *_downloadTask;
+    PPImageIOTask *_ioTask;
 }
 @end
 
@@ -217,8 +219,106 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
     }
 }
 
+- (void)setImageURL:(NSURL *)imageURL
+{
+    [self setImageURL:imageURL placeholderImage:nil];
+}
+
+- (void)setImageURL:(NSURL *)imageURL placeholderImage:(UIImage *)placeholderImage
+{
+    
+    [self setImageURL:imageURL placeholderImage:placeholderImage progressBlock:nil completeBlock:nil];
+}
+
+- (void)setImageURL:(NSURL *)imageURL placeholderImage:(UIImage *)placeholderImage progressBlock:(PPImageDownloaderProgress)progressBlock completeBlock:(PPImageDownloaderCompletion)completeBlock
+{
+    if (!imageURL || _imageURL == imageURL) {
+        return;
+    }
+    
+    [self cancelCurrentImageLoading];
+    
+    _imageURL = imageURL;
+    self.image = placeholderImage;
+    
+    if (imageURL.isFileURL) {
+        UIImage *image = [UIImage imageWithContentsOfFile:imageURL.path];
+        if (image) {
+            [self setFinalImage:image];
+        }
+    } else {
+        PPImageIOTask *ioTask = [[PPImageCache sharedCache] imageForURL:imageURL.absoluteString callback:^(UIImage * _Nullable image, PPImageCacheType cacheType) {
+            if (image) {
+                [self setImageLoaderImage:image URL:imageURL];
+            } else {
+                PPImageDownloaderTask *task =[[PPImageDownloader sharedImageDownloader] downloaderImageWithURL:imageURL downloadProgress:^(CGFloat progress) {
+                    if (progressBlock) progressBlock(progress);
+                } completion:^(UIImage * _Nullable image, NSError * _Nullable error) {
+                    if (image) {
+                        [self setImageLoaderImage:image URL:imageURL];
+                    } else {
+                        NSLog(@"%@", error);
+                    }
+                }];
+                if ([_imageURL isEqual:imageURL]) {
+                    _downloadTask = task;
+                }
+            }
+        }];
+        _ioTask = ioTask;
+        
+    }
+}
+
+- (void)setImageLoaderImage:(UIImage *)image URL:(NSURL *)URL
+{
+    if ([_imageURL.absoluteString isEqualToString:URL.absoluteString]) {
+        [self setFinalImage:image];
+    }
+}
+- (void)setFinalImage:(UIImage *)image
+{
+    [self setFinalImage:image isGIf:image.images.count];
+}
+
+- (void)setFinalImage:(UIImage *)image isGIf:(BOOL)isGIf
+{
+    [self stopAnimating];
+    self.clearsContextBeforeDrawing = NO;
+    if (isGIf) {
+        [self setGifImage:image];
+    } else {
+        [self setImage:image];
+    }
+}
+
+- (void)setGifImage:(UIImage *)image
+{
+    [self setImage:image];
+    [self startAnimating];
+}
+
+- (void)imageDrawingFinished
+{
+    
+}
+
+- (void)cancelCurrentImageLoading
+{
+    if (_downloadTask) {
+        [[PPImageDownloader sharedImageDownloader] cancelImageDownloaderWithTask:_downloadTask];
+        _downloadTask = nil;
+    }
+    
+    if (_ioTask) {
+        [[PPImageCache sharedCache] cancelImageIOWithTask:_ioTask];
+        _ioTask = nil;
+    }
+}
+
 - (void)dealloc
 {
+    [self cancelCurrentImageLoading];
     [self stopAnimating];
     _displayLink = nil;
 }

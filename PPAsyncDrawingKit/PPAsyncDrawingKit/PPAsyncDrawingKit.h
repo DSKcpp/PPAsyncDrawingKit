@@ -37,7 +37,6 @@ FOUNDATION_EXPORT const unsigned char PPAsyncDrawingKitVersionString[];
 
 // Image
 #import <PPAsyncDrawingKit/PPImageView.h>
-#import <PPAsyncDrawingKit/PPWebImageView.h>
 #import <PPAsyncDrawingKit/PPImage.h>
 #import <PPAsyncDrawingKit/PPImageCache.h>
 #import <PPAsyncDrawingKit/PPImageDownloader.h>

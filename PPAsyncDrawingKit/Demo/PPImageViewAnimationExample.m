@@ -7,7 +7,7 @@
 //
 
 #import "PPImageViewAnimationExample.h"
-#import "PPWebImageView.h"
+#import "PPImageView.h"
 #import "UIView+Frame.h"
 
 @implementation PPImageViewAnimationExample
@@ -18,7 +18,7 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    PPWebImageView *imageView = [[PPWebImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+    PPImageView *imageView = [[PPImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
     imageView.center = self.view.center;
     [imageView setImageURL:[NSURL URLWithString:@"http://ww2.sinaimg.cn/large/64eba0degw1fbaf4kaamag20a906z4qp.gif"] placeholderImage:[UIImage imageNamed:@"avatar"]];
     [self.view addSubview:imageView];
