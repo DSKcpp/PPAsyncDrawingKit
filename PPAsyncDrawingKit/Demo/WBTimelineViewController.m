@@ -16,6 +16,7 @@
 #import "WBTimelineAttributedTextParser.h"
 #import "NSString+PPASDK.h"
 #import "PPTableView.h"
+#import "WBHelper.h"
 
 @interface WBTimelineViewController () <UITableViewDelegate, UITableViewDataSource, WBTimelineTableViewCellDelegate>
 @property (nonatomic, strong) PPTableView *tableView;
@@ -57,11 +58,14 @@
     [self.view addSubview:loadingLabel];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"WBTimelineJSON" ofType:@"json"];
-        WBCardsModel *cards = [WBCardsModel yy_modelWithJSON:[NSData dataWithContentsOfFile:path]];
-        CGFloat width = _tableView.bounds.size.width;
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"WBTimelineJSON" ofType:@"zip"];
+        NSData *data = [NSData dataWithContentsOfFile:path];
+        data = [WBHelper uncompressZippedData:data];
+        WBCardsModel *cards = [WBCardsModel yy_modelWithJSON:data];
         
         dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);
+        CGFloat width = _tableView.bounds.size.width;
+
         [cards.cards enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(WBCardModel * _Nonnull card, NSUInteger idx, BOOL * _Nonnull stop) {
             WBTimelineItem *timelineItem;
             if (card.mblog) {

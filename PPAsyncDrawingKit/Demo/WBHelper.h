@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WBHelper : NSObject
 + (nullable NSURL *)defaultURLForImageURL:(id)imageURL;
++ (NSData *)uncompressZippedData:(NSData *)compressedData;
 @end
 
 @interface WBEmoticonManager : NSObject

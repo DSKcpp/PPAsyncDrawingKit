@@ -87,6 +87,8 @@
 		86772BB31E4B0E7B002DBA1E /* PPWeakProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 86772BB11E4B0E7A002DBA1E /* PPWeakProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		86772BB41E4B0E7B002DBA1E /* PPWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 86772BB21E4B0E7A002DBA1E /* PPWeakProxy.m */; };
 		86772BB51E524AD7002DBA1E /* PPTextTruncatedExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 862EEE191E2FB6D0007F36A7 /* PPTextTruncatedExample.m */; };
+		8684E41E1E53102000E416A1 /* WBTimelineJSON.zip in Resources */ = {isa = PBXBuildFile; fileRef = 8684E41D1E53102000E416A1 /* WBTimelineJSON.zip */; };
+		8684E4201E5310CA00E416A1 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8684E41F1E5310CA00E416A1 /* libz.tbd */; };
 		86AE95A91E2CBBF100DDD90A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86AE95A71E2CBBF100DDD90A /* LaunchScreen.storyboard */; };
 		86AE95AA1E2CBBF100DDD90A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86AE95A81E2CBBF100DDD90A /* Main.storyboard */; };
 		86AE95AD1E2CBC0C00DDD90A /* PPEditableTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 86AE95AB1E2CBC0C00DDD90A /* PPEditableTextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -115,7 +117,6 @@
 		86AE96031E2CC20D00DDD90A /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AE95EF1E2CC20D00DDD90A /* UIView+WebCacheOperation.m */; };
 		86AE96091E2CCAF000DDD90A /* PPImageView+SDWebImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AE96081E2CCAF000DDD90A /* PPImageView+SDWebImage.m */; };
 		86C1E67C1E4657B30070E2F6 /* PPTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C1E67B1E4657B30070E2F6 /* PPTableView.m */; };
-		86E3D1B71E1DE3F300ED53D2 /* WBTimelineJSON.json in Resources */ = {isa = PBXBuildFile; fileRef = 86E3D1B61E1DE3F300ED53D2 /* WBTimelineJSON.json */; };
 		86EB758F1D2393CC005F14A1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EB758E1D2393CC005F14A1 /* main.m */; };
 		86EB75951D2393CC005F14A1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EB75941D2393CC005F14A1 /* ViewController.m */; };
 		86EB759A1D2393CC005F14A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 86EB75991D2393CC005F14A1 /* Assets.xcassets */; };
@@ -253,6 +254,8 @@
 		86772BAF1E4AE2C1002DBA1E /* PPDemoToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPDemoToolBar.m; path = Demo/PPDemoToolBar.m; sourceTree = SOURCE_ROOT; };
 		86772BB11E4B0E7A002DBA1E /* PPWeakProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPWeakProxy.h; path = PPAsyncDrawingKit/PPWeakProxy.h; sourceTree = "<group>"; };
 		86772BB21E4B0E7A002DBA1E /* PPWeakProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPWeakProxy.m; path = PPAsyncDrawingKit/PPWeakProxy.m; sourceTree = "<group>"; };
+		8684E41D1E53102000E416A1 /* WBTimelineJSON.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; name = WBTimelineJSON.zip; path = Demo/WBTimelineJSON.zip; sourceTree = SOURCE_ROOT; };
+		8684E41F1E5310CA00E416A1 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		86AE95A71E2CBBF100DDD90A /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ../Demo/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		86AE95A81E2CBBF100DDD90A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../Demo/Main.storyboard; sourceTree = "<group>"; };
 		86AE95AB1E2CBC0C00DDD90A /* PPEditableTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPEditableTextView.h; path = PPAsyncDrawingKit/PPEditableTextView.h; sourceTree = "<group>"; };
@@ -304,7 +307,6 @@
 		86AE96081E2CCAF000DDD90A /* PPImageView+SDWebImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "PPImageView+SDWebImage.m"; path = "Demo/PPImageView+SDWebImage.m"; sourceTree = SOURCE_ROOT; };
 		86C1E67A1E4657B30070E2F6 /* PPTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPTableView.h; path = Demo/PPTableView.h; sourceTree = SOURCE_ROOT; };
 		86C1E67B1E4657B30070E2F6 /* PPTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPTableView.m; path = Demo/PPTableView.m; sourceTree = SOURCE_ROOT; };
-		86E3D1B61E1DE3F300ED53D2 /* WBTimelineJSON.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = WBTimelineJSON.json; path = ../Demo/WBTimelineJSON.json; sourceTree = "<group>"; };
 		86EB758A1D2393CC005F14A1 /* PPAsyncDrawingKit-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PPAsyncDrawingKit-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		86EB758E1D2393CC005F14A1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ../Demo/main.m; sourceTree = "<group>"; };
 		86EB75931D2393CC005F14A1 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = ../Demo/ViewController.h; sourceTree = "<group>"; };
@@ -326,6 +328,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8684E4201E5310CA00E416A1 /* libz.tbd in Frameworks */,
 				864606B31E261B1700A8CB07 /* WebP.framework in Frameworks */,
 				864606AF1E2618C000A8CB07 /* WebKit.framework in Frameworks */,
 				866FDF3B1E25FAE400C513DF /* PPAsyncDrawingKit.framework in Frameworks */,
@@ -430,6 +433,7 @@
 		8659A9111E15BEF700BC9F91 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8684E41F1E5310CA00E416A1 /* libz.tbd */,
 				864606AD1E2618A600A8CB07 /* WebP.framework */,
 				8659A9121E15BEF700BC9F91 /* WebKit.framework */,
 			);
@@ -680,7 +684,7 @@
 		86EB758D1D2393CC005F14A1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				86E3D1B61E1DE3F300ED53D2 /* WBTimelineJSON.json */,
+				8684E41D1E53102000E416A1 /* WBTimelineJSON.zip */,
 				86EB758E1D2393CC005F14A1 /* main.m */,
 				860FC3A81DF2D45E0037AE51 /* emoticon_info.plist */,
 			);
@@ -860,10 +864,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				86AE95AA1E2CBBF100DDD90A /* Main.storyboard in Resources */,
-				86E3D1B71E1DE3F300ED53D2 /* WBTimelineJSON.json in Resources */,
 				86EB759A1D2393CC005F14A1 /* Assets.xcassets in Resources */,
 				86AE95A91E2CBBF100DDD90A /* LaunchScreen.storyboard in Resources */,
 				860FC3A91DF2D45E0037AE51 /* emoticon_info.plist in Resources */,
+				8684E41E1E53102000E416A1 /* WBTimelineJSON.zip in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
