@@ -231,8 +231,6 @@
 		86FA96871E53263600924BF1 /* lossless_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = 86FA95AD1E53263500924BF1 /* lossless_neon.c */; };
 		86FA96881E53263600924BF1 /* lossless_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = 86FA95AE1E53263500924BF1 /* lossless_sse2.c */; };
 		86FA96891E53263600924BF1 /* lossless_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = 86FA95AE1E53263500924BF1 /* lossless_sse2.c */; };
-		86FA968A1E53263600924BF1 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = 86FA95AF1E53263500924BF1 /* Makefile.am */; };
-		86FA968B1E53263600924BF1 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = 86FA95AF1E53263500924BF1 /* Makefile.am */; };
 		86FA968C1E53263600924BF1 /* mips_macro.h in Headers */ = {isa = PBXBuildFile; fileRef = 86FA95B01E53263500924BF1 /* mips_macro.h */; };
 		86FA968D1E53263600924BF1 /* msa_macro.h in Headers */ = {isa = PBXBuildFile; fileRef = 86FA95B11E53263500924BF1 /* msa_macro.h */; };
 		86FA968E1E53263600924BF1 /* neon.h in Headers */ = {isa = PBXBuildFile; fileRef = 86FA95B21E53263500924BF1 /* neon.h */; };
@@ -287,8 +285,6 @@
 		86FA96BF1E53263600924BF1 /* histogram.h in Headers */ = {isa = PBXBuildFile; fileRef = 86FA95CE1E53263500924BF1 /* histogram.h */; };
 		86FA96C01E53263600924BF1 /* iterator.c in Sources */ = {isa = PBXBuildFile; fileRef = 86FA95CF1E53263500924BF1 /* iterator.c */; };
 		86FA96C11E53263600924BF1 /* iterator.c in Sources */ = {isa = PBXBuildFile; fileRef = 86FA95CF1E53263500924BF1 /* iterator.c */; };
-		86FA96C21E53263600924BF1 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = 86FA95D01E53263500924BF1 /* Makefile.am */; };
-		86FA96C31E53263600924BF1 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = 86FA95D01E53263500924BF1 /* Makefile.am */; };
 		86FA96C41E53263600924BF1 /* near_lossless.c in Sources */ = {isa = PBXBuildFile; fileRef = 86FA95D11E53263500924BF1 /* near_lossless.c */; };
 		86FA96C51E53263600924BF1 /* near_lossless.c in Sources */ = {isa = PBXBuildFile; fileRef = 86FA95D11E53263500924BF1 /* near_lossless.c */; };
 		86FA96C61E53263600924BF1 /* picture.c in Sources */ = {isa = PBXBuildFile; fileRef = 86FA95D21E53263500924BF1 /* picture.c */; };
@@ -319,10 +315,6 @@
 		86FA96DF1E53263600924BF1 /* extras.c in Sources */ = {isa = PBXBuildFile; fileRef = 86FA95E01E53263500924BF1 /* extras.c */; };
 		86FA96EA1E53263600924BF1 /* anim_encode.c in Sources */ = {isa = PBXBuildFile; fileRef = 86FA95E71E53263500924BF1 /* anim_encode.c */; };
 		86FA96EB1E53263600924BF1 /* anim_encode.c in Sources */ = {isa = PBXBuildFile; fileRef = 86FA95E71E53263500924BF1 /* anim_encode.c */; };
-		86FA96EC1E53263600924BF1 /* libwebpmux.pc.in in Resources */ = {isa = PBXBuildFile; fileRef = 86FA95E81E53263500924BF1 /* libwebpmux.pc.in */; };
-		86FA96ED1E53263600924BF1 /* libwebpmux.pc.in in Resources */ = {isa = PBXBuildFile; fileRef = 86FA95E81E53263500924BF1 /* libwebpmux.pc.in */; };
-		86FA96EE1E53263600924BF1 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = 86FA95E91E53263500924BF1 /* Makefile.am */; };
-		86FA96EF1E53263600924BF1 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = 86FA95E91E53263500924BF1 /* Makefile.am */; };
 		86FA96F01E53263600924BF1 /* muxedit.c in Sources */ = {isa = PBXBuildFile; fileRef = 86FA95EA1E53263500924BF1 /* muxedit.c */; };
 		86FA96F11E53263600924BF1 /* muxedit.c in Sources */ = {isa = PBXBuildFile; fileRef = 86FA95EA1E53263500924BF1 /* muxedit.c */; };
 		86FA96F21E53263600924BF1 /* muxi.h in Headers */ = {isa = PBXBuildFile; fileRef = 86FA95EB1E53263500924BF1 /* muxi.h */; };
@@ -629,7 +621,6 @@
 		86FA95AC1E53263500924BF1 /* lossless_mips_dsp_r2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lossless_mips_dsp_r2.c; sourceTree = "<group>"; };
 		86FA95AD1E53263500924BF1 /* lossless_neon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lossless_neon.c; sourceTree = "<group>"; };
 		86FA95AE1E53263500924BF1 /* lossless_sse2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lossless_sse2.c; sourceTree = "<group>"; };
-		86FA95AF1E53263500924BF1 /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
 		86FA95B01E53263500924BF1 /* mips_macro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mips_macro.h; sourceTree = "<group>"; };
 		86FA95B11E53263500924BF1 /* msa_macro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = msa_macro.h; sourceTree = "<group>"; };
 		86FA95B21E53263500924BF1 /* neon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = neon.h; sourceTree = "<group>"; };
@@ -661,7 +652,6 @@
 		86FA95CD1E53263500924BF1 /* histogram.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = histogram.c; sourceTree = "<group>"; };
 		86FA95CE1E53263500924BF1 /* histogram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = histogram.h; sourceTree = "<group>"; };
 		86FA95CF1E53263500924BF1 /* iterator.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = iterator.c; sourceTree = "<group>"; };
-		86FA95D01E53263500924BF1 /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
 		86FA95D11E53263500924BF1 /* near_lossless.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = near_lossless.c; sourceTree = "<group>"; };
 		86FA95D21E53263500924BF1 /* picture.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = picture.c; sourceTree = "<group>"; };
 		86FA95D31E53263500924BF1 /* picture_csp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = picture_csp.c; sourceTree = "<group>"; };
@@ -678,8 +668,6 @@
 		86FA95DE1E53263500924BF1 /* webpenc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = webpenc.c; sourceTree = "<group>"; };
 		86FA95E01E53263500924BF1 /* extras.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = extras.c; sourceTree = "<group>"; };
 		86FA95E71E53263500924BF1 /* anim_encode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = anim_encode.c; sourceTree = "<group>"; };
-		86FA95E81E53263500924BF1 /* libwebpmux.pc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libwebpmux.pc.in; sourceTree = "<group>"; };
-		86FA95E91E53263500924BF1 /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
 		86FA95EA1E53263500924BF1 /* muxedit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = muxedit.c; sourceTree = "<group>"; };
 		86FA95EB1E53263500924BF1 /* muxi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = muxi.h; sourceTree = "<group>"; };
 		86FA95EC1E53263500924BF1 /* muxinternal.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = muxinternal.c; sourceTree = "<group>"; };
@@ -1232,7 +1220,6 @@
 				86FA95AC1E53263500924BF1 /* lossless_mips_dsp_r2.c */,
 				86FA95AD1E53263500924BF1 /* lossless_neon.c */,
 				86FA95AE1E53263500924BF1 /* lossless_sse2.c */,
-				86FA95AF1E53263500924BF1 /* Makefile.am */,
 				86FA95B01E53263500924BF1 /* mips_macro.h */,
 				86FA95B11E53263500924BF1 /* msa_macro.h */,
 				86FA95B21E53263500924BF1 /* neon.h */,
@@ -1271,7 +1258,6 @@
 				86FA95CD1E53263500924BF1 /* histogram.c */,
 				86FA95CE1E53263500924BF1 /* histogram.h */,
 				86FA95CF1E53263500924BF1 /* iterator.c */,
-				86FA95D01E53263500924BF1 /* Makefile.am */,
 				86FA95D11E53263500924BF1 /* near_lossless.c */,
 				86FA95D21E53263500924BF1 /* picture.c */,
 				86FA95D31E53263500924BF1 /* picture_csp.c */,
@@ -1302,8 +1288,6 @@
 			isa = PBXGroup;
 			children = (
 				86FA95E71E53263500924BF1 /* anim_encode.c */,
-				86FA95E81E53263500924BF1 /* libwebpmux.pc.in */,
-				86FA95E91E53263500924BF1 /* Makefile.am */,
 				86FA95EA1E53263500924BF1 /* muxedit.c */,
 				86FA95EB1E53263500924BF1 /* muxi.h */,
 				86FA95EC1E53263500924BF1 /* muxinternal.c */,
@@ -1531,10 +1515,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				86FA968B1E53263600924BF1 /* Makefile.am in Resources */,
-				86FA96ED1E53263600924BF1 /* libwebpmux.pc.in in Resources */,
-				86FA96C31E53263600924BF1 /* Makefile.am in Resources */,
-				86FA96EF1E53263600924BF1 /* Makefile.am in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1545,10 +1525,6 @@
 				86AE95AA1E2CBBF100DDD90A /* Main.storyboard in Resources */,
 				86EB759A1D2393CC005F14A1 /* Assets.xcassets in Resources */,
 				86AE95A91E2CBBF100DDD90A /* LaunchScreen.storyboard in Resources */,
-				86FA96EC1E53263600924BF1 /* libwebpmux.pc.in in Resources */,
-				86FA968A1E53263600924BF1 /* Makefile.am in Resources */,
-				86FA96C21E53263600924BF1 /* Makefile.am in Resources */,
-				86FA96EE1E53263600924BF1 /* Makefile.am in Resources */,
 				860FC3A91DF2D45E0037AE51 /* emoticon_info.plist in Resources */,
 				8684E41E1E53102000E416A1 /* WBTimelineJSON.zip in Resources */,
 			);
@@ -1869,11 +1845,13 @@
 		866FDF3E1E25FAE400C513DF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = A9QWHSB535;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1898,11 +1876,13 @@
 		866FDF3F1E25FAE400C513DF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = A9QWHSB535;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2020,6 +2000,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = A9QWHSB535;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2046,6 +2027,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = A9QWHSB535;
 				FRAMEWORK_SEARCH_PATHS = (
