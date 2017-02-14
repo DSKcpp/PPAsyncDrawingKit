@@ -13,11 +13,11 @@
 #import "NSAttributedString+PPExtendedAttributedString.h"
 #import "PPTextLayout.h"
 #import "PPAsyncDrawingView.h"
+#import "UIImage+PPAsyncDrawingKit.h"
 
 struct PPTextRendererEventDelegateFlags {
     BOOL didPressHighlightRange;
     BOOL contextViewForTextRenderer;
-    BOOL shouldInteractWithHighlightRange;
 };
 typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags;
 
@@ -147,7 +147,6 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
     _eventDelegate = eventDelegate;
     _eventDelegateFlags.contextViewForTextRenderer = [eventDelegate respondsToSelector:@selector(contextViewForTextRenderer:)];
     _eventDelegateFlags.didPressHighlightRange = [eventDelegate respondsToSelector:@selector(textRenderer:didPressHighlightRange:)];
-    _eventDelegateFlags.shouldInteractWithHighlightRange = [eventDelegate respondsToSelector:@selector(textRenderer:shouldInteractWithHighlightRange:)];
 }
 
 #pragma mark - Layout
@@ -233,16 +232,16 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
                 CGPoint origin = [line baselineOriginForCharacterAtIndex:range.location];
                 CGSize size = textAttachment.contentSize;
                 CGRect rect = (CGRect){(CGPoint)origin, (CGSize)size};
-                //                UIEdgeInsets edgeInsets = textAttachment.contentEdgeInsets;
-                //                rect = UIEdgeInsetsInsetRect(rect, edgeInsets);
-                PPTextFontMetrics *font = textAttachment.fontMetricsForLayout;
-                rect.origin.y -= font.ascent;
-                UIImage *image = textAttachment.contents;
-                if (image) {
+                rect.origin.y -= textAttachment.ascentForLayout;
+                id content = textAttachment.contents;
+                if ([content isKindOfClass:[UIImage class]]) {
                     rect = [self convertRectFromLayout:rect];
-                    UIGraphicsPushContext(context);
-                    [image drawInRect:rect];
-                    UIGraphicsPopContext();
+                    [content pp_drawInRect:rect contentMode:textAttachment.contentType withContext:context];
+                } else if ([content isKindOfClass:[UIView class]]) {
+                    rect = [self convertRectFromLayout:rect];
+                    UIView *view = (UIView *)content;
+                    view.frame = rect;
+                    [self.eventDelegateContextView addSubview:view];
                 }
             }
         }];

@@ -10,7 +10,7 @@
 #import "UIView+Frame.h"
 #import "PPTextView.h"
 
-@interface PPTextAttributedExample ()
+@interface PPTextAttributedExample () <PPTextViewDelegate>
 
 @end
 
@@ -21,45 +21,49 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] init];
-    
+
     {
-        NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:@"Highligh"];
-        [attrStr pp_setFont:[UIFont boldSystemFontOfSize:30.0f]];
-        PPTextHighlightRange *highlightRange = [[PPTextHighlightRange alloc] init];
-        PPTextBorder *border = [[PPTextBorder alloc] init];
-        border.fillColor = [UIColor redColor];
-        [highlightRange setBorder:border];
-        [attrStr pp_setTextHighlightRange:highlightRange];
-        [attributedString appendAttributedString:attrStr];
-        [attributedString appendAttributedString:[self padding]];
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"Highligh Background"];
+        [attributedString pp_setFont:[UIFont boldSystemFontOfSize:30.0f]];
+        [attributedString pp_setAlignment:NSTextAlignmentCenter];
+        
+        PPTextView *label = [[PPTextView  alloc] init];
+        label.attributedString = attributedString;
+        
+        PPTextBackground *background = [[PPTextBackground alloc] init];
+        background.backgroundColor = [UIColor orangeColor];
+        label.textLayout.highlighttextBackground = background;
+        
+        label.frame = CGRectMake(0, 164, self.view.width, [attributedString pp_sizeConstrainedToWidth:self.view.width].height);
+        [self.view addSubview:label];
     }
     
     {
-        NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:@"Highligh"];
-        [attrStr pp_setFont:[UIFont boldSystemFontOfSize:30.0f]];
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"@DSKcpp: A you ok?"];
+        [attributedString pp_setFont:[UIFont boldSystemFontOfSize:30.0f]];
+        [attributedString pp_setColor:[UIColor purpleColor] inRange:NSMakeRange(0, 7)];
+        [attributedString pp_setAlignment:NSTextAlignmentCenter];
+        
         PPTextHighlightRange *highlightRange = [[PPTextHighlightRange alloc] init];
+        highlightRange.userInfo = @{@"key" : @"@DSKcpp"};
         PPTextBorder *border = [[PPTextBorder alloc] init];
         border.fillColor = [UIColor redColor];
         [highlightRange setBorder:border];
-        [attrStr pp_setTextHighlightRange:highlightRange];
-        [attributedString appendAttributedString:attrStr];
+        [attributedString pp_setTextHighlightRange:highlightRange inRange:NSMakeRange(0, 7)];
+        
+        PPTextView *label = [[PPTextView  alloc] init];
+        label.attributedString = attributedString;
+        label.delegate = self;
+        label.frame = CGRectMake(0, 264, self.view.width, [attributedString pp_sizeConstrainedToWidth:self.view.width].height);
+        [self.view addSubview:label];
     }
-    
-    PPTextView *label = [[PPTextView  alloc] init];
-    [attributedString pp_setAlignment:NSTextAlignmentCenter];
-    label.attributedString = attributedString;
-    label.height = [attributedString pp_sizeConstrainedToWidth:self.view.width].height;
-    label.width = self.view.width;
-    label.top = 64;
-    [self.view addSubview:label];
+
 }
 
-- (NSAttributedString *)padding
+- (void)textView:(PPTextView *)textView didSelectHighlightRange:(PPTextHighlightRange *)highlightRange
 {
-    NSMutableAttributedString *pad = [[NSMutableAttributedString alloc] initWithString:@"\n\n"];
-    [pad pp_setFont:[UIFont systemFontOfSize:4]];
-    return pad;
+    NSString *value = highlightRange.userInfo[@"key"];
+    NSLog(@"%@", value);
 }
+
 @end

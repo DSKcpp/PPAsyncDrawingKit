@@ -10,11 +10,11 @@
 
 @implementation PPTextAttachment
 
-+ (instancetype)attachmentWithContents:(id)contents type:(UIViewContentMode)type contentSize:(CGSize)contentSize
++ (instancetype)attachmentWithContents:(id)contents contentType:(UIViewContentMode)contentType contentSize:(CGSize)contentSize
 {
     PPTextAttachment *textAttachment = [[self alloc] init];
     textAttachment.contents = contents;
-    textAttachment.contentType = type;
+    textAttachment.contentType = contentType;
     textAttachment.contentSize = contentSize;
     return textAttachment;
 }
@@ -25,44 +25,6 @@
         self.contentEdgeInsets = UIEdgeInsetsZero;
     }
     return self;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder
-{
-    if (self = [self init]) {
-        self.contentSize = [aDecoder decodeCGSizeForKey:@"contentSize"];
-        self.contents = [aDecoder decodeObjectForKey:@"contents"];
-        self.replacementText = [aDecoder decodeObjectForKey:@"contentDescription"];
-        self.contentType = [aDecoder decodeIntegerForKey:@"contentType"];
-        self.baselineFontMetrics = [aDecoder decodeObjectForKey:@"fontMetrics"];
-    }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
-    [aCoder encodeCGSize:self.contentSize forKey:@"contentSize"];
-    [aCoder encodeCGSize:self.placeholderSize forKey:@"placeholderSize"];
-    if ([self.contents conformsToProtocol:@protocol(NSCoding)]) {
-        [aCoder encodeObject:self.contents forKey:@"contents"];
-    }
-    [aCoder encodeObject:self.replacementText forKey:@"contentDescription"];
-    [aCoder encodeInteger:self.contentType forKey:@"contentType"];
-    [aCoder encodeObject:self.baselineFontMetrics forKey:@"fontMetrics"];
-}
-
-- (void)updateContentEdgeInsetsWithTargetPlaceholderSize:(CGSize)placeholderSize
-{
-    self.contentSize = placeholderSize;
-}
-
-- (PPTextFontMetrics *)fontMetricsForLayout
-{
-    PPTextFontMetrics *fontMetrisc = [[PPTextFontMetrics alloc] init];
-    fontMetrisc.ascent = self.ascentForLayout;
-    fontMetrisc.descent = self.descentForLayout;
-    fontMetrisc.leading = self.leadingForLayout;
-    return fontMetrisc;
 }
 
 - (CGFloat)ascentForLayout

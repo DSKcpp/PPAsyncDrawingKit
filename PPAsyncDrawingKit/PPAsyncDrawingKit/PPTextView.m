@@ -99,11 +99,6 @@
     }
 }
 
-//- (void)setFrame:(CGRect)frame
-//{
-//    [super setFrame:frame];
-//}
-
 - (PPAsyncDrawingView *)contextViewForTextRenderer:(PPTextRenderer *)textRenderer
 {
     return self;
@@ -111,8 +106,8 @@
 
 - (void)textRenderer:(PPTextRenderer *)textRenderer didPressHighlightRange:(PPTextHighlightRange *)highlightRange
 {
-    if ([_delegate respondsToSelector:@selector(textView:didSelectTextHighlight:)]) {
-        [_delegate textView:self didSelectTextHighlight:highlightRange];
+    if ([_delegate respondsToSelector:@selector(textView:didSelectHighlightRange:)]) {
+        [_delegate textView:self didSelectHighlightRange:highlightRange];
     }
 }
 

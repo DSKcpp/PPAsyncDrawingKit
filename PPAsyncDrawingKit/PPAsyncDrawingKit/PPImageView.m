@@ -155,9 +155,6 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
         _roundPathRef = path;
         CGPathRelease(path);
     }
-    if (self.showsBorderCornerRadius) {
-
-    }
     return userInfo;
 }
 
@@ -177,13 +174,18 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
         [image pp_drawInRect:rect contentMode:_contentMode withContext:context];
     }
     
-    CGPathRef path = (__bridge CGPathRef)(userInfo[PPImageViewRoundPath]);
-    if (path) {
+    if (self.borderWidth > 0) {
+        CGPathRef path = (__bridge CGPathRef)(userInfo[PPImageViewRoundPath]);
+        if (!path) {
+            path = PPCreateRoundedCGPath(self.bounds, self.cornerRadius, self.roundedCorners);
+        }
         CGContextAddPath(context, path);
         CGContextSetLineWidth(context, self.borderWidth);
         CGContextSetStrokeColorWithColor(context, self.borderColor.CGColor);
         CGContextStrokePath(context);
     }
+    
+    
     return YES;
 }
 
