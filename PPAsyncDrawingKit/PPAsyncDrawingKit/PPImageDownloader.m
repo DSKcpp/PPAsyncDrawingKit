@@ -78,7 +78,6 @@
 @interface PPImageDownloader () <NSURLSessionDownloadDelegate>
 {
     NSOperationQueue *_sessionDelegateQueue;
-    NSURLSession *_session;
 }
 @end
 
@@ -104,6 +103,11 @@
         _downloaderTasks = @{}.mutableCopy;
     }
     return self;
+}
+
+- (void)dealloc
+{
+    
 }
 
 - (PPImageDownloaderTask *)downloaderImageWithURL:(NSURL *)URL downloadProgress:(PPImageDownloaderProgress)downloadProgress completion:(PPImageDownloaderCompletion)completion

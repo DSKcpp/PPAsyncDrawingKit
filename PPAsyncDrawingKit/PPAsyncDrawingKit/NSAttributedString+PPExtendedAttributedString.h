@@ -10,6 +10,8 @@
 #import <CoreText/CoreText.h>
 #import <PPAsyncDrawingKit/PPTextAttributes.h>
 
+#define kPPTextMaxBound 20000.0f
+
 @class PPTextLayout;
 @class PPTextAttachment;
 @class PPTextHighlightRange;
@@ -59,8 +61,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)pp_setKerning:(CGFloat)kerning;
 - (void)pp_setKerning:(CGFloat)kerning inRange:(NSRange)range;
-
-- (void)pp_setBackgroundColor:(UIColor *)backgroundColor inRange:(NSRange)range;
 
 - (void)pp_setColor:(UIColor *)color;
 - (void)pp_setColor:(UIColor *)color inRange:(NSRange)range;

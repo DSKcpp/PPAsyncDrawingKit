@@ -39,15 +39,25 @@
         for (NSInteger i = 0; i < lineCount; i++) {
             CTLineRef lineRef = CFArrayGetValueAtIndex(lineRefs, i);
             CGPoint position = origins[i];
-            position.y = 20000 - position.y;
+            position.y = kPPTextMaxBound - position.y;
             if (maxLines == 0 || i != maxLines - 1) {
                 PPTextLayoutLine *line = [[PPTextLayoutLine alloc] initWithCTLine:lineRef origin:position layout:self.layout];
                 [lines addObject:line];
             } else {
-                CTLineRef truncatedLine = [self createTruncatedLine:self.layout lastLineRef:lineRef];
-                PPTextLayoutLine *line = [[PPTextLayoutLine alloc] initWithCTLine:truncatedLine origin:position layout:self.layout];
-                [lines addObject:line];
-                break;
+                CFRange stringRange = CTLineGetStringRange(lineRef);
+                PPTextLayoutLine *line;
+                if (PPNSRangeEnd(PPNSRangeFromCFRange(stringRange)) >= self.layout.attributedString.length) {
+                    line = [[PPTextLayoutLine alloc] initWithCTLine:lineRef origin:position layout:self.layout];
+                } else {
+                    CTLineRef truncatedLine = [self createTruncatedLine:self.layout lastLineStringRange:stringRange];
+                    if (truncatedLine) {
+                        line = [[PPTextLayoutLine alloc] initWithCTLine:truncatedLine origin:position layout:self.layout truncatedLine:YES];
+                    }
+                }
+                if (line) {
+                    [lines addObject:line];
+                    break;
+                }
             }
         }
     }
@@ -74,25 +84,16 @@
 }
 
 
-- (CTLineRef)createTruncatedLine:(PPTextLayout *)layout lastLineRef:(CTLineRef)lastLineRef
+- (CTLineRef)createTruncatedLine:(PPTextLayout *)layout lastLineStringRange:(CFRange)lastLineStringRange
 {
-    if (!lastLineRef) {
-        return nil;
-    }
-    
-    CFRange stringRange = CTLineGetStringRange(lastLineRef);
-    if (PPNSRangeEnd(PPNSRangeFromCFRange(stringRange)) >= layout.attributedString.length) {
-        return lastLineRef;
-    }
-    
     CGFloat maxWidth = layout.maxSize.width;
     NSAttributedString *attributedString = layout.attributedString;
     NSAttributedString *truncateToken;
     if (layout.truncationString) {
         truncateToken = layout.truncationString;
     } else {
-        NSDictionary<NSString *, id> *truncateTokenAttributes = [attributedString attributesAtIndex:stringRange.location effectiveRange:nil];
-        NSArray *keys = @[(id)kCTForegroundColorAttributeName, (id)kCTFontAttributeName, (id)kCTParagraphStyleAttributeName];
+        NSDictionary<NSString *, id> *truncateTokenAttributes = [attributedString attributesAtIndex:lastLineStringRange.location effectiveRange:nil];
+        NSArray *keys = @[NSForegroundColorAttributeName, NSFontAttributeName, (id)kCTParagraphStyleAttributeName];
         truncateTokenAttributes = [truncateTokenAttributes dictionaryWithValuesForKeys:keys];
         NSMutableDictionary *finalTokenAttributes = @{}.mutableCopy;
         [truncateTokenAttributes enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
@@ -105,10 +106,10 @@
     
     CTLineRef truncateTokenLine = CTLineCreateWithAttributedString((CFAttributedStringRef)truncateToken);
     
-    NSMutableAttributedString *lastLineAttrStr = [attributedString attributedSubstringFromRange:PPNSRangeFromCFRange(stringRange)].mutableCopy;
+    NSMutableAttributedString *lastLineAttrStr = [attributedString attributedSubstringFromRange:PPNSRangeFromCFRange(lastLineStringRange)].mutableCopy;
     [lastLineAttrStr appendAttributedString:truncateToken];
     
-    CTLineRef lineRef = CTLineCreateWithAttributedString((CFAttributedStringRef)lastLineAttrStr);
+    CTLineRef lineRef = CTLineCreateWithAttributedString((__bridge CFAttributedStringRef)lastLineAttrStr);
     
     CTLineRef resuleLineRef = CTLineCreateTruncatedLine(lineRef, maxWidth, kCTLineTruncationEnd, truncateTokenLine);
     CFRelease(truncateTokenLine);
@@ -116,6 +117,7 @@
         resuleLineRef = CFRetain(lineRef);
     }
     CFRelease(lineRef);
+
     return resuleLineRef;
 }
 

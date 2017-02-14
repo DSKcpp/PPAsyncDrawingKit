@@ -11,7 +11,6 @@
 #import "PPTextLayoutLine.h"
 #import "PPTextAttachment.h"
 #import "NSAttributedString+PPExtendedAttributedString.h"
-#import "PPAssert.h"
 #import "PPTextLayout.h"
 #import "PPAsyncDrawingView.h"
 
@@ -171,42 +170,41 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
 }
 
 - (void)drawInContext:(CGContextRef)context visibleRect:(CGRect)visibleRect placeAttachments:(BOOL)placeAttachments
-{
-    PPAssert(context, @"This method needs CGContextRef");
-    
+{   
     NSAttributedString *attributedString = self.textLayout.attributedString;
-    if (attributedString.length > 0) {
-        if (!CGRectIsNull(visibleRect)) {
-            self.textLayout.maxSize = visibleRect.size;
-        }
-        PPTextLayoutFrame *layoutFrame = self.textLayout.layoutFrame;
-        if (layoutFrame) {
-            if ([PPTextRenderer debugModeEnabled]) {
-                [self debugModeDrawLineFramesWithLayoutFrame:layoutFrame context:context];
-            }
-            PPTextHighlightRange *highlightRange = self.pressingHighlightRange;
-            if (highlightRange) {
-                [self.textLayout enumerateEnclosingRectsForCharacterRange:highlightRange.range usingBlock:^(CGRect rect, BOOL * _Nonnull stop) {
-                    CGRect drawRect = [self convertRectFromLayout:rect];
-                    [self drawBorder:highlightRange rect:drawRect context:context];
-                }];
-            }
-        }
-        
-        PPTextBackground *textBackground = self.textLayout.textBackground;
-        if (textBackground) {
-            [self drawTextBackground:textBackground context:context];
-        }
-        
-        PPTextBackground *highlightTextBackground = self.textLayout.highlighttextBackground;
-        if (highlightTextBackground && self.highlight) {
-            [self drawTextBackground:highlightTextBackground context:context];
-        }
-        
-        [self drawTextInContext:context layout:self.textLayout];
-        if (placeAttachments) {
-            [self drawAttachmentsWithAttributedString:attributedString layoutFrame:layoutFrame context:context];
-        }
+    if (!(attributedString.length > 1)) {
+        return;
+    }
+    
+    if (!CGRectIsNull(visibleRect)) {
+        self.textLayout.maxSize = visibleRect.size;
+    }
+    
+    PPTextLayoutFrame *layoutFrame = self.textLayout.layoutFrame;
+    if ([PPTextRenderer debugModeEnabled]) {
+        [self debugModeDrawLineFramesWithLayoutFrame:layoutFrame context:context];
+    }
+    PPTextHighlightRange *highlightRange = self.pressingHighlightRange;
+    if (highlightRange) {
+        [self.textLayout enumerateEnclosingRectsForCharacterRange:highlightRange.range usingBlock:^(CGRect rect, BOOL * _Nonnull stop) {
+            CGRect drawRect = [self convertRectFromLayout:rect];
+            [self drawBorder:highlightRange rect:drawRect context:context];
+        }];
+    }
+    
+    PPTextBackground *textBackground = self.textLayout.textBackground;
+    if (textBackground) {
+        [self drawTextBackground:textBackground context:context];
+    }
+    
+    PPTextBackground *highlightTextBackground = self.textLayout.highlighttextBackground;
+    if (highlightTextBackground && self.highlight) {
+        [self drawTextBackground:highlightTextBackground context:context];
+    }
+    
+    [self drawTextInContext:context layout:self.textLayout];
+    if (placeAttachments) {
+        [self drawAttachmentsWithAttributedString:attributedString layoutFrame:layoutFrame context:context];
     }
 }
 

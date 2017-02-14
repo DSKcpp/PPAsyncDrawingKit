@@ -9,17 +9,21 @@
 #import <Foundation/Foundation.h>
 #import "WBTimelineItem.h"
 
-typedef NS_ENUM(NSUInteger, WBTimelineHighlightType) {
-    WBTimelineHighlightTypeAt,
-    WBTimelineHighlightTypeURL,
-    WBTimelineHighlightTypeTopic,
-    WBTimelineHighlightTypeEmail,
-    WBTimelineHighlightTypeSource
+typedef NS_ENUM(NSUInteger, PPAttributedTextRangeMode) {
+    PPAttributedTextRangeModeNormal,
+    PPAttributedTextRangeModeMention,
+    PPAttributedTextRangeModeLink,
+    PPAttributedTextRangeModeHashtag,
+    PPAttributedTextRangeModeDollartag,
+    PPAttributedTextRangeModeEmoticon,
+    PPAttributedTextRangeModeDictation,
+    PPAttributedTextRangeModeMiniCard,
+    PPAttributedTextRangeModeEmailAdress
 };
 
-#define kWBLinkAt @"WBTimelineHighlightTypeAt"
-#define kWBLinkTopic @"WBTimelineHighlightTypeTopic"
-#define kWBLinkURL @"WBTimelineHighlightTypeURL"
+UIKIT_EXTERN NSString * const WBTimelineHighlightRangeModeMention;
+UIKIT_EXTERN NSString * const WBTimelineHighlightRangeModeTopic;
+UIKIT_EXTERN NSString * const WBTimelineHighlightRangeModeLink;
 
 @interface WBTimelineAttributedTextParser : NSObject
 

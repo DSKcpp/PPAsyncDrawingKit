@@ -8,9 +8,8 @@
 
 #import "PPAsyncDrawingView.h"
 #import <stdatomic.h>
-#import "PPAssert.h"
 
-static dispatch_queue_t PPDrawConcurrentQueue() {
+dispatch_queue_t PPDrawConcurrentQueue() {
     static dispatch_queue_t queue;
     static dispatch_once_t token;
     dispatch_once(&token, ^{

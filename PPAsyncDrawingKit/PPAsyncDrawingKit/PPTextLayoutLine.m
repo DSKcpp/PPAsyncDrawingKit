@@ -11,16 +11,23 @@
 #import "PPTextUtilties.h"
 #import "PPTextLayoutFrame.h"
 #import "PPTextFontMetrics.h"
-#import "PPAssert.h"
 
 @implementation PPTextLayoutLine
 - (instancetype)initWithCTLine:(CTLineRef)lineRef origin:(CGPoint)origin layout:(PPTextLayout *)layout
 {
-    PPAssert(lineRef, @"CTLineRef not null");
+    return [self initWithCTLine:lineRef origin:origin layout:layout truncatedLine:NO];
+}
+
+- (instancetype)initWithCTLine:(CTLineRef)lineRef origin:(CGPoint)origin layout:(PPTextLayout *)layout truncatedLine:(BOOL)truncatedLine
+{
     if (self = [super init]) {
         _baselineOrigin = origin;
         _textLayout = layout;
-        _lineRef = CFRetain(lineRef);
+        if (truncatedLine) {
+            _lineRef = lineRef;
+        } else {
+            _lineRef = CFRetain(lineRef);
+        }
         CFRange range = CTLineGetStringRange(lineRef);
         _stringRange = PPNSRangeFromCFRange(range);
         [self setupWithCTLine];
@@ -39,7 +46,6 @@
     fontMetrics.descent = descent;
     fontMetrics.leading = leading;
     _lineMetrics = fontMetrics;
-//    _baselineOrigin = [_layout convertPointFromCoreText:_baselineOrigin];
 }
 
 - (CGRect)fragmentRect

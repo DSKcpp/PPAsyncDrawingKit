@@ -78,18 +78,18 @@ static CTLineBreakMode NSLineBreakModeToCTLineBreakMode(NSLineBreakMode nsLineBr
     PPTextLayout *textLayout = [NSAttributedString textLayoutForCurrentThread];
     textLayout.numberOfLines = 0;
     textLayout.attributedString = self;
-    textLayout.maxSize = CGSizeMake(width, 20000);
+    textLayout.maxSize = CGSizeMake(width, kPPTextMaxBound);
     return textLayout.layoutHeight;
 }
 
 - (CGSize)pp_sizeConstrainedToWidth:(CGFloat)width
 {
-    return [self pp_sizeConstrainedToSize:CGSizeMake(width, 20000)];
+    return [self pp_sizeConstrainedToSize:CGSizeMake(width, kPPTextMaxBound)];
 }
 
 - (CGSize)pp_sizeConstrainedToWidth:(CGFloat)width numberOfLines:(NSInteger)numberOfLines
 {
-    return [self pp_sizeConstrainedToSize:CGSizeMake(width, 20000) numberOfLines:numberOfLines];
+    return [self pp_sizeConstrainedToSize:CGSizeMake(width, kPPTextMaxBound) numberOfLines:numberOfLines];
 }
 
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size
@@ -126,13 +126,16 @@ static CTLineBreakMode NSLineBreakModeToCTLineBreakMode(NSLineBreakMode nsLineBr
     callbacks.getDescent = PPRunDelegateGetDecentCallback;
     callbacks.getWidth = PPRunDelegateGetWidthCallback;
     CTRunDelegateRef runDelegate = CTRunDelegateCreate(&callbacks, (__bridge void * _Nullable)(textAttachment));
+    
     NSMutableDictionary *attr = [NSMutableDictionary dictionaryWithDictionary:attributes];
     attr[PPTextAttachmentAttributeName] = textAttachment;
-    attr[(NSString *)kCTForegroundColorAttributeName] = (__bridge id _Nullable)([UIColor clearColor].CGColor);
-    attr[(NSString *)kCTRunDelegateAttributeName] = (__bridge id)runDelegate;
+    attr[NSForegroundColorAttributeName] = (__bridge id _Nullable)([UIColor clearColor].CGColor);
+    attr[(id)kCTRunDelegateAttributeName] = (__bridge id)runDelegate;
+    
     unichar objectReplacementChar = 0xFFFC;
     NSString *content = [NSString stringWithCharacters:&objectReplacementChar length:1];
     CFRelease(runDelegate);
+    
     return [[NSAttributedString alloc] initWithString:content attributes:attr];
 }
 
@@ -215,16 +218,6 @@ static CTLineBreakMode NSLineBreakModeToCTLineBreakMode(NSLineBreakMode nsLineBr
 - (void)pp_setFont:(UIFont *)font inRange:(NSRange)range
 {
     [self pp_setAttribute:NSFontAttributeName value:font range:range];
-}
-
-- (void)pp_setBackgroundColor:(UIColor *)backgroundColor inRange:(NSRange)range
-{
-    range = [self pp_effectiveRangeWithRange:range];
-    if (backgroundColor) {
-        [self addAttribute:@"PPTextBackgroundColorAttributeName" value:backgroundColor range:range];
-    } else {
-        [self removeAttribute:@"PPTextBackgroundColorAttributeName" range:range];
-    }
 }
 
 - (void)pp_setTextHighlightRange:(PPTextHighlightRange *)textHighlightRange

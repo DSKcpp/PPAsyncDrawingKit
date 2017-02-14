@@ -159,7 +159,7 @@
 @end
 
 @interface WBTimelineTableViewCellDrawingContext : NSObject
-@property (nonatomic, weak, readonly) WBTimelineItem *timelineItem;
+@property (nonatomic, weak) WBTimelineItem *timelineItem;
 @property (nonatomic, assign) CGFloat rowHeight;
 @property (nonatomic, assign) CGFloat contentHeight;
 @property (nonatomic, assign) CGFloat contentWidth;

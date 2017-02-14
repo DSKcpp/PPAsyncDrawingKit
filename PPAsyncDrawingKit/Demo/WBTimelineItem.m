@@ -71,7 +71,7 @@
 - (instancetype)initWithTimelineItem:(WBTimelineItem *)timelineItem
 {
     if (self = [super init]) {
-        _timelineItem = timelineItem;
+        self.timelineItem = timelineItem;
         NSString *itemText = timelineItem.text;
         WBTimelineAttributedTextParser *parser = [WBTimelineAttributedTextParser textParserWithTimelineItem:timelineItem];
         WBTimelinePreset *preset = [WBTimelinePreset sharedInstance];

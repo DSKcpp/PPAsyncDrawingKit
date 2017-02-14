@@ -48,6 +48,3 @@ FOUNDATION_EXPORT const unsigned char PPAsyncDrawingKitVersionString[];
 
 // Button
 #import <PPAsyncDrawingKit/PPButton.h>
-
-// Base
-#import <PPAsyncDrawingKit/PPAssert.h>

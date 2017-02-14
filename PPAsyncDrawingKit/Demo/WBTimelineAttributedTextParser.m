@@ -15,6 +15,10 @@
 #import "PPTextAttachment.h"
 #import "PPTextUtilties.h"
 
+NSString * const WBTimelineHighlightRangeModeMention = @"WBTimelineHighlightRangeModeMention";
+NSString * const WBTimelineHighlightRangeModeTopic = @"WBTimelineHighlightRangeModeTopic";
+NSString * const WBTimelineHighlightRangeModeLink = @"WBTimelineHighlightRangeModeLink";
+
 @implementation WBTimelineAttributedTextParser
 + (instancetype)textParserWithTimelineItem:(WBTimelineItem *)timelineItem
 {
@@ -68,7 +72,7 @@
                 
                 PPTextHighlightRange *highlight = [[PPTextHighlightRange alloc] init];
                 [highlight setBorder:highlightBorder];
-                highlight.userInfo = @{kWBLinkURL : urlStruct.short_url};
+                highlight.userInfo = @{WBTimelineHighlightRangeModeLink : urlStruct.short_url};
                 [attributedString pp_setTextHighlightRange:highlight inRange:NSMakeRange(urlRange.location, attrString.length)];
             } while (1);
         }
@@ -78,7 +82,7 @@
     [string pp_enumerateStringsMatchedByRegex:@"@([\\x{4e00}-\\x{9fa5}A-Za-z0-9_\\-]+)" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
         PPTextHighlightRange *highlight = [[PPTextHighlightRange alloc] init];
         [highlight setBorder:highlightBorder];
-        highlight.userInfo = @{kWBLinkAt : capturedString};
+        highlight.userInfo = @{WBTimelineHighlightRangeModeMention : capturedString};
         [attributedString pp_setTextHighlightRange:highlight inRange:capturedRange];
         [attributedString pp_setColor:rangeColor inRange:capturedRange];
     }];
@@ -87,7 +91,7 @@
     [string pp_enumerateStringsMatchedByRegex:@"#([^#]+?)#" usingBlock:^(NSString * _Nonnull capturedString, NSRange capturedRange, BOOL * _Nonnull stop) {
         PPTextHighlightRange *highlight = [[PPTextHighlightRange alloc] init];
         [highlight setBorder:highlightBorder];
-        highlight.userInfo = @{kWBLinkTopic : capturedString};
+        highlight.userInfo = @{WBTimelineHighlightRangeModeTopic : capturedString};
         [attributedString pp_setTextHighlightRange:highlight inRange:capturedRange];
         [attributedString pp_setColor:rangeColor inRange:capturedRange];
     }];

@@ -13,7 +13,6 @@
 		864606AF1E2618C000A8CB07 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8659A9121E15BEF700BC9F91 /* WebKit.framework */; };
 		864606B31E261B1700A8CB07 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 864606AD1E2618A600A8CB07 /* WebP.framework */; };
 		864606B51E261B2700A8CB07 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 864606AD1E2618A600A8CB07 /* WebP.framework */; };
-		864606BA1E27C17A00A8CB07 /* PPAssert.h in Headers */ = {isa = PBXBuildFile; fileRef = 864606B91E27C01C00A8CB07 /* PPAssert.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		864606FE1E27EC7F00A8CB07 /* PPTextEditableExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 864606FB1E27EC7500A8CB07 /* PPTextEditableExample.m */; };
 		866FDF381E25FAE400C513DF /* PPAsyncDrawingKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 866FDF361E25FAE400C513DF /* PPAsyncDrawingKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		866FDF3B1E25FAE400C513DF /* PPAsyncDrawingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 866FDF341E25FAE300C513DF /* PPAsyncDrawingKit.framework */; };
@@ -64,7 +63,6 @@
 		866FDFC41E260AD200C513DF /* NSObject+YYModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDFBE1E260AD200C513DF /* NSObject+YYModel.m */; };
 		866FDFC51E260AD200C513DF /* YYClassInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDFC01E260AD200C513DF /* YYClassInfo.m */; };
 		866FDFC61E260AD200C513DF /* YYFPSLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDFC21E260AD200C513DF /* YYFPSLabel.m */; };
-		866FDFC91E260B3800C513DF /* PPAttributedTextRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDFC81E260B3800C513DF /* PPAttributedTextRange.m */; };
 		866FDFD21E260B5100C513DF /* WBTimelineImageContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDFCB1E260B5100C513DF /* WBTimelineImageContentView.m */; };
 		866FDFD31E260B5100C513DF /* WBTimelineLargeCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDFCD1E260B5100C513DF /* WBTimelineLargeCardView.m */; };
 		866FDFD41E260B5100C513DF /* WBTimelineTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 866FDFCF1E260B5100C513DF /* WBTimelineTableViewCell.m */; };
@@ -154,7 +152,6 @@
 		862EEE181E2FB6D0007F36A7 /* PPTextTruncatedExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextTruncatedExample.h; sourceTree = "<group>"; };
 		862EEE191E2FB6D0007F36A7 /* PPTextTruncatedExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextTruncatedExample.m; sourceTree = "<group>"; };
 		864606AD1E2618A600A8CB07 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = Demo/WebP.framework; sourceTree = "<group>"; };
-		864606B91E27C01C00A8CB07 /* PPAssert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PPAssert.h; sourceTree = "<group>"; };
 		864606FA1E27EC7500A8CB07 /* PPTextEditableExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTextEditableExample.h; sourceTree = "<group>"; };
 		864606FB1E27EC7500A8CB07 /* PPTextEditableExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTextEditableExample.m; sourceTree = "<group>"; };
 		8659A9121E15BEF700BC9F91 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -212,8 +209,6 @@
 		866FDFC11E260AD200C513DF /* YYFPSLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YYFPSLabel.h; path = Demo/YYFPSLabel.h; sourceTree = SOURCE_ROOT; };
 		866FDFC21E260AD200C513DF /* YYFPSLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YYFPSLabel.m; path = Demo/YYFPSLabel.m; sourceTree = SOURCE_ROOT; };
 		866FDFC31E260AD200C513DF /* YYModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YYModel.h; path = Demo/YYModel.h; sourceTree = SOURCE_ROOT; };
-		866FDFC71E260B3800C513DF /* PPAttributedTextRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPAttributedTextRange.h; path = Demo/PPAttributedTextRange.h; sourceTree = SOURCE_ROOT; };
-		866FDFC81E260B3800C513DF /* PPAttributedTextRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPAttributedTextRange.m; path = Demo/PPAttributedTextRange.m; sourceTree = SOURCE_ROOT; };
 		866FDFCA1E260B5100C513DF /* WBTimelineImageContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WBTimelineImageContentView.h; path = Demo/WBTimelineImageContentView.h; sourceTree = SOURCE_ROOT; };
 		866FDFCB1E260B5100C513DF /* WBTimelineImageContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WBTimelineImageContentView.m; path = Demo/WBTimelineImageContentView.m; sourceTree = SOURCE_ROOT; };
 		866FDFCC1E260B5100C513DF /* WBTimelineLargeCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WBTimelineLargeCardView.h; path = Demo/WBTimelineLargeCardView.h; sourceTree = SOURCE_ROOT; };
@@ -402,14 +397,6 @@
 			path = Demo;
 			sourceTree = "<group>";
 		};
-		864606B81E27BFDF00A8CB07 /* Base */ = {
-			isa = PBXGroup;
-			children = (
-				864606B91E27C01C00A8CB07 /* PPAssert.h */,
-			);
-			name = Base;
-			sourceTree = "<group>";
-		};
 		8651C4FB1DC1FD120092569A /* Button */ = {
 			isa = PBXGroup;
 			children = (
@@ -455,7 +442,6 @@
 				866FDF361E25FAE400C513DF /* PPAsyncDrawingKit.h */,
 				86A98D301D92F495008F0A7E /* Core */,
 				86DA39651E28C84600D4F175 /* UI */,
-				864606B81E27BFDF00A8CB07 /* Base */,
 			);
 			path = PPAsyncDrawingKit;
 			sourceTree = "<group>";
@@ -631,8 +617,6 @@
 		86D7C2711DE81AEC001D88E8 /* Parser */ = {
 			isa = PBXGroup;
 			children = (
-				866FDFC71E260B3800C513DF /* PPAttributedTextRange.h */,
-				866FDFC81E260B3800C513DF /* PPAttributedTextRange.m */,
 				866FDFDF1E260B9700C513DF /* WBTimelineAttributedTextParser.h */,
 				866FDFE01E260B9700C513DF /* WBTimelineAttributedTextParser.m */,
 			);
@@ -764,7 +748,6 @@
 				866FDF731E25FF6100C513DF /* PPTextRenderer.h in Headers */,
 				866FDF991E26004B00C513DF /* PPImageView.h in Headers */,
 				866FDF9D1E26005A00C513DF /* PPImage+WebP.h in Headers */,
-				864606BA1E27C17A00A8CB07 /* PPAssert.h in Headers */,
 				866FDF691E25FF6100C513DF /* PPTextFontMetrics.h in Headers */,
 				866FDF7B1E25FF9400C513DF /* NSAttributedString+PPExtendedAttributedString.h in Headers */,
 				866FDF811E25FFC100C513DF /* PPImage.h in Headers */,
@@ -972,7 +955,6 @@
 				86772BA11E49DACB002DBA1E /* PPImageExample.m in Sources */,
 				86AE95F21E2CC20D00DDD90A /* NSData+ImageContentType.m in Sources */,
 				866FDFDA1E260B6800C513DF /* WBTimelineViewController.m in Sources */,
-				866FDFC91E260B3800C513DF /* PPAttributedTextRange.m in Sources */,
 				86AE96011E2CC20D00DDD90A /* UIImageView+WebCache.m in Sources */,
 				86AE95FF1E2CC20D00DDD90A /* UIImage+WebP.m in Sources */,
 			);

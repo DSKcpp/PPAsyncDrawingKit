@@ -30,6 +30,7 @@ typedef void(^PPImageDownloaderCompletion)(UIImage * _Nullable image, NSError * 
 
 @interface PPImageDownloader : NSObject
 @property (nonatomic, class, strong, readonly) PPImageDownloader *sharedImageDownloader;
+@property (nonatomic, strong) NSURLSession *session;
 @property (nonatomic, strong, readonly) NSMutableDictionary<NSString *, PPImageDownloaderTask *> *downloaderTasks;
 
 - (PPImageDownloaderTask *)downloaderImageWithURL:(NSURL *)URL

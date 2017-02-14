@@ -226,7 +226,6 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
 
 - (void)setImageURL:(NSURL *)imageURL placeholderImage:(UIImage *)placeholderImage
 {
-    
     [self setImageURL:imageURL placeholderImage:placeholderImage progressBlock:nil completeBlock:nil];
 }
 

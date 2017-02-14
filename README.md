@@ -20,7 +20,7 @@ PPAsyncDrawingKit
 * 一次性绘制多个富文本到同一个 `view` 上，减少创建多个 `view`
 
 
-| UIKit | PPAsyncDrawingKit | More |
+| UIKit | PPAsyncDrawingKit | Feature |
 | --- | --- | --- |
 | UIControl | PPControl |   |
 | UILabel | PPTextView  | PPMultiplexTextView |

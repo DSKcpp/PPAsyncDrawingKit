@@ -9,9 +9,9 @@
 #import "PPTextAttributes.h"
 #import <CoreText/CoreText.h>
 
-NSString * const PPTextHighlightRangeAttributeName = @"PPTextHighlightRange";
-NSString * const PPTextBorderAttributeName = @"PPTextBorder";
-NSString * const PPTextAttachmentAttributeName = @"PPTextAttachment";
+NSString * const PPTextHighlightRangeAttributeName = @"PPTextHighlightRangeAttributeName";
+NSString * const PPTextBorderAttributeName         = @"PPTextBorderAttributeName";
+NSString * const PPTextAttachmentAttributeName     = @"PPTextAttachmentAttributeName";
 
 @implementation PPTextHighlightRange
 - (void)_setAttribute:(NSString *)name value:(id)value

@@ -87,8 +87,6 @@
     _backgroundImages = @{}.mutableCopy;
     
     self.clearsContextBeforeDrawing = NO;
-    self.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     
     PPButtonInfo *buttonInfo = [PPButtonInfo new];
     buttonInfo.titleFont = _titleFont;

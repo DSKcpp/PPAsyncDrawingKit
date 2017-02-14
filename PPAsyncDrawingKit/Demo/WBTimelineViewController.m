@@ -129,7 +129,7 @@
     if (!userInfo) {
         return;
     }
-    NSString *atName = userInfo[kWBLinkAt];
+    NSString *atName = userInfo[WBTimelineHighlightRangeModeMention];
     if (atName) {
         atName = [[atName substringFromIndex:1] stringByURLEncode];
         NSString *URL = [NSString stringWithFormat:@"http://m.weibo.cn/n/%@", atName];
@@ -138,7 +138,7 @@
         return;
     }
     
-    NSString *topicName = userInfo[kWBLinkTopic];
+    NSString *topicName = userInfo[WBTimelineHighlightRangeModeTopic];
     if (topicName) {
         topicName = [topicName substringFromIndex:1];
         topicName = [topicName substringToIndex:topicName.length - 1];
@@ -149,7 +149,7 @@
         return;
     }
     
-    NSString *url = userInfo[kWBLinkURL];
+    NSString *url = userInfo[WBTimelineHighlightRangeModeLink];
     if (url) {
         WBWebViewController *webViewController = [[WBWebViewController alloc] initWithURL:[NSURL URLWithString:url]];
         [self.navigationController pushViewController:webViewController animated:YES];
@@ -177,4 +177,5 @@
     WBWebViewController *webViewController = [[WBWebViewController alloc] initWithURL:[NSURL URLWithString:URL]];
     [self.navigationController pushViewController:webViewController animated:YES];
 }
+
 @end
