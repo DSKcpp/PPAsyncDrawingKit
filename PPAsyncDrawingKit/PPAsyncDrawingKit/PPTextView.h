@@ -8,7 +8,7 @@
 
 #import <PPAsyncDrawingKit/PPAsyncDrawingView.h>
 #import <PPAsyncDrawingKit/PPTextLayout.h>
-#import <PPAsyncDrawingKit/NSAttributedString+PPAsyncDrawingKit.h>
+#import <PPAsyncDrawingKit/NSAttributedString+PPExtendedAttributedString.h>
 
 @class PPTextHighlightRange;
 @class PPTextView;

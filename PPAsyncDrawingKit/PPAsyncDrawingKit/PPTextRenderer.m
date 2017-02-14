@@ -10,7 +10,7 @@
 #import "PPTextRenderer.h"
 #import "PPTextLayoutLine.h"
 #import "PPTextAttachment.h"
-#import "NSAttributedString+PPAsyncDrawingKit.h"
+#import "NSAttributedString+PPExtendedAttributedString.h"
 #import "PPAssert.h"
 #import "PPTextLayout.h"
 #import "PPAsyncDrawingView.h"
@@ -159,7 +159,7 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
 
 - (CGPoint)drawingOrigin
 {
-    return self.textLayout.origin;
+    return self.textLayout.drawOrigin;
 }
 
 @end

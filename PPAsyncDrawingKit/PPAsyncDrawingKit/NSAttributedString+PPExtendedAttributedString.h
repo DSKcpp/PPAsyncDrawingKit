@@ -1,5 +1,5 @@
 //
-//  NSAttributedString+PPAsyncDrawingKit.h
+//  NSAttributedString+PPExtendedAttributedString.h
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 2016/11/8.
@@ -17,7 +17,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSAttributedString (PPAsyncDrawingKit)
+@interface NSAttributedString (PPExtendedAttributedString)
 
 /**
  获取当前线程的 PPTextLayout
@@ -35,7 +35,6 @@ NS_ASSUME_NONNULL_BEGIN
  @return height
  */
 - (CGFloat)pp_heightConstrainedToWidth:(CGFloat)width;
-- (CGFloat)pp_heightConstrainedToWidth:(CGFloat)width exclusionPaths:(nullable NSArray<UIBezierPath *> *)exclusionPaths;
 - (CGSize)pp_sizeConstrainedToWidth:(CGFloat)width;
 - (CGSize)pp_sizeConstrainedToWidth:(CGFloat)width numberOfLines:(NSInteger)numberOfLines;
 - (CGSize)pp_sizeConstrainedToSize:(CGSize)size;

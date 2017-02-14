@@ -11,5 +11,9 @@
 @class PPTextLayout;
 
 @interface NSThread (PPTextRenderer)
+
+/**
+ 当前线程的 PPTextLayout
+ */
 @property (nonatomic, strong, readonly) PPTextLayout *textLayout;
 @end

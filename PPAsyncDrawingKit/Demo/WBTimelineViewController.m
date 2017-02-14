@@ -135,6 +135,7 @@
         NSString *URL = [NSString stringWithFormat:@"http://m.weibo.cn/n/%@", atName];
         WBWebViewController *webViewController = [[WBWebViewController alloc] initWithURL:[NSURL URLWithString:URL]];
         [self.navigationController pushViewController:webViewController animated:YES];
+        return;
     }
     
     NSString *topicName = userInfo[kWBLinkTopic];
@@ -145,6 +146,14 @@
         NSString *URL = [NSString stringWithFormat:@"http://m.weibo.cn/k/%@", topicName];
         WBWebViewController *webViewController = [[WBWebViewController alloc] initWithURL:[NSURL URLWithString:URL]];
         [self.navigationController pushViewController:webViewController animated:YES];
+        return;
+    }
+    
+    NSString *url = userInfo[kWBLinkURL];
+    if (url) {
+        WBWebViewController *webViewController = [[WBWebViewController alloc] initWithURL:[NSURL URLWithString:url]];
+        [self.navigationController pushViewController:webViewController animated:YES];
+        return;
     }
 }
 

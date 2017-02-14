@@ -17,11 +17,10 @@ static char threadLayoutKey;
 {
     PPTextLayout *textLayout = objc_getAssociatedObject(self, &threadLayoutKey);
     if (!textLayout) {
-        self.textLayout = [[PPTextLayout alloc] init];
-        return self.textLayout;
-    } else {
-        return textLayout;
+        textLayout = [[PPTextLayout alloc] init];
+        self.textLayout = textLayout;
     }
+    return textLayout;
 }
 
 - (void)setTextLayout:(PPTextLayout *)textLayout

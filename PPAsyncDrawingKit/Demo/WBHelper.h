@@ -25,10 +25,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WBTimelinePreset : NSObject
 @property (class, strong, readonly) WBTimelinePreset *sharedInstance;
 
+@property (nonatomic, assign, readonly) NSInteger numberOfLines;
+
 @property (nonatomic, assign, readonly) CGFloat leftSpacing;
 @property (nonatomic, assign, readonly) CGFloat rightSpacing;
 @property (nonatomic, assign, readonly) CGFloat defaultMargin;
 @property (nonatomic, assign, readonly) CGFloat maxWidth;
+@property (nonatomic, assign, readonly) CGFloat minHeight;
 
 #pragma mark - Title Area
 @property (nonatomic, assign, readonly) CGFloat titleAreaHeight;
@@ -58,11 +61,18 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - ActionButtons Area
 @property (nonatomic, assign, readonly) CGFloat actionButtonsHeight;
 
+#pragma mark - PageInfo Area
 @property (nonatomic, assign, readonly) CGFloat pageInfoHeight;
 
-@property (nonatomic, assign, readonly) CGFloat minHeight;
+#pragma mark - Color
+@property (nonatomic, strong, readonly) UIColor *textColor;
+@property (nonatomic, strong, readonly) UIColor *subtextColor;
+@property (nonatomic, strong, readonly) UIColor *highlightTextColor;
+@property (nonatomic, strong, readonly) UIColor *textBorderColor;
 
-@property (nonatomic, assign, readonly) NSInteger numberOfLines;
+#pragma mark - Font
+@property (nonatomic, assign, readonly) CGFloat textFont;
+@property (nonatomic, assign, readonly) CGFloat subtextFont;
 @end
 
 

@@ -11,7 +11,7 @@
 #import "PPTextLayoutLine.h"
 #import "PPTextUtilties.h"
 #import "PPTextFontMetrics.h"
-#import "NSAttributedString+PPAsyncDrawingKit.h"
+#import "NSAttributedString+PPExtendedAttributedString.h"
 
 @implementation PPTextLayoutFrame
 

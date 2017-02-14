@@ -7,7 +7,7 @@
 //
 
 #import "NSString+PPAsyncDrawingKit.h"
-#import "NSAttributedString+PPAsyncDrawingKit.h"
+#import "NSAttributedString+PPExtendedAttributedString.h"
 #import "PPTextFontMetrics.h"
 
 @implementation NSString (PPAsyncDrawingKit)

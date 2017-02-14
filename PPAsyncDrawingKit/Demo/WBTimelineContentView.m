@@ -11,7 +11,7 @@
 #import "UIImage+Color.h"
 #import "WBHelper.h"
 #import "NSString+PPAsyncDrawingKit.h"
-#import "NSAttributedString+PPAsyncDrawingKit.h"
+#import "NSAttributedString+PPExtendedAttributedString.h"
 #import "PPImageView+SDWebImage.h"
 
 @implementation WBColorImageView

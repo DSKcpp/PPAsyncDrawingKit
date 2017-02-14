@@ -10,7 +10,8 @@
 #import "WBTimelineTableViewCell.h"
 #import "WBTimelineAttributedTextParser.h"
 #import "NSDate+PPASDK.h"
-#import "NSAttributedString+PPAsyncDrawingKit.h"
+#import "NSAttributedString+PPExtendedAttributedString.h"
+#import "WBHelper.h"
 
 @implementation WBCardsModel
 + (NSDictionary *)modelContainerPropertyGenericClass {
@@ -73,11 +74,12 @@
         _timelineItem = timelineItem;
         NSString *itemText = timelineItem.text;
         WBTimelineAttributedTextParser *parser = [WBTimelineAttributedTextParser textParserWithTimelineItem:timelineItem];
+        WBTimelinePreset *preset = [WBTimelinePreset sharedInstance];
         if (itemText) {
             _textAttributedText = [[NSMutableAttributedString alloc] initWithString:itemText];
             [parser parserWithAttributedString:_textAttributedText
-                                      fontSize:16.0f
-                                     textColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0f]];
+                                      fontSize:preset.textFont
+                                     textColor:preset.textColor];
         }
         if (timelineItem.retweeted_status) {
             NSString *quotedItemText;
@@ -89,15 +91,15 @@
             if (quotedItemText.length > 0) {
                 _quotedAttributedText = [[NSMutableAttributedString alloc] initWithString:quotedItemText];
                 [parser parserWithAttributedString:_quotedAttributedText
-                                          fontSize:15.0f
-                                         textColor:[UIColor colorWithRed:0.388235 green:0.388235 blue:0.388235 alpha:1.0f]];
+                                          fontSize:preset.subtextFont
+                                         textColor:preset.subtextColor];
             }
         }
         if (timelineItem.title) {
             NSString *title = timelineItem.title.text;
             _titleAttributedText = [[NSMutableAttributedString alloc] initWithString:title];
-            [_titleAttributedText pp_setFont:[UIFont systemFontOfSize:15.0f]];
-            [_titleAttributedText pp_setColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0f]];
+            [_titleAttributedText pp_setFont:[UIFont systemFontOfSize:preset.subtextFont]];
+            [_titleAttributedText pp_setColor:preset.textColor];
         }
         _metaInfoAttributedText = [self source];
     }
@@ -106,6 +108,8 @@
 
 - (NSMutableAttributedString *)source
 {
+    WBTimelinePreset *preset = [WBTimelinePreset sharedInstance];
+    
     NSString *createTime = [self stringWithTimelineDate:_timelineItem.created_at];
     NSMutableString *sourceText = [NSMutableString string];
     
@@ -115,7 +119,7 @@
     }
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:sourceText];
     [attrString pp_setFont:[UIFont systemFontOfSize:12.0f]];
-    [attrString pp_setColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0f]];
+    [attrString pp_setColor:preset.textColor];
     
     if (_timelineItem.source.length) {
         NSString *source = _timelineItem.source;
@@ -137,14 +141,14 @@
         if (href.length && text.length) {
             NSMutableAttributedString *from = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"来自%@", text]];
             [from pp_setFont:[UIFont systemFontOfSize:12.0f]];
-            [from pp_setColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0f]];
+            [from pp_setColor:preset.textColor];
             if (_timelineItem.source_allowclick > 0) {
                 NSRange range = NSMakeRange(2, text.length);
                 PPTextHighlightRange *high = [[PPTextHighlightRange alloc] init];
                 [from pp_setTextHighlightRange:high inRange:range];
-                [from pp_setColor:[UIColor colorWithRed:80/255.0f green:125/255.0f blue:174/255.0f alpha:1.0f] inRange:range];
+                [from pp_setColor:preset.highlightTextColor inRange:range];
                 PPTextBorder *border = [[PPTextBorder alloc] init];
-                border.fillColor = [UIColor colorWithRed:80/255.0f green:125/255.0f blue:174/255.0f alpha:0.5f];
+                border.fillColor = preset.textBorderColor;
                 [high setBorder:border];
             }
             [attrString appendAttributedString:from];

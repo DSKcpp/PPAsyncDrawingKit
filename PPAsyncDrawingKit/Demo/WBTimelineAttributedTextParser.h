@@ -19,6 +19,7 @@ typedef NS_ENUM(NSUInteger, WBTimelineHighlightType) {
 
 #define kWBLinkAt @"WBTimelineHighlightTypeAt"
 #define kWBLinkTopic @"WBTimelineHighlightTypeTopic"
+#define kWBLinkURL @"WBTimelineHighlightTypeURL"
 
 @interface WBTimelineAttributedTextParser : NSObject
 

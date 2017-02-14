@@ -60,16 +60,11 @@
 {
     PPTextLayoutFrame *textLayoutFrame;
     if (self.attributedString.length > 0) {
-        CGMutablePathRef mutablePath;
         CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((CFAttributedStringRef)self.attributedString);
-        if (self.exclusionPaths.count) {
-            
-        } else {
-            mutablePath = CGPathCreateMutable();
-            CGRect rect = CGRectMake(0, 0, self.maxSize.width, 20000);
-            CGAffineTransform transform = CGAffineTransformIdentity;
-            CGPathAddRect(mutablePath, &transform, rect);
-        }
+        CGMutablePathRef mutablePath = CGPathCreateMutable();
+        CGRect rect = CGRectMake(0, 0, self.maxSize.width, 20000);
+        CGAffineTransform transform = CGAffineTransformIdentity;
+        CGPathAddRect(mutablePath, &transform, rect);
         CTFrameRef frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, self.attributedString.length), mutablePath, NULL);
         CGPathRelease(mutablePath);
         CFRelease(framesetter);
@@ -97,27 +92,6 @@
     }
 }
 
-- (void)setExclusionPaths:(NSArray<UIBezierPath *> *)exclusionPaths
-{
-    if (_exclusionPaths != exclusionPaths) {
-        _exclusionPaths = exclusionPaths;
-        _needsLayout = YES;
-    }
-}
-
-//- (void)setSize:(CGSize)size
-//{
-//    if (!CGSizeEqualToSize(_size, size)) {
-//        _size = size;
-//        _needsLayout = YES;
-//    }
-//}
-//
-//- (void)setOrigin:(CGPoint)origin
-//{
-//    
-//}
-
 - (void)setFrame:(CGRect)frame
 {
     if (!CGRectEqualToRect(_frame, frame)) {
@@ -126,15 +100,15 @@
     }
 }
 
-- (CGPoint)origin
+- (CGPoint)drawOrigin
 {
     return _frame.origin;
 }
 
-- (void)setOrigin:(CGPoint)origin
+- (void)setDrawOrigin:(CGPoint)drawOrigin
 {
-    if (!CGPointEqualToPoint(_frame.origin, origin)) {
-        _frame.origin = origin;
+    if (!CGPointEqualToPoint(_frame.origin, drawOrigin)) {
+        _frame.origin = drawOrigin;
         _needsLayout = YES;
     }
 }

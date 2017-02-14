@@ -1,12 +1,12 @@
 //
-//  NSAttributedString+PPAsyncDrawingKit.m
+//  NSAttributedString+PPExtendedAttributedString.m
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 2016/11/8.
 //  Copyright © 2016年 DSKcpp. All rights reserved.
 //
 
-#import "NSAttributedString+PPAsyncDrawingKit.h"
+#import "NSAttributedString+PPExtendedAttributedString.h"
 #import "PPTextLayout.h"
 #import "PPTextAttachment.h"
 #import "NSThread+PPTextRenderer.h"
@@ -61,7 +61,7 @@ static CTLineBreakMode NSLineBreakModeToCTLineBreakMode(NSLineBreakMode nsLineBr
     return lineBreak;
 }
 
-@implementation NSAttributedString (PPAsyncDrawingKit)
+@implementation NSAttributedString (PPExtendedAttributedString)
 
 - (NSRange)pp_stringRange
 {
@@ -75,15 +75,9 @@ static CTLineBreakMode NSLineBreakModeToCTLineBreakMode(NSLineBreakMode nsLineBr
 
 - (CGFloat)pp_heightConstrainedToWidth:(CGFloat)width
 {
-    return [self pp_heightConstrainedToWidth:width exclusionPaths:nil];
-}
-
-- (CGFloat)pp_heightConstrainedToWidth:(CGFloat)width exclusionPaths:(NSArray<UIBezierPath *> *)exclusionPaths
-{
     PPTextLayout *textLayout = [NSAttributedString textLayoutForCurrentThread];
     textLayout.numberOfLines = 0;
     textLayout.attributedString = self;
-    textLayout.exclusionPaths = exclusionPaths;
     textLayout.maxSize = CGSizeMake(width, 20000);
     return textLayout.layoutHeight;
 }

@@ -9,7 +9,7 @@
 #import "WBTimelineLargeCardView.h"
 #import "WBHelper.h"
 #import "UIImage+Color.h"
-#import "NSAttributedString+PPAsyncDrawingKit.h"
+#import "NSAttributedString+PPExtendedAttributedString.h"
 
 @implementation WBTimelineLargeCardView
 

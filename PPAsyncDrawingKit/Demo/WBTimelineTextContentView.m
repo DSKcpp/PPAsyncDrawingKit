@@ -9,7 +9,7 @@
 #import "WBTimelineTextContentView.h"
 #import "PPTextRenderer.h"
 #import "WBTimelineItem.h"
-#import "NSAttributedString+PPAsyncDrawingKit.h"
+#import "NSAttributedString+PPExtendedAttributedString.h"
 #import "WBTimelineAttributedTextParser.h"
 #import "WBHelper.h"
 

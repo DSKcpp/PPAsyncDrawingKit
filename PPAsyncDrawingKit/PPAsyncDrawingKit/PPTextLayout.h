@@ -18,10 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface PPTextLayout : NSObject
 @property (nonatomic, assign) NSUInteger numberOfLines;
-@property (nullable, nonatomic, strong) NSArray<UIBezierPath *> *exclusionPaths;
 
 @property (nonatomic, assign) CGSize maxSize;
-@property (nonatomic, assign) CGPoint origin;
+@property (nonatomic, assign) CGPoint drawOrigin;
 @property (nonatomic, assign) CGRect frame;
 
 @property (nullable, nonatomic, copy, readonly) NSString *plainText;
