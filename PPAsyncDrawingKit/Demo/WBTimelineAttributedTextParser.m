@@ -51,10 +51,9 @@ NSString * const WBTimelineHighlightRangeModeLink = @"WBTimelineHighlightRangeMo
                 }
                 
                 PPTextFontMetrics *fontMetrics = [[PPTextFontMetrics alloc] init];
-                fontMetrics.ascent = font.ascender;
-                fontMetrics.descent = fabs(font.descender);
-                CGFloat w = fontMetrics.ascent + fontMetrics.descent;
-                CGSize size = CGSizeMake(w, w);
+                fontMetrics.ascent = 12;
+                fontMetrics.descent = 1;
+                CGSize size = CGSizeMake(13.0f, 13.0f);
 //                NSURL *URL = [WBTimelineAttributedTextParser defaultURLForImageURL:urlStruct.url_type_pic];
                 UIImage *image = [UIImage imageNamed:@"timeline_card_small_web"];
                 PPTextAttachment *attachment = [PPTextAttachment attachmentWithContents:image contentType:UIViewContentModeScaleToFill contentSize:size];

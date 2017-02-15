@@ -10,6 +10,8 @@ PPAsyncDrawingKit
 
 这是一个轻量的异步绘制框架，实现一系列 `UIKit` 基础控件。
 
+ps: 项目由 Obj-C 编写，为了减少 Demo 体积，直接添加了 webP 源码，所有识别成了 C 的项目
+
 #Features
 * 使用多线程技术进行绘制，不阻塞线程，保证复杂界面的流畅
 * 高速滑动时，自动停止绘制
@@ -69,13 +71,13 @@ imageView.image = [UIImage imageNamed:@"avatar"];
 [self.contentView addSubview:imageView];
 
 ```
-####WebImage
+####Download Network Image
 
 ```Obj-C
 [imageView setImageURL:[NSURL URLWithString:@"url"] placeholderImage:[UIImage imageNamed:@"avatar"]];
 ```
-####SDWebImage
-
+####Support SDWebImage
+如果不想用自带的图片下载，可以使用 SDWebImage，使用方法和 SD 一样
 ```Obj-C
 [imageView sd_setImageWithURL:[NSURL URLWithString:@"url"] placeholderImage:[UIImage imageNamed:@"avatar"]];
 ```
