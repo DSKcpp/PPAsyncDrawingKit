@@ -267,7 +267,6 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
             }
         }];
         _ioTask = ioTask;
-        
     }
 }
 
