@@ -11,11 +11,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PPImage : UIImage
-@property (nonatomic, assign ,readonly) BOOL isWebP;
-+ (nullable UIImage *)animatedGIFWithData:(nullable NSData *)data;
+@interface PPImageDecode : NSObject
 
-- (BOOL)isGIF;
++ (nullable UIImage *)imageWithData:(nullable NSData *)data;
++ (nullable UIImage *)imageWithContentsOfFile:(NSString *)path;
++ (nullable UIImage *)animatedGIFWithData:(nullable NSData *)data;
++ (nullable UIImage *)imageWithWebPData:(nullable NSData *)data;
+
 @end
 
 NS_ASSUME_NONNULL_END

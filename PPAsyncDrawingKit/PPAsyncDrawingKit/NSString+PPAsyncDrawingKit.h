@@ -12,12 +12,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface NSString (PPAsyncDrawingKit)
-#pragma mark - Regex
-- (BOOL)pp_isMatchedByRegex:(NSString *)regex;
-- (BOOL)pp_isMatchedByRegex:(NSString *)regex inRange:(NSRange)range;
-- (BOOL)pp_isMatchedByRegex:(NSString *)regex options:(NSRegularExpressionOptions)options inRange:(NSRange)range error:(NSError **)error;
-- (void)pp_enumerateStringsMatchedByRegex:(NSString *)regex usingBlock:(void (^)(NSString *capturedString, NSRange capturedRange, BOOL *stop))block;
-
 #pragma mark - Drawing
 - (CGSize)pp_drawInRect:(CGRect)rect
                withFont:(UIFont *)font

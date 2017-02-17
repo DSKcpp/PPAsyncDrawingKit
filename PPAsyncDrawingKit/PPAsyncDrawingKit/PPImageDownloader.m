@@ -7,7 +7,7 @@
 //
 
 #import "PPImageDownloader.h"
-#import "PPImage.h"
+#import "PPImageDecode.h"
 #import "PPImageCache.h"
 
 @interface PPImageDownloaderTask ()
@@ -151,7 +151,7 @@
         return;
     }
     if (task.completion) {
-        UIImage *image = [PPImage imageWithData:data];
+        UIImage *image = [PPImageDecode imageWithData:data];
         dispatch_async(dispatch_get_main_queue(), ^{
             task.completion(image, nil);
         });

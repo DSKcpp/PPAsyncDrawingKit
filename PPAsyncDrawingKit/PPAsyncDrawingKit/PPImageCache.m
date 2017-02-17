@@ -8,10 +8,10 @@
 
 #import "PPImageCache.h"
 #import <CommonCrypto/CommonCrypto.h>
-#import "PPImage.h"
+#import "PPImageDecode.h"
 
 #define kPPImageCacheMaxAge 604800.0f // 7 day
-#define kPPImageCacheMaxMemorySize 20971520 // 20 MB
+#define kPPImageCacheMaxMemorySize 209715200 // 200 MB
 
 static NSString *_PPNSStringMD5(NSString *string) {
     if (!string) return nil;
@@ -152,7 +152,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
         NSString *key = [self keyWithURL:URL];
         UIImage *image = [_cache objectForKey:key];
         if (!image) {
-            image = [PPImage imageWithContentsOfFile:[self cachePathForKey:key]];
+            image = [PPImageDecode imageWithContentsOfFile:[self cachePathForKey:key]];
         }
         return image;
     }
@@ -168,7 +168,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
 - (UIImage *)imageFromDiskCacheForURL:(NSString *)URL
 {
     NSString *key = [self keyWithURL:URL];
-    return [PPImage imageWithContentsOfFile:[self cachePathForKey:key]];
+    return [PPImageDecode imageWithContentsOfFile:[self cachePathForKey:key]];
 }
 
 - (PPImageIOTask *)imageForURL:(NSString *)URL callback:(nonnull void (^)(UIImage * _Nullable, PPImageCacheType))callback

@@ -10,6 +10,7 @@ PPAsyncDrawingKit
 这是一个轻量的异步绘制框架，实现一系列 `UIKit` 基础控件。
 
 项目由 Obj-C 编写，为了减少 Demo 体积，直接添加了 webP 源码，所有识别成了 C 的项目。
+
 项目需要 Xcode 8.0+ 编译，真机需要证书才能运行。
 
 关于 Core Text 结构，图片来自[Apple Dev (About Core Text)](https://developer.apple.com/library/content/documentation/StringsTextFonts/Conceptual/CoreText_Programming/Introduction/Introduction.html#//apple_ref/doc/uid/TP40005533-CH1-SW1)
@@ -160,14 +161,8 @@ textView.top = 76.0f;
 左边只有一个 `View`。
 ![](http://ww4.sinaimg.cn/large/9bffd8f9gw1fbi1ji8hbyj21kw0u67fm.jpg)
 
-#Installation
-There are two ways to use PPAsyncDrawingKit in your project:
-
-* using CocoaPods
-* by cloning the project into your repository
-
-###Installation with CocoaPods
-####Podfile
+#Installation with CocoaPods
+###Podfile
 `暂时没有上传，等基本完成和测试之后再提交`
 ``` Ruby
 pod 'PPAsyncDrawingKit'

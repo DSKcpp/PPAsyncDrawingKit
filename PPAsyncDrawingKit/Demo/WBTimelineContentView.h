@@ -14,11 +14,8 @@
 #import "WBTimelineImageContentView.h"
 #import "WBTimelineTableViewCell.h"
 
-@interface WBNameLabel : PPControl
+@interface WBNameLabel : PPTextView
 @property (nonatomic, strong) WBUser *user;
-@property (nonatomic, assign) CGFloat fontSize;
-@property (nonatomic, strong) UIColor *redNameTextColor;
-@property (nonatomic, strong) UIColor *textColor;
 @end
 
 @interface WBColorImageView : UIImageView

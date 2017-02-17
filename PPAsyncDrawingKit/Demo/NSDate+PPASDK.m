@@ -8,28 +8,57 @@
 
 #import "NSDate+PPASDK.h"
 
+@interface PPDateFormatter : NSDateFormatter
++ (PPDateFormatter *)dateFormatter;
+@end
+
+@implementation PPDateFormatter
+
++ (PPDateFormatter *)dateFormatter
+{
+    static PPDateFormatter *df;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        df = [[self alloc] init];
+    });
+    return df;
+}
+
+@end
+
 @implementation NSDate (PPASDK)
-- (BOOL)isToday {
-    if (fabs(self.timeIntervalSinceNow) >= 60 * 60 * 24) return NO;
-    return [NSDate new].day == self.day;
+- (NSString *)toDisplayString
+{
+    PPDateFormatter *fmt = [PPDateFormatter dateFormatter];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSCalendarUnit unit = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
+    fmt.dateFormat = @"HH:mm";
+    NSDateComponents *dateComps = [calendar components:unit fromDate:self];
+    NSDateComponents *nowComps = [calendar components:unit fromDate:[NSDate date]];
+    NSTimeInterval interval = -self.timeIntervalSinceNow;
+    if (interval < 60) {
+        return @"刚刚";
+    } else if (interval < 3600) {
+        return [NSString stringWithFormat:@"%zd分钟前", interval / 60 ];
+    } else if (nowComps.year == dateComps.year) {
+        if (nowComps.month == dateComps.month) {
+            if (nowComps.day == dateComps.day) {
+                return [fmt stringFromDate:self];
+            } else if ((nowComps.day - dateComps.day) == 1) {
+                return [NSString stringWithFormat:@"昨天 %@", [fmt stringFromDate:self]];
+            } else if ((nowComps.day - dateComps.day) < 9) {
+                return [NSString stringWithFormat:@"%@ %@", [self getWeekday], [fmt stringFromDate:self]];
+            }
+        }
+    }
+    fmt.dateFormat = @"yyyy-MM-dd";
+    return [fmt stringFromDate:self];
 }
 
-- (BOOL)isYesterday {
-    NSDate *added = [self dateByAddingDays:1];
-    return [added isToday];
+- (NSString *)getWeekday
+{
+   NSInteger weekday = [[NSCalendar currentCalendar] component:NSCalendarUnitWeekday fromDate:self];
+    return @[@"星期天", @"星期一", @"星期二", @"星期三", @"星期四", @"星期五", @"星期六"][weekday-1];
 }
 
-- (NSInteger)year {
-    return [[[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:self] year];
-}
-
-- (NSInteger)day {
-    return [[[NSCalendar currentCalendar] components:NSCalendarUnitDay fromDate:self] day];
-}
-
-- (NSDate *)dateByAddingDays:(NSInteger)days {
-    NSTimeInterval aTimeInterval = [self timeIntervalSinceReferenceDate] + 86400 * days;
-    NSDate *newDate = [NSDate dateWithTimeIntervalSinceReferenceDate:aTimeInterval];
-    return newDate;
-}
 @end

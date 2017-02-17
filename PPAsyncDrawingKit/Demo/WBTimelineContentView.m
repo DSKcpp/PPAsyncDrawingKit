@@ -150,7 +150,9 @@
 - (void)createNicknameLabel
 {
     _nameLabel = [[WBNameLabel alloc] initWithFrame:CGRectZero];
-    [_nameLabel addTarget:self action:@selector(selectedNameLabel:) forControlEvents:UIControlEventTouchUpInside];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectedNameLabel:)];
+    [_nameLabel addGestureRecognizer:tap];
+//    [_nameLabel addTarget:self action:@selector(selectedNameLabel:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_nameLabel];
 }
 
@@ -239,7 +241,7 @@
     }
 }
 
-- (void)selectedNameLabel:(WBNameLabel *)nameLabel
+- (void)selectedNameLabel:(UITapGestureRecognizer *)gesture
 {
     if ([_delegate respondsToSelector:@selector(tableViewCell:didSelectedNameLabel:)]) {
         [_delegate tableViewCell:_cell didSelectedNameLabel:_timelineItem.user];
@@ -460,29 +462,13 @@
 @end
 
 @implementation WBNameLabel
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    if (self = [super initWithFrame:frame]) {
-        self.fontSize = 15;
-    }
-    return self;
-}
-
 - (void)setUser:(WBUser *)user
 {
     if (_user != user) {
         _user = user;
-        [self setNeedsDisplay];
+        self.textLayout.numberOfLines = 1;
+        self.attributedString = user.nameAttributedString;
     }
-}
-
-- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously
-{
-    NSString *username = self.user.screen_name;
-//    PPTextRenderer *renderer = [NSAttributedString rendererForCurrentThread];
-//    NSUInteger lineCount = [renderer.textLayout containingLineCount];
-    [username pp_drawInRect:rect withFont:[UIFont systemFontOfSize:self.fontSize] textColor:[UIColor colorWithRed:255/255.0f green:81/255.0f blue:20/255.0f alpha:1.0f] lineBreakMode:NSLineBreakByWordWrapping];
-    return YES;
 }
 
 @end

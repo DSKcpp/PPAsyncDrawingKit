@@ -14,36 +14,6 @@ NSString * const PPTextBorderAttributeName         = @"PPTextBorderAttributeName
 NSString * const PPTextAttachmentAttributeName     = @"PPTextAttachmentAttributeName";
 
 @implementation PPTextHighlightRange
-- (void)_setAttribute:(NSString *)name value:(id)value
-{
-    if (value) {
-        self.attributes[name] = value;
-    } else {
-        [self.attributes removeObjectForKey:name];
-    }
-}
-- (void)setTextColor:(UIColor *)textColor
-{
-    [self _setAttribute:(id)kCTForegroundColorAttributeName value:(id)textColor.CGColor];
-}
-
-- (void)setFont:(UIFont *)font
-{
-    [self _setAttribute:NSFontAttributeName value:font];
-}
-
-- (void)setBorder:(PPTextBorder *)border
-{
-    [self _setAttribute:PPTextBorderAttributeName value:border];
-}
-
-- (NSDictionary<NSString *,id> *)attributes
-{
-    if (!_attributes) {
-        _attributes = @{}.mutableCopy;
-    }
-    return _attributes;
-}
 
 @end
 

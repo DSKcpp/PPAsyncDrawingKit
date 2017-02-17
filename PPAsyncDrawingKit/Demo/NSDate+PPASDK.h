@@ -9,8 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface NSDate (PPASDK)
-- (BOOL)isToday;
-- (BOOL)isYesterday;
-- (NSInteger)year;
-- (NSInteger)day;
+- (NSString *)toDisplayString;
 @end

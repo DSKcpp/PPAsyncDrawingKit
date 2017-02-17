@@ -12,33 +12,19 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-UIKIT_EXTERN NSString * const PPImageViewRoundPath;
-UIKIT_EXTERN NSString * const PPImageViewBorderPath;
-
-@protocol PPAnimatedImageProtocol <NSObject>
-@property (nonatomic, assign) NSTimeInterval animationDuration;
-@property (nonatomic, assign) NSUInteger currentAnimationImageIndex;
-
-- (void)startAnimating;
-- (void)stopAnimating;
-@end
-
-@interface PPImageView : PPControl <PPAnimatedImageProtocol>
+@interface PPImageView : PPControl
 @property (nullable, nonatomic, strong) UIImage *image;
-@property (nonatomic, strong) UIColor *borderColor;
+@property (nullable, nonatomic, strong) UIColor *borderColor;
 @property (nonatomic, assign) CGFloat borderWidth;
 @property (nonatomic, assign) CGFloat cornerRadius;
 @property (nonatomic, assign) UIRectCorner roundedCorners;
 @property (nonatomic, assign) UIViewContentMode contentMode;
 
-@property (nonatomic, assign) BOOL showsCornerRadius;
-@property (nonatomic, assign) BOOL showsBorderCornerRadius;
-@property (nonatomic, assign) BOOL enableAsyncDrawing;
-@property (nonatomic, assign) BOOL isNeedChangeContentModel;
-@property (nonatomic, assign) BOOL updatePathWhenViewSizeChanges;
-
 @property (nonatomic, assign, readonly) BOOL imageLoaded;
 @property (nonatomic, strong) NSURL *imageURL;
+
+@property (nonatomic, assign) NSTimeInterval animationDuration;
+@property (nonatomic, assign, readonly) NSUInteger currentAnimationImageIndex;
 
 - (instancetype)initWithFrame:(CGRect)frame;
 - (instancetype)initWithImage:(UIImage *)image;
@@ -48,14 +34,16 @@ UIKIT_EXTERN NSString * const PPImageViewBorderPath;
 - (void)imageDrawingFinished;
 - (void)cancelCurrentImageLoading;
 
-- (void)setImageURL:(NSURL *)imageURL;
-- (void)setImageURL:(NSURL *)imageURL placeholderImage:(nullable UIImage *)placeholderImage;
-- (void)setImageURL:(NSURL *)imageURL placeholderImage:(nullable UIImage *)placeholderImage progressBlock:(nullable PPImageDownloaderProgress)progressBlock completeBlock:(nullable PPImageDownloaderCompletion)completeBlock;
+- (void)setImageURL:(nullable NSURL *)imageURL;
+- (void)setImageURL:(nullable NSURL *)imageURL placeholderImage:(nullable UIImage *)placeholderImage;
+- (void)setImageURL:(nullable NSURL *)imageURL placeholderImage:(nullable UIImage *)placeholderImage progressBlock:(nullable PPImageDownloaderProgress)progressBlock completeBlock:(nullable PPImageDownloaderCompletion)completeBlock;
 
 - (void)setImageLoaderImage:(UIImage *)image URL:(NSURL *)URL;
 - (void)setFinalImage:(UIImage *)image;
 - (void)setFinalImage:(UIImage *)image isGIf:(BOOL)isGIf;
-- (void)setGifImage:(UIImage *)image;
+
+- (void)startAnimating;
+- (void)stopAnimating;
 @end
 
 NS_ASSUME_NONNULL_END

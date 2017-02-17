@@ -86,6 +86,7 @@
 @property (nonatomic, assign) NSInteger ulevel;
 @property (nonatomic, copy) NSString *badge_top;
 @property (nonatomic, assign) NSInteger has_ability_tag;
+@property (nonatomic, strong) NSAttributedString *nameAttributedString;
 @end
 
 @interface WBTimelinePicture : NSObject

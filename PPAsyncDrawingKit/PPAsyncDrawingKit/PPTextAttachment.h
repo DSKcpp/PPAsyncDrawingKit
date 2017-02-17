@@ -15,13 +15,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PPTextAttachment : NSObject
 @property (nonatomic, copy) NSString *replacementText;
 @property (nonatomic, strong) PPTextFontMetrics *baselineFontMetrics;
-@property (nonatomic, strong) id contents;
+@property (nonatomic, strong) UIImage *contents;
 @property (nonatomic, assign) UIEdgeInsets contentEdgeInsets;
 @property (nonatomic, assign) CGSize contentSize;
 @property (nonatomic, assign) UIViewContentMode contentType;
 @property (nonatomic, assign, readonly) CGSize placeholderSize;
 
-+ (PPTextAttachment *)attachmentWithContents:(id)contents contentType:(UIViewContentMode)contentType contentSize:(CGSize)contentSize;
++ (PPTextAttachment *)attachmentWithContents:(UIImage *)contents contentType:(UIViewContentMode)contentType contentSize:(CGSize)contentSize;
 
 - (CGFloat)ascentForLayout;
 - (CGFloat)descentForLayout;

@@ -113,7 +113,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param layoutFrame 需要高亮绘制的 layoutFrame
  @param context 需要高亮绘制的 context
  */
-- (void)debugModeDrawLineFramesWithLayoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context;
+- (void)drawdebugMode:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context;
 @end
 
 NS_ASSUME_NONNULL_END

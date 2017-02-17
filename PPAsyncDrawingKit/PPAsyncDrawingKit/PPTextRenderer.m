@@ -181,7 +181,7 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
     
     PPTextLayoutFrame *layoutFrame = self.textLayout.layoutFrame;
     if ([PPTextRenderer debugModeEnabled]) {
-        [self debugModeDrawLineFramesWithLayoutFrame:layoutFrame context:context];
+        [self drawdebugMode:layoutFrame context:context];
     }
     PPTextHighlightRange *highlightRange = self.pressingHighlightRange;
     if (highlightRange) {
@@ -233,16 +233,9 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
                 CGSize size = textAttachment.contentSize;
                 CGRect rect = (CGRect){(CGPoint)origin, (CGSize)size};
                 rect.origin.y -= textAttachment.ascentForLayout;
-                id content = textAttachment.contents;
-                if ([content isKindOfClass:[UIImage class]]) {
-                    rect = [self convertRectFromLayout:rect];
-                    [content pp_drawInRect:rect contentMode:textAttachment.contentType withContext:context];
-                } else if ([content isKindOfClass:[UIView class]]) {
-                    rect = [self convertRectFromLayout:rect];
-                    UIView *view = (UIView *)content;
-                    view.frame = rect;
-                    [self.eventDelegateContextView addSubview:view];
-                }
+                UIImage *content = textAttachment.contents;
+                rect = [self convertRectFromLayout:rect];
+                [content pp_drawInRect:rect contentMode:textAttachment.contentType withContext:context];
             }
         }];
     }];
@@ -260,7 +253,7 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
 
 - (void)drawBorder:(PPTextHighlightRange *)highlightRange rect:(CGRect)rect context:(CGContextRef)context
 {
-    PPTextBorder *textBorder = highlightRange.attributes[PPTextBorderAttributeName];
+    PPTextBorder *textBorder = highlightRange.border;
     if (textBorder) {
         CGColorRef color;
         if (textBorder.fillColor) {
@@ -423,7 +416,7 @@ static BOOL textRendererDebugModeEnabled = NO;
     }
 }
 
-- (void)debugModeDrawLineFramesWithLayoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context
+- (void)drawdebugMode:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context
 {
     CGPoint origin = self.drawingOrigin;
     CGSize size = self.textLayout.maxSize;

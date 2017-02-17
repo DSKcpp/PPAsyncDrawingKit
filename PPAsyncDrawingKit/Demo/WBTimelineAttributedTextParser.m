@@ -14,6 +14,7 @@
 #import "WBTimelineItem.h"
 #import "PPTextAttachment.h"
 #import "PPTextUtilties.h"
+#import "NSString+Regex.h"
 
 NSString * const WBTimelineHighlightRangeModeMention = @"WBTimelineHighlightRangeModeMention";
 NSString * const WBTimelineHighlightRangeModeTopic = @"WBTimelineHighlightRangeModeTopic";

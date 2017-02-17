@@ -60,7 +60,9 @@
 {
     _pageInfo = pageInfo;
     _textView.pageInfo = pageInfo;
-    [_imageView setImageURL:[NSURL URLWithString:pageInfo.page_pic] placeholderImage:[UIImage imageNamed:@"avatar"]];
+    if (pageInfo.page_pic) {
+        [_imageView setImageURL:[NSURL URLWithString:pageInfo.page_pic] placeholderImage:[UIImage imageNamed:@"avatar"]];
+    }
 }
 @end
 

@@ -10,7 +10,7 @@
 
 @implementation PPTextAttachment
 
-+ (instancetype)attachmentWithContents:(id)contents contentType:(UIViewContentMode)contentType contentSize:(CGSize)contentSize
++ (instancetype)attachmentWithContents:(UIImage *)contents contentType:(UIViewContentMode)contentType contentSize:(CGSize)contentSize
 {
     PPTextAttachment *textAttachment = [[self alloc] init];
     textAttachment.contents = contents;

@@ -1,48 +1,25 @@
 //
-//  PPImage+WebP.m
+//  PPImage.m
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 2016/12/25.
 //  Copyright © 2016年 DSKcpp. All rights reserved.
 //
 
-#import "PPImage+WebP.h"
-
-//#ifdef PPIMAGE_WEBP
-//#if __has_include(<webp/decode.h>) && __has_include(<webp/encode.h>) && \
-//    __has_include(<webp/demux.h>)  && __has_include(<webp/mux.h>)
-//#define PPIMAGE_WEBP 1
-//#import <webp/decode.h>
-//#import <webp/encode.h>
-//#import <webp/demux.h>
-//#import <webp/mux.h>
-//#elif __has_include("webp/decode.h") && __has_include("webp/encode.h") && \
-//    __has_include("webp/demux.h")  && __has_include("webp/mux.h")
-//#define PPIMAGE_WEBP 1
-//#import "webp/decode.h"
-//#import "webp/encode.h"
-//#import "webp/demux.h"
-//#import "webp/mux.h"
-//#else
-//#define PPIMAGE_WEBP 0
-//#endif
-//#endif
-
-//#import <webp/decode.h>
-//#import <webp/encode.h>
-//#import <webp/demux.h>
-//#import <webp/mux.h>
+#import "PPImageDecode.h"
+#import "NSData+PPImageContentType.h"
+#import "PPAsyncDrawingView.h"
 
 #ifndef PPIMAGE_WEBP_ENABLED
 #if __has_include(<webp/decode.h>) && __has_include(<webp/encode.h>) && \
-    __has_include(<webp/demux.h>)  && __has_include(<webp/mux.h>)
+__has_include(<webp/demux.h>)  && __has_include(<webp/mux.h>)
 #define PPIMAGE_WEBP_ENABLED 1
 #import <Webp/decode.h>
 #import <Webp/encode.h>
 #import <Webp/demux.h>
 #import <Webp/mux.h>
 #elif __has_include("Webp/decode.h") && __has_include("Webp/encode.h") && \
-      __has_include("Webp/demux.h")  && __has_include("Webp/mux.h")
+__has_include("Webp/demux.h")  && __has_include("Webp/mux.h")
 #define PPIMAGE_WEBP_ENABLED 1
 #import "Webp/decode.h"
 #import "Webp/encode.h"
@@ -53,13 +30,73 @@
 #endif
 #endif
 
-#if PPIMAGE_WEBP_ENABLED
-
 static void FreeImageData(void *info, const void *data, size_t size) {
     free((void *)data);
 }
 
-@implementation PPImage (WebP)
+@implementation PPImageDecode
++ (UIImage *)imageWithData:(NSData *)data
+{
+    if (!data) {
+        return nil;
+    }
+    
+    UIImage *image;
+    PPImageFormat imageFormat = [NSData pp_imageFormatForImageData:data];
+    if (imageFormat == PPImageFormatGIF) {
+        image = [PPImageDecode animatedGIFWithData:data];
+    } else if (imageFormat == PPImageFormatWebP) {
+#if PPIMAGE_WEBP_ENABLED
+        image = [PPImageDecode imageWithWebPData:data];
+#else
+        return nil;
+#endif
+    } else {
+        image = [UIImage imageWithData:data];
+    }
+    return image;
+}
+
++ (UIImage *)imageWithContentsOfFile:(NSString *)path
+{
+    NSData *data = [NSData dataWithContentsOfFile:path];
+    return [self imageWithData:data];
+}
+
++ (UIImage *)animatedGIFWithData:(NSData *)data
+{
+    if (!data) {
+        return nil;
+    }
+    
+    CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);
+    
+    size_t count = CGImageSourceGetCount(source);
+    
+    UIImage *staticImage;
+    
+    if (count <= 1) {
+        staticImage = [[UIImage alloc] initWithData:data];
+    } else {
+        CGFloat scale = PPScreenScale();
+        
+        NSMutableArray *images = @[].mutableCopy;
+        for (NSInteger i = 0; i < count; i++) {
+            CGImageRef CGImage = CGImageSourceCreateImageAtIndex(source, i, NULL);
+            UIImage *frameImage = [UIImage imageWithCGImage:CGImage scale:scale orientation:UIImageOrientationUp];
+            [images addObject:frameImage];
+            CGImageRelease(CGImage);
+        }
+        staticImage = [UIImage animatedImageWithImages:images duration:0.0f];
+    }
+    
+    CFRelease(source);
+    
+    return staticImage;
+}
+
+#if PPIMAGE_WEBP_ENABLED
+
 + (UIImage *)imageWithWebPData:(NSData *)data
 {
     if (!data) {
@@ -75,7 +112,7 @@ static void FreeImageData(void *info, const void *data, size_t size) {
     uint32_t flags = WebPDemuxGetI(demuxer, WEBP_FF_FORMAT_FLAGS);
     if (!(flags & ANIMATION_FLAG)) {
         // for static single webp image
-        UIImage *staticImage = [[self class] rawWepImageWithData:webpData];
+        UIImage *staticImage = [self rawWepImageWithData:webpData];
         WebPDemuxDelete(demuxer);
         return staticImage;
     }
@@ -113,10 +150,10 @@ static void FreeImageData(void *info, const void *data, size_t size) {
     UIImage *finalImage = nil;
     finalImage = [UIImage animatedImageWithImages:images duration:duration];
     return finalImage;
-
+    
 }
 
-+ (nullable UIImage *)blendWebpImageWithOriginImage:(nullable UIImage *)originImage iterator:(WebPIterator)iter {
++ (UIImage *)blendWebpImageWithOriginImage:(nullable UIImage *)originImage iterator:(WebPIterator)iter {
     if (!originImage) {
         return nil;
     }
@@ -147,7 +184,7 @@ static void FreeImageData(void *info, const void *data, size_t size) {
     return image;
 }
 
-+ (nullable UIImage *)rawWepImageWithData:(WebPData)webpData {
++ (UIImage *)rawWepImageWithData:(WebPData)webpData {
     WebPDecoderConfig config;
     if (!WebPInitDecoderConfig(&config)) {
         return nil;
@@ -189,7 +226,6 @@ static void FreeImageData(void *info, const void *data, size_t size) {
     
     return image;
 }
+#endif
 
 @end
-
-#endif
