@@ -130,6 +130,10 @@ static BOOL asyncDrawingEnabled = YES;
             return;
         }
         CGSize size = layer.bounds.size;
+        if (!(size.width > 0 && size.height > 0)) {
+            drawingInterrupted(asynchronously);
+            return;
+        }
         CGFloat scale = layer.contentsScale;
         BOOL isOpaque = layer.isOpaque;
         UIGraphicsBeginImageContextWithOptions(size, isOpaque, scale);

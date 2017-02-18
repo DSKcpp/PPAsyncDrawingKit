@@ -379,7 +379,6 @@
     return YES;
 }
 
-
 - (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
     CGPoint point = CGPointZero;
@@ -427,5 +426,4 @@
     }
 }
 
-- (void)didCommitBoundsSizeChange { }
 @end

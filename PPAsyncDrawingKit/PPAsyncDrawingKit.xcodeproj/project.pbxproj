@@ -13,6 +13,8 @@
 		864606AF1E2618C000A8CB07 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8659A9121E15BEF700BC9F91 /* WebKit.framework */; };
 		864606FE1E27EC7F00A8CB07 /* PPTextEditableExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 864606FB1E27EC7500A8CB07 /* PPTextEditableExample.m */; };
 		866D13CA1E56C32D00A44708 /* NSString+Regex.m in Sources */ = {isa = PBXBuildFile; fileRef = 866D13C91E56C32D00A44708 /* NSString+Regex.m */; };
+		866D140E1E57623500A44708 /* AutoLayoutExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 866D140D1E57623500A44708 /* AutoLayoutExample.m */; };
+		866D14111E5767DB00A44708 /* UIView+Constraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 866D14101E5767DA00A44708 /* UIView+Constraint.m */; };
 		866FDF381E25FAE400C513DF /* PPAsyncDrawingKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 866FDF361E25FAE400C513DF /* PPAsyncDrawingKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		866FDF3B1E25FAE400C513DF /* PPAsyncDrawingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 866FDF341E25FAE300C513DF /* PPAsyncDrawingKit.framework */; };
 		866FDF3C1E25FAE400C513DF /* PPAsyncDrawingKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 866FDF341E25FAE300C513DF /* PPAsyncDrawingKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -404,6 +406,10 @@
 		8659A9121E15BEF700BC9F91 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		866D13C81E56C32D00A44708 /* NSString+Regex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Regex.h"; path = "Demo/NSString+Regex.h"; sourceTree = SOURCE_ROOT; };
 		866D13C91E56C32D00A44708 /* NSString+Regex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Regex.m"; path = "Demo/NSString+Regex.m"; sourceTree = SOURCE_ROOT; };
+		866D140C1E57623500A44708 /* AutoLayoutExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AutoLayoutExample.h; path = Demo/AutoLayoutExample.h; sourceTree = SOURCE_ROOT; };
+		866D140D1E57623500A44708 /* AutoLayoutExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AutoLayoutExample.m; path = Demo/AutoLayoutExample.m; sourceTree = SOURCE_ROOT; };
+		866D140F1E5767DA00A44708 /* UIView+Constraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Constraint.h"; path = "Demo/UIView+Constraint.h"; sourceTree = SOURCE_ROOT; };
+		866D14101E5767DA00A44708 /* UIView+Constraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Constraint.m"; path = "Demo/UIView+Constraint.m"; sourceTree = SOURCE_ROOT; };
 		866FDF341E25FAE300C513DF /* PPAsyncDrawingKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PPAsyncDrawingKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		866FDF361E25FAE400C513DF /* PPAsyncDrawingKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PPAsyncDrawingKit.h; sourceTree = "<group>"; };
 		866FDF451E25FF2100C513DF /* PPAsyncDrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPAsyncDrawingView.h; path = PPAsyncDrawingKit/PPAsyncDrawingView.h; sourceTree = "<group>"; };
@@ -830,6 +836,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		866D140B1E57621200A44708 /* AutoLayout Example */ = {
+			isa = PBXGroup;
+			children = (
+				866D140C1E57623500A44708 /* AutoLayoutExample.h */,
+				866D140D1E57623500A44708 /* AutoLayoutExample.m */,
+			);
+			name = "AutoLayout Example";
+			sourceTree = "<group>";
+		};
 		866FDF351E25FAE400C513DF /* PPAsyncDrawingKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -1048,6 +1063,7 @@
 		86EB758C1D2393CC005F14A1 /* PPAsyncDrawingKit-Demo */ = {
 			isa = PBXGroup;
 			children = (
+				866D140B1E57621200A44708 /* AutoLayout Example */,
 				861EB1CA1DB10EE3005C07C7 /* Image Example */,
 				86EF6AAB1DB132C5006464CE /* Text Example */,
 				865857E91E248DC00047782A /* Button Example */,
@@ -1120,6 +1136,8 @@
 				86772BAF1E4AE2C1002DBA1E /* PPDemoToolBar.m */,
 				866D13C81E56C32D00A44708 /* NSString+Regex.h */,
 				866D13C91E56C32D00A44708 /* NSString+Regex.m */,
+				866D140F1E5767DA00A44708 /* UIView+Constraint.h */,
+				866D14101E5767DA00A44708 /* UIView+Constraint.m */,
 			);
 			name = Other;
 			path = ../Demo/Other;
@@ -1696,6 +1714,7 @@
 				86FA96D61E53263600924BF1 /* tree.c in Sources */,
 				86FA96261E53263500924BF1 /* vp8.c in Sources */,
 				86FA96411E53263500924BF1 /* argb_mips_dsp_r2.c in Sources */,
+				866D140E1E57623500A44708 /* AutoLayoutExample.m in Sources */,
 				86FA96581E53263500924BF1 /* dec_msa.c in Sources */,
 				86FA961C1E53263500924BF1 /* idec.c in Sources */,
 				86FA96D21E53263600924BF1 /* syntax.c in Sources */,
@@ -1736,6 +1755,7 @@
 				86AE96001E2CC20D00DDD90A /* UIImageView+HighlightedWebCache.m in Sources */,
 				866FDFD31E260B5100C513DF /* WBTimelineLargeCardView.m in Sources */,
 				866FDFDB1E260B6800C513DF /* WBWebViewController.m in Sources */,
+				866D14111E5767DB00A44708 /* UIView+Constraint.m in Sources */,
 				86FA963B1E53263500924BF1 /* alpha_processing_sse2.c in Sources */,
 				86FA97101E53263600924BF1 /* quant_levels_dec.c in Sources */,
 				86AE95F71E2CC20D00DDD90A /* SDWebImageDecoder.m in Sources */,

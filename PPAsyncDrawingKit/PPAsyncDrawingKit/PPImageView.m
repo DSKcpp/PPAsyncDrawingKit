@@ -126,6 +126,22 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
     }
 }
 
+- (void)setFrame:(CGRect)frame
+{
+    if (!CGRectEqualToRect(self.frame, frame)) {
+        [super setFrame:frame];
+        [self setNeedsDisplay];
+    }
+}
+
+- (CGSize)sizeThatFits:(CGSize)size
+{
+    if (_image) {
+        return _image.size;
+    }
+    return size;
+}
+
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously
 {
     if (_showsCornerRadius) {
