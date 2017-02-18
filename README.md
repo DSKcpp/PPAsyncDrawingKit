@@ -9,11 +9,9 @@ PPAsyncDrawingKit
 
 这是一个轻量的异步绘制框架，实现一系列 `UIKit` 基础控件。
 
-项目由 Obj-C 编写，为了减少 Demo 体积，直接添加了 webP 源码，所有识别成了 C 的项目。
-
 项目需要 Xcode 8.0+ 编译，真机需要证书才能运行。
 
-关于 Core Text 结构，图片来自[Apple Dev (About Core Text)](https://developer.apple.com/library/content/documentation/StringsTextFonts/Conceptual/CoreText_Programming/Introduction/Introduction.html#//apple_ref/doc/uid/TP40005533-CH1-SW1)
+关于 Core Text 结构问题，图片来自[Apple Dev (About Core Text)](https://developer.apple.com/library/content/documentation/StringsTextFonts/Conceptual/CoreText_Programming/Introduction/Introduction.html#//apple_ref/doc/uid/TP40005533-CH1-SW1)
 ![](https://developer.apple.com/library/content/documentation/StringsTextFonts/Conceptual/CoreText_Programming/Art/core_text_arch_2x.png)
 
 #Features
