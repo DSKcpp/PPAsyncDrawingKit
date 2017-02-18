@@ -13,6 +13,7 @@
 #import "NSString+PPAsyncDrawingKit.h"
 #import "NSAttributedString+PPExtendedAttributedString.h"
 #import "PPImageView+SDWebImage.h"
+#import "NSNumber+Formatter.h"
 
 @implementation WBColorImageView
 
@@ -220,7 +221,7 @@
         }
         
         if (drawingContext.hasTitle) {
-            self.titleIcon.hidden = !drawingContext.hasTitle;
+            self.titleIcon.hidden = !drawingContext.hasTitleICON;
             [self.titleIcon setImageURL:[WBHelper defaultURLForImageURL:_timelineItem.title.icon_url]];
         }
         
@@ -423,7 +424,7 @@
 {
     NSString *retweetCount;
     if (timelineItem.reposts_count > 0) {
-        retweetCount = [NSString stringWithFormat:@"%zd", timelineItem.reposts_count];
+        retweetCount = [@(timelineItem.reposts_count) formatterCountToString];
     } else {
         retweetCount = @"转发";
     }
@@ -431,7 +432,7 @@
     
     NSString *commentCount;
     if (timelineItem.comments_count > 0) {
-        commentCount = [NSString stringWithFormat:@"%zd", timelineItem.comments_count];
+        commentCount = [@(timelineItem.comments_count) formatterCountToString];
     } else {
         commentCount = @"评论";
     }
@@ -439,7 +440,7 @@
     
     NSString *likeCount;
     if (timelineItem.attitudes_count > 0) {
-        likeCount = [NSString stringWithFormat:@"%zd", timelineItem.attitudes_count];
+        likeCount = [@(timelineItem.attitudes_count) formatterCountToString];
     } else {
         likeCount = @"赞" ;
     }

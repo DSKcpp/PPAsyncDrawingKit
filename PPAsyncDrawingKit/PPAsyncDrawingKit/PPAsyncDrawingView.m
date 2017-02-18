@@ -9,11 +9,11 @@
 #import "PPAsyncDrawingView.h"
 #import <stdatomic.h>
 
-dispatch_queue_t PPDrawConcurrentQueue() {
+dispatch_queue_t PPDrawSerialQueue() {
     static dispatch_queue_t queue;
     static dispatch_once_t token;
     dispatch_once(&token, ^{
-        queue = dispatch_queue_create("io.github.dskcpp.drawQueue", DISPATCH_QUEUE_CONCURRENT);
+        queue = dispatch_queue_create("io.github.dskcpp.drawQueue", DISPATCH_QUEUE_SERIAL);
     });
     return queue;
 }
@@ -232,7 +232,7 @@ static BOOL asyncDrawingEnabled = YES;
     if (_asyncDrawQueue) {
         return _asyncDrawQueue;
     } else {
-        return PPDrawConcurrentQueue();
+        return PPDrawSerialQueue();
     }
 }
 @end

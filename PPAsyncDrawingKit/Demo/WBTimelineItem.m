@@ -197,7 +197,12 @@
 
 - (BOOL)hasTitle
 {
-    return self.timelineItem.title != nil;
+    return self.timelineItem.title.text.length > 0;
+}
+
+- (BOOL)hasTitleICON
+{
+    return self.timelineItem.title.icon_url.length > 0;
 }
 
 @end

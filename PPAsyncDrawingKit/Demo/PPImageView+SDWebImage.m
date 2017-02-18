@@ -93,11 +93,9 @@ static char imageURLKey;
                     return;
                 } else if (image) {
                     sself.image = image;
-                    [sself setNeedsLayout];
                 } else {
                     if ((options & SDWebImageDelayPlaceholder)) {
                         sself.image = placeholder;
-                        [sself setNeedsLayout];
                     }
                 }
                 if (completedBlock && finished) {
@@ -116,7 +114,6 @@ static char imageURLKey;
         });
     }
 }
-
 
 - (void)sd_setImageWithPreviousCachedImageWithURL:(nullable NSURL *)url
                                  placeholderImage:(nullable UIImage *)placeholder

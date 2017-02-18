@@ -17,6 +17,7 @@
 		866D14111E5767DB00A44708 /* UIView+Constraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 866D14101E5767DA00A44708 /* UIView+Constraint.m */; };
 		866D146F1E5833DB00A44708 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 866D146E1E5833DB00A44708 /* WebP.framework */; };
 		866D14701E5833DB00A44708 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 866D146E1E5833DB00A44708 /* WebP.framework */; };
+		866D14731E58406C00A44708 /* NSNumber+Formatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 866D14721E58406C00A44708 /* NSNumber+Formatter.m */; };
 		866FDF381E25FAE400C513DF /* PPAsyncDrawingKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 866FDF361E25FAE400C513DF /* PPAsyncDrawingKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		866FDF3B1E25FAE400C513DF /* PPAsyncDrawingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 866FDF341E25FAE300C513DF /* PPAsyncDrawingKit.framework */; };
 		866FDF3C1E25FAE400C513DF /* PPAsyncDrawingKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 866FDF341E25FAE300C513DF /* PPAsyncDrawingKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -163,6 +164,8 @@
 		866D140F1E5767DA00A44708 /* UIView+Constraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Constraint.h"; path = "Demo/UIView+Constraint.h"; sourceTree = SOURCE_ROOT; };
 		866D14101E5767DA00A44708 /* UIView+Constraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Constraint.m"; path = "Demo/UIView+Constraint.m"; sourceTree = SOURCE_ROOT; };
 		866D146E1E5833DB00A44708 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = Demo/WebP.framework; sourceTree = "<group>"; };
+		866D14711E58406C00A44708 /* NSNumber+Formatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSNumber+Formatter.h"; path = "Demo/NSNumber+Formatter.h"; sourceTree = SOURCE_ROOT; };
+		866D14721E58406C00A44708 /* NSNumber+Formatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSNumber+Formatter.m"; path = "Demo/NSNumber+Formatter.m"; sourceTree = SOURCE_ROOT; };
 		866FDF341E25FAE300C513DF /* PPAsyncDrawingKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PPAsyncDrawingKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		866FDF361E25FAE400C513DF /* PPAsyncDrawingKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PPAsyncDrawingKit.h; sourceTree = "<group>"; };
 		866FDF451E25FF2100C513DF /* PPAsyncDrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPAsyncDrawingView.h; path = PPAsyncDrawingKit/PPAsyncDrawingView.h; sourceTree = "<group>"; };
@@ -747,6 +750,8 @@
 				866D13C91E56C32D00A44708 /* NSString+Regex.m */,
 				866D140F1E5767DA00A44708 /* UIView+Constraint.h */,
 				866D14101E5767DA00A44708 /* UIView+Constraint.m */,
+				866D14711E58406C00A44708 /* NSNumber+Formatter.h */,
+				866D14721E58406C00A44708 /* NSNumber+Formatter.m */,
 			);
 			name = Other;
 			path = ../Demo/Other;
@@ -932,6 +937,7 @@
 				86772BB51E524AD7002DBA1E /* PPTextTruncatedExample.m in Sources */,
 				866FDFDE1E260B7F00C513DF /* WBHelper.m in Sources */,
 				86AE96091E2CCAF000DDD90A /* PPImageView+SDWebImage.m in Sources */,
+				866D14731E58406C00A44708 /* NSNumber+Formatter.m in Sources */,
 				866FDFBC1E260AAA00C513DF /* WBTimelineContentView.m in Sources */,
 				86EB75951D2393CC005F14A1 /* ViewController.m in Sources */,
 				86AE95F51E2CC20D00DDD90A /* SDImageCacheConfig.m in Sources */,

@@ -187,4 +187,5 @@
 - (BOOL)hasPhoto;
 - (BOOL)hasQuoted;
 - (BOOL)hasTitle;
+- (BOOL)hasTitleICON;
 @end
