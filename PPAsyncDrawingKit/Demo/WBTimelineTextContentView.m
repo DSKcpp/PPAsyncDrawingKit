@@ -112,21 +112,15 @@
 {
     if (self = [super initWithFrame:frame]) {
         [self setBackgroundColor:[UIColor clearColor]];
-        self.contentTextLayout = [[PPTextLayout alloc] init];
-        self.contentTextLayout.textRenderer.eventDelegate = self;
-        self.quotedTextLayout = [[PPTextLayout alloc] init];
-        self.quotedTextLayout.textRenderer.eventDelegate = self;
-        self.titleTextLayout = [[PPTextLayout alloc] init];
-        self.titleTextLayout.textRenderer.eventDelegate = self;
-        self.sourceTextLayout = [[PPTextLayout alloc] init];
-        self.sourceTextLayout.textRenderer.eventDelegate = self;
-        self.sourceTextLayout.numberOfLines = 1;
-        self.attachmentViews = [NSMutableArray array];
-        self.attachments = [NSMutableArray array];
-        [self addTextLayout:self.contentTextLayout];
-        [self addTextLayout:self.quotedTextLayout];
-        [self addTextLayout:self.titleTextLayout];
-        [self addTextLayout:self.sourceTextLayout];
+        _contentTextLayout = [[PPTextLayout alloc] init];
+        _quotedTextLayout = [[PPTextLayout alloc] init];
+        _titleTextLayout = [[PPTextLayout alloc] init];
+        _sourceTextLayout = [[PPTextLayout alloc] init];
+        _sourceTextLayout.numberOfLines = 1;
+        [self addTextLayout:_contentTextLayout];
+        [self addTextLayout:_quotedTextLayout];
+        [self addTextLayout:_titleTextLayout];
+        [self addTextLayout:_sourceTextLayout];
         _largeCardView = [[WBTimelineLargeCardView alloc] initWithFrame:CGRectZero];
         [self addSubview:_largeCardView];
     }
@@ -135,6 +129,10 @@
 
 - (void)setDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext
 {
+    if (_drawingContext == drawingContext) {
+        return;
+    }
+    
     _drawingContext = drawingContext;
     _largeCardView.frame = drawingContext.largeFrame;
     _largeCardView.pageInfo = drawingContext.timelineItem.page_info;
@@ -173,13 +171,6 @@
         [self.quotedTextLayout.textRenderer drawInContext:context];
     }
     return YES;
-}
-
-- (void)textRenderer:(PPTextRenderer *)textRenderer didPressHighlightRange:(PPTextHighlightRange *)highlightRange
-{
-    if ([_delegate respondsToSelector:@selector(textContentView:didPressHighlightRange:)]) {
-        [_delegate textContentView:self didPressHighlightRange:highlightRange];
-    }
 }
 
 @end

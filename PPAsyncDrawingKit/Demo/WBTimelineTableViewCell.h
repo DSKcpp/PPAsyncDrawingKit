@@ -22,7 +22,6 @@
 
 @interface WBTimelineTableViewCell : UITableViewCell
 @property (nonatomic, strong) WBTimelineItem *timelineItem;
-@property (nonatomic, strong) WBTimelineContentView *timelineContentView;
-@property (nonatomic, assign) CGFloat timelineContainerWidth;
+@property (nonatomic, strong, readonly) WBTimelineContentView *timelineContentView;
 @property (nonatomic, weak) id<WBTimelineTableViewCellDelegate> delegate;
 @end

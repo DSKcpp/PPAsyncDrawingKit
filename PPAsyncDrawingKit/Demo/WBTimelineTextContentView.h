@@ -13,22 +13,14 @@
 @class WBTimelineItem;
 @class WBTimelineTextContentView;
 
-@protocol WBTimelineTextContentViewDelegate <NSObject>
-- (void)textContentView:(WBTimelineTextContentView *)textContentView didPressHighlightRange:(PPTextHighlightRange *)highlightRange;
-@end
-
 @interface WBTimelineTextContentView : PPMultiplexTextView
-@property (nonatomic, strong) NSMutableArray *attachmentViews;
-@property (nonatomic, strong) NSMutableArray *attachments;
-@property (nonatomic, strong) WBTimelineLargeCardView *largeCardView;
-@property (nonatomic, strong) PPTextLayout *sourceTextLayout;
-@property (nonatomic, strong) PPTextLayout *titleTextLayout;
-@property (nonatomic, strong) PPTextLayout *contentTextLayout;
-@property (nonatomic, strong) PPTextLayout *quotedTextLayout;
-@property (nonatomic, assign) BOOL highlighted;
+@property (nonatomic, strong, readonly) PPTextLayout *sourceTextLayout;
+@property (nonatomic, strong, readonly) PPTextLayout *titleTextLayout;
+@property (nonatomic, strong, readonly) PPTextLayout *contentTextLayout;
+@property (nonatomic, strong, readonly) PPTextLayout *quotedTextLayout;
+@property (nonatomic, strong, readonly) WBTimelineLargeCardView *largeCardView;
 @property (nonatomic, strong) WBTimelineTableViewCellDrawingContext *drawingContext;
-@property (nonatomic, weak) id<WBTimelineTextContentViewDelegate> delegate;
+@property (nonatomic, assign) BOOL highlighted;
 
 + (void)renderDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext;
-- (void)setDrawingContext:(WBTimelineTableViewCellDrawingContext *)drawingContext;
 @end

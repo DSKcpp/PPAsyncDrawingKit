@@ -16,10 +16,12 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.backgroundColor = [UIColor clearColor];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
         CGFloat width = [UIScreen mainScreen].bounds.size.width;
-        self.timelineContentView = [[WBTimelineContentView alloc] initWithWidth:width];
-        self.timelineContentView.cell = self;
-        [self.contentView addSubview:self.timelineContentView];
+        
+        _timelineContentView = [[WBTimelineContentView alloc] initWithWidth:width];
+        _timelineContentView.cell = self;
+        [self.contentView addSubview:_timelineContentView];
     }
     return self;
 }
@@ -56,6 +58,5 @@
 {
     self.timelineContentView.delegate = delegate;
 }
-
 
 @end

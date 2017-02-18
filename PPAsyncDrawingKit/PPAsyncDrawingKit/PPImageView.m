@@ -130,6 +130,10 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
 {
     if (!CGRectEqualToRect(self.frame, frame)) {
         [super setFrame:frame];
+        CGPathRelease(_roundPathRef);
+        _roundPathRef = nil;
+        CGPathRelease(_borderPathRef);
+        _borderPathRef = nil;
         [self setNeedsDisplay];
     }
 }
@@ -191,6 +195,8 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
 - (void)stopAnimating
 {
     _displayLink.paused = YES;
+    [_displayLink invalidate];
+    _displayLink = nil;
 }
 
 - (void)setAnimationImage:(CADisplayLink *)displayLink
@@ -242,7 +248,7 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
                 } completion:^(UIImage * _Nullable image, NSError * _Nullable error) {
                     if (image) {
                         [self setImageLoaderImage:image URL:imageURL];
-                    } else {
+                    } else if (error) {
                         NSLog(@"%@", error);
                     }
                 }];

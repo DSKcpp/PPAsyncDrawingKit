@@ -10,14 +10,14 @@
 #import "PPTextRenderer.h"
 #import <objc/runtime.h>
 
-@interface PPTextView ()
+@interface PPTextView () <PPTextRendererEventDelegate>
 {
     BOOL _needUpdateAttribtues;
-    BOOL _pendingAttachmentUpdates;
 }
 @end
 
 @implementation PPTextView
+@synthesize textLayout = _textLayout;
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -65,11 +65,6 @@
     [super touchesCancelled:touches withEvent:event];
 }
 
-- (BOOL)pendingAttachmentUpdates
-{
-    return YES;
-}
-
 - (PPTextLayout *)textLayout
 {
     if (!_textLayout) {
@@ -77,6 +72,16 @@
         _textLayout.textRenderer.eventDelegate = self;
     }
     return _textLayout;
+}
+
+- (void)setTextLayout:(PPTextLayout *)textLayout
+{
+    if (_textLayout == textLayout) {
+        return;
+    }
+    
+    _textLayout = textLayout;
+    _textLayout.textRenderer.eventDelegate = self;
 }
 
 - (NSAttributedString *)attributedString
@@ -106,8 +111,8 @@
 
 - (void)textRenderer:(PPTextRenderer *)textRenderer didPressHighlightRange:(PPTextHighlightRange *)highlightRange
 {
-    if ([_delegate respondsToSelector:@selector(textView:didSelectHighlightRange:)]) {
-        [_delegate textView:self didSelectHighlightRange:highlightRange];
+    if ([_delegate respondsToSelector:@selector(textLayout:didSelectHighlightRange:)]) {
+        [_delegate textLayout:self.textLayout didSelectHighlightRange:highlightRange];
     }
 }
 

@@ -13,6 +13,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol PPTextEventDelegate <NSObject>
+- (void)textLayout:(PPTextLayout *)textLayout didSelectHighlightRange:(PPTextHighlightRange *)highlightRange;
+@end
+
 /**
  有关 Text 的属性都有这个类负责
  */

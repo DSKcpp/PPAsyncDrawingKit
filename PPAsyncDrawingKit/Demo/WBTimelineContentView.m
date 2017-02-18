@@ -16,16 +16,30 @@
 #import "NSNumber+Formatter.h"
 
 @implementation WBColorImageView
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    if (self = [super initWithFrame:frame]) {
+        CGFloat width = [UIScreen mainScreen].bounds.size.width;
+        _topLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 0.5f)];
+        _topLineView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
+        [self addSubview:_topLineView];
+        
+        _bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 0.5f)];
+        _bottomLineView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
+        [self addSubview:_bottomLineView];
+    }
+    return self;
+}
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor
 {
-    [self setBackgroundColor:backgroundColor boolOwn:YES];
+    [self setBackgroundColor:backgroundColor saveCommonBackgroundColor:YES];
 }
 
-- (void)setBackgroundColor:(UIColor *)backgroundColor boolOwn:(BOOL)boolOwn
+- (void)setBackgroundColor:(UIColor *)backgroundColor saveCommonBackgroundColor:(BOOL)saveCommonBackgroundColor
 {
     [super setBackgroundColor:backgroundColor];
-    if (boolOwn) {
+    if (saveCommonBackgroundColor) {
         self.commonBackgroundColor = backgroundColor;
     }
 }
@@ -35,15 +49,15 @@
     [super setHighlighted:highlighted];
     if (!self.image) {
         if (highlighted) {
-            [self setBackgroundColor:self.highLightBackgroundColor boolOwn:NO];
+            [self setBackgroundColor:self.highLightBackgroundColor saveCommonBackgroundColor:NO];
         } else {
-            [self setBackgroundColor:self.commonBackgroundColor boolOwn:NO];
+            [self setBackgroundColor:self.commonBackgroundColor saveCommonBackgroundColor:NO];
         }
     }
 }
 @end
 
-@interface WBTimelineContentView () <WBTimelineTextContentViewDelegate>
+@interface WBTimelineContentView () <PPTextEventDelegate>
 @end
 
 @implementation WBTimelineContentView
@@ -110,7 +124,7 @@
 {
     _titleBgImageView = [[WBColorImageView alloc] init];
     _titleBgImageView.userInteractionEnabled = YES;
-    [_titleBgImageView setBackgroundColor:[UIColor whiteColor] boolOwn:YES];
+    [_titleBgImageView setBackgroundColor:[UIColor whiteColor] saveCommonBackgroundColor:YES];
     [self addSubview:_titleBgImageView];
 }
 
@@ -123,19 +137,10 @@
 
 - (void)createItemContentBgImageView
 {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    UIView *topLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 0.5f)];
-    topLineView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
-    UIView *bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 0.5f)];
-    bottomLineView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
     _itemContentBgImageView = [[WBColorImageView alloc] init];
     _itemContentBgImageView.userInteractionEnabled = YES;
     [_itemContentBgImageView setBackgroundColor:[UIColor whiteColor]];
     _itemContentBgImageView.highLightBackgroundColor = [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1.0];
-    _itemContentBgImageView.topLineView = topLineView;
-    _itemContentBgImageView.bottomLineView = bottomLineView;
-    [_itemContentBgImageView addSubview:topLineView];
-    [_itemContentBgImageView addSubview:bottomLineView];
     [self addSubview:_itemContentBgImageView];
 }
 
@@ -256,8 +261,7 @@
     }
 }
 
-#pragma mark - WBTimelineContentView Delegate
-- (void)textContentView:(WBTimelineTextContentView *)textContentView didPressHighlightRange:(PPTextHighlightRange *)highlightRange
+- (void)textLayout:(PPTextLayout *)textLayout didSelectHighlightRange:(PPTextHighlightRange *)highlightRange
 {
     if ([_delegate respondsToSelector:@selector(tableViewCell:didPressHighlightRange:)]) {
         [_delegate tableViewCell:_cell didPressHighlightRange:highlightRange];

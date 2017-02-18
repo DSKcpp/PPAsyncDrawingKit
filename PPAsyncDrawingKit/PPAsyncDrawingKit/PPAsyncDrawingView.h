@@ -37,11 +37,6 @@ typedef NS_ENUM(NSUInteger, PPAsyncDrawingType) {
 @property (nonatomic, class, assign) BOOL globallyAsyncDrawingEnabled;
 
 /**
- 设置异步绘制所在的线程，如果不设置，并且 asyncDrawing 是 YES 的话，内部会自行开辟一个线程进行绘制，非特殊情况无需设置
- */
-@property (nullable, nonatomic, assign) dispatch_queue_t asyncDrawQueue;
-
-/**
  是否使用多线程进行绘制，默认是 YES
  */
 @property (nonatomic, assign) BOOL asyncDrawing;

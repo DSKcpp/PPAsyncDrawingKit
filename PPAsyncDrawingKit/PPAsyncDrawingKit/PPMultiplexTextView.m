@@ -8,7 +8,7 @@
 
 #import "PPMultiplexTextView.h"
 
-@interface PPMultiplexTextView ()
+@interface PPMultiplexTextView () <PPTextRendererEventDelegate>
 {
     NSMutableArray<PPTextLayout *> *_internalTextLayouts;
 }
@@ -33,6 +33,7 @@
     if (!textLayout) {
         return;
     }
+    textLayout.textRenderer.eventDelegate = self;
     [_internalTextLayouts addObject:textLayout];
 }
 
@@ -121,14 +122,12 @@
     return self;
 }
 
-- (BOOL)textRenderer:(PPTextRenderer *)textRenderer shouldInteractWithHighlightRange:(PPTextHighlightRange *)highlightRange
-{
-    return YES;
-}
-
 - (void)textRenderer:(PPTextRenderer *)textRenderer didPressHighlightRange:(PPTextHighlightRange *)highlightRange
 {
-    
+    if ([_delegate respondsToSelector:@selector(textLayout:didSelectHighlightRange:)]) {
+        [_delegate textLayout:textRenderer.textLayout didSelectHighlightRange:highlightRange];
+    }
 }
+
 
 @end

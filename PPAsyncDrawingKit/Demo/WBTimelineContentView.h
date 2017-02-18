@@ -19,13 +19,13 @@
 @end
 
 @interface WBColorImageView : UIImageView
-@property(retain, nonatomic) UIView *bottomLineView;
-@property(retain, nonatomic) UIView *topLineView;
-@property(retain, nonatomic) UIColor *commonBackgroundColor;
-@property(retain, nonatomic) UIColor *highLightBackgroundColor;
+@property (nonatomic, strong, readonly) UIView *bottomLineView;
+@property (nonatomic, strong, readonly) UIView *topLineView;
+@property (nonatomic, strong) UIColor *commonBackgroundColor;
+@property (nonatomic, strong) UIColor *highLightBackgroundColor;
 
-- (void)setBackgroundColor:(UIColor *)backgroundColor boolOwn:(BOOL)boolOwn;
 - (void)setBackgroundColor:(UIColor *)backgroundColor;
+- (void)setBackgroundColor:(UIColor *)backgroundColor saveCommonBackgroundColor:(BOOL)saveCommonBackgroundColor;
 - (void)setHighlighted:(BOOL)highlighted;
 @end
 
@@ -55,6 +55,7 @@
 
 + (CGFloat)heightOfTimelineItem:(WBTimelineItem *)timelineItem withContentWidth:(CGFloat)width;
 + (WBTimelineTableViewCellDrawingContext *)validDrawingContextOfTimelineItem:(WBTimelineItem *)timelineItem withContentWidth:(CGFloat)width;
+
 - (instancetype)initWithWidth:(CGFloat)width;
 - (void)setTimelineItem:(WBTimelineItem *)timelineItem;
 - (void)setSelectionColor:(BOOL)highlighted;

@@ -184,7 +184,7 @@ static BOOL asyncDrawingEnabled = YES;
         if (_clearsContextBeforeDrawing) {
             layer.contents = nil;
         }
-        dispatch_async(self.internalDrawQueue, drawingContents);
+        dispatch_async(PPDrawSerialQueue(), drawingContents);
     } else if ([NSThread isMainThread]) {
         drawingContents();
     } else {
@@ -225,14 +225,5 @@ static BOOL asyncDrawingEnabled = YES;
 - (NSUInteger)drawingCount
 {
     return self.drawingLayer.drawingCount;
-}
-
-- (dispatch_queue_t)internalDrawQueue
-{
-    if (_asyncDrawQueue) {
-        return _asyncDrawQueue;
-    } else {
-        return PPDrawSerialQueue();
-    }
 }
 @end

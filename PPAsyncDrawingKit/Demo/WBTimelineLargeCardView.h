@@ -25,20 +25,9 @@
 
 @end
 
-@protocol WBTimelineLargeCardViewDelegate <NSObject>
-
-@optional
-- (void)didPressVideoCard;
-- (NSString *)pageInfoIdentifier;
-@end
-
 @interface WBTimelineLargeCardView : UIButton
-@property (nonatomic, assign) BOOL needsBackground;
-@property (nonatomic, assign) BOOL retweeted;
 @property (nonatomic, strong) WBPageInfoBaseCardView *cardView;
 @property (nonatomic, strong) UIImageView *backgroundImageView;
-@property (nonatomic, assign) NSInteger displayType;
-@property (nonatomic, weak) id<WBTimelineLargeCardViewDelegate> delegate;
 @property (nonatomic, strong) WBTimelinePageInfo *pageInfo;
 
 - (instancetype)initWithFrame:(CGRect)frame;

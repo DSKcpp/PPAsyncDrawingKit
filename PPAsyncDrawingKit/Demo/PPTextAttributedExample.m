@@ -10,7 +10,7 @@
 #import "UIView+Frame.h"
 #import "PPTextView.h"
 
-@interface PPTextAttributedExample () <PPTextViewDelegate>
+@interface PPTextAttributedExample () <PPTextEventDelegate>
 
 @end
 
@@ -57,10 +57,9 @@
         label.frame = CGRectMake(0, 264, self.view.width, [attributedString pp_sizeConstrainedToWidth:self.view.width].height);
         [self.view addSubview:label];
     }
-
 }
 
-- (void)textView:(PPTextView *)textView didSelectHighlightRange:(PPTextHighlightRange *)highlightRange
+- (void)textLayout:(PPTextLayout *)textLayout didSelectHighlightRange:(PPTextHighlightRange *)highlightRange
 {
     NSString *value = highlightRange.userInfo[@"key"];
     NSLog(@"%@", value);
