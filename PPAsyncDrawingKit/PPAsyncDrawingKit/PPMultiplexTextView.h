@@ -8,6 +8,7 @@
 
 #import <PPAsyncDrawingKit/PPAsyncDrawingView.h>
 #import <PPAsyncDrawingKit/PPTextLayout.h>
+#import <PPAsyncDrawingKit/NSAttributedString+PPExtendedAttributedString.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

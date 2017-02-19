@@ -156,8 +156,11 @@ textView.top = 76.0f;
 ###PPMultiplexTextView
 将多个 `AttributedString`，绘制到一个 `View` 上。
 
-左边只有一个 `View`。
+####微博：Project/Feeds Demo/View
 ![](http://ww4.sinaimg.cn/large/9bffd8f9gw1fbi1ji8hbyj21kw0u67fm.jpg)
+
+####微信：project/Text Example/PPMultiplexTextExample.m
+![](http://wx3.sinaimg.cn/large/9bffd8f9gy1fcvr993f39j20ku0fjdgo.jpg)
 
 #Installation with CocoaPods
 ###Podfile

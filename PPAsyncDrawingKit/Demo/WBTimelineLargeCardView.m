@@ -10,6 +10,7 @@
 #import "WBHelper.h"
 #import "UIImage+Color.h"
 #import "NSAttributedString+PPExtendedAttributedString.h"
+#import "UIColor+HexString.h"
 
 @implementation WBTimelineLargeCardView
 
@@ -17,8 +18,8 @@
 {
     if (self = [super initWithFrame:frame]) {
         _backgroundImageView = [[UIImageView alloc] init];
-        _backgroundImageView.image = [UIImage imageWithColor:[UIColor colorWithRed:0.968f green:0.968f blue:0.968f alpha:1.0f]];
-        _backgroundImageView.highlightedImage = [UIImage imageWithColor:[UIColor colorWithRed:0.941f green:0.941f blue:0.941f alpha:1.0f]];
+        _backgroundImageView.image = [UIImage imageWithColor:[UIColor colorWithHexString:@"F7F7F7"]];
+        _backgroundImageView.highlightedImage = [UIImage imageWithColor:[UIColor colorWithHexString:@"F0F0F0"]];
         _backgroundImageView.userInteractionEnabled = YES;
         [self addSubview:_backgroundImageView];
     }

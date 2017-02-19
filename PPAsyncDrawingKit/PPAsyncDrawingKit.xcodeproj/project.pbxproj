@@ -18,6 +18,8 @@
 		866D146F1E5833DB00A44708 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 866D146E1E5833DB00A44708 /* WebP.framework */; };
 		866D14701E5833DB00A44708 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 866D146E1E5833DB00A44708 /* WebP.framework */; };
 		866D14731E58406C00A44708 /* NSNumber+Formatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 866D14721E58406C00A44708 /* NSNumber+Formatter.m */; };
+		866D14761E58CF2C00A44708 /* PPMultiplexTextExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 866D14751E58CF2B00A44708 /* PPMultiplexTextExample.m */; };
+		866D14791E59625200A44708 /* UIColor+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = 866D14781E59625200A44708 /* UIColor+HexString.m */; };
 		866FDF381E25FAE400C513DF /* PPAsyncDrawingKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 866FDF361E25FAE400C513DF /* PPAsyncDrawingKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		866FDF3B1E25FAE400C513DF /* PPAsyncDrawingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 866FDF341E25FAE300C513DF /* PPAsyncDrawingKit.framework */; };
 		866FDF3C1E25FAE400C513DF /* PPAsyncDrawingKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 866FDF341E25FAE300C513DF /* PPAsyncDrawingKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -166,6 +168,10 @@
 		866D146E1E5833DB00A44708 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = Demo/WebP.framework; sourceTree = "<group>"; };
 		866D14711E58406C00A44708 /* NSNumber+Formatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSNumber+Formatter.h"; path = "Demo/NSNumber+Formatter.h"; sourceTree = SOURCE_ROOT; };
 		866D14721E58406C00A44708 /* NSNumber+Formatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSNumber+Formatter.m"; path = "Demo/NSNumber+Formatter.m"; sourceTree = SOURCE_ROOT; };
+		866D14741E58CF2B00A44708 /* PPMultiplexTextExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPMultiplexTextExample.h; sourceTree = "<group>"; };
+		866D14751E58CF2B00A44708 /* PPMultiplexTextExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPMultiplexTextExample.m; sourceTree = "<group>"; };
+		866D14771E59625200A44708 /* UIColor+HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+HexString.h"; path = "Demo/UIColor+HexString.h"; sourceTree = SOURCE_ROOT; };
+		866D14781E59625200A44708 /* UIColor+HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+HexString.m"; path = "Demo/UIColor+HexString.m"; sourceTree = SOURCE_ROOT; };
 		866FDF341E25FAE300C513DF /* PPAsyncDrawingKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PPAsyncDrawingKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		866FDF361E25FAE400C513DF /* PPAsyncDrawingKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PPAsyncDrawingKit.h; sourceTree = "<group>"; };
 		866FDF451E25FF2100C513DF /* PPAsyncDrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPAsyncDrawingView.h; path = PPAsyncDrawingKit/PPAsyncDrawingView.h; sourceTree = "<group>"; };
@@ -718,6 +724,8 @@
 				864606FB1E27EC7500A8CB07 /* PPTextEditableExample.m */,
 				862EEE181E2FB6D0007F36A7 /* PPTextTruncatedExample.h */,
 				862EEE191E2FB6D0007F36A7 /* PPTextTruncatedExample.m */,
+				866D14741E58CF2B00A44708 /* PPMultiplexTextExample.h */,
+				866D14751E58CF2B00A44708 /* PPMultiplexTextExample.m */,
 			);
 			name = "Text Example";
 			path = ../Demo;
@@ -752,6 +760,8 @@
 				866D14101E5767DA00A44708 /* UIView+Constraint.m */,
 				866D14711E58406C00A44708 /* NSNumber+Formatter.h */,
 				866D14721E58406C00A44708 /* NSNumber+Formatter.m */,
+				866D14771E59625200A44708 /* UIColor+HexString.h */,
+				866D14781E59625200A44708 /* UIColor+HexString.m */,
 			);
 			name = Other;
 			path = ../Demo/Other;
@@ -929,6 +939,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				866D14791E59625200A44708 /* UIColor+HexString.m in Sources */,
 				866FDFE31E260B9700C513DF /* WBTimelineAttributedTextParser.m in Sources */,
 				86772BAD1E49E37B002DBA1E /* PPImageViewAnimationExample.m in Sources */,
 				86772BA41E49DB81002DBA1E /* ExampleItem.m in Sources */,
@@ -941,6 +952,7 @@
 				866FDFBC1E260AAA00C513DF /* WBTimelineContentView.m in Sources */,
 				86EB75951D2393CC005F14A1 /* ViewController.m in Sources */,
 				86AE95F51E2CC20D00DDD90A /* SDImageCacheConfig.m in Sources */,
+				866D14761E58CF2C00A44708 /* PPMultiplexTextExample.m in Sources */,
 				866D140E1E57623500A44708 /* AutoLayoutExample.m in Sources */,
 				86AE95FE1E2CC20D00DDD90A /* UIImage+MultiFormat.m in Sources */,
 				866FDFD21E260B5100C513DF /* WBTimelineImageContentView.m in Sources */,

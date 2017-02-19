@@ -15,6 +15,7 @@
 #import "PPTextAttachment.h"
 #import "PPTextUtilties.h"
 #import "NSString+Regex.h"
+#import "UIColor+HexString.h"
 
 NSString * const WBTimelineHighlightRangeModeMention = @"WBTimelineHighlightRangeModeMention";
 NSString * const WBTimelineHighlightRangeModeTopic = @"WBTimelineHighlightRangeModeTopic";
@@ -37,9 +38,9 @@ NSString * const WBTimelineHighlightRangeModeLink = @"WBTimelineHighlightRangeMo
     [attributedString pp_setColor:textColor];
     
     NSString *string = attributedString.string;
-    UIColor *rangeColor = preset.highlightTextColor;
+    UIColor *rangeColor = [UIColor colorWithHexString:preset.highlightTextColor];
     PPTextBorder *highlightBorder = [[PPTextBorder alloc] init];
-    highlightBorder.fillColor = preset.textBorderColor;
+    highlightBorder.fillColor = [UIColor colorWithHexString:preset.textBorderColor];
     
     if (_timelineItem.url_struct) {
         for (WBURLStruct *urlStruct in _timelineItem.url_struct) {

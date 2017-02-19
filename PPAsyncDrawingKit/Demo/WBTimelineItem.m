@@ -14,6 +14,7 @@
 #import "WBHelper.h"
 #import "PPTextFontMetrics.h"
 #import "PPTextAttachment.h"
+#import "UIColor+HexString.h"
 
 @implementation WBCardsModel
 + (NSDictionary *)modelContainerPropertyGenericClass {
@@ -81,7 +82,7 @@
             _textAttributedText = [[NSMutableAttributedString alloc] initWithString:itemText];
             [parser parserWithAttributedString:_textAttributedText
                                       fontSize:preset.textFont
-                                     textColor:preset.textColor];
+                                     textColor:[UIColor colorWithHexString:preset.textColor]];
         }
         if (timelineItem.retweeted_status) {
             NSString *quotedItemText;
@@ -94,14 +95,14 @@
                 _quotedAttributedText = [[NSMutableAttributedString alloc] initWithString:quotedItemText];
                 [parser parserWithAttributedString:_quotedAttributedText
                                           fontSize:preset.subtextFont
-                                         textColor:preset.subtextColor];
+                                         textColor:[UIColor colorWithHexString:preset.subtextColor]];
             }
         }
         if (timelineItem.title) {
             NSString *title = timelineItem.title.text;
             _titleAttributedText = [[NSMutableAttributedString alloc] initWithString:title];
             [_titleAttributedText pp_setFont:[UIFont systemFontOfSize:preset.subtextFont]];
-            [_titleAttributedText pp_setColor:preset.textColor];
+            [_titleAttributedText pp_setColor:[UIColor colorWithHexString:preset.textColor]];
         }
         _metaInfoAttributedText = [self source];
         timelineItem.user.nameAttributedString = [self name];
@@ -122,7 +123,7 @@
     }
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:sourceText];
     [attrString pp_setFont:[UIFont systemFontOfSize:12.0f]];
-    [attrString pp_setColor:preset.textColor];
+    [attrString pp_setColor:[UIColor colorWithHexString:preset.textColor]];
     
     if (_timelineItem.source.length) {
         NSString *source = _timelineItem.source;
@@ -144,14 +145,14 @@
         if (href.length && text.length) {
             NSMutableAttributedString *from = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"来自%@", text]];
             [from pp_setFont:[UIFont systemFontOfSize:12.0f]];
-            [from pp_setColor:preset.textColor];
+            [from pp_setColor:[UIColor colorWithHexString:preset.textColor]];
             if (_timelineItem.source_allowclick > 0) {
                 NSRange range = NSMakeRange(2, text.length);
                 PPTextHighlightRange *high = [[PPTextHighlightRange alloc] init];
                 [from pp_setTextHighlightRange:high inRange:range];
-                [from pp_setColor:preset.highlightTextColor inRange:range];
+                [from pp_setColor:[UIColor colorWithHexString:preset.highlightTextColor] inRange:range];
                 PPTextBorder *border = [[PPTextBorder alloc] init];
-                border.fillColor = preset.textBorderColor;
+                border.fillColor = [UIColor colorWithHexString:preset.textBorderColor];
                 [high setBorder:border];
             }
             [attrString appendAttributedString:from];
@@ -168,7 +169,7 @@
     }
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:name];
     [attributedString pp_setFont:[UIFont systemFontOfSize:15.0f]];
-    [attributedString pp_setColor:[UIColor colorWithRed:255/255.0f green:81/255.0f blue:20/255.0f alpha:1.0f]];
+    [attributedString pp_setColor:[UIColor colorWithHexString:@"FF5114"]];
     
     PPTextFontMetrics *fontMetrics = [[PPTextFontMetrics alloc] init];
     fontMetrics.ascent = 12;

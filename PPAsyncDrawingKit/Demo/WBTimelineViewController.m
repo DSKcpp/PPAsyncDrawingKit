@@ -17,6 +17,7 @@
 #import "NSString+PPASDK.h"
 #import "PPTableView.h"
 #import "WBHelper.h"
+#import "UIColor+HexString.h"
 
 @interface WBTimelineViewController () <UITableViewDelegate, UITableViewDataSource, WBTimelineTableViewCellDelegate>
 @property (nonatomic, strong) PPTableView *tableView;
@@ -46,7 +47,7 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _tableView.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1];
+    _tableView.backgroundColor = [UIColor colorWithHexString:@"F2F2F2"];
     [self.view addSubview:_tableView];
     
     UILabel *loadingLabel = [[UILabel alloc] init];

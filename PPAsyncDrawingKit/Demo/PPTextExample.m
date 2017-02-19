@@ -16,6 +16,7 @@
     
     self.tableViewItems = @[[ExampleItem t:@"Text Attributed Example" c:@"PPTextAttributedExample"],
                             [ExampleItem t:@"Text Truncated Example" c:@"PPTextTruncatedExample"],
+                            [ExampleItem t:@"Multiplex Text Example Example" c:@"PPMultiplexTextExample"],
                             [ExampleItem t:@"Text Editable Example" c:@"PPTextEditableExample"]];
 }
 @end

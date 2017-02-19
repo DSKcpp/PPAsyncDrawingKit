@@ -14,6 +14,7 @@
 #import "NSAttributedString+PPExtendedAttributedString.h"
 #import "PPImageView+SDWebImage.h"
 #import "NSNumber+Formatter.h"
+#import "UIColor+HexString.h"
 
 @implementation WBColorImageView
 - (instancetype)initWithFrame:(CGRect)frame
@@ -21,11 +22,11 @@
     if (self = [super initWithFrame:frame]) {
         CGFloat width = [UIScreen mainScreen].bounds.size.width;
         _topLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 0.5f)];
-        _topLineView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
+        _topLineView.backgroundColor = [UIColor colorWithHexString:@"E6E6E6"];
         [self addSubview:_topLineView];
         
         _bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 0.5f)];
-        _bottomLineView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
+        _bottomLineView.backgroundColor = [UIColor colorWithHexString:@"E6E6E6"];
         [self addSubview:_bottomLineView];
     }
     return self;
@@ -102,22 +103,17 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        [self createSubviews];
+        [self createTitleBgImageView];
+        [self createTitleIcon];
+        [self createItemContentBgImageView];
+        [self createItemContentBackgroundView];
+        [self createTextContentView];
+        [self createNicknameLabel];
+        [self createAvatarView];
+        [self createActionButtonsView];
+        [self createPhotoImageView];
     }
     return self;
-}
-
-- (void)createSubviews
-{
-    [self createTitleBgImageView];
-    [self createTitleIcon];
-    [self createItemContentBgImageView];
-    [self createItemContentBackgroundView];
-    [self createTextContentView];
-    [self createNicknameLabel];
-    [self createAvatarView];
-    [self createActionButtonsView];
-    [self createPhotoImageView];
 }
 
 - (void)createTitleBgImageView
@@ -140,15 +136,15 @@
     _itemContentBgImageView = [[WBColorImageView alloc] init];
     _itemContentBgImageView.userInteractionEnabled = YES;
     [_itemContentBgImageView setBackgroundColor:[UIColor whiteColor]];
-    _itemContentBgImageView.highLightBackgroundColor = [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1.0];
+    _itemContentBgImageView.highLightBackgroundColor = [UIColor colorWithHexString:@"F0F0F0"];
     [self addSubview:_itemContentBgImageView];
 }
 
 - (void)createItemContentBackgroundView
 {
     _quotedItemBorderButton = [[UIButton alloc] init];
-    [_quotedItemBorderButton setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1]] forState:UIControlStateNormal];
-    [_quotedItemBorderButton setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1]] forState:UIControlStateHighlighted];
+    [_quotedItemBorderButton setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"F5F5F5"]] forState:UIControlStateNormal];
+    [_quotedItemBorderButton setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"F0F0F0"]] forState:UIControlStateHighlighted];
     [_quotedItemBorderButton addTarget:self action:@selector(tapQouted:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_quotedItemBorderButton];
 }
@@ -323,7 +319,7 @@
         self.quotedItemBorderButton.highlighted = YES;
     } else if ([self touchesInsideTitleBorder:touches]) {
         _flags.trackingTitleBorder = YES;
-        self.titleBgImageView.highlighted = YES;
+        [super touchesBegan:touches withEvent:event];
     } else if (![self touchesInsideActionButtonsArea:touches]) {
         [super touchesBegan:touches withEvent:event];
     }
@@ -332,26 +328,21 @@
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     if (_flags.trackingQuotedItemBorder) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            if ([self touchesInsideQuotedItemBorder:touches]) {
-                [self.quotedItemBorderButton sendActionsForControlEvents:UIControlEventTouchUpInside];
-            }
-            _flags.trackingQuotedItemBorder = NO;
-            self.quotedItemBorderButton.highlighted = NO;
-        });
+        if ([self touchesInsideQuotedItemBorder:touches]) {
+            [self.quotedItemBorderButton sendActionsForControlEvents:UIControlEventTouchUpInside];
+        }
+        _flags.trackingQuotedItemBorder = NO;
+        self.quotedItemBorderButton.highlighted = NO;
     } else if (_flags.trackingTitleBorder) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            if ([self touchesInsideTitleBorder:touches]) {
-//                [self.itemTypeBgImageView sendActionsForControlEvents:UIControlEventTouchUpInside];
-            }
-            _flags.trackingTitleBorder = NO;
-            self.titleBgImageView.highlighted = NO;
-        });
+        _flags.trackingTitleBorder = NO;
+        [super touchesEnded:touches withEvent:event];
     } else {
         [super touchesEnded:touches withEvent:event];
-        if ([_delegate respondsToSelector:@selector(tableViewCell:didSelectedStatus:)]) {
-            [_delegate tableViewCell:_cell didSelectedStatus:_timelineItem];
-        }
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if ([_delegate respondsToSelector:@selector(tableViewCell:didSelectedStatus:)]) {
+                [_delegate tableViewCell:_cell didSelectedStatus:_timelineItem];
+            }
+        });
     }
 }
 
@@ -382,7 +373,7 @@
         self.backgroundColor = [UIColor whiteColor];
         [self initActionButtons];
         self.bottomLine = [[UIView alloc] init];
-        self.bottomLine.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
+        self.bottomLine.backgroundColor = [UIColor colorWithHexString:@"E6E6E6"];
         [self addSubview:self.bottomLine];
     }
     return self;
@@ -393,8 +384,8 @@
     CGFloat width = [UIScreen mainScreen].bounds.size.width / 3.0f;
     CGFloat height = [WBTimelinePreset sharedInstance].actionButtonsHeight;
     
-    UIColor *titleColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1.0];
-    UIColor *bgColor = [UIColor colorWithRed:240/255.0f green:240/255.0f blue:240/255.0f alpha:1.0f];
+    UIColor *titleColor = [UIColor colorWithHexString:[WBTimelinePreset sharedInstance].textColor];
+    UIColor *bgColor = [UIColor colorWithHexString:@"F0F0F0"];
     _retweetButton = [[PPButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
     [_retweetButton setTitleColor:titleColor forState:UIControlStateNormal];
     [_retweetButton setImage:[UIImage imageNamed:@"timeline_icon_retweet"] forState:UIControlStateNormal];

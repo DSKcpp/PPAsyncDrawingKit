@@ -66,10 +66,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) CGFloat pageInfoHeight;
 
 #pragma mark - Color
-@property (nonatomic, strong, readonly) UIColor *textColor;
-@property (nonatomic, strong, readonly) UIColor *subtextColor;
-@property (nonatomic, strong, readonly) UIColor *highlightTextColor;
-@property (nonatomic, strong, readonly) UIColor *textBorderColor;
+@property (nonatomic, strong, readonly) NSString *textColor;
+@property (nonatomic, strong, readonly) NSString *subtextColor;
+@property (nonatomic, strong, readonly) NSString *highlightTextColor;
+@property (nonatomic, strong, readonly) NSString *textBorderColor;
 
 #pragma mark - Font
 @property (nonatomic, assign, readonly) CGFloat textFont;

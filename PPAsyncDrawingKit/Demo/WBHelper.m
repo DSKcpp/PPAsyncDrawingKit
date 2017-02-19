@@ -218,10 +218,10 @@
         _defaultMargin = 10.0f;
         _minHeight = 136.0f;
         _pageInfoHeight = 70.0f;
-        _textColor = [UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:1.0f];
-        _subtextColor = [UIColor colorWithRed:0.388235f green:0.388235f blue:0.388235f alpha:1.0f];
-        _highlightTextColor = [UIColor colorWithRed:0.31372549f green:0.49019608f blue:0.68235294 alpha:1.0f];
-        _textBorderColor = [UIColor colorWithRed:0.31372549f green:0.49019608f blue:0.68235294 alpha:0.5f];
+        _textColor = @"333333";
+        _subtextColor = @"636363";
+        _highlightTextColor = @"507DAE";
+        _textBorderColor = @"A7BED6";
         _textFont = 16.0f;
         _subtextFont = 15.0f;
     }
