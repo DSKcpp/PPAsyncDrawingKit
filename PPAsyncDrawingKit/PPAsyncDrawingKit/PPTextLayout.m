@@ -10,21 +10,27 @@
 #import <objc/objc-sync.h>
 #import "PPTextLayoutLine.h"
 #import "PPTextFontMetrics.h"
+#import "NSAttributedString+PPExtendedAttributedString.h"
+#import "PPLock.h"
 
 @interface PPTextLayout ()
 {
-    BOOL _needsLayout;
+    PPLock *_lock;
+    
 }
+@property (nonatomic, assign) BOOL needsLayout;
 @end
 
 @implementation PPTextLayout
 @synthesize textRenderer = _textRenderer;
 @synthesize layoutFrame = _layoutFrame;
+@synthesize needsLayout = _needsLayout;
 
 - (instancetype)init
 {
     if (self = [super init]) {
-        _needsLayout = YES;
+        _lock = [[PPLock alloc] init];
+        self.needsLayout = YES;
     }
     return self;
 }
@@ -47,11 +53,11 @@
 
 - (PPTextLayoutFrame *)layoutFrame
 {
-    if (_needsLayout || _layoutFrame == nil) {
-        @synchronized (self) {
-            _layoutFrame = [self createLayoutFrame];
-        }
-        _needsLayout = NO;
+    if (self.needsLayout || _layoutFrame == nil) {
+        [_lock lock];
+        _layoutFrame = [self createLayoutFrame];
+        [_lock unlock];
+        self.needsLayout = NO;
     }
     return _layoutFrame;
 }
@@ -62,7 +68,7 @@
     if (self.attributedString.length > 0) {
         CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((CFAttributedStringRef)self.attributedString);
         CGMutablePathRef mutablePath = CGPathCreateMutable();
-        CGRect rect = CGRectMake(0, 0, self.maxSize.width, 20000);
+        CGRect rect = CGRectMake(0, 0, self.maxSize.width, kPPTextMaxBound);
         CGAffineTransform transform = CGAffineTransformIdentity;
         CGPathAddRect(mutablePath, &transform, rect);
         CTFrameRef frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, self.attributedString.length), mutablePath, NULL);
@@ -78,17 +84,35 @@
 
 - (void)setNeedsLayout
 {
-    _needsLayout = YES;
+    self.needsLayout = YES;
+}
+
+- (BOOL)needsLayout
+{
+    [_lock lock];
+    BOOL needsLayout = _needsLayout;
+    [_lock unlock];
+    return needsLayout;
+}
+
+- (void)setNeedsLayout:(BOOL)needsLayout
+{
+    if (self.needsLayout == needsLayout) {
+        return;
+    }
+    [_lock lock];
+    _needsLayout = needsLayout;
+    [_lock unlock];
 }
 
 - (void)setAttributedString:(NSAttributedString *)attributedString
 {
     if (_attributedString != attributedString) {
-        @synchronized (self) {
-            _attributedString = attributedString.copy;
-            _plainText = attributedString.string;
-        }
-        _needsLayout = YES;
+        [_lock lock];
+        _attributedString = attributedString.copy;
+        _plainText = attributedString.string;
+        [_lock unlock];
+        self.needsLayout = YES;
     }
 }
 
@@ -96,7 +120,7 @@
 {
     if (!CGRectEqualToRect(_frame, frame)) {
         _frame = frame;
-        _needsLayout = YES;
+        self.needsLayout = YES;
     }
 }
 
@@ -109,7 +133,7 @@
 {
     if (!CGPointEqualToPoint(_frame.origin, drawOrigin)) {
         _frame.origin = drawOrigin;
-        _needsLayout = YES;
+        self.needsLayout = YES;
     }
 }
 
@@ -122,7 +146,7 @@
 {
     if (!CGSizeEqualToSize(_frame.size, maxSize)) {
         _frame.size = maxSize;
-        _needsLayout = YES;
+        self.needsLayout = YES;
     }
 }
 
@@ -130,7 +154,7 @@
 {
     if (_numberOfLines != numberOfLines) {
         _numberOfLines = numberOfLines;
-        _needsLayout = YES;
+        self.needsLayout = YES;
     }
 }
 

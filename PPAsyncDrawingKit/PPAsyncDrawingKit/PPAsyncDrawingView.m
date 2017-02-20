@@ -13,7 +13,7 @@ dispatch_queue_t PPDrawSerialQueue() {
     static dispatch_queue_t queue;
     static dispatch_once_t token;
     dispatch_once(&token, ^{
-        queue = dispatch_queue_create("io.github.dskcpp.drawQueue", DISPATCH_QUEUE_SERIAL);
+        queue = dispatch_queue_create("io.github.dskcpp.drawQueue", DISPATCH_QUEUE_CONCURRENT);
     });
     return queue;
 }
@@ -38,12 +38,6 @@ CGFloat PPScreenScale() {
 - (void)increaseDrawingCount
 {
     atomic_fetch_add(&_drawingCount, 1);
-}
-
-- (void)setNeedsDisplay
-{
-    [self increaseDrawingCount];
-    [super setNeedsDisplay];
 }
 
 - (void)setNeedsDisplayInRect:(CGRect)rect
@@ -81,11 +75,6 @@ static BOOL asyncDrawingEnabled = YES;
     _drawingType = PPAsyncDrawingTypeNormal;
 }
 
-- (NSDictionary *)currentDrawingUserInfo
-{
-    return nil;
-}
-
 #pragma mark - drawing
 - (void)drawRect:(CGRect)rect
 {
@@ -105,10 +94,6 @@ static BOOL asyncDrawingEnabled = YES;
         }];
     }
 }
-
-- (void)drawingWillStartAsynchronously:(BOOL)asynchronously { }
-
-- (void)drawingDidFinishAsynchronously:(BOOL)asynchronously success:(BOOL)success { }
 
 - (void)_displayLayer:(_PPAsyncDrawingViewLayer *)layer rect:(CGRect)rect drawingStarted:(void (^)(BOOL))drawingStarted drawingFinished:(void (^)(BOOL))drawingFinished drawingInterrupted:(void (^)(BOOL))drawingInterrupted
 {
@@ -151,7 +136,8 @@ static BOOL asyncDrawingEnabled = YES;
             CGContextFillRect(context, CGRectMake(0, 0, size.width * scale, size.height * scale));
         }
         BOOL drawingSuccess = [self drawInRect:CGRectMake(0, 0, size.width, size.height)
-                                   withContext:context asynchronously:asynchronously];
+                                   withContext:context
+                                asynchronously:asynchronously];
         
         CGContextRestoreGState(context);
         if (!drawingSuccess || needCancel()) {
@@ -196,6 +182,15 @@ static BOOL asyncDrawingEnabled = YES;
 {
     return YES;
 }
+
+- (NSDictionary *)currentDrawingUserInfo
+{
+    return nil;
+}
+
+- (void)drawingWillStartAsynchronously:(BOOL)asynchronously { }
+
+- (void)drawingDidFinishAsynchronously:(BOOL)asynchronously success:(BOOL)success { }
 
 - (BOOL)drawCurrentContentAsynchronously
 {

@@ -42,7 +42,7 @@
 - (NSMutableArray *)imageViews
 {
     if (!_imageViews) {
-        _imageViews = [NSMutableArray array];
+        _imageViews = @[].mutableCopy;
     }
     return _imageViews;
 }
@@ -100,7 +100,7 @@
 - (void)addToIdleContentImageViewAry:(WBTimelineImageView *)imageView
 {
     if (!_idleContentImageViewAry) {
-        _idleContentImageViewAry = [NSMutableArray array];
+        _idleContentImageViewAry = @[].mutableCopy;
     }
     [_idleContentImageViewAry addObject:imageView];
 }

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PPImageViewRoundedExample : UITableViewController
+@interface PPImageViewRoundedExample : UIViewController
 
 @end

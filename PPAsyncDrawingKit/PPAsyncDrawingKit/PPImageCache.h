@@ -56,6 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)cleanDiskCache;
 - (void)cleanMemoryCache;
 
+- (PPImageIOTask *)fetchIOTaskWithURL:(NSString *)URL;
 - (void)cancelImageIOWithTask:(PPImageIOTask *)IOTask;
 @end
 

@@ -124,7 +124,7 @@ static void FreeImageData(void *info, const void *data, size_t size) {
         return nil;
     }
     
-    NSMutableArray *images = [NSMutableArray array];
+    NSMutableArray *images = @[].mutableCopy;
     NSTimeInterval duration = 0;
     
     do {

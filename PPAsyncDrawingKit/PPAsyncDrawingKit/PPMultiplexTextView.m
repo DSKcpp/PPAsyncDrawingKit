@@ -18,7 +18,7 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        _internalTextLayouts = [NSMutableArray array];
+        _internalTextLayouts = @[].mutableCopy;
     }
     return self;
 }

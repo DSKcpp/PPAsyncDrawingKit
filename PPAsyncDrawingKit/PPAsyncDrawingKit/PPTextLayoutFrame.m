@@ -31,7 +31,7 @@
     NSInteger maxLines = self.layout.numberOfLines;
     CFArrayRef lineRefs = CTFrameGetLines(frame);
     CFIndex lineCount = CFArrayGetCount(lineRefs);
-    NSMutableArray *lines = [NSMutableArray array];
+    NSMutableArray *lines = @[].mutableCopy;
     if (lineCount > 0) {
         CGPoint origins[lineCount];
         CTFrameGetLineOrigins(frame, CFRangeMake(0, lineCount), origins);

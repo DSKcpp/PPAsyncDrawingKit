@@ -124,6 +124,9 @@
 		86EB758F1D2393CC005F14A1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EB758E1D2393CC005F14A1 /* main.m */; };
 		86EB75951D2393CC005F14A1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EB75941D2393CC005F14A1 /* ViewController.m */; };
 		86EB759A1D2393CC005F14A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 86EB75991D2393CC005F14A1 /* Assets.xcassets */; };
+		86F300081E59DE380048D256 /* download.gif in Resources */ = {isa = PBXBuildFile; fileRef = 86F300071E59DE380048D256 /* download.gif */; };
+		86F300171E5B05E00048D256 /* PPLock.h in Headers */ = {isa = PBXBuildFile; fileRef = 86F300151E5B05E00048D256 /* PPLock.h */; };
+		86F300181E5B05E00048D256 /* PPLock.m in Sources */ = {isa = PBXBuildFile; fileRef = 86F300161E5B05E00048D256 /* PPLock.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -327,6 +330,9 @@
 		86EB75941D2393CC005F14A1 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = ../Demo/ViewController.m; sourceTree = "<group>"; };
 		86EB75991D2393CC005F14A1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../Demo/Assets.xcassets; sourceTree = "<group>"; };
 		86EB759E1D2393CC005F14A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Demo/Info.plist; sourceTree = "<group>"; };
+		86F300071E59DE380048D256 /* download.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = download.gif; path = Demo/download.gif; sourceTree = SOURCE_ROOT; };
+		86F300151E5B05E00048D256 /* PPLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPLock.h; sourceTree = "<group>"; };
+		86F300161E5B05E00048D256 /* PPLock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPLock.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -355,10 +361,10 @@
 		861EB1CA1DB10EE3005C07C7 /* Image Example */ = {
 			isa = PBXGroup;
 			children = (
-				866FDFEB1E260BCA00C513DF /* PPImageViewRoundedExample.h */,
-				866FDFEC1E260BCA00C513DF /* PPImageViewRoundedExample.m */,
 				86772B9F1E49DACB002DBA1E /* PPImageExample.h */,
 				86772BA01E49DACB002DBA1E /* PPImageExample.m */,
+				866FDFEB1E260BCA00C513DF /* PPImageViewRoundedExample.h */,
+				866FDFEC1E260BCA00C513DF /* PPImageViewRoundedExample.m */,
 				86772BAB1E49E37B002DBA1E /* PPImageViewAnimationExample.h */,
 				86772BAC1E49E37B002DBA1E /* PPImageViewAnimationExample.m */,
 			);
@@ -469,6 +475,7 @@
 				866FDF361E25FAE400C513DF /* PPAsyncDrawingKit.h */,
 				86A98D301D92F495008F0A7E /* Core */,
 				86DA39651E28C84600D4F175 /* UI */,
+				86F300141E5B05B00048D256 /* Base */,
 			);
 			path = PPAsyncDrawingKit;
 			sourceTree = "<group>";
@@ -706,6 +713,7 @@
 		86EB758D1D2393CC005F14A1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				86F300071E59DE380048D256 /* download.gif */,
 				8684E41D1E53102000E416A1 /* WBTimelineJSON.zip */,
 				86EB758E1D2393CC005F14A1 /* main.m */,
 				860FC3A81DF2D45E0037AE51 /* emoticon_info.plist */,
@@ -767,6 +775,15 @@
 			path = ../Demo/Other;
 			sourceTree = "<group>";
 		};
+		86F300141E5B05B00048D256 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				86F300151E5B05E00048D256 /* PPLock.h */,
+				86F300161E5B05E00048D256 /* PPLock.m */,
+			);
+			name = Base;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -799,6 +816,7 @@
 				862EEE161E2E2A81007F36A7 /* PPImageDownloader.h in Headers */,
 				86772BB31E4B0E7B002DBA1E /* PPWeakProxy.h in Headers */,
 				866FDF7D1E25FF9400C513DF /* NSString+PPAsyncDrawingKit.h in Headers */,
+				86F300171E5B05E00048D256 /* PPLock.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -898,6 +916,7 @@
 				86EB759A1D2393CC005F14A1 /* Assets.xcassets in Resources */,
 				86AE95A91E2CBBF100DDD90A /* LaunchScreen.storyboard in Resources */,
 				860FC3A91DF2D45E0037AE51 /* emoticon_info.plist in Resources */,
+				86F300081E59DE380048D256 /* download.gif in Resources */,
 				8684E41E1E53102000E416A1 /* WBTimelineJSON.zip in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -921,6 +940,7 @@
 				866FDF9A1E26004B00C513DF /* PPImageView.m in Sources */,
 				866FDF7E1E25FF9400C513DF /* NSString+PPAsyncDrawingKit.m in Sources */,
 				866FDF4C1E25FF2C00C513DF /* PPControl.m in Sources */,
+				86F300181E5B05E00048D256 /* PPLock.m in Sources */,
 				866FDF821E25FFC100C513DF /* PPImageDecode.m in Sources */,
 				866FDF7C1E25FF9400C513DF /* NSAttributedString+PPExtendedAttributedString.m in Sources */,
 				866FDF6C1E25FF6100C513DF /* PPTextLayout.m in Sources */,

@@ -12,6 +12,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ 单例获取 Scale
+
+ @return Main screen scale
+ */
 CGFloat PPScreenScale();
 
 /**
@@ -25,11 +30,48 @@ typedef NS_ENUM(NSUInteger, PPAsyncDrawingType) {
     PPAsyncDrawingTypeTouch
 };
 
+@protocol PPAsyncDrawingProtocol <NSObject>
+/**
+ 绘制方法，自动调用，必须实现
+ 
+ @param rect 绘制 context 所在的 rect
+ @param context 绘制所需的 context，不能为空
+ @param asynchronously 是否异步绘制
+ @return 是否绘制成功
+ */
+//- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously;
+- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously;
+
+@optional
+
+/**
+ 如果在绘制过程中需要传参数，可以实现这个方法
+ 
+ @return 绘制过程中需要的参数
+ */
+- (nullable NSDictionary *)currentDrawingUserInfo;
+
+/**
+ 绘制将要开始时会来到这个方法，可以做一些事情
+ 
+ @param asynchronously 是否异步绘制
+ */
+- (void)drawingWillStartAsynchronously:(BOOL)asynchronously;
+
+/**
+ 绘制中断或结束会来到这个方法，可以做一些事情
+ 
+ @param asynchronously 是否异步绘制
+ @param success 如果绘制被打断，则是 NO，成功的绘制完成，则是 YES
+ */
+- (void)drawingDidFinishAsynchronously:(BOOL)asynchronously success:(BOOL)success;
+@end
+
 /**
  这是一个基类，无法直接使用，需要继承并且实现相应的 draw 方法
  Tip：为了防止歧义，这个库中所有的 `Async` 关键字均表示使用多线程，如果相关 `Async` 属性是 No 的话，并不是 `Sync`，而是在主线程进行操作
  */
-@interface PPAsyncDrawingView : UIView
+@interface PPAsyncDrawingView : UIView <PPAsyncDrawingProtocol>
 
 /**
  控制全局是否开启异步绘制，默认允许
@@ -58,37 +100,6 @@ typedef NS_ENUM(NSUInteger, PPAsyncDrawingType) {
 
 - (instancetype)initWithFrame:(CGRect)frame;
 
-/**
- 如果在绘制过程中需要传参数，可以实现这个方法
-
- @return 绘制过程中需要的参数
- */
-- (nullable NSDictionary *)currentDrawingUserInfo;
-
-/**
- 绘制方法，自动调用，必须实现
-
- @param rect 绘制 context 所在的 rect
- @param context 绘制所需的 context，不能为空
- @param asynchronously 是否异步绘制
- @return 是否绘制成功
- */
-- (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously;
-
-/**
- 绘制将要开始时会来到这个方法，可以做一些事情
-
- @param asynchronously 是否异步绘制
- */
-- (void)drawingWillStartAsynchronously:(BOOL)asynchronously;
-
-/**
- 绘制中断或结束会来到这个方法，可以做一些事情
-
- @param asynchronously 是否异步绘制
- @param success 如果绘制被打断，则是 NO，成功的绘制完成，则是 YES
- */
-- (void)drawingDidFinishAsynchronously:(BOOL)asynchronously success:(BOOL)success;
 @end
 
 NS_ASSUME_NONNULL_END

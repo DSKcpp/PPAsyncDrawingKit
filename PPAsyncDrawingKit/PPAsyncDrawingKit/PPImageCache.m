@@ -9,6 +9,7 @@
 #import "PPImageCache.h"
 #import <CommonCrypto/CommonCrypto.h>
 #import "PPImageDecode.h"
+#import "PPLock.h"
 
 #define kPPImageCacheMaxAge 604800.0f // 7 day
 #define kPPImageCacheMaxMemorySize 209715200 // 200 MB
@@ -30,6 +31,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
 @interface PPImageIOTask ()
 {
     BOOL _invalid;
+    PPLock *_lock;
 }
 @end
 
@@ -37,32 +39,31 @@ static NSString *_PPNSStringMD5(NSString *string) {
 @implementation PPImageIOTask
 + (PPImageIOTask *)taskForURL:(NSString *)URL
 {
-    NSMutableDictionary<NSString *, PPImageIOTask *> *ioTasks = [PPImageCache sharedCache].ioTasks;
-    PPImageIOTask *task = ioTasks[URL];
-    if (!task) {
-        task = [[PPImageIOTask alloc] initWithURL:URL];
-        ioTasks[URL] = task;
-    }
-    return task;
+    return [[PPImageCache sharedCache] fetchIOTaskWithURL:URL];
 }
 
 - (instancetype)initWithURL:(NSString *)URL
 {
     if (self = [super init]) {
         _URL = URL;
+        _lock = [[PPLock alloc] init];
     }
     return self;
 }
 
 - (BOOL)isCancelled
 {
-    return _invalid;
+    [_lock lock];
+    BOOL invalid = _invalid;
+    [_lock unlock];
+    return invalid;
 }
 
 - (void)cancel
 {
+    [_lock lock];
     _invalid = YES;
-    [[PPImageCache sharedCache].ioTasks removeObjectForKey:_URL];
+    [_lock unlock];
 }
 
 @end
@@ -72,6 +73,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
     NSCache<NSString *, UIImage *> *_cache;
     dispatch_queue_t _ioQueue;
     NSDate *_createDate;
+    PPLock *_lock;
 }
 @end
 
@@ -103,6 +105,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
             [fileManager createDirectoryAtPath:_cachePath withIntermediateDirectories:YES attributes:nil error:nil];
         }
         _ioTasks = @{}.mutableCopy;
+        _lock = [[PPLock alloc] init];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveMemoryWarning:) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
 //        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkAndAutoClean) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -302,8 +305,30 @@ static NSString *_PPNSStringMD5(NSString *string) {
     [_cache removeAllObjects];
 }
 
+- (PPImageIOTask *)fetchIOTaskWithURL:(NSString *)URL
+{
+    [_lock lock];
+    PPImageIOTask *task = [PPImageCache sharedCache].ioTasks[URL];
+    [_lock unlock];
+    
+    if (!task) {
+        task = [[PPImageIOTask alloc] initWithURL:URL];
+    }
+    
+    [_lock lock];
+    [PPImageCache sharedCache].ioTasks[URL] = task;
+    [_lock unlock];
+    
+    return task;
+}
+
 - (void)cancelImageIOWithTask:(PPImageIOTask *)IOTask
 {
     [IOTask cancel];
+    
+    [_lock lock];
+    [[PPImageCache sharedCache].ioTasks removeObjectForKey:IOTask.URL];
+    [_lock unlock];
 }
+
 @end

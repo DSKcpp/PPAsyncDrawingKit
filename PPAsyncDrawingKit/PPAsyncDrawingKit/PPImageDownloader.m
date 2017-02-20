@@ -9,43 +9,45 @@
 #import "PPImageDownloader.h"
 #import "PPImageDecode.h"
 #import "PPImageCache.h"
+#import "PPLock.h"
 
 @interface PPImageDownloaderTask ()
 {
     BOOL _invalid;
+    PPLock *_lock;
 }
 @end
 
 @implementation PPImageDownloaderTask
-+ (PPImageDownloaderTask *)taskForURL:(NSURL *)URL
++ (PPImageDownloaderTask *)taskForURL:(NSString *)URL
 {
-    NSMutableDictionary<NSString *, PPImageDownloaderTask *> *downloaderTasks = [PPImageDownloader sharedImageDownloader].downloaderTasks;
-    PPImageDownloaderTask *task = downloaderTasks[URL.absoluteString];
-    if (!task) {
-        task = [[PPImageDownloaderTask alloc] initWithURL:URL];
-        downloaderTasks[URL.absoluteString] = task;
-    }
-    return task;
+    return [[PPImageDownloader sharedImageDownloader] fetchDownloaderTaskWithURL:URL];
 }
 
-- (instancetype)initWithURL:(NSURL *)URL
+- (instancetype)initWithURL:(NSString *)URL
 {
     if (self = [super init]) {
         _URL = URL;
+        _lock = [[PPLock alloc] init];
     }
     return self;
 }
 
 - (BOOL)isCancelled
 {
-    return _invalid;
+    [_lock lock];
+    BOOL invalid = _invalid;
+    [_lock unlock];
+    return invalid;
 }
 
 - (void)cancel
 {
+    [_lock lock];
     _invalid = YES;
+    [_lock unlock];
+    
     [_sessionDownloadTask cancel];
-    [[PPImageDownloader sharedImageDownloader].downloaderTasks removeObjectForKey:_URL.absoluteString];
 }
 
 - (NSURLSessionDownloadTask *)createSessionTaskIfNecessaryWithBlock:(NSURLSessionDownloadTask *(^)())creationBlock
@@ -78,6 +80,7 @@
 @interface PPImageDownloader () <NSURLSessionDownloadDelegate>
 {
     NSOperationQueue *_sessionDelegateQueue;
+    PPLock *_lock;
 }
 @end
 
@@ -95,6 +98,7 @@
 - (instancetype)init
 {
     if (self = [super init]) {
+        _lock = [[PPLock alloc] init];
         _sessionDelegateQueue = [[NSOperationQueue alloc] init];
         _sessionDelegateQueue.maxConcurrentOperationCount = 10;
         _session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
@@ -105,14 +109,9 @@
     return self;
 }
 
-- (void)dealloc
-{
-    
-}
-
 - (PPImageDownloaderTask *)downloaderImageWithURL:(NSURL *)URL downloadProgress:(PPImageDownloaderProgress)downloadProgress completion:(PPImageDownloaderCompletion)completion
 {
-    PPImageDownloaderTask *task = [PPImageDownloaderTask taskForURL:URL];
+    PPImageDownloaderTask *task = [PPImageDownloaderTask taskForURL:URL.absoluteString];
     task.downloadProgress = downloadProgress;
     task.completion = completion;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -126,9 +125,30 @@
     return task;
 }
 
+- (PPImageDownloaderTask *)fetchDownloaderTaskWithURL:(NSString *)URL
+{
+    [_lock lock];
+    PPImageDownloaderTask *task = [PPImageDownloader sharedImageDownloader].downloaderTasks[URL];
+    [_lock unlock];
+    
+    if (!task) {
+        task = [[PPImageDownloaderTask alloc] initWithURL:URL];
+    }
+    
+    [_lock lock];
+    [PPImageDownloader sharedImageDownloader].downloaderTasks[URL] = task;
+    [_lock unlock];
+    
+    return task;
+}
+
 - (void)cancelImageDownloaderWithTask:(PPImageDownloaderTask *)downloaderTask
 {
     [downloaderTask cancel];
+    
+    [_lock lock];
+    [[PPImageDownloader sharedImageDownloader].downloaderTasks removeObjectForKey:downloaderTask.URL];
+    [_lock unlock];
 }
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
@@ -145,7 +165,7 @@
 {
     PPImageDownloaderTask *task = _downloaderTasks[downloadTask.originalRequest.URL.absoluteString];
     NSData *data = [NSData dataWithContentsOfURL:location];
-    [[PPImageCache sharedCache] storeImageDataToDisk:data forURL:task.URL.absoluteString];
+    [[PPImageCache sharedCache] storeImageDataToDisk:data forURL:task.URL];
     
     if (task.isCancelled) {
         return;

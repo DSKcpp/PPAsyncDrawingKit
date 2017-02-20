@@ -9,30 +9,37 @@
 #import "PPImageView.h"
 #import "UIImage+PPAsyncDrawingKit.h"
 #import "PPWeakProxy.h"
+#import "PPLock.h"
 
 static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat cornerRadius, UIRectCorner roundedCorners) {
     CGSize cornerRadii = CGSizeMake(cornerRadius, cornerRadius);
     UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:roundedCorners cornerRadii:cornerRadii];
-    return CGPathCreateCopy(bezierPath.CGPath);
+    return bezierPath.CGPath;
 }
 
 @interface PPImageView ()
 {
-    CGPathRef _roundPathRef;
-    CGPathRef _borderPathRef;
+//    CGPathRef _roundPathRef;
+//    CGPathRef _borderPathRef;
     CADisplayLink *_displayLink;
     PPImageDownloaderTask *_downloadTask;
     PPImageIOTask *_ioTask;
     BOOL _showsCornerRadius;
     BOOL _showsBorder;
+    PPLock *_lock;
 }
+@property (nonatomic, assign) CGPathRef roundPathRef;
+@property (nonatomic, assign) CGPathRef borderPathRef;
 @end
 
 @implementation PPImageView
+@synthesize roundPathRef = _roundPathRef;
+@synthesize borderPathRef = _borderPathRef;
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
+        _lock = [[PPLock alloc] init];
         self.roundedCorners = UIRectCornerAllCorners;
         self.userInteractionEnabled = NO;
         self.borderWidth = 0.0f;
@@ -63,14 +70,51 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
     return self;
 }
 
+- (CGPathRef)roundPathRef
+{
+    [_lock lock];
+    CGPathRef path = _roundPathRef;
+    [_lock unlock];
+    return path;
+}
+
+- (void)setRoundPathRef:(CGPathRef)roundPathRef
+{
+    if (self.roundPathRef == roundPathRef) {
+        return;
+    }
+    [_lock lock];
+    CGPathRelease(_roundPathRef);
+    _roundPathRef = CGPathRetain(roundPathRef);
+    [_lock unlock];
+}
+
+- (CGPathRef)borderPathRef
+{
+    [_lock lock];
+    CGPathRef path = _borderPathRef;
+    [_lock unlock];
+    return path;
+}
+
+- (void)setBorderPathRef:(CGPathRef)borderPathRef
+{
+    if (self.borderPathRef == borderPathRef) {
+        return;
+    }
+    [_lock lock];
+    CGPathRelease(_borderPathRef);
+    _borderPathRef = CGPathRetain(borderPathRef);
+    [_lock unlock];
+}
+
 - (void)setRoundedCorners:(UIRectCorner)roundedCorners
 {
     if (_roundedCorners == roundedCorners) {
         return;
     }
     _roundedCorners = roundedCorners;
-    _roundPathRef = nil;
-    CGPathRelease(_roundPathRef);
+    self.roundPathRef = nil;
     [self setNeedsDisplay];
 }
 
@@ -82,8 +126,7 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
     _cornerRadius = cornerRadius;
     _showsCornerRadius = cornerRadius > 0;
     self.layer.cornerRadius = 0;
-    CGPathRelease(_roundPathRef);
-    _roundPathRef = nil;
+    self.roundPathRef = nil;
     
     [self setNeedsDisplay];
 }
@@ -97,8 +140,7 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
     _borderWidth = borderWidth;
     _showsBorder = borderWidth > 0;
     self.layer.borderWidth = 0.0f;
-    CGPathRelease(_borderPathRef);
-    _borderPathRef = nil;
+    self.borderPathRef = nil;
     
     [self setNeedsDisplay];
 }
@@ -130,10 +172,8 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
 {
     if (!CGRectEqualToRect(self.frame, frame)) {
         [super setFrame:frame];
-        CGPathRelease(_roundPathRef);
-        _roundPathRef = nil;
-        CGPathRelease(_borderPathRef);
-        _borderPathRef = nil;
+        self.roundPathRef = nil;
+        self.borderPathRef = nil;
         [self setNeedsDisplay];
     }
 }
@@ -149,10 +189,10 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously
 {
     if (_showsCornerRadius) {
-        CGPathRef path = _roundPathRef;
+        CGPathRef path = self.roundPathRef;
         if (!path) {
             path = PPCreateRoundedCGPath(self.bounds, self.cornerRadius, self.roundedCorners);
-            _roundPathRef = path;
+            self.roundPathRef = path;
         }
         CGContextAddPath(context, path);
         CGContextClip(context);
@@ -164,10 +204,10 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
     }
     
     if (_showsBorder) {
-        CGPathRef path = _borderPathRef;
+        CGPathRef path = self.borderPathRef;
         if (!path) {
             path = PPCreateRoundedCGPath(self.bounds, self.cornerRadius, self.roundedCorners);
-            _borderPathRef = path;
+            self.borderPathRef = path;
         }
         CGContextAddPath(context, path);
         CGContextSetLineWidth(context, self.borderWidth);
@@ -187,16 +227,17 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
 - (void)startAnimating
 {
     _currentAnimationImageIndex = 0;
-    _displayLink = [CADisplayLink displayLinkWithTarget:[PPWeakProxy weakProxyWithTarget:self] selector:@selector(setAnimationImage:)];
+    if (!_displayLink) {
+        _displayLink = [CADisplayLink displayLinkWithTarget:[PPWeakProxy weakProxyWithTarget:self] selector:@selector(setAnimationImage:)];
+        [_displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+    }
     _displayLink.frameInterval = 2;
-    [_displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+    _displayLink.paused = NO;
 }
 
 - (void)stopAnimating
 {
     _displayLink.paused = YES;
-    [_displayLink invalidate];
-    _displayLink = nil;
 }
 
 - (void)setAnimationImage:(CADisplayLink *)displayLink
@@ -313,7 +354,6 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
     [self cancelCurrentImageLoading];
     [self stopAnimating];
     [_displayLink invalidate];
-    _displayLink = nil;
     CGPathRelease(_borderPathRef);
     CGPathRelease(_roundPathRef);
 }

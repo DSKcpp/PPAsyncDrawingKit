@@ -96,7 +96,7 @@
 
 - (void)removeTarget:(id)target action:(SEL)action fotControlEvents:(UIControlEvents)controlEvents
 {
-    NSMutableArray<PPControlTargetAction *> *removeTargetAcitons = [NSMutableArray array];
+    NSMutableArray<PPControlTargetAction *> *removeTargetAcitons = @[].mutableCopy;
     for (PPControlTargetAction *targetAction in self.targetActions) {
         if (target == targetAction.target && action == targetAction.action && controlEvents == targetAction.controlEvents) {
             [removeTargetAcitons addObject:targetAction];
@@ -107,7 +107,7 @@
 
 - (NSArray<NSString *> *)actionsForTarget:(id)target forControlEvent:(UIControlEvents)controlEvent
 {
-    NSMutableArray<NSString *> *actions = [NSMutableArray array];
+    NSMutableArray<NSString *> *actions = @[].mutableCopy;
     for (PPControlTargetAction *targetAction in self.targetActions) {
         if (target == targetAction.target && controlEvent == targetAction.controlEvents) {
             [actions addObject:NSStringFromSelector(targetAction.action)];

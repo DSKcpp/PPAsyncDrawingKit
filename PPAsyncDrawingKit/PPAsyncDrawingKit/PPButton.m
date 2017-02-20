@@ -8,6 +8,7 @@
 
 #import "PPButton.h"
 #import "NSString+PPAsyncDrawingKit.h"
+#import "PPLock.h"
 
 @interface PPButtonInfo : NSObject
 @property (nonatomic, strong) UIFont *titleFont;
@@ -38,11 +39,13 @@
     CGSize _renderedBoundsSize;
     
     BOOL _privateTracking;
-    BOOL _needsUpdateFrame;
+    PPLock *_lock;
 }
+@property (nonatomic, assign) BOOL needsUpdateFrame;
 @end
 
 @implementation PPButton
+@synthesize needsUpdateFrame = _needsUpdateFrame;
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -79,8 +82,28 @@
     }
 }
 
+- (BOOL)needsUpdateFrame
+{
+    [_lock lock];
+    BOOL needsUpdateFrame = _needsUpdateFrame;
+    [_lock unlock];
+    return needsUpdateFrame;
+}
+
+- (void)setNeedsUpdateFrame:(BOOL)needsUpdateFrame
+{
+    if (self.needsUpdateFrame == needsUpdateFrame) {
+        return;
+    }
+    [_lock lock];
+    _needsUpdateFrame = needsUpdateFrame;
+    [_lock unlock];
+}
+
 - (void)configure
 {
+    _lock = [[PPLock alloc] init];
+    
     _titles = @{}.mutableCopy;
     _titleColors = @{}.mutableCopy;
     _images = @{}.mutableCopy;
@@ -344,12 +367,12 @@
 
 - (void)setNeedsUpdateFrame
 {
-    _needsUpdateFrame = YES;
+    self.needsUpdateFrame = YES;
 }
 
 - (void)updateSubviewFrames
 {
-    if (_needsUpdateFrame) {
+    if (self.needsUpdateFrame) {
         [self actualUpdateSubviewFrames];
     }
 }
@@ -369,7 +392,7 @@
     
     _imageFrame = CGRectMake(left, height / 2.0f - imageSize.height / 2.0f, imageSize.width, imageSize.height);
     _titleFrame = CGRectMake(CGRectGetMaxX(_imageFrame), height / 2.0f - titleSize.height / 2.0f, titleSize.width, titleSize.height);
-    _needsUpdateFrame = NO;
+    self.needsUpdateFrame = YES;
 }   
 
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
