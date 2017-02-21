@@ -62,7 +62,9 @@ see `xcode project`
 
 ####微信：project/Text Example/PPMultiplexTextExample.m
 ![](http://wx3.sinaimg.cn/large/9bffd8f9gy1fcvr993f39j20ku0fjdgo.jpg)
+
 结构：用最少的View 完成，支持交互
+
 ![](http://wx1.sinaimg.cn/large/9bffd8f9gy1fcwtei82e7g20aw084aap.gif)
 ###PPImageView
 高性能圆角 ImageView
