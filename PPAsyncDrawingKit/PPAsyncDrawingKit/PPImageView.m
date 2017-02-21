@@ -19,8 +19,6 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
 
 @interface PPImageView ()
 {
-//    CGPathRef _roundPathRef;
-//    CGPathRef _borderPathRef;
     CADisplayLink *_displayLink;
     PPImageDownloaderTask *_downloadTask;
     PPImageIOTask *_ioTask;
@@ -35,6 +33,7 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
 @implementation PPImageView
 @synthesize roundPathRef = _roundPathRef;
 @synthesize borderPathRef = _borderPathRef;
+@synthesize image = _image;
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -156,14 +155,24 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
     [self setNeedsDisplay];
 }
 
+- (UIImage *)image
+{
+    [_lock lock];
+    UIImage *image = _image;
+    [_lock unlock];
+    return image;
+}
+
 - (void)setImage:(UIImage *)image
 {
-    if (_image == image) {
+    if (self.image == image) {
         if (image == nil || self.layer.contents == nil) {
             [self setNeedsDisplay];
         }
     } else {
+        [_lock lock];
         _image = image;
+        [_lock unlock];
         [self setNeedsDisplay];
     }
 }
@@ -180,8 +189,9 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
 
 - (CGSize)sizeThatFits:(CGSize)size
 {
-    if (_image) {
-        return _image.size;
+    UIImage *image = self.image;
+    if (image) {
+        return image.size;
     }
     return size;
 }
@@ -198,7 +208,7 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
         CGContextClip(context);
     }
     
-    UIImage *image = _image;
+    UIImage *image = self.image;
     if (image) {
         [image pp_drawInRect:rect contentMode:_contentMode withContext:context];
     }
