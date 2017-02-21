@@ -54,6 +54,16 @@ see `xcode project`
 
 ![](http://ww4.sinaimg.cn/large/9bffd8f9jw1fcde9s4ac1j20jy0jsdh7.jpg)
 
+###PPMultiplexTextView
+将多个 `AttributedString`，绘制到一个 `View` 上。
+
+####微博：Project/Feeds Demo/View
+![](http://ww4.sinaimg.cn/large/9bffd8f9gw1fbi1ji8hbyj21kw0u67fm.jpg)
+
+####微信：project/Text Example/PPMultiplexTextExample.m
+![](http://wx3.sinaimg.cn/large/9bffd8f9gy1fcvr993f39j20ku0fjdgo.jpg)
+结构：用最少的View 完成，支持交互
+![](http://wx1.sinaimg.cn/large/9bffd8f9gy1fcwtei82e7g20aw084aap.gif)
 ###PPImageView
 高性能圆角 ImageView
 
@@ -153,14 +163,6 @@ textView.top = 76.0f;
 [PPTextRenderer setDebugModeEnabled:YES];
 ```
 灰色区域表示绘制的最大 frame，黄色区域表示文字的真实 frame，红线表示 Base line
-###PPMultiplexTextView
-将多个 `AttributedString`，绘制到一个 `View` 上。
-
-####微博：Project/Feeds Demo/View
-![](http://ww4.sinaimg.cn/large/9bffd8f9gw1fbi1ji8hbyj21kw0u67fm.jpg)
-
-####微信：project/Text Example/PPMultiplexTextExample.m
-![](http://wx3.sinaimg.cn/large/9bffd8f9gy1fcvr993f39j20ku0fjdgo.jpg)
 
 #Installation with CocoaPods
 ###Podfile
