@@ -10,8 +10,7 @@ PPAsyncDrawingKit
 
 这是一个轻量的异步绘制框架，实现一系列 `UIKit` 基础控件。
 
-关于 Core Text 结构问题，图片来自[Apple Dev (About Core Text)](https://developer.apple.com/library/content/documentation/StringsTextFonts/Conceptual/CoreText_Programming/Introduction/Introduction.html#//apple_ref/doc/uid/TP40005533-CH1-SW1)
-![](https://developer.apple.com/library/content/documentation/StringsTextFonts/Conceptual/CoreText_Programming/Art/core_text_arch_2x.png)
+关于 Core Text 结构问题：[Apple Dev (About Core Text)](https://developer.apple.com/library/content/documentation/StringsTextFonts/Conceptual/CoreText_Programming/Introduction/Introduction.html#//apple_ref/doc/uid/TP40005533-CH1-SW1)
 
 #Features
 * 使用多线程技术进行绘制，不阻塞线程，保证复杂界面的流畅
@@ -36,11 +35,7 @@ PPAsyncDrawingKit
 * Editable text view
 * Animation Image
 * 完善注释
-* Button 的 frame 计算
 * 更多的 CoreText 样式
-
-#How To Use
-see `xcode project`
 
 #Demo
 为了达到效果，请在真机运行 Demo。
@@ -68,8 +63,6 @@ see `xcode project`
 ###PPImageView
 高性能圆角 ImageView
 
-如果不喜欢自带的`PPWebImageView`，支持 `SDWebImage`
-
 ![](http://ww4.sinaimg.cn/large/9bffd8f9gw1fbk3ht0t1zj20a108btat.jpg)
 
 ```Obj-C
@@ -85,12 +78,12 @@ imageView.image = [UIImage imageNamed:@"avatar"];
 
 ```
 ####Download Network Image
-
 ```Obj-C
 [imageView setImageURL:[NSURL URLWithString:@"url"] placeholderImage:[UIImage imageNamed:@"avatar"]];
 ```
 ####Support SDWebImage
-如果不想用自带的图片下载，可以使用 SDWebImage，使用方法和 SD 一样
+see `demo/other/PPImageView+SDWebImage.h`
+
 ```Obj-C
 [imageView sd_setImageWithURL:[NSURL URLWithString:@"url"] placeholderImage:[UIImage imageNamed:@"avatar"]];
 ```
