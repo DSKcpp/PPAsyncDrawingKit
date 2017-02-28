@@ -13,13 +13,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- 单例获取 Scale
-
- @return Main screen scale
- */
-CGFloat PPScreenScale();
-
-/**
  绘制类型，默认情况下是 Normal，非特殊情况无需手动修改状态
 
  - PPAsyncDrawingTypeNormal: 普通状态，根据 asyncDrawing 判断是否异步绘制

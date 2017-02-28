@@ -9,6 +9,7 @@
 #import "PPImageDecode.h"
 #import "NSData+PPImageContentType.h"
 #import "PPAsyncDrawingView.h"
+#import <ImageIO/ImageIO.h>
 
 #ifndef PPIMAGE_WEBP_ENABLED
 #if __has_include(<webp/decode.h>) && __has_include(<webp/encode.h>) && \

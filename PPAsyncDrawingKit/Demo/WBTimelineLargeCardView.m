@@ -11,6 +11,7 @@
 #import "UIImage+Color.h"
 #import "NSAttributedString+PPExtendedAttributedString.h"
 #import "UIColor+HexString.h"
+#import "PPImageView+SDWebImage.h"
 
 @implementation WBTimelineLargeCardView
 

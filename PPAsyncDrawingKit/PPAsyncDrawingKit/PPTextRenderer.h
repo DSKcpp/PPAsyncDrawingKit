@@ -19,7 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol PPTextRendererEventDelegate <NSObject>
 - (PPAsyncDrawingView *)contextViewForTextRenderer:(PPTextRenderer *)textRenderer;
+
+@optional
 - (void)textRenderer:(PPTextRenderer *)textRenderer didPressHighlightRange:(PPTextHighlightRange *)highlightRange;
+- (void)textRenderer:(PPTextRenderer *)textRenderer didPressTextBackground:(PPTextBackground *)textBackground;
 @end
 
 @interface PPTextRenderer : UIResponder
@@ -84,9 +87,10 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface PPTextRenderer (PPTextRendererEvents)
+- (nullable PPAsyncDrawingView *)eventDelegateContextView;
 - (nullable PPTextHighlightRange *)highlightRangeForLayoutLocation:(CGPoint)location;
 - (void)eventDelegateDidPressHighlightRange:(PPTextHighlightRange *)highlightRange;
-- (nullable PPAsyncDrawingView *)eventDelegateContextView;
+- (void)eventDelegateDidPressTextBackground:(PPTextBackground *)textBackground;
 @end
 
 @interface PPTextRenderer (PPTextRendererPreviewing)

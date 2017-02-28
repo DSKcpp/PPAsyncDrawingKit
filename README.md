@@ -5,11 +5,10 @@ PPAsyncDrawingKit
 
 [![Languages](https://img.shields.io/badge/languages-ObjC%20%7C%20Swift-blue.svg)](https://github.com/DSKcpp/PPAsyncDrawingKit)
 [![Platform](https://img.shields.io/badge/platforms-iOS%207.0%2B-blue.svg)](https://github.com/DSKcpp/PPAsyncDrawingKit)
+[![Xcode](https://img.shields.io/badge/Xcode-8.0%2B-blue.svg)](https://github.com/DSKcpp/PPAsyncDrawingKit)
 
 
 这是一个轻量的异步绘制框架，实现一系列 `UIKit` 基础控件。
-
-项目需要 Xcode 8.0+ 编译，真机需要证书才能运行。
 
 关于 Core Text 结构问题，图片来自[Apple Dev (About Core Text)](https://developer.apple.com/library/content/documentation/StringsTextFonts/Conceptual/CoreText_Programming/Introduction/Introduction.html#//apple_ref/doc/uid/TP40005533-CH1-SW1)
 ![](https://developer.apple.com/library/content/documentation/StringsTextFonts/Conceptual/CoreText_Programming/Art/core_text_arch_2x.png)

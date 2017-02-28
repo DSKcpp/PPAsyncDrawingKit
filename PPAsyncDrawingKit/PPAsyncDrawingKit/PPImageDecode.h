@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <ImageIO/ImageIO.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

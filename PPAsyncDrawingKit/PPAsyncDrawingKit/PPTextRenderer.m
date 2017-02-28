@@ -18,6 +18,7 @@
 struct PPTextRendererEventDelegateFlags {
     BOOL didPressHighlightRange;
     BOOL contextViewForTextRenderer;
+    BOOL didPressTextBackground;
 };
 typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags;
 
@@ -109,7 +110,7 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
     _savedPressingHighlightRange = nil;
     PPTextHighlightRange *high = self.pressingHighlightRange;
     if (high) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self eventDelegateDidPressHighlightRange:high];
         });
         self.pressingHighlightRange = nil;
@@ -121,6 +122,7 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
         touchView.drawingType = PPAsyncDrawingTypeTouch;
         self.highlight = NO;
         [touchView setNeedsDisplay];
+        
     }
 }
 
@@ -147,6 +149,7 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
     _eventDelegate = eventDelegate;
     _eventDelegateFlags.contextViewForTextRenderer = [eventDelegate respondsToSelector:@selector(contextViewForTextRenderer:)];
     _eventDelegateFlags.didPressHighlightRange = [eventDelegate respondsToSelector:@selector(textRenderer:didPressHighlightRange:)];
+    _eventDelegateFlags.didPressTextBackground = [eventDelegate respondsToSelector:@selector(textRenderer:didPressTextBackground:)];
 }
 
 #pragma mark - Layout
@@ -189,11 +192,6 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
             CGRect drawRect = [self convertRectFromLayout:rect];
             [self drawBorder:highlightRange rect:drawRect context:context];
         }];
-    }
-    
-    PPTextBackground *textBackground = self.textLayout.textBackground;
-    if (textBackground) {
-        [self drawTextBackground:textBackground context:context];
     }
     
     PPTextBackground *highlightTextBackground = self.textLayout.highlighttextBackground;
@@ -337,6 +335,13 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
 {
     if (_eventDelegateFlags.didPressHighlightRange) {
         [_eventDelegate textRenderer:self didPressHighlightRange:highlightRange];
+    }
+}
+
+- (void)eventDelegateDidPressTextBackground:(PPTextBackground *)textBackground
+{
+    if (_eventDelegateFlags.didPressTextBackground) {
+        [_eventDelegate textRenderer:self didPressTextBackground:textBackground];
     }
 }
 

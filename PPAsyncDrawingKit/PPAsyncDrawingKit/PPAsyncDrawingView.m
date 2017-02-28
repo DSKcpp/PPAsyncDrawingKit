@@ -7,24 +7,16 @@
 //
 
 #import "PPAsyncDrawingView.h"
+#import "PPHelpers.h"
 #import <stdatomic.h>
 
-dispatch_queue_t PPDrawSerialQueue() {
+dispatch_queue_t _PPDrawLayerQueue() {
     static dispatch_queue_t queue;
     static dispatch_once_t token;
     dispatch_once(&token, ^{
         queue = dispatch_queue_create("io.github.dskcpp.drawQueue", DISPATCH_QUEUE_CONCURRENT);
     });
     return queue;
-}
-
-CGFloat PPScreenScale() {
-    static CGFloat scale;
-    static dispatch_once_t token;
-    dispatch_once(&token, ^{
-        scale = [UIScreen mainScreen].scale;
-    });
-    return scale;
 }
 
 @interface _PPAsyncDrawingViewLayer : CALayer
@@ -83,19 +75,21 @@ static BOOL asyncDrawingEnabled = YES;
 
 - (void)displayLayer:(CALayer *)layer
 {
-    if (layer) {
-        __weak typeof(self) weakSelf = self;
-        [self _displayLayer:(_PPAsyncDrawingViewLayer *)layer rect:layer.bounds drawingStarted:^(BOOL async) {
-            [weakSelf drawingWillStartAsynchronously:async];
-        } drawingFinished:^(BOOL async) {
-            [weakSelf drawingDidFinishAsynchronously:async success:YES];
-        } drawingInterrupted:^(BOOL async) {
-            [weakSelf drawingDidFinishAsynchronously:async success:NO];
-        }];
-    }
+    __weak typeof(self) weakSelf = self;
+    [self _displayLayer:(_PPAsyncDrawingViewLayer *)layer rect:layer.bounds drawingStarted:^(BOOL async) {
+        [weakSelf drawingWillStartAsynchronously:async];
+    } drawingFinished:^(BOOL async) {
+        [weakSelf drawingDidFinishAsynchronously:async success:YES];
+    } drawingInterrupted:^(BOOL async) {
+        [weakSelf drawingDidFinishAsynchronously:async success:NO];
+    }];
 }
 
-- (void)_displayLayer:(_PPAsyncDrawingViewLayer *)layer rect:(CGRect)rect drawingStarted:(void (^)(BOOL))drawingStarted drawingFinished:(void (^)(BOOL))drawingFinished drawingInterrupted:(void (^)(BOOL))drawingInterrupted
+- (void)_displayLayer:(_PPAsyncDrawingViewLayer *)layer
+                 rect:(CGRect)rect
+       drawingStarted:(void (^)(BOOL))drawingStarted
+      drawingFinished:(void (^)(BOOL))drawingFinished
+   drawingInterrupted:(void (^)(BOOL))drawingInterrupted
 {
     BOOL asynchronously = NO;
     if ([self drawCurrentContentAsynchronously] && [PPAsyncDrawingView globallyAsyncDrawingEnabled]) {
@@ -170,7 +164,7 @@ static BOOL asyncDrawingEnabled = YES;
         if (_clearsContextBeforeDrawing) {
             layer.contents = nil;
         }
-        dispatch_async(PPDrawSerialQueue(), drawingContents);
+        dispatch_async(_PPDrawLayerQueue(), drawingContents);
     } else if ([NSThread isMainThread]) {
         drawingContents();
     } else {
@@ -178,6 +172,7 @@ static BOOL asyncDrawingEnabled = YES;
     }
 }
 
+#pragma mark - PPAsyncDrawingProtocol
 - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously
 {
     return YES;

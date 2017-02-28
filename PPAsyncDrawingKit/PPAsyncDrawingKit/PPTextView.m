@@ -116,4 +116,9 @@
     }
 }
 
+- (void)textRenderer:(PPTextRenderer *)textRenderer didPressTextBackground:(PPTextBackground *)textBackground
+{
+    
+}
+
 @end
