@@ -23,6 +23,9 @@ typedef NS_ENUM(NSUInteger, PPAsyncDrawingType) {
     PPAsyncDrawingTypeTouch
 };
 
+typedef void(^PPAsyncDrawingWillStartBlock)(BOOL asynchronously);
+typedef void(^PPAsyncDrawingDidFinishBlock)(BOOL asynchronously, BOOL success);
+
 @protocol PPAsyncDrawingProtocol <NSObject>
 /**
  绘制方法，自动调用，必须实现
@@ -38,26 +41,21 @@ typedef NS_ENUM(NSUInteger, PPAsyncDrawingType) {
 @optional
 
 /**
+ 将要开始绘制时的回调
+ */
+@property (nullable, nonatomic, copy) PPAsyncDrawingWillStartBlock drawingWillStartBlock;
+
+/**
+ 绘制结束时的回调
+ */
+@property (nullable, nonatomic, copy) PPAsyncDrawingDidFinishBlock drawingDidFinishBlock;
+
+/**
  如果在绘制过程中需要传参数，可以实现这个方法
  
  @return 绘制过程中需要的参数
  */
 - (nullable NSDictionary *)currentDrawingUserInfo;
-
-/**
- 绘制将要开始时会来到这个方法，可以做一些事情
- 
- @param asynchronously 是否异步绘制
- */
-- (void)drawingWillStartAsynchronously:(BOOL)asynchronously;
-
-/**
- 绘制中断或结束会来到这个方法，可以做一些事情
- 
- @param asynchronously 是否异步绘制
- @param success 如果绘制被打断，则是 NO，成功的绘制完成，则是 YES
- */
-- (void)drawingDidFinishAsynchronously:(BOOL)asynchronously success:(BOOL)success;
 @end
 
 /**

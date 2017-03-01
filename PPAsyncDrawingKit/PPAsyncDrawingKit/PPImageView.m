@@ -227,13 +227,6 @@ static inline __nullable CGPathRef PPCreateRoundedCGPath(CGRect rect, CGFloat co
     return YES;
 }
 
-- (void)drawingDidFinishAsynchronously:(BOOL)async success:(BOOL)success
-{
-    if (!success) {
-        return;
-    }
-}
-
 - (void)startAnimating
 {
     _currentAnimationImageIndex = 0;

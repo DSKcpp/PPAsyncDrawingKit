@@ -19,6 +19,12 @@
 {
     if (self = [super initWithFrame:frame]) {
         _internalTextLayouts = @[].mutableCopy;
+        __weak typeof(self) weakSelf = self;
+        self.drawingDidFinishBlock = ^(BOOL asynchronously, BOOL success) {
+            if (success) {
+                weakSelf.hidden = NO;
+            }
+        };
     }
     return self;
 }
@@ -44,14 +50,6 @@
     }];
     return YES;
 }
-
-- (void)drawingDidFinishAsynchronously:(BOOL)async success:(BOOL)success
-{
-    if (success) {
-        self.hidden = NO;
-    }
-}
-
 
 - (PPTextRenderer *)rendererAtPoint:(CGPoint)point
 {

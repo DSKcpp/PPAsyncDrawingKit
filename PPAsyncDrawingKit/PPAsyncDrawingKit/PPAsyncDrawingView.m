@@ -42,6 +42,8 @@ dispatch_queue_t _PPDrawLayerQueue() {
 
 @implementation PPAsyncDrawingView
 @synthesize clearsContextBeforeDrawing = _clearsContextBeforeDrawing;
+@synthesize drawingWillStartBlock = _drawingWillStartBlock;
+@synthesize drawingDidFinishBlock = _drawingDidFinishBlock;
 
 static BOOL asyncDrawingEnabled = YES;
 
@@ -183,9 +185,23 @@ static BOOL asyncDrawingEnabled = YES;
     return nil;
 }
 
-- (void)drawingWillStartAsynchronously:(BOOL)asynchronously { }
+- (void)drawingWillStartAsynchronously:(BOOL)asynchronously
+{
+    if (_drawingWillStartBlock) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            _drawingWillStartBlock(asynchronously);
+        });
+    }
+}
 
-- (void)drawingDidFinishAsynchronously:(BOOL)asynchronously success:(BOOL)success { }
+- (void)drawingDidFinishAsynchronously:(BOOL)asynchronously success:(BOOL)success
+{
+    if (_drawingDidFinishBlock) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            _drawingDidFinishBlock(asynchronously, success);
+        });
+    }
+}
 
 - (BOOL)drawCurrentContentAsynchronously
 {
