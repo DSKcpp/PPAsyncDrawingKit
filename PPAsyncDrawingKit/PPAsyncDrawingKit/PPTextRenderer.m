@@ -63,12 +63,10 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
     PPTextHighlightRange *range = [self highlightRangeForLayoutLocation:point];
     if (range) {
         self.pressingHighlightRange = range;
-        touchView.drawingType = PPAsyncDrawingTypeTouch;
-        [touchView setNeedsDisplay];
+        [touchView setNeedsDisplayMainThread];
     } else if (self.textLayout.highlighttextBackground) {
-        touchView.drawingType = PPAsyncDrawingTypeTouch;
         self.highlight = YES;
-        [touchView setNeedsDisplay];
+        [touchView setNeedsDisplayMainThread];
     }
     _touchesBeginPoint = point;
 }
@@ -93,14 +91,12 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
         if (r) {
             _pressingHighlightRange = nil;
             _savedPressingHighlightRange = r;
-            touchView.drawingType = PPAsyncDrawingTypeTouch;
-            [touchView setNeedsDisplay];
+            [touchView setNeedsDisplayMainThread];
         }
     } else {
         if (_savedPressingHighlightRange) {
             _pressingHighlightRange = _savedPressingHighlightRange;
-            touchView.drawingType = PPAsyncDrawingTypeTouch;
-            [touchView setNeedsDisplay];
+            [touchView setNeedsDisplayMainThread];
         }
     }
 }
@@ -115,13 +111,11 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
         });
         self.pressingHighlightRange = nil;
         PPAsyncDrawingView *touchView = self.eventDelegateContextView;
-        touchView.drawingType = PPAsyncDrawingTypeTouch;
-        [touchView setNeedsDisplay];
+        [touchView setNeedsDisplayMainThread];
     } else if (self.textLayout.highlighttextBackground) {
         PPAsyncDrawingView *touchView = self.eventDelegateContextView;
-        touchView.drawingType = PPAsyncDrawingTypeTouch;
         self.highlight = NO;
-        [touchView setNeedsDisplay];
+        [touchView setNeedsDisplayMainThread];
         
     }
 }
@@ -132,13 +126,11 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
     if (_pressingHighlightRange) {
         _pressingHighlightRange = nil;
         PPAsyncDrawingView *touchView = self.eventDelegateContextView;
-        touchView.drawingType = PPAsyncDrawingTypeTouch;
-        [touchView setNeedsDisplay];
+        [touchView setNeedsDisplayMainThread];
     } else if (self.textLayout.highlighttextBackground) {
         PPAsyncDrawingView *touchView = self.eventDelegateContextView;
-        touchView.drawingType = PPAsyncDrawingTypeTouch;
         self.highlight = NO;
-        [touchView setNeedsDisplay];
+        [touchView setNeedsDisplayMainThread];
     }
 }
 
@@ -391,8 +383,7 @@ static BOOL textRendererDebugModeEnabled = NO;
     [subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull subview, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([subview isKindOfClass:[PPAsyncDrawingView class]]) {
             PPAsyncDrawingView *v = (PPAsyncDrawingView *)subview;
-            v.drawingType = PPAsyncDrawingTypeTouch;
-            [v setNeedsDisplay];
+            [v setNeedsDisplayMainThread];
         }
         [self drawDebugInView:subview];
     }];

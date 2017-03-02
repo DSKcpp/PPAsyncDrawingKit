@@ -212,6 +212,12 @@ static BOOL asyncDrawingEnabled = YES;
     }
 }
 
+- (void)setNeedsDisplayMainThread
+{
+    _drawingType = PPAsyncDrawingTypeTouch;
+    [self setNeedsDisplay];
+}
+
 #pragma mark - getter and setter
 + (BOOL)globallyAsyncDrawingEnabled
 {

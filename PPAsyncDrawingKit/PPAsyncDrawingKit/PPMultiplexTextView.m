@@ -29,7 +29,7 @@
     return self;
 }
 
-- (NSArray<PPTextRenderer *> *)textRenderers
+- (NSArray<PPTextRenderer *> *)textRenderers 
 {
     return [NSArray arrayWithArray:_internalTextLayouts.copy];
 }
