@@ -49,44 +49,17 @@ PPAsyncDrawingKit
 ![](http://ww4.sinaimg.cn/large/9bffd8f9jw1fcde9s4ac1j20jy0jsdh7.jpg)
 
 ###PPMultiplexTextView
-将多个 `AttributedString`，绘制到一个 `View` 上。
+将多个`AttributedString`根据各自的`frame`合并到同一个`view`上，并且支持交互。
 
-####微博：Project/Feeds Demo/View
+####新浪微博Example：Project/Feeds Demo/View
 ![](http://ww4.sinaimg.cn/large/9bffd8f9gw1fbi1ji8hbyj21kw0u67fm.jpg)
 
-####微信：project/Text Example/PPMultiplexTextExample.m
+####微信朋友圈Example：project/Text Example/PPMultiplexTextExample.m
 ![](http://wx3.sinaimg.cn/large/9bffd8f9gy1fcvr993f39j20ku0fjdgo.jpg)
 
-结构：用最少的View 完成，支持交互
+层次结构：
 
 ![](http://wx1.sinaimg.cn/large/9bffd8f9gy1fcwtei82e7g20aw084aap.gif)
-###PPImageView
-高性能圆角 ImageView
-
-![](http://ww4.sinaimg.cn/large/9bffd8f9gw1fbk3ht0t1zj20a108btat.jpg)
-
-```Obj-C
-PPImageView *imageView = [[PPImageView alloc] initWithFrame:CGRectMake(i * 45.0f, 5.0f, 40.0f, 40.0f)];
-imageView.cornerRadius = 20.0f;
-imageView.borderWidth = 0.1f;
-imageView.borderColor = [UIColor blackColor];
-imageView.contentMode = UIViewContentModeScaleAspectFill;
-imageView.userInteractionEnabled = YES;
-imageView.image = [UIImage imageNamed:@"avatar"];
-[imageView addTarget:self action:@selector(tapImageView:) forControlEvents:UIControlEventTouchUpInside];
-[self.contentView addSubview:imageView];
-
-```
-####Download Network Image
-```Obj-C
-[imageView setImageURL:[NSURL URLWithString:@"url"] placeholderImage:[UIImage imageNamed:@"avatar"]];
-```
-####Support SDWebImage
-see `demo/other/PPImageView+SDWebImage.h`
-
-```Obj-C
-[imageView sd_setImageWithURL:[NSURL URLWithString:@"url"] placeholderImage:[UIImage imageNamed:@"avatar"]];
-```
 
 ###PPTextView
 ```Obj-C
@@ -133,7 +106,7 @@ border.fillColor = [UIColor redColor];
 
 ```Obj-C
     
-NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"(2016 年 10 月 27 日，加利福尼亚州，CUPERTINO) —— Apple® 今日推出了迄今为止最纤薄、最轻巧的 MacBook Pro®，并带来了创新的界面设计，以一条色彩绚丽、具备 Retina® 画质的 Multi-Touch™多点触控显示面板取代了以往键盘上排的功能键，这就是全新的 Multi-Touch Bar™。新一代 MacBook Pro 配备 Apple 迄今最明亮、最多彩的 Retina 显示屏，安全便捷的 Touch ID®，响应更灵敏的键盘，尺寸更大的 Force Touch 触控板，以及拥有双倍动态范围的音频系统。它还是有史以来性能最强大的 MacBook Pro：采用第六代四核和双核处理器，图形处理性能最高达前代机型的 2.3 倍，并拥有极其高速的固态硬盘和最多达四个 Thunderbolt 3 端口。"];
+NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"balabala"];
 [attributedString pp_setFont:[UIFont systemFontOfSize: 15.0f]];
 [attributedString pp_setColor:[UIColor blackColor]];
     
@@ -156,7 +129,12 @@ textView.top = 76.0f;
 ```Obj-C
 [PPTextRenderer setDebugModeEnabled:YES];
 ```
+
 灰色区域表示绘制的最大 frame，黄色区域表示文字的真实 frame，红线表示 Base line
+###PPImageView
+高性能圆角图片，自带缓存和下载图片，也支持SDWebImage。
+
+![](http://ww4.sinaimg.cn/large/9bffd8f9gw1fbk3ht0t1zj20a108btat.jpg)
 
 #Installation with CocoaPods
 ###Podfile

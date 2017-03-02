@@ -1,3 +1,7 @@
 language: objective-c
+osx_image: xcode8.2
+xcode_project: PPAsyncDrawingKit.xcodeproj
+xcode_scheme: PPAsyncDrawingKit-Demo
 
-osx_image: xcode8.0
+notifications:
+  webhooks: https://hook.bearychat.com/=bw9Wn/travis/f3e6508fc6b306599bc7b7be711e77fc

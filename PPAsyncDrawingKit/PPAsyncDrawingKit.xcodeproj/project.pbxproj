@@ -196,8 +196,8 @@
 		866FDF361E25FAE400C513DF /* PPAsyncDrawingKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PPAsyncDrawingKit.h; sourceTree = "<group>"; };
 		866FDF451E25FF2100C513DF /* PPAsyncDrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPAsyncDrawingView.h; path = PPAsyncDrawingKit/PPAsyncDrawingView.h; sourceTree = "<group>"; };
 		866FDF461E25FF2100C513DF /* PPAsyncDrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPAsyncDrawingView.m; path = PPAsyncDrawingKit/PPAsyncDrawingView.m; sourceTree = "<group>"; };
-		866FDF491E25FF2C00C513DF /* PPControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPControl.h; path = PPAsyncDrawingKit/PPControl.h; sourceTree = "<group>"; };
-		866FDF4A1E25FF2C00C513DF /* PPControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPControl.m; path = PPAsyncDrawingKit/PPControl.m; sourceTree = "<group>"; };
+		866FDF491E25FF2C00C513DF /* PPControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPControl.h; sourceTree = "<group>"; };
+		866FDF4A1E25FF2C00C513DF /* PPControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPControl.m; sourceTree = "<group>"; };
 		866FDF4D1E25FF3900C513DF /* PPTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPTextView.h; path = PPAsyncDrawingKit/PPTextView.h; sourceTree = "<group>"; };
 		866FDF4E1E25FF3900C513DF /* PPTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PPTextView.m; path = PPAsyncDrawingKit/PPTextView.m; sourceTree = "<group>"; };
 		866FDF511E25FF4300C513DF /* PPMultiplexTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PPMultiplexTextView.h; path = PPAsyncDrawingKit/PPMultiplexTextView.h; sourceTree = "<group>"; };
@@ -483,6 +483,15 @@
 			name = Helpers;
 			sourceTree = "<group>";
 		};
+		863E95051E687DA0000A1449 /* Control */ = {
+			isa = PBXGroup;
+			children = (
+				866FDF491E25FF2C00C513DF /* PPControl.h */,
+				866FDF4A1E25FF2C00C513DF /* PPControl.m */,
+			);
+			name = Control;
+			sourceTree = "<group>";
+		};
 		8651C4FB1DC1FD120092569A /* Button */ = {
 			isa = PBXGroup;
 			children = (
@@ -537,7 +546,7 @@
 			children = (
 				866FDF361E25FAE400C513DF /* PPAsyncDrawingKit.h */,
 				86A98D301D92F495008F0A7E /* Core */,
-				86DA39651E28C84600D4F175 /* UI */,
+				86DA39651E28C84600D4F175 /* UIKit */,
 				86F300141E5B05B00048D256 /* Base */,
 			);
 			path = PPAsyncDrawingKit;
@@ -548,8 +557,6 @@
 			children = (
 				866FDF451E25FF2100C513DF /* PPAsyncDrawingView.h */,
 				866FDF461E25FF2100C513DF /* PPAsyncDrawingView.m */,
-				866FDF491E25FF2C00C513DF /* PPControl.h */,
-				866FDF4A1E25FF2C00C513DF /* PPControl.m */,
 			);
 			name = Core;
 			path = ../../PPAsyncDrawingKit;
@@ -721,14 +728,15 @@
 			path = Demo;
 			sourceTree = "<group>";
 		};
-		86DA39651E28C84600D4F175 /* UI */ = {
+		86DA39651E28C84600D4F175 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
+				863E95051E687DA0000A1449 /* Control */,
 				86A98D321D92F4BC008F0A7E /* Text */,
 				86A98D311D92F4AD008F0A7E /* ImageView */,
 				8651C4FB1DC1FD120092569A /* Button */,
 			);
-			name = UI;
+			name = UIKit;
 			sourceTree = "<group>";
 		};
 		86EB75811D2393CC005F14A1 = {
