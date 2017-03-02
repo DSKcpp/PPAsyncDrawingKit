@@ -1,35 +1,26 @@
 //
-//  NSDate+PPASDK.m
+//  NSDate+Display.m
 //  PPAsyncDrawingKit
 //
-//  Created by DSKcpp on 2016/12/11.
-//  Copyright © 2016年 DSKcpp. All rights reserved.
+//  Created by DSKcpp on 2017/3/2.
+//  Copyright © 2017年 DSKcpp. All rights reserved.
 //
 
-#import "NSDate+PPASDK.h"
+#import "NSDate+Display.h"
 
-@interface PPDateFormatter : NSDateFormatter
-+ (PPDateFormatter *)dateFormatter;
-@end
-
-@implementation PPDateFormatter
-
-+ (PPDateFormatter *)dateFormatter
-{
-    static PPDateFormatter *df;
+static NSDateFormatter *PPDateFormatter() {
+    static NSDateFormatter *fmt;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        df = [[self alloc] init];
+        fmt = [[NSDateFormatter alloc] init];
     });
-    return df;
+    return fmt;
 }
 
-@end
-
-@implementation NSDate (PPASDK)
+@implementation NSDate (Display)
 - (NSString *)toDisplayString
 {
-    PPDateFormatter *fmt = [PPDateFormatter dateFormatter];
+    NSDateFormatter *fmt = PPDateFormatter();
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSCalendarUnit unit = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
     fmt.dateFormat = @"HH:mm";
@@ -57,8 +48,7 @@
 
 - (NSString *)getWeekday
 {
-   NSInteger weekday = [[NSCalendar currentCalendar] component:NSCalendarUnitWeekday fromDate:self];
+    NSInteger weekday = [[NSCalendar currentCalendar] component:NSCalendarUnitWeekday fromDate:self];
     return @[@"星期天", @"星期一", @"星期二", @"星期三", @"星期四", @"星期五", @"星期六"][weekday-1];
 }
-
 @end

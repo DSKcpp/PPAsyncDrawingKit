@@ -10,9 +10,18 @@
 
 CGFloat PPScreenScale() {
     static CGFloat scale;
-    static dispatch_once_t token;
-    dispatch_once(&token, ^{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         scale = [UIScreen mainScreen].scale;
     });
     return scale;
+}
+
+CGColorSpaceRef PPColorSpaceCreateDeviceRGB() {
+    static CGColorSpaceRef colorSpaceRef;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        colorSpaceRef = CGColorSpaceCreateDeviceRGB();
+    });
+    return colorSpaceRef;
 }

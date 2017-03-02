@@ -1,13 +1,13 @@
 //
-//  UIImage+Color.h
+//  NSDate+Display.h
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 2017/3/2.
 //  Copyright © 2017年 DSKcpp. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-@interface UIImage (Color)
-+ (UIImage *)imageWithColor:(UIColor *)color;
+@interface NSDate (Display)
+- (NSString *)toDisplayString;
 @end

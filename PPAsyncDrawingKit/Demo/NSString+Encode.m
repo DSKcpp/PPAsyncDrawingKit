@@ -1,14 +1,14 @@
 //
-//  NSString+PPASDK.m
+//  NSString+Encode.m
 //  PPAsyncDrawingKit
 //
-//  Created by DSKcpp on 2017/1/8.
+//  Created by DSKcpp on 2017/3/3.
 //  Copyright © 2017年 DSKcpp. All rights reserved.
 //
 
-#import "NSString+PPASDK.h"
+#import "NSString+Encode.h"
 
-@implementation NSString (PPASDK)
+@implementation NSString (Encode)
 - (NSString *)stringByURLEncode
 {
     if ([self respondsToSelector:@selector(stringByAddingPercentEncodingWithAllowedCharacters:)]) {

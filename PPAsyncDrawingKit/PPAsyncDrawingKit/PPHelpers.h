@@ -15,3 +15,5 @@
  @return Main screen scale
  */
 CGFloat PPScreenScale();
+
+CGColorSpaceRef PPColorSpaceCreateDeviceRGB();

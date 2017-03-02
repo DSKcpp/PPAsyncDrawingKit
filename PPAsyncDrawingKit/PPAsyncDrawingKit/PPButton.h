@@ -7,8 +7,6 @@
 //
 
 #import <PPAsyncDrawingKit/PPControl.h>
-#import <PPAsyncDrawingKit/PPTextView.h>
-#import <PPAsyncDrawingKit/PPImageView.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

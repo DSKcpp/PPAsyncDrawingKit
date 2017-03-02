@@ -22,7 +22,8 @@
     self.tableViewItems = @[[ExampleItem t:@"Image View Example" c:@"PPImageExample"],
                             [ExampleItem t:@"Text View Example" c:@"PPTextExample"],
                             [ExampleItem t:@"Button Example" c:@"PPButtonExample"],
-                            [ExampleItem t:@"AutoLayout Example" c:@"AutoLayoutExample"],
+//                            [ExampleItem t:@"AutoLayout Example" c:@"AutoLayoutExample"], // TODO
+                            [ExampleItem t:@"Animation Example" c:@"PPAnimationExample"],
                             [ExampleItem t:@"Feeds List Example" c:@"WBTimelineViewController"]];
 }
 

@@ -164,6 +164,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
                 return;
             }
             UIImage *image = [self imageFromDiskCacheForURL:URL];
+            image = [PPImageDecode decodeImageWithImage:image];
             if (image) {
                 [self storeImage:image forURL:URL];
             }

@@ -9,12 +9,13 @@
 #import "WBTimelineItem.h"
 #import "WBTimelineTableViewCell.h"
 #import "WBTimelineAttributedTextParser.h"
-#import "NSDate+PPASDK.h"
+#import "UIImage+Color.h"
 #import "NSAttributedString+PPExtendedAttributedString.h"
 #import "WBHelper.h"
 #import "PPTextFontMetrics.h"
 #import "PPTextAttachment.h"
 #import "UIColor+HexString.h"
+#import "NSDate+Display.h"
 
 @implementation WBCardsModel
 + (NSDictionary *)modelContainerPropertyGenericClass {

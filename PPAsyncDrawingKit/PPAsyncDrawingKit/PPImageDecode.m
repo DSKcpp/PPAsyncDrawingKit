@@ -20,15 +20,6 @@ __has_include(<webp/demux.h>)  && __has_include(<webp/mux.h>)
 #import <Webp/encode.h>
 #import <Webp/demux.h>
 #import <Webp/mux.h>
-#elif __has_include("Webp/decode.h") && __has_include("Webp/encode.h") && \
-__has_include("Webp/demux.h")  && __has_include("Webp/mux.h")
-#define PPIMAGE_WEBP_ENABLED 1
-#import "Webp/decode.h"
-#import "Webp/encode.h"
-#import "Webp/demux.h"
-#import "Webp/mux.h"
-#else
-#define PPIMAGE_WEBP_ENABLED 0
 #endif
 #endif
 
@@ -95,6 +86,60 @@ static void FreeImageData(void *info, const void *data, size_t size) {
     CFRelease(source);
     
     return staticImage;
+}
+
++ (CGColorSpaceRef)colorSpaceForImageRef:(CGImageRef)imageRef {
+    // current
+    CGColorSpaceModel imageColorSpaceModel = CGColorSpaceGetModel(CGImageGetColorSpace(imageRef));
+    CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(imageRef);
+    
+    BOOL unsupportedColorSpace = (imageColorSpaceModel == kCGColorSpaceModelUnknown ||
+                                  imageColorSpaceModel == kCGColorSpaceModelMonochrome ||
+                                  imageColorSpaceModel == kCGColorSpaceModelCMYK ||
+                                  imageColorSpaceModel == kCGColorSpaceModelIndexed);
+    if (unsupportedColorSpace) {
+        colorspaceRef = CGColorSpaceCreateDeviceRGB();
+        CFAutorelease(colorspaceRef);
+    }
+    return colorspaceRef;
+}
+
++ (UIImage *)decodeImageWithImage:(UIImage *)image
+{
+    CGImageRef imageRef = image.CGImage;
+    if (!imageRef) {
+        return nil;
+    }
+    
+    size_t width = CGImageGetWidth(imageRef);
+    size_t height = CGImageGetHeight(imageRef);
+    if (width == 0 || height == 0) return NULL;
+    
+    CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(imageRef) & kCGBitmapAlphaInfoMask;
+    BOOL hasAlpha = NO;
+    if (alphaInfo == kCGImageAlphaPremultipliedLast ||
+        alphaInfo == kCGImageAlphaPremultipliedFirst ||
+        alphaInfo == kCGImageAlphaLast ||
+        alphaInfo == kCGImageAlphaFirst) {
+        hasAlpha = YES;
+    }
+
+    CGBitmapInfo bitmapInfo = kCGBitmapByteOrder32Host;
+    bitmapInfo |= hasAlpha ? kCGImageAlphaPremultipliedFirst : kCGImageAlphaNoneSkipFirst;
+    CGContextRef context = CGBitmapContextCreate(NULL, width, height, 8, 0, PPColorSpaceCreateDeviceRGB(), bitmapInfo);
+    if (!context) {
+        return nil;
+    }
+    
+    CGContextDrawImage(context, CGRectMake(0, 0, width, height), imageRef);
+    CGImageRef imageRefWithoutAlpha = CGBitmapContextCreateImage(context);
+    UIImage *imageWithoutAlpha = [UIImage imageWithCGImage:imageRefWithoutAlpha
+                                                     scale:image.scale
+                                               orientation:image.imageOrientation];
+    
+    CGContextRelease(context);
+    CGImageRelease(imageRefWithoutAlpha);
+    return imageWithoutAlpha;
 }
 
 #if PPIMAGE_WEBP_ENABLED
@@ -228,6 +273,7 @@ static void FreeImageData(void *info, const void *data, size_t size) {
     
     return image;
 }
+
 #endif
 
 @end

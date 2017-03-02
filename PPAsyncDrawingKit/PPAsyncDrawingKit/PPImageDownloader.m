@@ -106,6 +106,7 @@
     }
     if (task.completion) {
         UIImage *image = [PPImageDecode imageWithData:data];
+        image = [PPImageDecode decodeImageWithImage:image];
         dispatch_async(dispatch_get_main_queue(), ^{
             task.completion(image, nil);
         });

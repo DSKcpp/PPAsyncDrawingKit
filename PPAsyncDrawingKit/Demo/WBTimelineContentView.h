@@ -13,6 +13,7 @@
 #import "WBTimelineTextContentView.h"
 #import "WBTimelineImageContentView.h"
 #import "WBTimelineTableViewCell.h"
+#import "PPTextView.h"
 
 @interface WBNameLabel : PPTextView
 @property (nonatomic, strong) WBUser *user;

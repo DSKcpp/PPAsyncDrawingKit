@@ -325,7 +325,7 @@
     if (relayout) {
         [self setNeedsUpdateFrame];
     }
-    [self setNeedsDisplay];
+    [self setNeedsDisplayMainThread];
 }
 
 - (void)_updateButtonInfo

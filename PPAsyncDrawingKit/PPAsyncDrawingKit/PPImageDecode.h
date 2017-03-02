@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (nullable UIImage *)imageWithContentsOfFile:(NSString *)path;
 + (nullable UIImage *)animatedGIFWithData:(nullable NSData *)data;
 + (nullable UIImage *)imageWithWebPData:(nullable NSData *)data;
-
++ (nullable UIImage *)decodeImageWithImage:(nullable UIImage *)image;
 @end
 
 NS_ASSUME_NONNULL_END

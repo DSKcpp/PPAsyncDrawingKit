@@ -1,5 +1,5 @@
 //
-//  UIImage+Color.h
+//  PPAnimationExample.h
 //  PPAsyncDrawingKit
 //
 //  Created by DSKcpp on 2017/3/2.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIImage (Color)
-+ (UIImage *)imageWithColor:(UIColor *)color;
+@interface PPAnimationExample : UIViewController
+
 @end

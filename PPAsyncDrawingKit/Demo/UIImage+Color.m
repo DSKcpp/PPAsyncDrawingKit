@@ -2,8 +2,8 @@
 //  UIImage+Color.m
 //  PPAsyncDrawingKit
 //
-//  Created by DSKcpp on 2016/11/16.
-//  Copyright © 2016年 DSKcpp. All rights reserved.
+//  Created by DSKcpp on 2017/3/2.
+//  Copyright © 2017年 DSKcpp. All rights reserved.
 //
 
 #import "UIImage+Color.h"

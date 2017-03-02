@@ -14,7 +14,7 @@
 #import "WBWebViewController.h"
 #import "PPImageCache.h"
 #import "WBTimelineAttributedTextParser.h"
-#import "NSString+PPASDK.h"
+#import "NSString+Encode.h"
 #import "PPTableView.h"
 #import "WBHelper.h"
 #import "UIColor+HexString.h"
