@@ -1,5 +1,6 @@
 language: objective-c
 osx_image: xcode8.2
+
 xcode_project: PPAsyncDrawingKit.xcodeproj
 xcode_scheme: PPAsyncDrawingKit-Demo
 

@@ -42,8 +42,6 @@ dispatch_queue_t _PPDrawLayerQueue() {
 
 @implementation PPAsyncDrawingView
 @synthesize clearsContextBeforeDrawing = _clearsContextBeforeDrawing;
-@synthesize drawingWillStartBlock = _drawingWillStartBlock;
-@synthesize drawingDidFinishBlock = _drawingDidFinishBlock;
 
 static BOOL asyncDrawingEnabled = YES;
 
@@ -78,12 +76,12 @@ static BOOL asyncDrawingEnabled = YES;
 - (void)displayLayer:(CALayer *)layer
 {
     __weak typeof(self) weakSelf = self;
-    [self _displayLayer:(_PPAsyncDrawingViewLayer *)layer rect:layer.bounds drawingStarted:^(BOOL async) {
-        [weakSelf drawingWillStartAsynchronously:async];
-    } drawingFinished:^(BOOL async) {
-        [weakSelf drawingDidFinishAsynchronously:async success:YES];
-    } drawingInterrupted:^(BOOL async) {
-        [weakSelf drawingDidFinishAsynchronously:async success:NO];
+    [self _displayLayer:(_PPAsyncDrawingViewLayer *)layer rect:layer.bounds drawingStarted:^(BOOL asynchronously) {
+        [weakSelf drawingWillStartAsynchronously:asynchronously];
+    } drawingFinished:^(BOOL asynchronously) {
+        [weakSelf drawingDidFinishAsynchronously:asynchronously success:YES];
+    } drawingInterrupted:^(BOOL asynchronously) {
+        [weakSelf drawingDidFinishAsynchronously:asynchronously success:NO];
     }];
 }
 
@@ -218,6 +216,12 @@ static BOOL asyncDrawingEnabled = YES;
     [self setNeedsDisplay];
 }
 
+- (NSUInteger)drawingCount
+{
+    _PPAsyncDrawingViewLayer *layer = (_PPAsyncDrawingViewLayer *)self.layer;
+    return layer.drawingCount;
+}
+
 #pragma mark - getter and setter
 + (BOOL)globallyAsyncDrawingEnabled
 {
@@ -227,15 +231,5 @@ static BOOL asyncDrawingEnabled = YES;
 + (void)setGloballyAsyncDrawingEnabled:(BOOL)globallyAsyncDrawingEnabled
 {
     asyncDrawingEnabled = globallyAsyncDrawingEnabled;
-}
-
-- (_PPAsyncDrawingViewLayer *)drawingLayer
-{
-    return (_PPAsyncDrawingViewLayer *)self.layer;
-}
-
-- (NSUInteger)drawingCount
-{
-    return self.drawingLayer.drawingCount;
 }
 @end
