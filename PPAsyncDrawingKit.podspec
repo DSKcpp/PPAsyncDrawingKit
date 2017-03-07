@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'PPAsyncDrawingKit'
-  s.version = '1.0.0'
+  s.version = '1.0.1'
   s.ios.deployment_target = '7.0'
   s.license = 'MIT'
   s.summary = 'iOS asynchronously drawing view Kit. '
