@@ -14,7 +14,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol PPTextEventDelegate <NSObject>
-- (void)textLayout:(PPTextLayout *)textLayout didSelectHighlightRange:(PPTextHighlightRange *)highlightRange;
+
+@optional
+- (void)textLayout:(PPTextLayout *)textLayout pressedTextHighlightRange:(PPTextHighlightRange *)highlightRange;
+- (void)textLayout:(PPTextLayout *)textLayout pressedTextBackground:(PPTextBackground *)background;
 @end
 
 /**

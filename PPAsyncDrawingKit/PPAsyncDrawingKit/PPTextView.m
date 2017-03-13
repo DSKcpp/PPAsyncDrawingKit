@@ -109,16 +109,18 @@
     return self;
 }
 
-- (void)textRenderer:(PPTextRenderer *)textRenderer didPressHighlightRange:(PPTextHighlightRange *)highlightRange
+- (void)textRenderer:(PPTextRenderer *)textRenderer pressedTextHighlightRange:(nonnull PPTextHighlightRange *)highlightRange
 {
-    if ([_delegate respondsToSelector:@selector(textLayout:didSelectHighlightRange:)]) {
-        [_delegate textLayout:self.textLayout didSelectHighlightRange:highlightRange];
+    if ([_delegate respondsToSelector:@selector(textLayout:pressedTextHighlightRange:)]) {
+        [_delegate textLayout:self.textLayout pressedTextHighlightRange:highlightRange];
     }
 }
 
-- (void)textRenderer:(PPTextRenderer *)textRenderer didPressTextBackground:(PPTextBackground *)textBackground
+- (void)textRenderer:(PPTextRenderer *)textRenderer pressedTextBackground:(nonnull PPTextBackground *)background
 {
-    
+    if ([_delegate respondsToSelector:@selector(textLayout:pressedTextBackground:)]) {
+        [_delegate textLayout:self.textLayout pressedTextBackground:background];
+    }
 }
 
 @end

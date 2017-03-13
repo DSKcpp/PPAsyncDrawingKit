@@ -257,7 +257,7 @@
     }
 }
 
-- (void)textLayout:(PPTextLayout *)textLayout didSelectHighlightRange:(PPTextHighlightRange *)highlightRange
+- (void)textLayout:(PPTextLayout *)textLayout pressedTextHighlightRange:(nonnull PPTextHighlightRange *)highlightRange
 {
     if ([_delegate respondsToSelector:@selector(tableViewCell:didPressHighlightRange:)]) {
         [_delegate tableViewCell:_cell didPressHighlightRange:highlightRange];

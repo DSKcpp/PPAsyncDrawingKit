@@ -59,10 +59,15 @@
     }
 }
 
-- (void)textLayout:(PPTextLayout *)textLayout didSelectHighlightRange:(PPTextHighlightRange *)highlightRange
+- (void)textLayout:(PPTextLayout *)textLayout pressedTextHighlightRange:(nonnull PPTextHighlightRange *)highlightRange
 {
     NSString *value = highlightRange.userInfo[@"key"];
     NSLog(@"%@", value);
+}
+
+- (void)textLayout:(PPTextLayout *)textLayout pressedTextBackground:(PPTextBackground *)background
+{
+    
 }
 
 @end

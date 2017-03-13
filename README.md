@@ -1,4 +1,3 @@
-一年 iOS，求职中，上海地区，邮箱：dskcpp@gmail.com
 PPAsyncDrawingKit
 ------------------------
 [![Build Status](https://travis-ci.org/DSKcpp/PPAsyncDrawingKit.svg?branch=master)](https://travis-ci.org/DSKcpp/PPAsyncDrawingKit)

@@ -21,8 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (PPAsyncDrawingView *)contextViewForTextRenderer:(PPTextRenderer *)textRenderer;
 
 @optional
-- (void)textRenderer:(PPTextRenderer *)textRenderer didPressHighlightRange:(PPTextHighlightRange *)highlightRange;
-- (void)textRenderer:(PPTextRenderer *)textRenderer didPressTextBackground:(PPTextBackground *)textBackground;
+- (void)textRenderer:(PPTextRenderer *)textRenderer pressedTextHighlightRange:(PPTextHighlightRange *)highlightRange;
+- (void)textRenderer:(PPTextRenderer *)textRenderer pressedTextBackground:(PPTextBackground *)background;
 @end
 
 @interface PPTextRenderer : UIResponder

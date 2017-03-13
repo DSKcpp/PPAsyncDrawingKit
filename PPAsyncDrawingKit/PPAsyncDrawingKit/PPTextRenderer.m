@@ -16,9 +16,9 @@
 #import "UIImage+PPAsyncDrawingKit.h"
 
 struct PPTextRendererEventDelegateFlags {
-    BOOL didPressHighlightRange;
+    BOOL pressedTextHighlightRange;
     BOOL contextViewForTextRenderer;
-    BOOL didPressTextBackground;
+    BOOL pressedTextBackground;
 };
 typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags;
 
@@ -140,8 +140,8 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
 {
     _eventDelegate = eventDelegate;
     _eventDelegateFlags.contextViewForTextRenderer = [eventDelegate respondsToSelector:@selector(contextViewForTextRenderer:)];
-    _eventDelegateFlags.didPressHighlightRange = [eventDelegate respondsToSelector:@selector(textRenderer:didPressHighlightRange:)];
-    _eventDelegateFlags.didPressTextBackground = [eventDelegate respondsToSelector:@selector(textRenderer:didPressTextBackground:)];
+    _eventDelegateFlags.pressedTextHighlightRange = [eventDelegate respondsToSelector:@selector(textRenderer:pressedTextHighlightRange:)];
+    _eventDelegateFlags.pressedTextBackground = [eventDelegate respondsToSelector:@selector(textRenderer:pressedTextBackground:)];
 }
 
 #pragma mark - Layout
@@ -325,15 +325,15 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
 
 - (void)eventDelegateDidPressHighlightRange:(PPTextHighlightRange *)highlightRange
 {
-    if (_eventDelegateFlags.didPressHighlightRange) {
-        [_eventDelegate textRenderer:self didPressHighlightRange:highlightRange];
+    if (_eventDelegateFlags.pressedTextHighlightRange) {
+        [_eventDelegate textRenderer:self pressedTextHighlightRange:highlightRange];
     }
 }
 
 - (void)eventDelegateDidPressTextBackground:(PPTextBackground *)textBackground
 {
-    if (_eventDelegateFlags.didPressTextBackground) {
-        [_eventDelegate textRenderer:self didPressTextBackground:textBackground];
+    if (_eventDelegateFlags.pressedTextBackground) {
+        [_eventDelegate textRenderer:self pressedTextBackground:textBackground];
     }
 }
 
