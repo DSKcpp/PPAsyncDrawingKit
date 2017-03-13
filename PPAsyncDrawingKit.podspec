@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name = 'PPAsyncDrawingKit'
-  s.version = '1.0.2'
+  s.version = '1.0.3'
 
   s.ios.deployment_target = '7.0'
 
@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
 
   s.description = 'This is a kit for asynchronously drawing view, implementation of the ImageView, Label, Button.'
   
-  s.source_files = "PPAsyncDrawingKit/*.{h,m}"
+  s.source_files = "PPAsyncDrawingKit/PPAsyncDrawingKit/*.{h,m}"
   s.requires_arc = true
   s.framework = 'CoreText'
 end
