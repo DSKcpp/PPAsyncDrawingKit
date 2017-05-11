@@ -12,7 +12,7 @@
 #import "UIImage+Color.h"
 #import "NSAttributedString+PPExtendedAttributedString.h"
 #import "WBHelper.h"
-#import "PPTextFontMetrics.h"
+#import <PPAsyncDrawingKit/PPTextUtilties.h>
 #import "PPTextAttachment.h"
 #import "UIColor+HexString.h"
 #import "NSDate+Display.h"
@@ -172,7 +172,7 @@
     [attributedString pp_setFont:[UIFont systemFontOfSize:15.0f]];
     [attributedString pp_setColor:[UIColor colorWithHexString:@"FF5114"]];
     
-    PPTextFontMetrics *fontMetrics = [[PPTextFontMetrics alloc] init];
+    PPTextFontMetrics fontMetrics;
     fontMetrics.ascent = 12;
     fontMetrics.descent = 1;
     CGSize size = CGSizeMake(13.0f, 13.0f);

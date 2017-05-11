@@ -7,7 +7,7 @@
 //
 
 #import "WBTimelineAttributedTextParser.h"
-#import "NSString+PPAsyncDrawingKit.h"
+#import "NSString+PPExtended.h"
 #import "WBHelper.h"
 #import "NSAttributedString+PPExtendedAttributedString.h"
 #import "PPTextAttributes.h"
@@ -52,7 +52,7 @@ NSString * const WBTimelineHighlightRangeModeLink = @"WBTimelineHighlightRangeMo
                     break;
                 }
                 
-                PPTextFontMetrics *fontMetrics = [[PPTextFontMetrics alloc] init];
+                PPTextFontMetrics fontMetrics;
                 fontMetrics.ascent = 12;
                 fontMetrics.descent = 1;
                 CGSize size = CGSizeMake(13.0f, 13.0f);
@@ -122,7 +122,7 @@ NSString * const WBTimelineHighlightRangeModeLink = @"WBTimelineHighlightRangeMo
         range.location -= clipLength;
         UIImage *image =  [[WBEmoticonManager sharedMangaer] imageWithEmotionName:[string substringWithRange:range]];
         if (image) {
-            PPTextFontMetrics *fontMetrics = [[PPTextFontMetrics alloc] init];
+            PPTextFontMetrics fontMetrics;
             fontMetrics.ascent = font.ascender;
             fontMetrics.descent = -font.descender;
             CGFloat w = fontMetrics.ascent + fontMetrics.descent;

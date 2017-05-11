@@ -7,7 +7,7 @@
 //
 
 #import "PPButton.h"
-#import "NSString+PPAsyncDrawingKit.h"
+#import "NSString+PPExtended.h"
 #import "PPLock.h"
 
 @interface PPButtonInfo : NSObject

@@ -18,6 +18,8 @@ FOUNDATION_EXPORT const unsigned char PPAsyncDrawingKitVersionString[];
 
 // Core
 #import <PPAsyncDrawingKit/PPAsyncDrawingView.h>
+
+// Control
 #import <PPAsyncDrawingKit/PPControl.h>
 
 // Text
@@ -26,15 +28,14 @@ FOUNDATION_EXPORT const unsigned char PPAsyncDrawingKitVersionString[];
 #import <PPAsyncDrawingKit/PPEditableTextView.h>
 #import <PPAsyncDrawingKit/PPTextAttachment.h>
 #import <PPAsyncDrawingKit/PPTextAttributes.h>
-#import <PPAsyncDrawingKit/PPTextFontMetrics.h>
 #import <PPAsyncDrawingKit/PPTextLayout.h>
-#import <PPAsyncDrawingKit/PPTextLayoutFrame.h>
-#import <PPAsyncDrawingKit/PPTextLayoutLine.h>
+#import <PPAsyncDrawingKit/PPTextContainer.h>
 #import <PPAsyncDrawingKit/PPTextRenderer.h>
 #import <PPAsyncDrawingKit/PPTextUtilties.h>
 #import <PPAsyncDrawingKit/NSAttributedString+PPExtendedAttributedString.h>
 #import <PPAsyncDrawingKit/NSString+PPAsyncDrawingKit.h>
 #import <PPAsyncDrawingKit/NSThread+PPTextRenderer.h>
+#import <PPAsyncDrawingKit/NSString+PPExtended.h>
 
 // Image
 #import <PPAsyncDrawingKit/PPImageView.h>

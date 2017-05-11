@@ -10,6 +10,7 @@
 #import <CommonCrypto/CommonCrypto.h>
 #import "PPImageDecode.h"
 #import "PPLock.h"
+#import "PPDefines.h"
 
 #define kPPImageCacheMaxAge 604800.0f // 7 day
 #define kPPImageCacheMaxMemorySize 209715200 // 200 MB
@@ -154,12 +155,12 @@ static NSString *_PPNSStringMD5(NSString *string) {
     
     UIImage *image = [self imageFromMemoryCacheForURL:URL];
     if (image) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+        PPAsyncExecuteInMainQueue(^{
             callback(image, PPImageCacheTypeMemory);
         });
     } else {
         PPImageIOTask *task = [PPImageIOTask taskForURL:URL];
-        dispatch_async(_ioQueue, ^{
+        PPAsyncExecuteIn(_ioQueue, ^{
             if (task.isCancelled) {
                 return;
             }
@@ -168,7 +169,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
             if (image) {
                 [self storeImage:image forURL:URL];
             }
-            dispatch_async(dispatch_get_main_queue(), ^{
+            PPAsyncExecuteInMainQueue(^{
                 callback(image, PPImageCacheTypeDisk);
             });
         });
@@ -227,7 +228,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
             }
             _data = UIImageJPEGRepresentation(image, 1.0);
         }
-        dispatch_async(_ioQueue, ^{
+        PPAsyncExecuteIn(_ioQueue, ^{
             [self storeImageDataToDisk:_data forURL:URL];
         });
     }
@@ -239,7 +240,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
         return;
     }
 
-    dispatch_async(_ioQueue, ^{
+    PPAsyncExecuteIn(_ioQueue, ^{
         NSFileManager *fileManager = [[NSFileManager alloc] init];
         NSString *path = _cachePath;
         if (![fileManager fileExistsAtPath:path]) {
@@ -253,7 +254,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
 - (NSUInteger)diskCacheSize
 {
     __block NSUInteger totalCacheSize = 0;
-    dispatch_sync(_ioQueue, ^{
+    PPSyncExecuteIn(_ioQueue, ^{
         NSDirectoryEnumerator<NSString *> *files = [[NSFileManager defaultManager] enumeratorAtPath:_cachePath];
         for (NSString *fileName in files) {
             NSString *filePath = [self cachePathForKey:fileName];
@@ -266,7 +267,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
 
 - (void)cleanDiskCache
 {
-    dispatch_async(_ioQueue, ^{
+    PPAsyncExecuteIn(_ioQueue, ^{
         NSFileManager *fileManager = [[NSFileManager alloc] init];
         [fileManager removeItemAtPath:_cachePath error:nil];
         [fileManager createDirectoryAtPath:_cachePath withIntermediateDirectories:YES attributes:nil error:nil];
@@ -275,7 +276,7 @@ static NSString *_PPNSStringMD5(NSString *string) {
 
 - (void)cleanOldFile
 {
-    dispatch_async(_ioQueue, ^{
+    PPAsyncExecuteIn(_ioQueue, ^{
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSURL *diskCacheURL = [NSURL fileURLWithPath:_cachePath isDirectory:YES];
         NSArray<NSString *> *resourceKeys = @[NSURLIsDirectoryKey, NSURLContentModificationDateKey, NSURLTotalFileAllocatedSizeKey];

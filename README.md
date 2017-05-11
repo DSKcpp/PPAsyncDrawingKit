@@ -137,7 +137,9 @@ textView.top = 76.0f;
 
 #Installation with CocoaPods
 ###Podfile
+
 `暂时没有上传，等基本完成和测试之后再提交`
+
 ``` Ruby
 pod 'PPAsyncDrawingKit'
 ```

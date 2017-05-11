@@ -10,6 +10,7 @@
 #import "PPImageDecode.h"
 #import "PPImageCache.h"
 #import "PPLock.h"
+#import "PPDefines.h"
 
 @interface PPImageDownloader () <NSURLSessionDownloadDelegate>
 {
@@ -48,7 +49,7 @@
     PPImageDownloaderTask *task = [PPImageDownloaderTask taskForURL:URL.absoluteString];
     task.downloadProgress = downloadProgress;
     task.completion = completion;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    PPAsyncExecuteIn(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSURLSessionDownloadTask *sessionTask = [task createSessionTaskIfNecessaryWithBlock:^NSURLSessionDownloadTask * _Nonnull{
             return [_session downloadTaskWithURL:URL];
         }];
@@ -89,7 +90,7 @@
 {
     PPImageDownloaderTask *task = _downloaderTasks[downloadTask.originalRequest.URL.absoluteString];
     if (task.downloadProgress) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+        PPAsyncExecuteInMainQueue(^{
             task.downloadProgress((CGFloat)totalBytesWritten / (CGFloat)totalBytesExpectedToWrite);
         });
     }
@@ -107,7 +108,7 @@
     if (task.completion) {
         UIImage *image = [PPImageDecode imageWithData:data];
         image = [PPImageDecode decodeImageWithImage:image];
-        dispatch_async(dispatch_get_main_queue(), ^{
+        PPAsyncExecuteInMainQueue(^{
             task.completion(image, nil);
         });
     }
@@ -118,7 +119,7 @@
     PPImageDownloaderTask *_task = _downloaderTasks[task.originalRequest.URL.absoluteString];
     
     if (_task.completion && error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+        PPAsyncExecuteInMainQueue(^{
             _task.completion(nil, error);
         });
     }
