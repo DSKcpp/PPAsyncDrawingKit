@@ -12,55 +12,162 @@ class AsyncTextLayout {
     
     var numberOfLines = 1
     
+    fileprivate let lock = Lock()
+    
+    var text = ""
+    
+    fileprivate var _needsLayout = true
+    var needsLayout: Bool {
+        get {
+            lock.lock()
+            let result = _needsLayout
+            lock.unlock()
+            return result
+        } set {
+            guard _needsLayout != newValue else { return }
+            lock.lock()
+            _needsLayout = newValue
+            lock.unlock()
+        }
+    }
+    
+    fileprivate var _frame: CGRect = .zero
+    
+    lazy var textRenderer: AsyncTextRenderer = {
+        return AsyncTextRenderer(textLayout: self)
+    }()
+    
+    private var layoutFrame: AsyncTextFrame?
+    
+    var attributedString: NSAttributedString?
+    
+    init(attributedString: NSAttributedString) {
+        self.attributedString = attributedString
+    }
+    
+    func nowLayoutFrame() -> AsyncTextFrame? {
+        if needsLayout || layoutFrame == nil {
+            lock.lock()
+            layoutFrame = createLayoutFrame()
+            lock.unlock()
+            needsLayout = false
+        }
+        return layoutFrame
+    }
+    
+    func createLayoutFrame() -> AsyncTextFrame? {
+        guard let attributedString = attributedString, attributedString.length > 0 else { return nil }
+        let framesetter = CTFramesetterCreateWithAttributedString(attributedString)
+        let rect = CGRect(x: 0, y: 0, width: maxSize.width, height: 20000)
+        let transform = CGAffineTransform.identity
+        let path = CGMutablePath()
+        path.addRect(rect, transform: transform)
+        let range = CFRange(location: 0, length: attributedString.length)
+        let frame = CTFramesetterCreateFrame(framesetter, range, path, nil)
+        return AsyncTextFrame(CTFrame: frame, textLayout: self)
+    }
+    
+    func setNeedsLayout() {
+        needsLayout = true
+    }
+    
+    func setAttributedString(_ attributedString: NSAttributedString) {
+        guard attributedString != self.attributedString else { return }
+        lock.lock()
+        self.attributedString = attributedString
+        text = attributedString.string
+        lock.unlock()
+        needsLayout = true
+    }
+    
+    func setNumberOfLines(_ numberOfLines: Int) {
+        guard numberOfLines != self.numberOfLines else { return }
+        self.numberOfLines = numberOfLines
+        needsLayout = true
+    }
 }
 
 extension AsyncTextLayout {
     
-//    var layoutHeight: CGFloat {
-//        
-//    }
-//    
-//    var layoutSize: CGSize {
-//        
-//    }
-//    
-//    var containingLineCount: UInt {
-//        
-//    }
-//    
-//    
-//    - (void)enumerateEnclosingRectsForCharacterRange:(NSRange)range usingBlock:(void (^)(CGRect rect, BOOL *stop))block;
-//    - (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(void(^)(CGRect rect, NSRange range, BOOL *stop))block;
+    var frame: CGRect {
+        get {
+            return _frame
+        } set {
+            guard !_frame.equalTo(newValue) else { return }
+            _frame = newValue
+            needsLayout = true
+        }
+    }
+    
+    var drawOrigin: CGPoint {
+        get {
+            return _frame.origin
+        } set {
+            guard !_frame.origin.equalTo(newValue) else { return }
+            _frame.origin = newValue
+            needsLayout = true
+        }
+    }
+    
+    var maxSize: CGSize {
+        get {
+            return _frame.size
+        } set {
+            guard !_frame.size.equalTo(newValue) else { return }
+            _frame.size = newValue
+            needsLayout = true
+        }
+    }
 }
 
-//@interface PPTextLayout : NSObject
-//@property (nonatomic, assign) NSUInteger numberOfLines;
-//
-//@property (nonatomic, assign) CGSize maxSize;
-//@property (nonatomic, assign) CGPoint drawOrigin;
-//@property (nonatomic, assign) CGRect frame;
-//
-//@property (nullable, nonatomic, copy, readonly) NSString *plainText;
-//@property (nullable, nonatomic, copy) NSAttributedString *attributedString;
-//@property (nullable, nonatomic, strong) NSAttributedString *truncationString;
-//
-//@property (nullable, nonatomic, strong) PPTextBackground *highlighttextBackground;
-//
-//@property (nonatomic, strong, readonly) PPTextLayoutFrame *layoutFrame;
-//@property (nonatomic, strong, readonly) PPTextRenderer *textRenderer;
-//
-//- (instancetype)initWithAttributedString:(NSAttributedString *)attributedString;
-//- (void)setNeedsLayout;
-//@end
-//
-//@interface PPTextLayout (PPTextLayoutCoordinates)
-//- (CGRect)convertRectToCoreText:(CGRect)rect;
-//- (CGRect)convertRectFromCoreText:(CGRect)rect;
-//- (CGPoint)convertPointToCoreText:(CGPoint)point;
-//- (CGPoint)convertPointFromCoreText:(CGPoint)point;
-//@end
-//
-//
-//- (void)enumerateEnclosingRectsForCharacterRange:(NSRange)range usingBlock:(void (^)(CGRect rect, BOOL *stop))block;
-//- (void)enumerateLineFragmentsForCharacterRange:(NSRange)range usingBlock:(void(^)(CGRect rect, NSRange range, BOOL *stop))block;
+extension AsyncTextLayout {
+    
+    var containingLineCount: Int {
+        return nowLayoutFrame()?.lineFragments.count ?? 0
+    }
+    
+    var layoutSize: CGSize {
+        return nowLayoutFrame()?.layoutSize ?? .zero
+    }
+    
+    var layoutHeight: CGFloat {
+        return layoutSize.height
+    }
+    
+}
 
+extension AsyncTextLayout {
+    
+    func convertPointToCoreText(_ point: CGPoint) -> CGPoint {
+        return CGPoint(x: point.x, y: maxSize.height - point.y)
+    }
+    
+    func convertPointFromCoreText(_ point: CGPoint) -> CGPoint {
+        return CGPoint(x: point.x, y: maxSize.height - point.y)
+    }
+    
+    func convertRectToCoreText(_ rect: CGRect) -> CGRect {
+        var rect = rect
+        let point = convertPointToCoreText(rect.origin)
+        rect.origin = point
+        return rect
+    }
+    
+    func convertRectFromCoreText(_ rect: CGRect) -> CGRect {
+        var rect = rect
+        let point = convertPointFromCoreText(rect.origin)
+        rect.origin = point
+        return rect
+    }
+}
+
+extension AsyncTextLayout {
+    
+    func enumerateLineFragmentsForCharacterRange(_ range: NSRange, usingBlock: (CGRect, NSRange, UnsafeMutablePointer<Bool>) -> Void) {
+        nowLayoutFrame()?.enumerateLineFragmentsForCharacterRange(range, usingBlock: usingBlock)
+    }
+    
+    func enumerateEnclosingRectsForCharacterRange(_ range: NSRange, usingBlock: (CGRect, UnsafeMutablePointer<Bool>) -> Void) {
+        nowLayoutFrame()?.enumerateEnclosingRectsForCharacterRange(range, usingBlock: usingBlock)
+    }
+}

@@ -91,6 +91,7 @@
 		8685DDF01EB8E7C1009C5564 /* AsyncDrawingKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 8685DDEE1EB8E7C1009C5564 /* AsyncDrawingKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8685DDF31EB8E7C1009C5564 /* AsyncDrawingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8685DDEC1EB8E7C1009C5564 /* AsyncDrawingKit.framework */; };
 		8685DDF41EB8E7C1009C5564 /* AsyncDrawingKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8685DDEC1EB8E7C1009C5564 /* AsyncDrawingKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		86A0F5361EC8792A0063F961 /* AsyncTextRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A0F5351EC8792A0063F961 /* AsyncTextRenderer.swift */; };
 		86AE95A91E2CBBF100DDD90A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86AE95A71E2CBBF100DDD90A /* LaunchScreen.storyboard */; };
 		86AE95AA1E2CBBF100DDD90A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86AE95A81E2CBBF100DDD90A /* Main.storyboard */; };
 		86AE95B11E2CBC1A00DDD90A /* NSThread+PPTextRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 86AE95AF1E2CBC1A00DDD90A /* NSThread+PPTextRenderer.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -277,6 +278,7 @@
 		8685DDEC1EB8E7C1009C5564 /* AsyncDrawingKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AsyncDrawingKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8685DDEE1EB8E7C1009C5564 /* AsyncDrawingKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AsyncDrawingKit.h; sourceTree = "<group>"; };
 		8685DDEF1EB8E7C1009C5564 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		86A0F5351EC8792A0063F961 /* AsyncTextRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncTextRenderer.swift; sourceTree = "<group>"; };
 		86AE95A71E2CBBF100DDD90A /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ../Demo/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		86AE95A81E2CBBF100DDD90A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../Demo/Main.storyboard; sourceTree = "<group>"; };
 		86AE95AF1E2CBC1A00DDD90A /* NSThread+PPTextRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSThread+PPTextRenderer.h"; path = "PPAsyncDrawingKit/NSThread+PPTextRenderer.h"; sourceTree = "<group>"; };
@@ -411,6 +413,23 @@
 			path = Demo;
 			sourceTree = "<group>";
 		};
+		863C73271EC8B72E00CF6E42 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				86CF5F6E1EC4B18500E54186 /* AsyncDrawingView.swift */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		863C73281EC8B73A00CF6E42 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				86D151D51EC49F9A007F5333 /* Configs.swift */,
+				8685DDE31EB8E54D009C5564 /* Lock.swift */,
+			);
+			name = Base;
+			sourceTree = "<group>";
+		};
 		863E94F21E685F5E000A1449 /* Animation Example */ = {
 			isa = PBXGroup;
 			children = (
@@ -535,13 +554,12 @@
 		8685DDED1EB8E7C1009C5564 /* AsyncDrawingKit */ = {
 			isa = PBXGroup;
 			children = (
+				863C73271EC8B72E00CF6E42 /* Core */,
+				863C73281EC8B73A00CF6E42 /* Base */,
 				86D151D71EC4A04C007F5333 /* Text */,
 				8685DDEE1EB8E7C1009C5564 /* AsyncDrawingKit.h */,
-				86CF5F6E1EC4B18500E54186 /* AsyncDrawingView.swift */,
 				86BBFAB41EB7156C0006D6C3 /* AsyncUIControl.swift */,
-				86D151D51EC49F9A007F5333 /* Configs.swift */,
 				86CF5F701EC4B19A00E54186 /* String+Extension.swift */,
-				8685DDE31EB8E54D009C5564 /* Lock.swift */,
 				8685DDEF1EB8E7C1009C5564 /* Info.plist */,
 			);
 			path = AsyncDrawingKit;
@@ -633,6 +651,7 @@
 				86CF5F6C1EC4AF2C00E54186 /* AsyncTextFrame.swift */,
 				86D151EE1EC4A37C007F5333 /* AsyncTextFontMetrics.swift */,
 				86CF5F6A1EC4A6CC00E54186 /* NSRange+Extension.swift */,
+				86A0F5351EC8792A0063F961 /* AsyncTextRenderer.swift */,
 			);
 			name = Text;
 			sourceTree = "<group>";
@@ -1013,6 +1032,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86A0F5361EC8792A0063F961 /* AsyncTextRenderer.swift in Sources */,
 				86D151E11EC4A313007F5333 /* AsyncTextLine.swift in Sources */,
 				86CF5F711EC4B19A00E54186 /* String+Extension.swift in Sources */,
 				86BF50761EB8EB1100CE2560 /* AsyncUIControl.swift in Sources */,
