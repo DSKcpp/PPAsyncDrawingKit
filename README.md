@@ -1,17 +1,15 @@
-PPAsyncDrawingKit
-------------------------
+![head_icon](icon.png)
+
 [![Build Status](https://travis-ci.org/DSKcpp/PPAsyncDrawingKit.svg?branch=master)](https://travis-ci.org/DSKcpp/PPAsyncDrawingKit)
 
-[![Languages](https://img.shields.io/badge/languages-ObjC%20%7C%20Swift-blue.svg)](https://github.com/DSKcpp/PPAsyncDrawingKit)
-[![Platform](https://img.shields.io/badge/platforms-iOS%207.0%2B-blue.svg)](https://github.com/DSKcpp/PPAsyncDrawingKit)
+[![Languages](https://img.shields.io/badge/languages-Swift-orange.svg)](https://github.com/DSKcpp/PPAsyncDrawingKit)
+[![Platform](https://img.shields.io/badge/platforms-iOS%208.0%2B-blue.svg)](https://github.com/DSKcpp/PPAsyncDrawingKit)
 [![Xcode](https://img.shields.io/badge/Xcode-8.0%2B-blue.svg)](https://github.com/DSKcpp/PPAsyncDrawingKit)
 
 
-这是一个轻量的异步绘制框架，实现一系列 `UIKit` 基础控件。
+## What is AsyncDrawingKit?
 
-关于 Core Text 结构问题：[Apple Dev (About Core Text)](https://developer.apple.com/library/content/documentation/StringsTextFonts/Conceptual/CoreText_Programming/Introduction/Introduction.html#//apple_ref/doc/uid/TP40005533-CH1-SW1)
-
-#Features
+##Features
 * 使用多线程技术进行绘制，不阻塞线程，保证复杂界面的流畅
 * 高速滑动时，自动停止绘制
 * 保持 FPS 在低端设备上稳定在 60，减小抖动
@@ -30,13 +28,13 @@ PPAsyncDrawingKit
 | UIButton | PPButton |   |
 
 
-#TODO
+##TODO
 * Editable text view
 * Animation Image
 * 完善注释
 * 更多的 CoreText 样式
 
-#Demo
+##Demo
 为了达到效果，请在真机运行 Demo。
 
 在复杂的场景下高速滑动 FPS 对比:
