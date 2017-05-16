@@ -20,14 +20,14 @@ extension AsyncDrawingViewProtocol {
     }
 }
 
-fileprivate var asyncDrawingEnabled = true
-
 class AsyncDrawingView: UIView, AsyncDrawingViewProtocol {
     
     enum ViewStatus {
         case normal
         case touch
     }
+    
+    static var globallyAsyncDrawingEnabled = true
     
     override class var layerClass: AnyClass {
         return AsyncDrawingViewLayer.self
@@ -93,17 +93,6 @@ class AsyncDrawingView: UIView, AsyncDrawingViewProtocol {
         }, interruped: { [weak self] async in
             self?.drawingDidFinishAsync(async, success: false)
         })
-    }
-}
-
-extension AsyncDrawingView {
-    
-    static var globallyAsyncDrawingEnabled: Bool {
-        get {
-            return asyncDrawingEnabled
-        } set {
-            asyncDrawingEnabled = newValue
-        }
     }
 }
 

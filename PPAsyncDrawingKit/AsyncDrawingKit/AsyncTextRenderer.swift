@@ -18,8 +18,11 @@ protocol AsyncTextRendererEventDelegate: NSObjectProtocol {
 
 class AsyncTextRenderer {
     
-    var textLayout: AsyncTextLayout?
+    var textLayout: AsyncTextLayout!
     weak var delegate: AsyncTextRendererEventDelegate?
+    var pressingHighlight: AsyncTextHighlight?
+    
+    static var debugModeEnabled = false
     
     var frame: CGRect {
         return textLayout?.frame ?? .zero
@@ -44,6 +47,10 @@ extension AsyncTextRenderer {
             point = touch.location(in: touchView)
         }
         point = convertPointToLayout(point)
+        if let high = highlightRangeForLayoutLocation(point) {
+            pressingHighlight = high
+            touchView.setNeedsDisplayMainThread()
+        }
     }
     
     func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -182,183 +189,130 @@ extension AsyncTextRenderer {
     }
 }
 
-//#pragma mark - getter & setter
-//
-//- (void)setEventDelegate:(id<PPTextRendererEventDelegate>)eventDelegate
-//{
-//    _eventDelegate = eventDelegate;
-//    _eventDelegateFlags.contextViewForTextRenderer = [eventDelegate respondsToSelector:@selector(contextViewForTextRenderer:)];
-//    _eventDelegateFlags.pressedTextHighlightRange = [eventDelegate respondsToSelector:@selector(textRenderer:pressedTextHighlightRange:)];
-//    _eventDelegateFlags.pressedTextBackground = [eventDelegate respondsToSelector:@selector(textRenderer:pressedTextBackground:)];
-//}
-//
-//#pragma mark - Layout
-//- (CGRect)frame
-//{
-//    return self.textLayout.frame;
-//    }
+extension AsyncTextRenderer {
+    
+    func drawInContext(_ ctx: CGContext, visibleRect: CGRect = .null, placeAttachments: Bool = true) {
+        guard let attributedString = textLayout.attributedString, attributedString.length > 1 else { return }
+        guard let layoutFrame = textLayout.nowLayoutFrame() else { return }
+        if !visibleRect.isNull {
+            textLayout.maxSize = visibleRect.size
+        }
+        
+        if AsyncTextRenderer.debugModeEnabled {
+            drawdebugMode(layoutFrame, ctx: ctx)
+        }
+        
+        if let highlight = pressingHighlight {
+            textLayout.enumerateEnclosingRectsForCharacterRange(highlight.range, usingBlock: { [weak self] rect, stop in
+                guard let `self` = self else { return }
+                let drawRect = self.convertRectFromLayout(rect)
+                self.drawBorder(highlight.border, rect: drawRect, ctx: ctx)
+            })
+        }
+        
+        if let highlightTextBackground = textLayout.highlightTextBackground {
+            drawTextBackground(highlightTextBackground, ctx: ctx)
+        }
+        drawText(layoutFrame, ctx: ctx)
+        if placeAttachments {
+            drawAttachmentsWithAttributedString(attributedString, layoutFrame: layoutFrame, ctx: ctx)
+        }
+        
+    }
+    
+    //    [self drawTextInContext:context layout:self.textLayout];
+    //    if (placeAttachments) {
+    //        [self drawAttachmentsWithAttributedString:attributedString layoutFrame:layoutFrame context:context];
+    //    }
+    //    }
+    
+    func drawBorder(_ border: AsyncTextBorder?, rect: CGRect, ctx: CGContext) {
+        guard let border = border else { return }
+        let color: CGColor
+        if let fillColor = border.fillColor {
+            color = fillColor.cgColor
+        } else {
+            color = UIColor(white: 0.5, alpha: 1.0).cgColor
+        }
+        ctx.setFillColor(color)
+        ctx.beginPath()
+        var x = rect.minX
+        var y = rect.minY
+        let w = rect.width
+        let h = rect.height
+        let radius = border.cornerRadius
+        ctx.move(to: CGPoint(x: x + radius, y: y))
+        x += w
+        ctx.addLine(to: CGPoint(x: x + w - radius, y: y))
+        ctx.addArc(center: CGPoint(x: x - radius, y: y + radius), radius: radius, startAngle: -0.5 * .pi, endAngle: 0, clockwise: false)
+        y += h
+        ctx.addLine(to: CGPoint(x: x, y: y))
+        ctx.addArc(center: CGPoint(x: x - radius, y: y - radius), radius: radius, startAngle: 0, endAngle: 0.5 * .pi, clockwise: false)
+        x -= w
+        ctx.addLine(to: CGPoint(x: x + radius, y: y))
+        ctx.addArc(center: CGPoint(x: x + radius, y: y - radius), radius: radius, startAngle: 0.5 * .pi, endAngle: .pi, clockwise: false)
+        y -= h
+        ctx.addLine(to: CGPoint(x: x, y: y))
+        ctx.addArc(center: CGPoint(x: x + radius, y: y + radius), radius: radius, startAngle: .pi, endAngle: 1.5 * .pi, clockwise: false)
+        ctx.closePath()
+        ctx.fillPath()
+    }
+    
+    func drawTextBackground(_ textBackground: AsyncTextBackground, ctx: CGContext) {
+        ctx.saveGState()
+        ctx.setFillColor(textBackground.backgroundColor.cgColor)
+        ctx.fill(CGRect(origin: drawingOrigin, size: textLayout.maxSize))
+        ctx.restoreGState()
+    }
+    
+    func drawText(_ layoutFrame: AsyncTextFrame, ctx: CGContext) {
+        ctx.saveGState()
+        ctx.ctm.translatedBy(x: drawingOrigin.x, y: drawingOrigin.y + frame.height)
+        ctx.ctm.scaledBy(x: 1, y: -1)
+        
+        layoutFrame.lineFragments.forEach { line in
+            let position = textLayout.convertPointToCoreText(line.baselineOrigin)
+            ctx.textMatrix = .identity
+            ctx.textPosition = position
+            CTLineDraw(line.line, ctx)
+        }
+        ctx.restoreGState()
+    }
+    
+    func drawAttachmentsWithAttributedString(_ attributedString: NSAttributedString, layoutFrame: AsyncTextFrame, ctx: CGContext) {
+        layoutFrame.lineFragments.forEach { line in
+            line.forEach { attributes, range in
+//                if let textAttachment = attributes[]
+            }
+        }
+    }
+    //
+    //    - (void)drawAttachmentsWithAttributedString:(NSAttributedString *)attributedString layoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context
+    //{
+    //    [layoutFrame.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
+    //        [line enumerateLayoutRunsUsingBlock:^(NSDictionary *attributes, NSRange range) {
+    //        PPTextAttachment *textAttachment = [attributes objectForKey:PPTextAttachmentAttributeName];
+    //        if (textAttachment) {
+    //        CGPoint origin = [line baselineOriginForCharacterAtIndex:range.location];
+    //        CGSize size = textAttachment.contentSize;
+    //        CGRect rect = (CGRect){(CGPoint)origin, (CGSize)size};
+    //        rect.origin.y -= textAttachment.ascentForLayout;
+    //        UIImage *content = textAttachment.contents;
+    //        rect = [self convertRectFromLayout:rect];
+    //        [content pp_drawInRect:rect contentMode:textAttachment.contentType withContext:context];
+    //        }
+    //        }];
+    //        }];
+    //    }
+}
+
+
+
+
+
 //    
-//    - (CGPoint)drawingOrigin
-//        {
-//            return self.textLayout.drawOrigin;
-//}
-//
-//@end
-//
-//@implementation PPTextRenderer (PPTextRendererDrawing)
-//- (void)drawInContext:(CGContextRef)context
-//{
-//    [self drawInContext:context visibleRect:CGRectNull placeAttachments:YES];
-//    }
-//    
-//    - (void)drawInContext:(CGContextRef)context visibleRect:(CGRect)visibleRect placeAttachments:(BOOL)placeAttachments
-//{
-//    NSAttributedString *attributedString = self.textLayout.attributedString;
-//    if (!(attributedString.length > 1)) {
-//        return;
-//    }
-//    
-//    if (!CGRectIsNull(visibleRect)) {
-//        self.textLayout.maxSize = visibleRect.size;
-//    }
-//    
-//    PPTextLayoutFrame *layoutFrame = self.textLayout.layoutFrame;
-//    if ([PPTextRenderer debugModeEnabled]) {
-//        [self drawdebugMode:layoutFrame context:context];
-//    }
-//    PPTextHighlightRange *highlightRange = self.pressingHighlightRange;
-//    if (highlightRange) {
-//        [self.textLayout enumerateEnclosingRectsForCharacterRange:highlightRange.range usingBlock:^(CGRect rect, BOOL * _Nonnull stop) {
-//            CGRect drawRect = [self convertRectFromLayout:rect];
-//            [self drawBorder:highlightRange rect:drawRect context:context];
-//            }];
-//    }
-//    
-//    PPTextBackground *highlightTextBackground = self.textLayout.highlighttextBackground;
-//    if (highlightTextBackground && self.highlight) {
-//        [self drawTextBackground:highlightTextBackground context:context];
-//    }
-//    
-//    [self drawTextInContext:context layout:self.textLayout];
-//    if (placeAttachments) {
-//        [self drawAttachmentsWithAttributedString:attributedString layoutFrame:layoutFrame context:context];
-//    }
-//    }
-//    
-//    - (void)drawTextInContext:(CGContextRef)context layout:(PPTextLayout *)textLayout
-//{
-//    CGContextSaveGState(context);
-//    CGContextTranslateCTM(context, self.drawingOrigin.x, self.drawingOrigin.y + self.frame.size.height);
-//    CGContextScaleCTM(context, 1.0, -1.0);
-//    
-//    for (PPTextLayoutLine *line in textLayout.layoutFrame.lineFragments) {
-//        CGPoint position = line.baselineOrigin;
-//        position = [textLayout convertPointToCoreText:position];
-//        CGContextSetTextMatrix(context, CGAffineTransformIdentity);
-//        CGContextSetTextPosition(context, position.x, position.y);
-//        CTLineDraw(line.lineRef, context);
-//    }
-//    CGContextRestoreGState(context);
-//    }
-//    
-//    - (void)drawAttachmentsWithAttributedString:(NSAttributedString *)attributedString layoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context
-//{
-//    [layoutFrame.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
-//        [line enumerateLayoutRunsUsingBlock:^(NSDictionary *attributes, NSRange range) {
-//        PPTextAttachment *textAttachment = [attributes objectForKey:PPTextAttachmentAttributeName];
-//        if (textAttachment) {
-//        CGPoint origin = [line baselineOriginForCharacterAtIndex:range.location];
-//        CGSize size = textAttachment.contentSize;
-//        CGRect rect = (CGRect){(CGPoint)origin, (CGSize)size};
-//        rect.origin.y -= textAttachment.ascentForLayout;
-//        UIImage *content = textAttachment.contents;
-//        rect = [self convertRectFromLayout:rect];
-//        [content pp_drawInRect:rect contentMode:textAttachment.contentType withContext:context];
-//        }
-//        }];
-//        }];
-//    }
-//    
-//    - (void)drawTextBackground:(PPTextBackground *)textBackground context:(CGContextRef)context
-//{
-//    CGPoint origin = self.drawingOrigin;
-//    CGSize size = self.textLayout.maxSize;
-//    CGContextSaveGState(context);
-//    CGContextSetFillColorWithColor(context, textBackground.backgroundColor.CGColor);
-//    CGContextFillRect(context, CGRectMake(origin.x, origin.y, size.width, size.height));
-//    CGContextRestoreGState(context);
-//    }
-//    
-//    - (void)drawBorder:(PPTextHighlightRange *)highlightRange rect:(CGRect)rect context:(CGContextRef)context
-//{
-//    PPTextBorder *textBorder = highlightRange.border;
-//    if (textBorder) {
-//        CGColorRef color;
-//        if (textBorder.fillColor) {
-//            color = textBorder.fillColor.CGColor;
-//        } else {
-//            color = [UIColor colorWithWhite:0.5f alpha:1.0f].CGColor;
-//        }
-//        CGContextSetFillColorWithColor(context, color);
-//        CGContextBeginPath(context);
-//        CGFloat x = rect.origin.x;
-//        CGFloat y = rect.origin.y;
-//        CGFloat width = rect.size.width;
-//        CGFloat height = rect.size.height;
-//        CGFloat radius = textBorder.cornerRadius;
-//        CGContextMoveToPoint(context, x + radius, y);
-//        x += width;
-//        CGContextAddLineToPoint(context, x + width - radius, y);
-//        CGContextAddArc(context, x - radius, y + radius, radius,  -0.5 * M_PI, 0.0f, 0);
-//        y += height;
-//        CGContextAddLineToPoint(context, x, y);
-//        CGContextAddArc(context, x - radius, y - radius, radius, 0, 0.5 * M_PI, 0);
-//        x -= width;
-//        CGContextAddLineToPoint(context, x + radius, y);
-//        CGContextAddArc(context, x + radius, y - radius, radius, 0.5 * M_PI, M_PI, 0);
-//        y -= height;
-//        CGContextAddLineToPoint(context, x, y);
-//        CGContextAddArc(context, x + radius, y + radius, radius, M_PI, 1.5 * M_PI, 0);
-//        CGContextClosePath(context);
-//        CGContextFillPath(context);
-//    }
-//}
-//
-//@end
-//
-//
-//@implementation PPTextRenderer (PPTextRendererCoordinates)
-//- (CGPoint)convertPointToLayout:(CGPoint)point
-//{
-//    CGPoint drawingOrigin = self.drawingOrigin;
-//    return CGPointMake(point.x - drawingOrigin.x, point.y - drawingOrigin.y);
-//    }
-//    
-//    - (CGPoint)convertPointFromLayout:(CGPoint)point
-//{
-//    CGPoint drawingOrigin = self.drawingOrigin;
-//    return CGPointMake(point.x + drawingOrigin.x, point.y + drawingOrigin.y);
-//    }
-//    
-//    - (CGRect)convertRectToLayout:(CGRect)rect
-//{
-//    if (CGRectIsNull(rect)) {
-//        
-//    } else {
-//        rect.origin = [self convertPointToLayout:rect.origin];
-//    }
-//    return rect;
-//    }
-//    
-//    - (CGRect)convertRectFromLayout:(CGRect)rect
-//{
-//    if (CGRectIsNull(rect)) {
-//        
-//    } else {
-//        rect.origin = [self convertPointFromLayout:rect.origin];
-//    }
-//    return rect;
-//}
+
+
 //
 //@end
 //
@@ -384,26 +338,56 @@ extension AsyncTextRenderer {
 //        [_eventDelegate textRenderer:self pressedTextBackground:textBackground];
 //    }
 //    }
-//    
-//    - (PPTextHighlightRange *)highlightRangeForLayoutLocation:(CGPoint)location
-//{
-//    __block PPTextHighlightRange *r;
-//    __weak typeof(self) weakSelf = self;
-//    NSAttributedString *attributedString = self.textLayout.attributedString;
-//    [attributedString enumerateAttribute:PPTextHighlightRangeAttributeName inRange:attributedString.pp_stringRange options:kNilOptions usingBlock:^(id  _Nullable value, NSRange range, BOOL * _Nonnull stop) {
-//        if (value) {
-//        [weakSelf.textLayout enumerateEnclosingRectsForCharacterRange:range usingBlock:^(CGRect rect, BOOL * _Nonnull sstop) {
-//        if (CGRectContainsPoint(rect, location)) {
-//        r = value;
-//        r.range = range;
-//        *sstop = YES;
-//        *stop = YES;
-//        }
-//        }];
-//        }
-//        }];
-//    return r;
-//}
+//  
+
+extension AsyncTextRenderer {
+    
+    func highlightRangeForLayoutLocation(_ location: CGPoint) -> AsyncTextHighlight? {
+        guard let attributedString = textLayout.attributedString else { return nil }
+        var result: AsyncTextHighlight? = nil
+        attributedString.enumerateAttribute(AsyncTextHighlightAttributeName, in: attributedString.range, options: [], using: { [weak self] value, range, stop in
+            guard let `self` = self else { return }
+            if var high = value as? AsyncTextHighlight {
+                self.textLayout.enumerateEnclosingRectsForCharacterRange(range, usingBlock: { rect, sstop in
+                    if rect.contains(location) {
+                        high.range = range
+                        result = high
+                        sstop.pointee = true
+                        stop.pointee = true
+                        return
+                    }
+                })
+            }
+        })
+        return result
+    }
+}
+
+extension AsyncTextRenderer {
+    
+    func drawdebugMode(_ layoutFrame: AsyncTextFrame, ctx: CGContext) {
+        let origin = drawingOrigin
+        let size = textLayout.maxSize
+        ctx.saveGState()
+        ctx.setAlpha(0.1)
+        ctx.setFillColor(UIColor.gray.cgColor)
+        ctx.fill(CGRect(origin: origin, size: size))
+        ctx.restoreGState()
+        
+        layoutFrame.lineFragments.forEach { [unowned self] line in
+            let rect = self.convertRectFromLayout(line.fragmentRect())
+            ctx.saveGState()
+            ctx.setAlpha(0.5)
+            ctx.setFillColor(UIColor.yellow.cgColor)
+            ctx.fill(rect)
+            
+            ctx.setAlpha(1)
+            ctx.setFillColor(UIColor.red.cgColor)
+            ctx.fill(CGRect(x: line.baselineOrigin.x + origin.x, y: line.baselineOrigin.y + origin.y, width: rect.size.width, height: 0.5))
+            ctx.restoreGState()
+        }
+    }
+}
 //
 //@end
 //
@@ -459,27 +443,3 @@ extension AsyncTextRenderer {
 //        }
 //    }
 //    }
-//    
-//    - (void)drawdebugMode:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context
-//{
-//    CGPoint origin = self.drawingOrigin;
-//    CGSize size = self.textLayout.maxSize;
-//    CGContextSaveGState(context);
-//    CGContextSetAlpha(context, 0.1f);
-//    CGContextSetFillColorWithColor(context, [UIColor grayColor].CGColor);
-//    CGContextFillRect(context, CGRectMake(origin.x, origin.y, size.width, size.height));
-//    CGContextRestoreGState(context);
-//    
-//    [layoutFrame.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
-//        CGRect rect = [self convertRectFromLayout:line.fragmentRect];
-//        CGContextSaveGState(context);
-//        CGContextSetAlpha(context, 0.5f);
-//        CGContextSetFillColorWithColor(context, [UIColor yellowColor].CGColor);
-//        CGContextFillRect(context, rect);
-//        
-//        CGContextSetAlpha(context, 1.0f);
-//        CGContextSetFillColorWithColor(context, [UIColor redColor].CGColor);
-//        CGContextFillRect(context, CGRectMake(line.baselineOrigin.x + origin.x, line.baselineOrigin.y + origin.y, rect.size.width, 0.5f));
-//        CGContextRestoreGState(context);
-//        }];
-//}

@@ -49,51 +49,29 @@ class AsyncTextFrame {
     
     
     func createTruncatedLine(textLayout: AsyncTextLayout, lastLineStringRange: CFRange) -> CTLine? {
+        guard let attributedString = textLayout.attributedString else { return nil }
         let maxWidth = textLayout.maxSize.width
-        let attributedString = textLayout.attributedString
-//        let truncateToken: NSAttributedString
-        return nil
+        let truncateToken: NSAttributedString
+        if let tt = textLayout.truncationString {
+            truncateToken = tt
+        } else {
+            var truncateTokenAttributes = attributedString.attributes(at: lastLineStringRange.location, effectiveRange: nil)
+            let keys = [NSForegroundColorAttributeName, NSFontAttributeName, NSParagraphStyleAttributeName]
+            truncateTokenAttributes = truncateTokenAttributes.filter { keys.contains($0.key) }.reduce([String : Any](), { (result, kv) in
+                var result = result
+                result[kv.key] = kv.value
+                return result
+            })
+            truncateToken = NSAttributedString(string: "\\u2026", attributes: truncateTokenAttributes)
+        }
+        let truncateTokenLine = CTLineCreateWithAttributedString(truncateToken)
+        let lastLineAttrStr = attributedString.attributedSubstring(from: lastLineStringRange.nsRange()).mutableCopy() as! NSMutableAttributedString
+        lastLineAttrStr.append(truncateToken)
+        
+        let line = CTLineCreateWithAttributedString(lastLineAttrStr)
+        
+        return CTLineCreateTruncatedLine(line, Double(maxWidth), .end, truncateTokenLine)
     }
-    
-    //
-    //
-    //    - (CTLineRef)createTruncatedLine:(PPTextLayout *)layout lastLineStringRange:(CFRange)lastLineStringRange
-    //    {
-    //    CGFloat maxWidth = layout.maxSize.width;
-    //    NSAttributedString *attributedString = layout.attributedString;
-    //    NSAttributedString *truncateToken;
-    //    if (layout.truncationString) {
-    //    truncateToken = layout.truncationString;
-    //    } else {
-    //    NSDictionary<NSString *, id> *truncateTokenAttributes = [attributedString attributesAtIndex:lastLineStringRange.location effectiveRange:nil];
-    //    NSArray *keys = @[NSForegroundColorAttributeName, NSFontAttributeName, (id)kCTParagraphStyleAttributeName];
-    //    truncateTokenAttributes = [truncateTokenAttributes dictionaryWithValuesForKeys:keys];
-    //    NSMutableDictionary *finalTokenAttributes = @{}.mutableCopy;
-    //    [truncateTokenAttributes enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-    //    if (obj != [NSNull null]) {
-    //    finalTokenAttributes[key] = obj;
-    //    }
-    //    }];
-    //    truncateToken = [[NSAttributedString alloc] initWithString:@"\u2026" attributes:finalTokenAttributes];
-    //    }
-    //
-    //    CTLineRef truncateTokenLine = CTLineCreateWithAttributedString((CFAttributedStringRef)truncateToken);
-    //
-    //    NSMutableAttributedString *lastLineAttrStr = [attributedString attributedSubstringFromRange:PPNSRangeFromCFRange(lastLineStringRange)].mutableCopy;
-    //    [lastLineAttrStr appendAttributedString:truncateToken];
-    //
-    //    CTLineRef lineRef = CTLineCreateWithAttributedString((__bridge CFAttributedStringRef)lastLineAttrStr);
-    //
-    //    CTLineRef resuleLineRef = CTLineCreateTruncatedLine(lineRef, maxWidth, kCTLineTruncationEnd, truncateTokenLine);
-    //    CFRelease(truncateTokenLine);
-    //    if (!resuleLineRef) {
-    //    resuleLineRef = CFRetain(lineRef);
-    //    }
-    //    CFRelease(lineRef);
-    //    
-    //    return resuleLineRef;
-    //    }
-
     
     func updateLayoutSize() {
         guard lineFragments.count > 0 else { return }

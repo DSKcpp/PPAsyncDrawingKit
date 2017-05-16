@@ -64,26 +64,6 @@ class AsyncUIControl: AsyncDrawingView {
     func sendActions(for controlEvents: UIControlEvents) {
         
     }
-    
-    func stringOfState(_ state: UIControlState) -> String {
-        if state == .normal {
-            return "normal"
-        } else if state == .highlighted {
-            return "highlighted"
-        }  else if state == .disabled {
-            return "disabled"
-        } else if state == .selected {
-            return "selected"
-        } else if state == .focused {
-            return "focused"
-        } else if state == .application {
-            return "application"
-        } else if state == .reserved {
-            return "reserved"
-        } else {
-            return ""
-        }
-    }
 }
 
 fileprivate class TargetAction: NSObject {
