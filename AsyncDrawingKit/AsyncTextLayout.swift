@@ -1,6 +1,6 @@
 //
 //  AsyncTextLayout.swift
-//  PPAsyncDrawingKit
+//  AsyncDrawingKit
 //
 //  Created by DSKcpp on 2017/5/11.
 //  Copyright © 2017年 DSKcpp. All rights reserved.
@@ -44,7 +44,7 @@ class AsyncTextLayout {
     
     var attributedString: NSAttributedString?
     
-    init(attributedString: NSAttributedString) {
+    init(attributedString: NSAttributedString?) {
         self.attributedString = attributedString
     }
     

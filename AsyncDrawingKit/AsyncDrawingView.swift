@@ -1,6 +1,6 @@
 //
 //  AsyncDrawingView.swift
-//  PPAsyncDrawingKit
+//  AsyncDrawingKit
 //
 //  Created by DSKcpp on 2017/5/1.
 //  Copyright © 2017年 DSKcpp. All rights reserved.

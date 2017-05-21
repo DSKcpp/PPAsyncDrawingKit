@@ -1,6 +1,6 @@
 //
 //  AsyncTextRenderer.swift
-//  PPAsyncDrawingKit
+//  AsyncDrawingKit
 //
 //  Created by DSKcpp on 2017/5/14.
 //  Copyright © 2017年 DSKcpp. All rights reserved.
@@ -16,7 +16,7 @@ protocol AsyncTextRendererEventDelegate: NSObjectProtocol {
 //    pressedTextBackground
 }
 
-class AsyncTextRenderer {
+class AsyncTextRenderer: UIResponder {
     
     var textLayout: AsyncTextLayout!
     weak var delegate: AsyncTextRendererEventDelegate?
@@ -39,7 +39,7 @@ class AsyncTextRenderer {
 
 extension AsyncTextRenderer {
     
-    func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touchView = delegate?.contextViewForTextRenderer(self) else { return }
         let touches = event?.touches(for: touchView)
         var point = CGPoint.zero
@@ -53,15 +53,15 @@ extension AsyncTextRenderer {
         }
     }
     
-    func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         
     }
     
-    func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
     }
     
-    func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         
     }
 }
@@ -219,12 +219,6 @@ extension AsyncTextRenderer {
         }
         
     }
-    
-    //    [self drawTextInContext:context layout:self.textLayout];
-    //    if (placeAttachments) {
-    //        [self drawAttachmentsWithAttributedString:attributedString layoutFrame:layoutFrame context:context];
-    //    }
-    //    }
     
     func drawBorder(_ border: AsyncTextBorder?, rect: CGRect, ctx: CGContext) {
         guard let border = border else { return }
