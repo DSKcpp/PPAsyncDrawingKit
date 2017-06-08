@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AsyncTextView: AsyncDrawingView {
+open class AsyncTextView: AsyncDrawingView {
     
     var attributedString: NSAttributedString? {
         get {
@@ -24,42 +24,42 @@ class AsyncTextView: AsyncDrawingView {
         return textLayout
     }()
     
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         
         clearsContextBeforeDrawing = false
         contentMode = .redraw
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         textLayout.textRenderer.touchesBegan(touches, with: event)
         if textLayout.textRenderer.pressingHighlight == nil {
             super.touchesBegan(touches, with: event)
         }
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override open func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         textLayout.textRenderer.touchesMoved(touches, with: event)
         if textLayout.textRenderer.pressingHighlight == nil {
             super.touchesMoved(touches, with: event)
         }
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override open func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         textLayout.textRenderer.touchesEnded(touches, with: event)
         super.touchesEnded(touches, with: event)
     }
     
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override open func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         textLayout.textRenderer.touchesCancelled(touches, with: event)
         super.touchesCancelled(touches, with: event)
     }
     
-    func draw(_ rect: CGRect, in ctx: CGContext, async: Bool) -> Bool {
+    override func draw(_ rect: CGRect, in ctx: CGContext, async: Bool) -> Bool {
         guard let _ = attributedString else { return false }
         textLayout.textRenderer.drawInContext(ctx, visibleRect: rect, placeAttachments: true)
         return true

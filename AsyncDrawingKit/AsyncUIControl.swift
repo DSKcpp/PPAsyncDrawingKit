@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AsyncUIControl: AsyncDrawingView {
+open class AsyncUIControl: AsyncDrawingView {
     
     var isEnabled = true
     var isSelected = false

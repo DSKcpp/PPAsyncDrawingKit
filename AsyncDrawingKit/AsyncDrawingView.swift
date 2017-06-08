@@ -13,14 +13,7 @@ protocol AsyncDrawingViewProtocol {
     func draw(_ rect: CGRect, in ctx: CGContext, async: Bool) -> Bool
 }
 
-extension AsyncDrawingViewProtocol {
-    
-    func draw(_ rect: CGRect, in ctx: CGContext, async: Bool) -> Bool {
-        fatalError("must need impl this a func: \(#function)")
-    }
-}
-
-class AsyncDrawingView: UIView, AsyncDrawingViewProtocol {
+open class AsyncDrawingView: UIView {
     
     enum ViewStatus {
         case normal
@@ -29,7 +22,7 @@ class AsyncDrawingView: UIView, AsyncDrawingViewProtocol {
     
     static var globallyAsyncDrawingEnabled = true
     
-    override class var layerClass: AnyClass {
+    override open class var layerClass: AnyClass {
         return AsyncDrawingViewLayer.self
     }
 
@@ -60,14 +53,13 @@ class AsyncDrawingView: UIView, AsyncDrawingViewProtocol {
     var drawingStart: Completion?
     var drawingFinish: ((Bool, Bool) -> Void)?
     
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
-        
         initial()
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(frame: .zero)
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
         initial()
     }
     
@@ -81,11 +73,11 @@ class AsyncDrawingView: UIView, AsyncDrawingViewProtocol {
         setNeedsDisplay()
     }
     
-    override func draw(_ rect: CGRect) {
+    override open func draw(_ rect: CGRect) {
         super.draw(rect)
     }
     
-    override func display(_ layer: CALayer) {
+    override open func display(_ layer: CALayer) {
         display(asynclayer, rect: asynclayer.bounds, started: { [weak self] async in
             self?.drawingWillStartAsync(async)
         }, finished: { [weak self] async in
@@ -93,6 +85,13 @@ class AsyncDrawingView: UIView, AsyncDrawingViewProtocol {
         }, interruped: { [weak self] async in
             self?.drawingDidFinishAsync(async, success: false)
         })
+    }
+}
+
+extension AsyncDrawingView: AsyncDrawingViewProtocol {
+    
+    func draw(_ rect: CGRect, in ctx: CGContext, async: Bool) -> Bool {
+        fatalError("This method must be overridden")
     }
 }
 

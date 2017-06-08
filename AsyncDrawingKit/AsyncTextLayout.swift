@@ -21,9 +21,10 @@ class AsyncTextLayout {
     var needsLayout: Bool {
         get {
             lock.lock()
-            let result = _needsLayout
-            lock.unlock()
-            return result
+            defer {
+                lock.unlock()
+            }
+            return _needsLayout
         } set {
             guard _needsLayout != newValue else { return }
             lock.lock()

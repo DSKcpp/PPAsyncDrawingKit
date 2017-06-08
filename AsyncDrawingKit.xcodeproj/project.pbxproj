@@ -21,6 +21,10 @@
 		864781A81ED18161003990E3 /* NSRange+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864781981ED18161003990E3 /* NSRange+Extension.swift */; };
 		864781A91ED18161003990E3 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864781991ED18161003990E3 /* String+Extension.swift */; };
 		864781AB1ED181A7003990E3 /* Lock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864781AA1ED181A7003990E3 /* Lock.swift */; };
+		8664DD9F1EE951A40005973D /* AsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8664DD9E1EE951A40005973D /* AsyncImageView.swift */; };
+		8664DDA11EE951EF0005973D /* AsyncUIControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8664DDA01EE951EF0005973D /* AsyncUIControl.swift */; };
+		8664DDA31EE952DD0005973D /* UIImage+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8664DDA21EE952DD0005973D /* UIImage+Async.swift */; };
+		86E9E9A41EDB3D3800BF802B /* AsyncMultiplexTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E9E9A31EDB3D3800BF802B /* AsyncMultiplexTextView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +44,10 @@
 		864781981ED18161003990E3 /* NSRange+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSRange+Extension.swift"; sourceTree = "<group>"; };
 		864781991ED18161003990E3 /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		864781AA1ED181A7003990E3 /* Lock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lock.swift; sourceTree = "<group>"; };
+		8664DD9E1EE951A40005973D /* AsyncImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncImageView.swift; sourceTree = "<group>"; };
+		8664DDA01EE951EF0005973D /* AsyncUIControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncUIControl.swift; sourceTree = "<group>"; };
+		8664DDA21EE952DD0005973D /* UIImage+Async.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Async.swift"; sourceTree = "<group>"; };
+		86E9E9A31EDB3D3800BF802B /* AsyncMultiplexTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncMultiplexTextView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +82,8 @@
 			children = (
 				864781821ED1813D003990E3 /* AsyncDrawingKit.h */,
 				8647818A1ED18161003990E3 /* AsyncDrawingView.swift */,
+				8664DDA01EE951EF0005973D /* AsyncUIControl.swift */,
+				8664DD9E1EE951A40005973D /* AsyncImageView.swift */,
 				8647818B1ED18161003990E3 /* AsyncTextAttributes.swift */,
 				8647818C1ED18161003990E3 /* AsyncTextFontMetrics.swift */,
 				8647818D1ED18161003990E3 /* AsyncTextFrame.swift */,
@@ -82,10 +92,12 @@
 				8647818F1ED18161003990E3 /* AsyncTextLine.swift */,
 				864781901ED18161003990E3 /* AsyncTextRenderer.swift */,
 				864781911ED18161003990E3 /* AsyncTextView.swift */,
+				86E9E9A31EDB3D3800BF802B /* AsyncMultiplexTextView.swift */,
 				864781921ED18161003990E3 /* Configs.swift */,
 				864781971ED18161003990E3 /* NSAttributedString+Extension.swift */,
 				864781981ED18161003990E3 /* NSRange+Extension.swift */,
 				864781991ED18161003990E3 /* String+Extension.swift */,
+				8664DDA21EE952DD0005973D /* UIImage+Async.swift */,
 				864781831ED1813D003990E3 /* Info.plist */,
 			);
 			path = AsyncDrawingKit;
@@ -129,6 +141,7 @@
 		864781761ED1813D003990E3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = DSKcpp;
 				TargetAttributes = {
@@ -145,6 +158,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 864781751ED1813D003990E3;
 			productRefGroup = 864781801ED1813D003990E3 /* Products */;
@@ -171,16 +185,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8664DD9F1EE951A40005973D /* AsyncImageView.swift in Sources */,
 				864781A91ED18161003990E3 /* String+Extension.swift in Sources */,
 				8647819C1ED18161003990E3 /* AsyncTextFontMetrics.swift in Sources */,
 				864781A81ED18161003990E3 /* NSRange+Extension.swift in Sources */,
 				8647819F1ED18161003990E3 /* AsyncTextLine.swift in Sources */,
 				8647819D1ED18161003990E3 /* AsyncTextFrame.swift in Sources */,
+				86E9E9A41EDB3D3800BF802B /* AsyncMultiplexTextView.swift in Sources */,
 				8647819E1ED18161003990E3 /* AsyncTextLayout.swift in Sources */,
 				864781A11ED18161003990E3 /* AsyncTextView.swift in Sources */,
 				864781AB1ED181A7003990E3 /* Lock.swift in Sources */,
 				864781A01ED18161003990E3 /* AsyncTextRenderer.swift in Sources */,
 				8647819B1ED18161003990E3 /* AsyncTextAttributes.swift in Sources */,
+				8664DDA11EE951EF0005973D /* AsyncUIControl.swift in Sources */,
+				8664DDA31EE952DD0005973D /* UIImage+Async.swift in Sources */,
 				8647819A1ED18161003990E3 /* AsyncDrawingView.swift in Sources */,
 				864781A21ED18161003990E3 /* Configs.swift in Sources */,
 				864781A71ED18161003990E3 /* NSAttributedString+Extension.swift in Sources */,
