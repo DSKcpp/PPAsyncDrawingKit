@@ -17,7 +17,6 @@
 		8656358F1ED7134D00BDB036 /* AsyncDrawingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8656358E1ED7134D00BDB036 /* AsyncDrawingKit.framework */; };
 		86E9E9531ED9C3DC00BF802B /* WBTimelineContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E9E9521ED9C3DC00BF802B /* WBTimelineContentView.swift */; };
 		86E9E9561ED9C43D00BF802B /* WBTimelineJSON.zip in Resources */ = {isa = PBXBuildFile; fileRef = 86E9E9551ED9C43D00BF802B /* WBTimelineJSON.zip */; };
-		86E9E9601ED9C56800BF802B /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 86E9E95B1ED9C53A00BF802B /* libz.tbd */; };
 		86E9E9661ED9CB6700BF802B /* WBCardsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E9E9651ED9CB6700BF802B /* WBCardsModel.swift */; };
 		86E9E96A1EDB308700BF802B /* NSData+Gzip.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E9E9691EDB308700BF802B /* NSData+Gzip.m */; };
 		86E9E9A21EDB320B00BF802B /* HandyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86E9E9911EDB31E200BF802B /* HandyJSON.framework */; };
@@ -102,7 +101,6 @@
 		8656358E1ED7134D00BDB036 /* AsyncDrawingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AsyncDrawingKit.framework; path = "../../../../Library/Developer/Xcode/DerivedData/AsyncDrawingKit-dxftkauumzfvpogohaulrhsvvotb/Build/Products/Debug-iphonesimulator/AsyncDrawingKit.framework"; sourceTree = "<group>"; };
 		86E9E9521ED9C3DC00BF802B /* WBTimelineContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBTimelineContentView.swift; sourceTree = "<group>"; };
 		86E9E9551ED9C43D00BF802B /* WBTimelineJSON.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = WBTimelineJSON.zip; sourceTree = "<group>"; };
-		86E9E95B1ED9C53A00BF802B /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		86E9E9651ED9CB6700BF802B /* WBCardsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBCardsModel.swift; sourceTree = "<group>"; };
 		86E9E9671EDB308600BF802B /* AsyncDrawingKit-Demo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AsyncDrawingKit-Demo-Bridging-Header.h"; sourceTree = "<group>"; };
 		86E9E9681EDB308700BF802B /* NSData+Gzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Gzip.h"; sourceTree = "<group>"; };
@@ -117,7 +115,6 @@
 			files = (
 				8656358F1ED7134D00BDB036 /* AsyncDrawingKit.framework in Frameworks */,
 				86E9E9A21EDB320B00BF802B /* HandyJSON.framework in Frameworks */,
-				86E9E9601ED9C56800BF802B /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,7 +160,6 @@
 		8656358D1ED7134C00BDB036 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				86E9E95B1ED9C53A00BF802B /* libz.tbd */,
 				8656358E1ED7134D00BDB036 /* AsyncDrawingKit.framework */,
 			);
 			name = Frameworks;
@@ -231,12 +227,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = DSKcpp;
 				TargetAttributes = {
 					865635711ED6F29C00BDB036 = {
 						CreatedOnToolsVersion = 8.3.2;
-						LastSwiftMigration = 0830;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -393,7 +389,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -401,7 +399,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -444,7 +446,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -452,7 +456,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -490,7 +498,8 @@
 				SWIFT_INCLUDE_PATHS = zlib;
 				SWIFT_OBJC_BRIDGING_HEADER = "AsyncDrawingKit-Demo/AsyncDrawingKit-Demo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -505,7 +514,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = zlib;
 				SWIFT_OBJC_BRIDGING_HEADER = "AsyncDrawingKit-Demo/AsyncDrawingKit-Demo-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

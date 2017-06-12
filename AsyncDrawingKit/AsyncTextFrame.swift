@@ -56,12 +56,8 @@ class AsyncTextFrame {
             truncateToken = tt
         } else {
             var truncateTokenAttributes = attributedString.attributes(at: lastLineStringRange.location, effectiveRange: nil)
-            let keys = [NSForegroundColorAttributeName, NSFontAttributeName, NSParagraphStyleAttributeName]
-            truncateTokenAttributes = truncateTokenAttributes.filter { keys.contains($0.key) }.reduce([String : Any](), { (result, kv) in
-                var result = result
-                result[kv.key] = kv.value
-                return result
-            })
+            let keys = [NSAttributedStringKey.foregroundColor, NSAttributedStringKey.font, NSAttributedStringKey.paragraphStyle]
+            truncateTokenAttributes = truncateTokenAttributes.filter { keys.contains($0.key) }
             truncateToken = NSAttributedString(string: "\\u2026", attributes: truncateTokenAttributes)
         }
         let truncateTokenLine = CTLineCreateWithAttributedString(truncateToken)

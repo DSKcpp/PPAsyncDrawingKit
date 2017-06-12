@@ -9,350 +9,194 @@
 import UIKit
 
 open class AsyncImageView: AsyncUIControl {
-
-    var image: UIImage?
     
-    lazy var lock = Lock()
+    private var _image: UIImage?
+    public var image: UIImage? {
+        get {
+            lock.lock()
+            defer {
+                lock.unlock()
+            }
+            return _image
+        } set {
+            if _image == newValue {
+                if newValue == nil || layer.contents == nil {
+                    setNeedsDisplay()
+                }
+            } else {
+                lock.lock()
+                _image = newValue
+                lock.unlock()
+                setNeedsDisplay()
+            }
+        }
+    }
     
-    lazy var roundedCorners: UIRectCorner = .allCorners
-    lazy var borderWidth: CGFloat = 0
+    private lazy var lock = Lock()
     
-    override init(frame: CGRect) {
+    private lazy var _cornerRadius: CGFloat = 0.0
+    private lazy var _roundedCorners: UIRectCorner = .allCorners
+    
+    private lazy var showsCornerRadius: Bool = false
+    private lazy var showsBorder: Bool = false
+    
+    public var cornerRadius: CGFloat {
+        get {
+            return _cornerRadius
+        } set {
+            guard _cornerRadius != newValue else { return }
+            _cornerRadius = newValue
+            showsCornerRadius = newValue > 0
+            layer.cornerRadius = 0
+            roundPath = nil
+            setNeedsDisplay()
+        }
+    }
+    
+    public var roundedCorners: UIRectCorner {
+        get {
+            return _roundedCorners
+        } set {
+            guard _roundedCorners != newValue else { return }
+            _roundedCorners = newValue
+            roundPath = nil
+            setNeedsDisplay()
+        }
+    }
+    
+    private lazy var _borderWidth: CGFloat = 0.0
+    private lazy var _borderColor: UIColor = .clear
+    
+    public var borderWidth: CGFloat {
+        get {
+            return _borderWidth
+        } set {
+            guard _borderWidth != newValue else { return }
+            _borderWidth = newValue
+            showsBorder = newValue > 0
+            layer.borderWidth = 0
+            borderPath = nil
+            setNeedsDisplay()
+        }
+    }
+    
+    public var borderColor: UIColor {
+        get {
+            return _borderColor
+        } set {
+            guard _borderColor != newValue else { return }
+            _borderColor = newValue
+            layer.borderColor = nil
+            setNeedsDisplay()
+        }
+    }
+    
+    private var _borderPath: CGPath?
+    private var _roundPath: CGPath?
+    
+    public var roundPath: CGPath? {
+        get {
+            lock.lock()
+            defer {
+                lock.unlock()
+            }
+            return _roundPath
+        } set {
+            guard _roundPath != newValue else { return }
+            lock.lock()
+            _roundPath = newValue
+            lock.unlock()
+        }
+    }
+    
+    public var borderPath: CGPath? {
+        get {
+            lock.lock()
+            defer {
+                lock.unlock()
+            }
+            return _borderPath
+        } set {
+            guard _borderPath != newValue else { return }
+            lock.lock()
+            _borderPath = newValue
+            lock.unlock()
+        }
+    }
+    
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         
         isUserInteractionEnabled = false
         clipsToBounds = true
     }
     
+    convenience public init(image: UIImage) {
+        self.init()
+        
+        self.image = image
+    }
+    
+    convenience public init(cornerRadius: CGFloat, by roundingCorners: UIRectCorner = .allCorners) {
+        self.init()
+        
+        self.cornerRadius = cornerRadius
+        roundedCorners = roundingCorners
+    }
+    
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func draw(_ rect: CGRect, in ctx: CGContext, async: Bool) -> Bool {
+        if showsCornerRadius {
+            let path = roundPath ?? UIBezierPath.rounded(rect: bounds, cornerRadius: cornerRadius, roundedCorners: roundedCorners)
+            roundPath = path
+            ctx.addPath(path)
+            ctx.clip()
+        }
+        
+        if let image = image {
+            image.draw(in: rect, contentMode: contentMode, with: ctx)
+        }
+        
+        if showsBorder {
+            let path = borderPath ?? UIBezierPath.rounded(rect: bounds, cornerRadius: cornerRadius, roundedCorners: roundedCorners)
+            borderPath = path
+            ctx.addPath(path)
+            ctx.setLineWidth(borderWidth)
+            ctx.setStrokeColor(borderColor.cgColor)
+            ctx.strokePath()
+        }
+        
+        return true
+    }
+}
+
+extension AsyncImageView {
+    
+    open override var frame: CGRect {
+        willSet {
+            guard frame != newValue else { return }
+            roundPath = nil
+            borderPath = nil
+            setNeedsDisplay()
+        }
+    }
+    
+    open override func sizeThatFits(_ size: CGSize) -> CGSize {
+        guard let image = image else { return size }
+        return image.size
+    }
     
 }
+
+extension UIBezierPath {
     
-//    - (instancetype)initWithFrame:(CGRect)frame
-//    {
-//    if (self = [super initWithFrame:frame]) {
-//    _lock = [[PPLock alloc] init];
-//    self.roundedCorners = UIRectCornerAllCorners;
-//    self.userInteractionEnabled = NO;
-//    self.borderWidth = 0.0f;
-//    self.clipsToBounds = YES;
-//    }
-//    return self;
-//    }
-//    
-//    - (instancetype)initWithImage:(UIImage *)image
-//    {
-//    if (self = [super init]) {
-//    self.image = image;
-//    }
-//    return self;
-//    }
-//    
-//    - (instancetype)initWithCornerRadius:(CGFloat)cornerRadius
-//    {
-//    return [self initWithCornerRadius:cornerRadius byRoundingCorners:UIRectCornerAllCorners];
-//    }
-//    
-//    - (instancetype)initWithCornerRadius:(CGFloat)cornerRadius byRoundingCorners:(UIRectCorner)roundingCorners
-//    {
-//    if (self = [self init]) {
-//    self.cornerRadius = cornerRadius;
-//    self.roundedCorners = roundingCorners;
-//    }
-//    return self;
-//    }
-//    
-//    - (CGPathRef)roundPathRef
-//    {
-//    [_lock lock];
-//    CGPathRef path = _roundPathRef;
-//    [_lock unlock];
-//    return path;
-//    }
-//    
-//    - (void)setRoundPathRef:(CGPathRef)roundPathRef
-//    {
-//    if (self.roundPathRef == roundPathRef) {
-//    return;
-//    }
-//    [_lock lock];
-//    CGPathRelease(_roundPathRef);
-//    _roundPathRef = CGPathRetain(roundPathRef);
-//    [_lock unlock];
-//    }
-//    
-//    - (CGPathRef)borderPathRef
-//    {
-//    [_lock lock];
-//    CGPathRef path = _borderPathRef;
-//    [_lock unlock];
-//    return path;
-//    }
-//    
-//    - (void)setBorderPathRef:(CGPathRef)borderPathRef
-//    {
-//    if (self.borderPathRef == borderPathRef) {
-//    return;
-//    }
-//    [_lock lock];
-//    CGPathRelease(_borderPathRef);
-//    _borderPathRef = CGPathRetain(borderPathRef);
-//    [_lock unlock];
-//    }
-//    
-//    - (void)setRoundedCorners:(UIRectCorner)roundedCorners
-//    {
-//    if (_roundedCorners == roundedCorners) {
-//    return;
-//    }
-//    _roundedCorners = roundedCorners;
-//    self.roundPathRef = nil;
-//    [self setNeedsDisplay];
-//    }
-//    
-//    - (void)setCornerRadius:(CGFloat)cornerRadius
-//    {
-//    if (_cornerRadius == cornerRadius) {
-//    return;
-//    }
-//    _cornerRadius = cornerRadius;
-//    _showsCornerRadius = cornerRadius > 0;
-//    self.layer.cornerRadius = 0;
-//    self.roundPathRef = nil;
-//    
-//    [self setNeedsDisplay];
-//    }
-//    
-//    - (void)setBorderWidth:(CGFloat)borderWidth
-//    {
-//    if (_borderWidth == borderWidth) {
-//    return;
-//    }
-//    
-//    _borderWidth = borderWidth;
-//    _showsBorder = borderWidth > 0;
-//    self.layer.borderWidth = 0.0f;
-//    self.borderPathRef = nil;
-//    
-//    [self setNeedsDisplay];
-//    }
-//    
-//    - (void)setBorderColor:(UIColor *)borderColor
-//    {
-//    if (_borderColor == borderColor) {
-//    return;
-//    }
-//    
-//    _borderColor = borderColor;
-//    self.layer.borderColor = nil;
-//    [self setNeedsDisplay];
-//    }
-//    
-//    - (UIImage *)image
-//    {
-//    [_lock lock];
-//    UIImage *image = _image;
-//    [_lock unlock];
-//    return image;
-//    }
-//    
-//    - (void)setImage:(UIImage *)image
-//    {
-//    if (self.image == image) {
-//    if (image == nil || self.layer.contents == nil) {
-//    [self setNeedsDisplay];
-//    }
-//    } else {
-//    [_lock lock];
-//    _image = image;
-//    [_lock unlock];
-//    [self setNeedsDisplay];
-//    }
-//    }
-//    
-//    - (void)setFrame:(CGRect)frame
-//    {
-//    if (!CGRectEqualToRect(self.frame, frame)) {
-//    [super setFrame:frame];
-//    self.roundPathRef = nil;
-//    self.borderPathRef = nil;
-//    [self setNeedsDisplay];
-//    }
-//    }
-//    
-//    - (CGSize)sizeThatFits:(CGSize)size
-//    {
-//    UIImage *image = self.image;
-//    if (image) {
-//    return image.size;
-//    }
-//    return size;
-//    }
-//    
-//    - (BOOL)drawInRect:(CGRect)rect withContext:(CGContextRef)context asynchronously:(BOOL)asynchronously
-//    {
-//    if (_showsCornerRadius) {
-//    CGPathRef path = self.roundPathRef;
-//    if (!path) {
-//    path = PPCreateRoundedCGPath(self.bounds, self.cornerRadius, self.roundedCorners);
-//    self.roundPathRef = path;
-//    }
-//    CGContextAddPath(context, path);
-//    CGContextClip(context);
-//    }
-//    
-//    UIImage *image = self.image;
-//    if (image) {
-//    [image pp_drawInRect:rect contentMode:_contentMode withContext:context];
-//    }
-//    
-//    if (_showsBorder) {
-//    CGPathRef path = self.borderPathRef;
-//    if (!path) {
-//    path = PPCreateRoundedCGPath(self.bounds, self.cornerRadius, self.roundedCorners);
-//    self.borderPathRef = path;
-//    }
-//    CGContextAddPath(context, path);
-//    CGContextSetLineWidth(context, self.borderWidth);
-//    CGContextSetStrokeColorWithColor(context, self.borderColor.CGColor);
-//    CGContextStrokePath(context);
-//    }
-//    return YES;
-//    }
-//    
-//    - (void)startAnimating
-//    {
-//    _currentAnimationImageIndex = 0;
-//    if (!_displayLink) {
-//    _displayLink = [CADisplayLink displayLinkWithTarget:[PPWeakProxy weakProxyWithTarget:self] selector:@selector(setAnimationImage:)];
-//    [_displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
-//    }
-//    _displayLink.frameInterval = 2;
-//    _displayLink.paused = NO;
-//    }
-//    
-//    - (void)stopAnimating
-//    {
-//    _displayLink.paused = YES;
-//    }
-//    
-//    - (void)setAnimationImage:(CADisplayLink *)displayLink
-//    {
-//    if (self.image.images.count > 0) {
-//    UIImage *image = self.image.images[_currentAnimationImageIndex];
-//    self.layer.contents = (__bridge id _Nullable)(image.CGImage);
-//    _currentAnimationImageIndex += 1;
-//    if (_currentAnimationImageIndex == self.image.images.count) {
-//    _currentAnimationImageIndex = 0;
-//    }
-//    }
-//    }
-//    
-//    - (void)setImageURL:(NSURL *)imageURL
-//    {
-//    [self setImageURL:imageURL placeholderImage:nil];
-//    }
-//    
-//    - (void)setImageURL:(NSURL *)imageURL placeholderImage:(UIImage *)placeholderImage
-//    {
-//    [self setImageURL:imageURL placeholderImage:placeholderImage progressBlock:nil completeBlock:nil];
-//    }
-//    
-//    - (void)setImageURL:(NSURL *)imageURL placeholderImage:(UIImage *)placeholderImage progressBlock:(PPImageDownloaderProgress)progressBlock completeBlock:(PPImageDownloaderCompletion)completeBlock
-//    {
-//    if (!imageURL || _imageURL == imageURL) {
-//    return;
-//    }
-//    
-//    [self cancelCurrentImageLoading];
-//    
-//    _imageURL = imageURL;
-//    _imageLoaded = NO;
-//    self.image = placeholderImage;
-//    
-//    if (imageURL.isFileURL) {
-//    UIImage *image = [UIImage imageWithContentsOfFile:imageURL.path];
-//    if (image) {
-//    [self setFinalImage:image];
-//    }
-//    } else {
-//    PPImageIOTask *ioTask = [[PPImageCache sharedCache] imageForURL:imageURL.absoluteString callback:^(UIImage * _Nullable image, PPImageCacheType cacheType) {
-//    if (image) {
-//    [self setImageLoaderImage:image URL:imageURL];
-//    } else {
-//    PPImageDownloaderTask *task =[[PPImageDownloader sharedImageDownloader] downloaderImageWithURL:imageURL downloadProgress:^(CGFloat progress) {
-//    if (progressBlock) progressBlock(progress);
-//    } completion:^(UIImage * _Nullable image, NSError * _Nullable error) {
-//    if (image) {
-//    [self setImageLoaderImage:image URL:imageURL];
-//    } else if (error) {
-//    NSLog(@"%@", error);
-//    }
-//    }];
-//    if ([_imageURL isEqual:imageURL]) {
-//    _downloadTask = task;
-//    }
-//    }
-//    }];
-//    _ioTask = ioTask;
-//    }
-//    }
-//    
-//    - (void)setImageLoaderImage:(UIImage *)image URL:(NSURL *)URL
-//    {
-//    if ([_imageURL.absoluteString isEqualToString:URL.absoluteString]) {
-//    [self setFinalImage:image];
-//    }
-//    }
-//    - (void)setFinalImage:(UIImage *)image
-//    {
-//    [self setFinalImage:image isGIf:image.images.count > 0];
-//    _imageLoaded = YES;
-//    }
-//    
-//    - (void)setFinalImage:(UIImage *)image isGIf:(BOOL)isGIf
-//    {
-//    [self stopAnimating];
-//    self.clearsContextBeforeDrawing = NO;
-//    if (isGIf) {
-//    [self setGifImage:image];
-//    } else {
-//    [self setImage:image];
-//    }
-//    }
-//    
-//    - (void)setGifImage:(UIImage *)image
-//    {
-//    [self setImage:image];
-//    [self startAnimating];
-//    }
-//    
-//    - (void)imageDrawingFinished
-//    {
-//    
-//    }
-//    
-//    - (void)cancelCurrentImageLoading
-//    {
-//    if (_downloadTask) {
-//    [[PPImageDownloader sharedImageDownloader] cancelImageDownloaderWithTask:_downloadTask];
-//    _downloadTask = nil;
-//    }
-//    
-//    if (_ioTask) {
-//    [[PPImageCache sharedCache] cancelImageIOWithTask:_ioTask];
-//    _ioTask = nil;
-//    }
-//    }
-//    
-//    - (void)dealloc
-//    {
-//    [self cancelCurrentImageLoading];
-//    [self stopAnimating];
-//    [_displayLink invalidate];
-//    CGPathRelease(_borderPathRef);
-//    CGPathRelease(_roundPathRef);
-//    }
+    class func rounded(rect: CGRect, cornerRadius: CGFloat, roundedCorners: UIRectCorner) -> CGPath {
+        let cornerRadii = CGSize(width: cornerRadius, height: cornerRadius)
+        let bezierPath = UIBezierPath(roundedRect: rect, byRoundingCorners: roundedCorners, cornerRadii: cornerRadii)
+        return bezierPath.cgPath
+    }
+}
+

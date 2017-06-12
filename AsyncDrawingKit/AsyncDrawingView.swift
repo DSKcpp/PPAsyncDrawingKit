@@ -8,11 +8,6 @@
 
 import UIKit
 
-protocol AsyncDrawingViewProtocol {
-    
-    func draw(_ rect: CGRect, in ctx: CGContext, async: Bool) -> Bool
-}
-
 open class AsyncDrawingView: UIView {
     
     enum ViewStatus {
@@ -88,9 +83,9 @@ open class AsyncDrawingView: UIView {
     }
 }
 
-extension AsyncDrawingView: AsyncDrawingViewProtocol {
+extension AsyncDrawingView {
     
-    func draw(_ rect: CGRect, in ctx: CGContext, async: Bool) -> Bool {
+    @objc func draw(_ rect: CGRect, in ctx: CGContext, async: Bool) -> Bool {
         fatalError("This method must be overridden")
     }
 }
@@ -208,8 +203,8 @@ fileprivate final class AsyncDrawingViewLayer: CALayer {
         super.setNeedsDisplay()
     }
     
-    override func setNeedsDisplayIn(_ r: CGRect) {
+    override func setNeedsDisplay(_ r: CGRect) {
         increaseDrawingCount()
-        super.setNeedsDisplayIn(r)
+        super.setNeedsDisplay(r)
     }
 }
