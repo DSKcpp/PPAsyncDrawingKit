@@ -12,7 +12,7 @@ class AsyncTextLayout {
     
     var numberOfLines = 1
     
-    fileprivate let lock = Lock()
+    fileprivate let lock = NSLock()
     
     var text = ""
     var truncationString: NSAttributedString?

@@ -99,6 +99,8 @@
     [_tableView reloadData];
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return _timelineItems.count;

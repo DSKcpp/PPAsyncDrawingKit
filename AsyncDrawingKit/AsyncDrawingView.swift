@@ -132,7 +132,7 @@ fileprivate extension AsyncDrawingView {
             let drawingSuccess = self.draw(CGRect(origin: .zero, size: size), in: ctx, async: async)
             ctx.restoreGState()
             
-            if drawingSuccess || needCancel() {
+            if !drawingSuccess || needCancel() {
                 UIGraphicsEndImageContext()
                 interruped(async)
                 return
@@ -203,8 +203,8 @@ fileprivate final class AsyncDrawingViewLayer: CALayer {
         super.setNeedsDisplay()
     }
     
-    override func setNeedsDisplay(_ r: CGRect) {
+    override func setNeedsDisplayIn(_ r: CGRect) {
         increaseDrawingCount()
-        super.setNeedsDisplay(r)
+        super.setNeedsDisplayIn(r)
     }
 }

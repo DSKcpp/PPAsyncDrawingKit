@@ -47,7 +47,6 @@ class AsyncTextFrame {
         updateLayoutSize()
     }
     
-    
     func createTruncatedLine(textLayout: AsyncTextLayout, lastLineStringRange: CFRange) -> CTLine? {
         guard let attributedString = textLayout.attributedString else { return nil }
         let maxWidth = textLayout.maxSize.width
@@ -55,10 +54,13 @@ class AsyncTextFrame {
         if let tt = textLayout.truncationString {
             truncateToken = tt
         } else {
-            var truncateTokenAttributes = attributedString.attributes(at: lastLineStringRange.location, effectiveRange: nil)
-            let keys = [NSAttributedStringKey.foregroundColor, NSAttributedStringKey.font, NSAttributedStringKey.paragraphStyle]
-            truncateTokenAttributes = truncateTokenAttributes.filter { keys.contains($0.key) }
-            truncateToken = NSAttributedString(string: "\\u2026", attributes: truncateTokenAttributes)
+            let truncateTokenAttributes = attributedString.attributes(at: lastLineStringRange.location, effectiveRange: nil)
+            let keys = [NSForegroundColorAttributeName, NSFontAttributeName, NSParagraphStyleAttributeName]
+            var notNilTruncateTokenAttributes: [String:Any] = [:]
+            truncateTokenAttributes.filter { keys.contains($0.key) }.forEach { key, value in
+                notNilTruncateTokenAttributes[key] = value
+            }
+            truncateToken = NSAttributedString(string: "\\u2026", attributes: notNilTruncateTokenAttributes)
         }
         let truncateTokenLine = CTLineCreateWithAttributedString(truncateToken)
         let lastLineAttrStr = attributedString.attributedSubstring(from: lastLineStringRange.nsRange()).mutableCopy() as! NSMutableAttributedString

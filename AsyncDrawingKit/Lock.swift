@@ -31,4 +31,10 @@ final class Lock: NSLocking {
         let result = pthread_mutex_unlock(&mutex)
         precondition(result == 0, "Failed to unlock \(self) with error \(result).")
     }
+    
+    public func sync<R>(execute work: () throws -> R) rethrows -> R {
+        lock()
+        defer { unlock() }
+        return try work()
+    }
 }

@@ -20,10 +20,11 @@
 		864781A71ED18161003990E3 /* NSAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864781971ED18161003990E3 /* NSAttributedString+Extension.swift */; };
 		864781A81ED18161003990E3 /* NSRange+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864781981ED18161003990E3 /* NSRange+Extension.swift */; };
 		864781A91ED18161003990E3 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864781991ED18161003990E3 /* String+Extension.swift */; };
-		864781AB1ED181A7003990E3 /* Lock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864781AA1ED181A7003990E3 /* Lock.swift */; };
+		86484A7F1EF0F7CC00D30DC4 /* AsyncQueuePoolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86484A7E1EF0F7CC00D30DC4 /* AsyncQueuePoolView.swift */; };
 		8664DD9F1EE951A40005973D /* AsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8664DD9E1EE951A40005973D /* AsyncImageView.swift */; };
 		8664DDA11EE951EF0005973D /* AsyncUIControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8664DDA01EE951EF0005973D /* AsyncUIControl.swift */; };
 		8664DDA31EE952DD0005973D /* UIImage+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8664DDA21EE952DD0005973D /* UIImage+Async.swift */; };
+		86AA7A451EF2AE8A0016E49D /* Lock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AA7A441EF2AE8A0016E49D /* Lock.swift */; };
 		86E9E9A41EDB3D3800BF802B /* AsyncMultiplexTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E9E9A31EDB3D3800BF802B /* AsyncMultiplexTextView.swift */; };
 /* End PBXBuildFile section */
 
@@ -43,10 +44,11 @@
 		864781971ED18161003990E3 /* NSAttributedString+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		864781981ED18161003990E3 /* NSRange+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSRange+Extension.swift"; sourceTree = "<group>"; };
 		864781991ED18161003990E3 /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
-		864781AA1ED181A7003990E3 /* Lock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lock.swift; sourceTree = "<group>"; };
+		86484A7E1EF0F7CC00D30DC4 /* AsyncQueuePoolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncQueuePoolView.swift; sourceTree = "<group>"; };
 		8664DD9E1EE951A40005973D /* AsyncImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncImageView.swift; sourceTree = "<group>"; };
 		8664DDA01EE951EF0005973D /* AsyncUIControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncUIControl.swift; sourceTree = "<group>"; };
 		8664DDA21EE952DD0005973D /* UIImage+Async.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Async.swift"; sourceTree = "<group>"; };
+		86AA7A441EF2AE8A0016E49D /* Lock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lock.swift; sourceTree = "<group>"; };
 		86E9E9A31EDB3D3800BF802B /* AsyncMultiplexTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncMultiplexTextView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -87,7 +89,7 @@
 				8647818B1ED18161003990E3 /* AsyncTextAttributes.swift */,
 				8647818C1ED18161003990E3 /* AsyncTextFontMetrics.swift */,
 				8647818D1ED18161003990E3 /* AsyncTextFrame.swift */,
-				864781AA1ED181A7003990E3 /* Lock.swift */,
+				86AA7A441EF2AE8A0016E49D /* Lock.swift */,
 				8647818E1ED18161003990E3 /* AsyncTextLayout.swift */,
 				8647818F1ED18161003990E3 /* AsyncTextLine.swift */,
 				864781901ED18161003990E3 /* AsyncTextRenderer.swift */,
@@ -99,6 +101,7 @@
 				864781991ED18161003990E3 /* String+Extension.swift */,
 				8664DDA21EE952DD0005973D /* UIImage+Async.swift */,
 				864781831ED1813D003990E3 /* Info.plist */,
+				86484A7E1EF0F7CC00D30DC4 /* AsyncQueuePoolView.swift */,
 			);
 			path = AsyncDrawingKit;
 			sourceTree = "<group>";
@@ -185,16 +188,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86484A7F1EF0F7CC00D30DC4 /* AsyncQueuePoolView.swift in Sources */,
 				8664DD9F1EE951A40005973D /* AsyncImageView.swift in Sources */,
 				864781A91ED18161003990E3 /* String+Extension.swift in Sources */,
 				8647819C1ED18161003990E3 /* AsyncTextFontMetrics.swift in Sources */,
+				86AA7A451EF2AE8A0016E49D /* Lock.swift in Sources */,
 				864781A81ED18161003990E3 /* NSRange+Extension.swift in Sources */,
 				8647819F1ED18161003990E3 /* AsyncTextLine.swift in Sources */,
 				8647819D1ED18161003990E3 /* AsyncTextFrame.swift in Sources */,
 				86E9E9A41EDB3D3800BF802B /* AsyncMultiplexTextView.swift in Sources */,
 				8647819E1ED18161003990E3 /* AsyncTextLayout.swift in Sources */,
 				864781A11ED18161003990E3 /* AsyncTextView.swift in Sources */,
-				864781AB1ED181A7003990E3 /* Lock.swift in Sources */,
 				864781A01ED18161003990E3 /* AsyncTextRenderer.swift in Sources */,
 				8647819B1ED18161003990E3 /* AsyncTextAttributes.swift in Sources */,
 				8664DDA11EE951EF0005973D /* AsyncUIControl.swift in Sources */,
@@ -262,6 +266,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -314,6 +319,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -333,12 +339,13 @@
 				INFOPLIST_FILE = AsyncDrawingKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dskcpp.AsyncDrawingKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -354,11 +361,12 @@
 				INFOPLIST_FILE = AsyncDrawingKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dskcpp.AsyncDrawingKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

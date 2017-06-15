@@ -13,26 +13,18 @@ open class AsyncImageView: AsyncUIControl {
     private var _image: UIImage?
     public var image: UIImage? {
         get {
-            lock.lock()
-            defer {
-                lock.unlock()
-            }
-            return _image
+            return Lock().sync { _image }
         } set {
             if _image == newValue {
                 if newValue == nil || layer.contents == nil {
                     setNeedsDisplay()
                 }
             } else {
-                lock.lock()
-                _image = newValue
-                lock.unlock()
+                Lock().sync { _image = newValue }
                 setNeedsDisplay()
             }
         }
     }
-    
-    private lazy var lock = Lock()
     
     private lazy var _cornerRadius: CGFloat = 0.0
     private lazy var _roundedCorners: UIRectCorner = .allCorners
@@ -96,31 +88,19 @@ open class AsyncImageView: AsyncUIControl {
     
     public var roundPath: CGPath? {
         get {
-            lock.lock()
-            defer {
-                lock.unlock()
-            }
-            return _roundPath
+            return Lock().sync { _roundPath }
         } set {
             guard _roundPath != newValue else { return }
-            lock.lock()
-            _roundPath = newValue
-            lock.unlock()
+            Lock().sync { _roundPath = newValue }
         }
     }
     
     public var borderPath: CGPath? {
         get {
-            lock.lock()
-            defer {
-                lock.unlock()
-            }
-            return _borderPath
+            return Lock().sync { _borderPath }
         } set {
             guard _borderPath != newValue else { return }
-            lock.lock()
-            _borderPath = newValue
-            lock.unlock()
+            return Lock().sync { _borderPath = newValue }
         }
     }
     
