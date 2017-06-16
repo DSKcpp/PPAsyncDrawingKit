@@ -1,8 +1,30 @@
 language: objective-c
-osx_image: xcode8.2
+osx_image: xcode8.3
 
-xcode_project: PPAsyncDrawingKit.xcodeproj
-xcode_scheme: PPAsyncDrawingKit-Demo
+before_install:
+  - brew uninstall carthage
+  - HOMEBREW_NO_AUTO_UPDATE=1 brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/6ae4f69a652fb0ecb102b0c9216378679a4f1b92/Formula/carthage.rb # 0.22.0
 
+install: true
+branches:
+  only:
+    - swift
+
+xcode_workspace: AsyncDrawingKit.xcworkspace
+
+cache:
+  directories: Carthage/Build
+
+jobs:
+  include:
+    - xcode_scheme: AsyncDrawingKit
+      env:
+        - XCODE_SDK=iphonesimulator
+        - XCODE_DESTINATION="platform=iOS Simulator,name=iPhone 6s"
+    - stage: prepare carthage cache
+      script: carthage build --cache-builds
+    - stage: carthage
+      script:
+        - carthage build --cache-builds --no-skip-current --platform iOS
 notifications:
   webhooks: https://hook.bearychat.com/=bw9Wn/travis/f3e6508fc6b306599bc7b7be711e77fc

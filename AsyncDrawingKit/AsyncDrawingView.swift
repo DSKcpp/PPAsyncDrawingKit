@@ -15,7 +15,7 @@ open class AsyncDrawingView: UIView {
         case touch
     }
     
-    static var globallyAsyncDrawingEnabled = true
+    public static var globallyAsyncDrawingEnabled = true
     
     override open class var layerClass: AnyClass {
         return AsyncDrawingViewLayer.self
