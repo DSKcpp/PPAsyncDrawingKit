@@ -43,10 +43,10 @@ open class AsyncDrawingView: UIView {
         }
     }
     
-    typealias Completion = (Bool) -> Void
+    public typealias Completion = (Bool) -> Void
     
-    var drawingStart: Completion?
-    var drawingFinish: ((Bool, Bool) -> Void)?
+    public var drawingStart: Completion?
+    public var drawingFinish: ((Bool, Bool) -> Void)?
     
     override public init(frame: CGRect) {
         super.init(frame: frame)

@@ -151,6 +151,7 @@ open class AsyncImageView: AsyncUIControl {
         
         return true
     }
+    
 }
 
 extension AsyncImageView {

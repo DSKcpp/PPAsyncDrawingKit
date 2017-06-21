@@ -8,9 +8,9 @@
 
 import UIKit
 
-class AsyncTextLayout {
+public class AsyncTextLayout {
     
-    var numberOfLines = 1
+    public var numberOfLines = 1
     
     fileprivate let lock = NSLock()
     

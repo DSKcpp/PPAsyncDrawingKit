@@ -16,13 +16,13 @@ protocol AsyncTextRendererEventDelegate: NSObjectProtocol {
 //    pressedTextBackground
 }
 
-class AsyncTextRenderer: UIResponder {
+open class AsyncTextRenderer: UIResponder {
     
     var textLayout: AsyncTextLayout!
     weak var delegate: AsyncTextRendererEventDelegate?
     var pressingHighlight: AsyncTextHighlight?
     
-    static var debugModeEnabled = false
+    public static var debugModeEnabled = false
     
     var frame: CGRect {
         return textLayout?.frame ?? .zero
@@ -39,7 +39,7 @@ class AsyncTextRenderer: UIResponder {
 
 extension AsyncTextRenderer {
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touchView = delegate?.contextViewForTextRenderer(self) else { return }
         let touches = event?.touches(for: touchView)
         var point = CGPoint.zero
@@ -53,15 +53,15 @@ extension AsyncTextRenderer {
         }
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override open func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override open func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
     }
     
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override open func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         
     }
 }

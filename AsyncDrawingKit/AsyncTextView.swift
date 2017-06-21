@@ -10,7 +10,7 @@ import UIKit
 
 open class AsyncTextView: AsyncDrawingView {
     
-    var attributedString: NSAttributedString? {
+    public var attributedString: NSAttributedString? {
         get {
             return textLayout.attributedString
         } set {
@@ -19,8 +19,8 @@ open class AsyncTextView: AsyncDrawingView {
         }
     }
     
-    lazy var textLayout: AsyncTextLayout = {
-        let textLayout = AsyncTextLayout(attributedString: self.attributedString)
+    public lazy var textLayout: AsyncTextLayout = {
+        let textLayout = AsyncTextLayout(attributedString: nil)
         return textLayout
     }()
     
