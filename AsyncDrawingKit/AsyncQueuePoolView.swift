@@ -14,7 +14,7 @@ protocol AsyncQueuePoolViewDelegate: NSObjectProtocol {
     func queuePoolView(_ queuePoolView: AsyncQueuePoolView, viewForItemAtIndex: Int) -> AsyncQueuePoolView.ReusableView
 }
 
-class AsyncQueuePoolView: UIView {
+open class AsyncQueuePoolView: UIView {
     
     typealias ReusableView = AsyncDrawingView
     

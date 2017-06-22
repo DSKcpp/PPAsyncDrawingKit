@@ -91,7 +91,7 @@ public class AsyncTextLayout {
     }
 }
 
-extension AsyncTextLayout {
+public extension AsyncTextLayout {
     
     var frame: CGRect {
         get {
@@ -124,7 +124,7 @@ extension AsyncTextLayout {
     }
 }
 
-extension AsyncTextLayout {
+public extension AsyncTextLayout {
     
     var containingLineCount: Int {
         return nowLayoutFrame()?.lineFragments.count ?? 0
@@ -173,5 +173,23 @@ extension AsyncTextLayout {
     
     func enumerateEnclosingRectsForCharacterRange(_ range: NSRange, usingBlock: (CGRect, UnsafeMutablePointer<Bool>) -> Void) {
         nowLayoutFrame()?.enumerateEnclosingRectsForCharacterRange(range, usingBlock: usingBlock)
+    }
+}
+
+extension Thread {
+    
+    static let key = "T"
+    
+    var textLayout: AsyncTextLayout {
+        get {
+            if let t = objc_getAssociatedObject(self, Thread.key) as? AsyncTextLayout {
+                return t
+            } else {
+                self.textLayout = AsyncTextLayout(attributedString: nil)
+                return self.textLayout
+            }
+        } set {
+            objc_setAssociatedObject(self, Thread.key, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
     }
 }

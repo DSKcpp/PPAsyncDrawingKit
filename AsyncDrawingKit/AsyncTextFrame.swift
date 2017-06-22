@@ -8,23 +8,25 @@
 
 import UIKit
 
-class AsyncTextFrame {
+public class AsyncTextFrame {
     
-    weak var textLayout: AsyncTextLayout!
+    public weak var textLayout: AsyncTextLayout!
     
     var lineFragments: [AsyncTextLine] = []
     
-    var layoutSize = CGSize.zero
+    public var layoutSize = CGSize.zero
     
     init(CTFrame: CTFrame, textLayout: AsyncTextLayout) {
         self.textLayout = textLayout
+        
+        setupWithCTFrame(CTFrame)
     }
     
     func setupWithCTFrame(_ frame: CTFrame) {
         let maxLines = textLayout.numberOfLines
         guard let ctLines = CTFrameGetLines(frame) as? [CTLine], ctLines.count > 0 else { return }
         var lines: [AsyncTextLine] = []
-        var origins: [CGPoint] = []
+        var origins = [CGPoint](repeating: .zero, count:ctLines.count)
         CTFrameGetLineOrigins(frame, CFRange(location: 0, length: ctLines.count), &origins)
         for (i, line) in ctLines.enumerated() {
             var position = origins[i]
@@ -88,7 +90,7 @@ class AsyncTextFrame {
     }
 }
 
-extension AsyncTextFrame {
+public extension AsyncTextFrame {
     
     func enumerateLineFragmentsForCharacterRange(_ range: NSRange, usingBlock: (CGRect, NSRange, UnsafeMutablePointer<Bool>) -> Void) {
         var stop = false
@@ -114,7 +116,7 @@ extension AsyncTextFrame {
                 let y = line.baselineOrigin.y
                 let left = line.offsetXForCharacterAtIndex(range.location) + x
                 let right = line.offsetXForCharacterAtIndex(range.location + range.length) + x
-                let rect = CGRect.init(x: left, y: y - line.fontMetrics.ascent, width: right - left, height: line.fragmentRect().size.height)
+                let rect = CGRect(x: left, y: y - line.fontMetrics.ascent, width: right - left, height: line.fragmentRect().size.height)
                 usingBlock(rect, &stop)
             }
         }

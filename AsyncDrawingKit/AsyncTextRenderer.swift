@@ -262,7 +262,7 @@ extension AsyncTextRenderer {
     func drawText(_ layoutFrame: AsyncTextFrame, ctx: CGContext) {
         ctx.saveGState()
         ctx.ctm.translatedBy(x: drawingOrigin.x, y: drawingOrigin.y + frame.height)
-        ctx.ctm.scaledBy(x: 1, y: -1)
+        ctx.ctm.scaledBy(x: 1.0, y: -1.0)
         
         layoutFrame.lineFragments.forEach { line in
             let position = textLayout.convertPointToCoreText(line.baselineOrigin)
@@ -382,58 +382,3 @@ extension AsyncTextRenderer {
         }
     }
 }
-//
-//@end
-//
-//@implementation PPTextRenderer (PPTextRendererDebug)
-//static BOOL textRendererDebugModeEnabled = NO;
-//
-//+ (BOOL)debugModeEnabled
-//{
-//    return textRendererDebugModeEnabled;
-//    }
-//    
-//    + (void)setDebugModeEnabled:(BOOL)debugModeEnabled
-//{
-//    textRendererDebugModeEnabled = debugModeEnabled;
-//    UIViewController *viewController = [self visibleViewController];
-//    [self drawDebugInView:viewController.view];
-//    }
-//    
-//    + (void)drawDebugInView:(UIView *)view
-//{
-//    NSArray<__kindof UIView *> *subviews = view.subviews;
-//    if (subviews.count == 0) {
-//        return;
-//    }
-//    [subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull subview, NSUInteger idx, BOOL * _Nonnull stop) {
-//        if ([subview isKindOfClass:[PPAsyncDrawingView class]]) {
-//        PPAsyncDrawingView *v = (PPAsyncDrawingView *)subview;
-//        [v setNeedsDisplayMainThread];
-//        }
-//        [self drawDebugInView:subview];
-//        }];
-//    }
-//    
-//    + (UIViewController *)visibleViewController
-//        {
-//            UIViewController *viewController = [UIApplication sharedApplication].keyWindow.rootViewController;
-//            return [self getVisibleViewControllerFrom:viewController];
-//        }
-//        
-//        + (UIViewController *)getVisibleViewControllerFrom:(UIViewController *)viewController
-//{
-//    if ([viewController isKindOfClass:[UINavigationController class]]) {
-//        UINavigationController *navigtationController = (UINavigationController *)viewController;
-//        return [self getVisibleViewControllerFrom:navigtationController.visibleViewController];
-//    } else if ([viewController isKindOfClass:[UITabBarController class]]) {
-//        UITabBarController *tabBarController = (UITabBarController *)viewController;
-//        return [self getVisibleViewControllerFrom:tabBarController.selectedViewController];
-//    } else {
-//        if (viewController.presentedViewController) {
-//            return [self getVisibleViewControllerFrom:viewController.presentedViewController];
-//        } else {
-//            return viewController;
-//        }
-//    }
-//    }

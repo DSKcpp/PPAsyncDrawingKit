@@ -51,5 +51,37 @@ open class AsyncTableView: UITableView {
             AsyncDrawingView.globallyAsyncDrawingEnabled = true
         }
     }
+    
+    open override func reloadSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
+        AsyncDrawingView.globallyAsyncDrawingEnabled = false
+        super.reloadSections(sections, with: animation)
+        DispatchQueue.main.asyncAfter(deadline: .now() + afterAsyncTime) {
+            AsyncDrawingView.globallyAsyncDrawingEnabled = true
+        }
+    }
+    
+    open override func insertSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
+        AsyncDrawingView.globallyAsyncDrawingEnabled = false
+        super.insertSections(sections, with: animation)
+        DispatchQueue.main.asyncAfter(deadline: .now() + afterAsyncTime) {
+            AsyncDrawingView.globallyAsyncDrawingEnabled = true
+        }
+    }
+    
+    open override func deleteSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
+        AsyncDrawingView.globallyAsyncDrawingEnabled = false
+        super.deleteSections(sections, with: animation)
+        DispatchQueue.main.asyncAfter(deadline: .now() + afterAsyncTime) {
+            AsyncDrawingView.globallyAsyncDrawingEnabled = true
+        }
+    }
+    
+    open override func moveSection(_ section: Int, toSection newSection: Int) {
+        AsyncDrawingView.globallyAsyncDrawingEnabled = false
+        super.moveSection(section, toSection: newSection)
+        DispatchQueue.main.asyncAfter(deadline: .now() + afterAsyncTime) {
+            AsyncDrawingView.globallyAsyncDrawingEnabled = true
+        }
+    }
 
 }
