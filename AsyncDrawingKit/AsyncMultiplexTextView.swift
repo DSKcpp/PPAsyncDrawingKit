@@ -8,9 +8,10 @@
 
 import UIKit
 
-class AsyncMultiplexTextView: AsyncDrawingView {
+open class AsyncMultiplexTextView: AsyncDrawingView {
 
-    fileprivate var internalTextLayouts: [AsyncTextLayout] = []
+    fileprivate lazy var internalTextLayouts: [AsyncTextLayout] = []
+    var respondTextRenderer: AsyncTextRenderer?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -32,5 +33,68 @@ class AsyncMultiplexTextView: AsyncDrawingView {
         }
         return true
     }
+    
+}
 
+extension AsyncMultiplexTextView {
+    
+    func append(_ textLayout: AsyncTextLayout) {
+        internalTextLayouts.append(textLayout)
+    }
+}
+
+extension AsyncMultiplexTextView {
+    
+    func renderer(at point: CGPoint) -> AsyncTextRenderer? {
+        return internalTextLayouts.first { $0.frame.contains(point) }?.textRenderer
+    }
+    
+    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        var point = CGPoint.zero
+        if let touch = touches.first {
+            point = touch.location(in: self)
+        }
+        
+        var pressingRange = false
+        respondTextRenderer = renderer(at: point)
+        if let respondTextRenderer = respondTextRenderer {
+            respondTextRenderer.touchesBegan(touches, with: event)
+            if respondTextRenderer.pressingHighlight != nil {
+                pressingRange = true
+            }
+        }
+        
+        if !pressingRange {
+            super.touchesBegan(touches, with: event)
+        }
+    }
+    
+    open override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        var pressingRange = false
+        if let respondTextRenderer = respondTextRenderer {
+            respondTextRenderer.touchesMoved(touches, with: event)
+            if respondTextRenderer.pressingHighlight != nil {
+                pressingRange = true
+            }
+        }
+        if !pressingRange {
+            super.touchesMoved(touches, with: event)
+        }
+    }
+    
+    open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let respondTextRenderer = respondTextRenderer {
+            respondTextRenderer.touchesEnded(touches, with: event)
+            self.respondTextRenderer = nil
+        }
+        super.touchesEnded(touches, with: event)
+    }
+    
+    open override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let respondTextRenderer = respondTextRenderer {
+            respondTextRenderer.touchesCancelled(touches, with: event)
+            self.respondTextRenderer = nil
+        }
+        super.touchesCancelled(touches, with: event)
+    }
 }

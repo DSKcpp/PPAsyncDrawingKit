@@ -10,11 +10,18 @@ import UIKit
 
 final class WBTimelineContentView: UIView {
     
-    var timelineItem: WBTimelineItem!
-    
-    
     class func height(of timelineItem: WBTimelineItem, contentWidth: CGFloat) -> CGFloat {
         return 0
+    }
+    
+    var timelineItem: WBTimelineItem! {
+        didSet  {
+            setTimelineItem()
+        }
+    }
+    
+    private func setTimelineItem() {
+        
     }
 }
 

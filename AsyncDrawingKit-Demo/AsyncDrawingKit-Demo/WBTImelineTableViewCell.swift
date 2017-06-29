@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AsyncDrawingKit
 
 final class WBTImelineTableViewCell: UITableViewCell {
 

@@ -32,7 +32,7 @@ final class Lock: NSLocking {
         precondition(result == 0, "Failed to unlock \(self) with error \(result).")
     }
     
-    public func sync<R>(execute work: () throws -> R) rethrows -> R {
+    func sync<R>(execute work: () throws -> R) rethrows -> R {
         lock()
         defer { unlock() }
         return try work()

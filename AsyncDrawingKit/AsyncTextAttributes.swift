@@ -8,9 +8,9 @@
 
 import UIKit
 
-let AsyncTextHighlightAttributeName: String = "AsyncTextHighlightAttribute"
+public let AsyncTextHighlightAttributeName: String = "AsyncTextHighlightAttribute"
 
-struct AsyncTextHighlight {
+public struct AsyncTextHighlight {
     var range: NSRange
     var userInfo: [String : Any] = [:]
     var textColor: UIColor
@@ -18,12 +18,12 @@ struct AsyncTextHighlight {
     var border: AsyncTextBorder
 }
 
-struct AsyncTextBorder {
+public struct AsyncTextBorder {
     var fillColor: UIColor?
     var cornerRadius: CGFloat = 4
 }
 
-struct AsyncTextBackground {
+public struct AsyncTextBackground {
     var userInfo: [String : Any] = [:]
     var backgroundColor: UIColor
 }

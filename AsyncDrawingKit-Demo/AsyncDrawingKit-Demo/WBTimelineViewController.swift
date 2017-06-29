@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import AsyncDrawingKit
 
 final class WBTimelineViewController: UIViewController {
 
     var timelineItems: [WBTimelineItem] = []
     
-    let tableView = UITableView()
+    let tableView = AsyncTableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +56,6 @@ final class WBTimelineViewController: UIViewController {
             }
         }
     }
-    
 }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource

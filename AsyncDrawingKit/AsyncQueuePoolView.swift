@@ -8,22 +8,22 @@
 
 import UIKit
 
-protocol AsyncQueuePoolViewDelegate: NSObjectProtocol {
+public protocol AsyncQueuePoolViewDataSource: NSObjectProtocol {
     
     func numberOfItems(in queuePoolView: AsyncQueuePoolView) -> Int
-    func queuePoolView(_ queuePoolView: AsyncQueuePoolView, viewForItemAtIndex: Int) -> AsyncQueuePoolView.ReusableView
+    func queuePoolView(_ queuePoolView: AsyncQueuePoolView, viewForItemAt index: Int) -> AsyncQueuePoolView.ReusableView
 }
 
 open class AsyncQueuePoolView: UIView {
     
-    typealias ReusableView = AsyncDrawingView
+    public typealias ReusableView = AsyncDrawingView
     
-    weak var delegate: AsyncQueuePoolViewDelegate?
+    public weak var dataSource: AsyncQueuePoolViewDataSource?
     
     fileprivate lazy var idleReusbaleViews: [ReusableView] = []
     fileprivate lazy var reusbaleViews: [ReusableView] = []
     
-    func dequeueReusableView() -> ReusableView? {
+    public func dequeueReusableView() -> ReusableView? {
         if let first = idleReusbaleViews.first {
             idleReusbaleViews.remove(at: 0)
             return first
@@ -39,17 +39,17 @@ open class AsyncQueuePoolView: UIView {
 
 extension AsyncQueuePoolView {
     
-    func reloadData() {
+    open func reloadData() {
         reusbaleViews.forEach { view in
             view.isHidden = true
             append(toIdle: view)
         }
-        guard let delegate = delegate else { return }
-        let itemNumbers = delegate.numberOfItems(in: self)
+        guard let dataSource = dataSource else { return }
+        let itemNumbers = dataSource.numberOfItems(in: self)
         if itemNumbers > 0 {
             var views: [ReusableView] = []
             for i in 0..<itemNumbers {
-                let reusableView = delegate.queuePoolView(self, viewForItemAtIndex: i)
+                let reusableView = dataSource.queuePoolView(self, viewForItemAt: i)
                 reusableView.isHidden = false
                 addSubview(reusableView)
                 views.append(reusableView)

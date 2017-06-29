@@ -13,8 +13,14 @@ imageView.backgroundColor = .white
 
 imageView.drawingFinish = { [unowned imageView] _, success in
     guard success else { return }
-    #imageLiteral(resourceName: "avatar.png")
-    imageView
+/*:
+Origin Image
+     
+![Origin Image](avatar.png)
+     
+Display to ImageView
+*/
+imageView
 }
 
 PlaygroundPage.current.liveView = imageView

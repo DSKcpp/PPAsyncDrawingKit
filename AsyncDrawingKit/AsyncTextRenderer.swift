@@ -16,7 +16,7 @@ protocol AsyncTextRendererEventDelegate: NSObjectProtocol {
 //    pressedTextBackground
 }
 
-open class AsyncTextRenderer: UIResponder {
+public final class AsyncTextRenderer: UIResponder {
     
     var textLayout: AsyncTextLayout!
     weak var delegate: AsyncTextRendererEventDelegate?
@@ -193,10 +193,12 @@ extension AsyncTextRenderer {
     
     func drawInContext(_ ctx: CGContext, visibleRect: CGRect = .null, placeAttachments: Bool = true) {
         guard let attributedString = textLayout.attributedString, attributedString.length > 1 else { return }
-        guard let layoutFrame = textLayout.nowLayoutFrame() else { return }
         if !visibleRect.isNull {
             textLayout.maxSize = visibleRect.size
         }
+        
+        guard let layoutFrame = textLayout.nowLayoutFrame() else { return }
+        
         
         if AsyncTextRenderer.debugModeEnabled {
             drawdebugMode(layoutFrame, ctx: ctx)
@@ -214,10 +216,6 @@ extension AsyncTextRenderer {
             drawTextBackground(highlightTextBackground, ctx: ctx)
         }
         drawText(layoutFrame, ctx: ctx)
-        if placeAttachments {
-            drawAttachmentsWithAttributedString(attributedString, layoutFrame: layoutFrame, ctx: ctx)
-        }
-        
     }
     
     func drawBorder(_ border: AsyncTextBorder?, rect: CGRect, ctx: CGContext) {
@@ -261,8 +259,8 @@ extension AsyncTextRenderer {
     
     func drawText(_ layoutFrame: AsyncTextFrame, ctx: CGContext) {
         ctx.saveGState()
-        ctx.ctm.translatedBy(x: drawingOrigin.x, y: drawingOrigin.y + frame.height)
-        ctx.ctm.scaledBy(x: 1.0, y: -1.0)
+        ctx.translateBy(x: drawingOrigin.x, y: drawingOrigin.y + frame.height)
+        ctx.scaleBy(x: 1.0, y: -1.0)
         
         layoutFrame.lineFragments.forEach { line in
             let position = textLayout.convertPointToCoreText(line.baselineOrigin)
@@ -272,67 +270,7 @@ extension AsyncTextRenderer {
         }
         ctx.restoreGState()
     }
-    
-    func drawAttachmentsWithAttributedString(_ attributedString: NSAttributedString, layoutFrame: AsyncTextFrame, ctx: CGContext) {
-        layoutFrame.lineFragments.forEach { line in
-            line.forEach { attributes, range in
-//                if let textAttachment = attributes[]
-            }
-        }
-    }
-    //
-    //    - (void)drawAttachmentsWithAttributedString:(NSAttributedString *)attributedString layoutFrame:(PPTextLayoutFrame *)layoutFrame context:(CGContextRef)context
-    //{
-    //    [layoutFrame.lineFragments enumerateObjectsUsingBlock:^(PPTextLayoutLine * _Nonnull line, NSUInteger idx, BOOL * _Nonnull stop) {
-    //        [line enumerateLayoutRunsUsingBlock:^(NSDictionary *attributes, NSRange range) {
-    //        PPTextAttachment *textAttachment = [attributes objectForKey:PPTextAttachmentAttributeName];
-    //        if (textAttachment) {
-    //        CGPoint origin = [line baselineOriginForCharacterAtIndex:range.location];
-    //        CGSize size = textAttachment.contentSize;
-    //        CGRect rect = (CGRect){(CGPoint)origin, (CGSize)size};
-    //        rect.origin.y -= textAttachment.ascentForLayout;
-    //        UIImage *content = textAttachment.contents;
-    //        rect = [self convertRectFromLayout:rect];
-    //        [content pp_drawInRect:rect contentMode:textAttachment.contentType withContext:context];
-    //        }
-    //        }];
-    //        }];
-    //    }
 }
-
-
-
-
-
-//    
-
-
-//
-//@end
-//
-//@implementation PPTextRenderer (PPTextRendererEvents)
-//- (PPAsyncDrawingView *)eventDelegateContextView
-//{
-//    if (_eventDelegateFlags.contextViewForTextRenderer) {
-//        return [_eventDelegate contextViewForTextRenderer:self];
-//    }
-//    return nil;
-//    }
-//    
-//    - (void)eventDelegateDidPressHighlightRange:(PPTextHighlightRange *)highlightRange
-//{
-//    if (_eventDelegateFlags.pressedTextHighlightRange) {
-//        [_eventDelegate textRenderer:self pressedTextHighlightRange:highlightRange];
-//    }
-//    }
-//    
-//    - (void)eventDelegateDidPressTextBackground:(PPTextBackground *)textBackground
-//{
-//    if (_eventDelegateFlags.pressedTextBackground) {
-//        [_eventDelegate textRenderer:self pressedTextBackground:textBackground];
-//    }
-//    }
-//  
 
 extension AsyncTextRenderer {
     

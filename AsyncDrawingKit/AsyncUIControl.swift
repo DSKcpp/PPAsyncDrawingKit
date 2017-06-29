@@ -11,7 +11,7 @@ import UIKit
 open class AsyncUIControl: AsyncDrawingView {
     
 //    var isEnabled = true
-//    var isSelected = false
+//    var isSelected = falses
 //    var isHighlighted = false
 //
 //    public private(set) var isTracking = false

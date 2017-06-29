@@ -45,7 +45,7 @@ public class AsyncTextLayout {
     
     var attributedString: NSAttributedString?
     
-    init(attributedString: NSAttributedString?) {
+    init(attributedString: NSAttributedString? = nil) {
         self.attributedString = attributedString
     }
     

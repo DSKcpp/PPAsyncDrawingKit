@@ -10,17 +10,31 @@ import UIKit
 
 open class AsyncDrawingView: UIView {
     
+    public static var globallyAsyncDrawingEnabled = true
+    
+    public var asyncDrawing = true
+    
+    public typealias AsyncBoolBlock = (Bool) -> Void
+    public typealias AsyncCompletionBlock = (Bool, Bool) -> Void
+    
+    public var drawingStart: AsyncBoolBlock?
+    public var drawingFinish: AsyncCompletionBlock?
+    
+    func setNeedsDisplayMainThread() {
+        viewStatus = .touch
+        setNeedsDisplay()
+    }
+    
+    // don't override this property
+    override open class var layerClass: AnyClass {
+        return AsyncDrawingViewLayer.self
+    }
+
     enum ViewStatus {
         case normal
         case touch
     }
     
-    public static var globallyAsyncDrawingEnabled = true
-    
-    override open class var layerClass: AnyClass {
-        return AsyncDrawingViewLayer.self
-    }
-
     fileprivate(set) var viewStatus = ViewStatus.normal
     
     var drawingCount: Int32 {
@@ -28,8 +42,6 @@ open class AsyncDrawingView: UIView {
     }
     
     fileprivate let drawQueue = DispatchQueue(label: "io.github.dskcpp.drawQueue", attributes: .concurrent)
-    
-    var asyncDrawing = true
     
     fileprivate var asynclayer: AsyncDrawingViewLayer {
         return layer as! AsyncDrawingViewLayer
@@ -42,11 +54,6 @@ open class AsyncDrawingView: UIView {
             return asyncDrawing
         }
     }
-    
-    public typealias Completion = (Bool) -> Void
-    
-    public var drawingStart: Completion?
-    public var drawingFinish: ((Bool, Bool) -> Void)?
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -62,37 +69,18 @@ open class AsyncDrawingView: UIView {
         isOpaque = false
         layer.contentsScale = Configs.Screen.scale
     }
-    
-    func setNeedsDisplayMainThread() {
-        viewStatus = .touch
-        setNeedsDisplay()
-    }
-    
-    override open func draw(_ rect: CGRect) {
-        super.draw(rect)
-    }
-    
-    override open func display(_ layer: CALayer) {
-        display(asynclayer, rect: asynclayer.bounds, started: { [weak self] async in
-            self?.drawingWillStartAsync(async)
-        }, finished: { [weak self] async in
-            self?.drawingDidFinishAsync(async, success: true)
-        }, interruped: { [weak self] async in
-            self?.drawingDidFinishAsync(async, success: false)
-        })
-    }
 }
 
 extension AsyncDrawingView {
     
     @objc func draw(_ rect: CGRect, in ctx: CGContext, async: Bool) -> Bool {
-        fatalError("This method must be overridden")
+        fatalError("🔥 This method must be overridden")
     }
 }
 
 fileprivate extension AsyncDrawingView {
     
-    func display(_ layer: AsyncDrawingViewLayer, rect: CGRect, started: @escaping Completion, finished: @escaping Completion, interruped: @escaping Completion) {
+    func display(_ layer: AsyncDrawingViewLayer, rect: CGRect, started: @escaping AsyncBoolBlock, finished: @escaping AsyncBoolBlock, interruped: @escaping AsyncBoolBlock) {
         
         var async = false
         if drawCurrentContentAsync && AsyncDrawingView.globallyAsyncDrawingEnabled {
@@ -170,6 +158,23 @@ fileprivate extension AsyncDrawingView {
         } else {
             DispatchQueue.main.async(execute: drawingContents)
         }
+    }
+}
+
+extension AsyncDrawingView {
+    
+    override open func draw(_ rect: CGRect) {
+        super.draw(rect)
+    }
+    
+    override open func display(_ layer: CALayer) {
+        display(asynclayer, rect: asynclayer.bounds, started: { [weak self] async in
+            self?.drawingWillStartAsync(async)
+            }, finished: { [weak self] async in
+                self?.drawingDidFinishAsync(async, success: true)
+            }, interruped: { [weak self] async in
+                self?.drawingDidFinishAsync(async, success: false)
+        })
     }
 }
 

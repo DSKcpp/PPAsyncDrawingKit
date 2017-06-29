@@ -20,7 +20,7 @@ open class AsyncTextView: AsyncDrawingView {
     }
     
     public lazy var textLayout: AsyncTextLayout = {
-        let textLayout = AsyncTextLayout(attributedString: nil)
+        let textLayout = AsyncTextLayout()
         return textLayout
     }()
     

@@ -15,16 +15,20 @@ struct WBCardsModel: HandyJSON {
 
 }
 
-struct WBCardModel: HandyJSON {
+class WBCardModel: HandyJSON {
     
     var itemid: String?
     var scheme: String?
     var card_group: [WBCardModel]?
     var mblog: WBTimelineItem?
+    
+    required init() {
+        
+    }
 }
 
 
-struct WBTimelineItem: HandyJSON {
+class WBTimelineItem: HandyJSON {
     
     var created_at: Date?
     var mid: String?
@@ -51,6 +55,10 @@ struct WBTimelineItem: HandyJSON {
     var title: WBTimelineTitle?
     var url_struct: [WBURLStruct]?
     var page_info: WBTimelinePageInfo?
+    
+    required init() {
+        
+    }
 }
 
 struct WBUser: HandyJSON {
