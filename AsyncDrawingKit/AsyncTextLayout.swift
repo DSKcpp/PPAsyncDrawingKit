@@ -12,48 +12,38 @@ public class AsyncTextLayout {
     
     public var numberOfLines = 1
     
-    fileprivate let lock = NSLock()
-    
     var text = ""
     var truncationString: NSAttributedString?
     
     fileprivate var _needsLayout = true
     var needsLayout: Bool {
         get {
-            lock.lock()
-            defer {
-                lock.unlock()
-            }
-            return _needsLayout
+            return Lock().sync { _needsLayout }
         } set {
             guard _needsLayout != newValue else { return }
-            lock.lock()
-            _needsLayout = newValue
-            lock.unlock()
+            Lock().sync { _needsLayout = newValue }
         }
     }
     
     fileprivate var _frame: CGRect = .zero
     
-    lazy var textRenderer: AsyncTextRenderer = {
+    public lazy var textRenderer: AsyncTextRenderer = {
         return AsyncTextRenderer(textLayout: self)
     }()
     
-    var highlightTextBackground: AsyncTextBackground?
+    public var highlightTextBackground: AsyncTextBackground?
     
     private var layoutFrame: AsyncTextFrame?
     
-    var attributedString: NSAttributedString?
+    public var attributedString: NSAttributedString?
     
-    init(attributedString: NSAttributedString? = nil) {
+    public init(attributedString: NSAttributedString? = nil) {
         self.attributedString = attributedString
     }
     
     func nowLayoutFrame() -> AsyncTextFrame? {
         if needsLayout || layoutFrame == nil {
-            lock.lock()
-            layoutFrame = createLayoutFrame()
-            lock.unlock()
+            Lock().sync { layoutFrame = createLayoutFrame() }
             needsLayout = false
         }
         return layoutFrame
@@ -77,10 +67,10 @@ public class AsyncTextLayout {
     
     func setAttributedString(_ attributedString: NSAttributedString) {
         guard attributedString != self.attributedString else { return }
-        lock.lock()
-        self.attributedString = attributedString
-        text = attributedString.string
-        lock.unlock()
+        Lock().sync {
+            self.attributedString = attributedString
+            text = attributedString.string
+        }
         needsLayout = true
     }
     
