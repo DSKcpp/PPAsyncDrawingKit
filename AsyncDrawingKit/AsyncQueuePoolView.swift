@@ -16,7 +16,7 @@ public protocol AsyncQueuePoolViewDataSource: NSObjectProtocol {
 
 open class AsyncQueuePoolView: UIView {
     
-    public typealias ReusableView = AsyncDrawingView
+    public typealias ReusableView = UIView
     
     public weak var dataSource: AsyncQueuePoolViewDataSource?
     
@@ -46,17 +46,14 @@ extension AsyncQueuePoolView {
         }
         guard let dataSource = dataSource else { return }
         let itemNumbers = dataSource.numberOfItems(in: self)
-        if itemNumbers > 0 {
-            var views: [ReusableView] = []
-            for i in 0..<itemNumbers {
-                let reusableView = dataSource.queuePoolView(self, viewForItemAt: i)
-                reusableView.isHidden = false
-                addSubview(reusableView)
-                views.append(reusableView)
-            }
-            
-            reusbaleViews.removeAll()
-            reusbaleViews = views
+        var views: [ReusableView] = []
+        for i in 0..<itemNumbers {
+            let reusableView = dataSource.queuePoolView(self, viewForItemAt: i)
+            reusableView.isHidden = false
+            views.append(reusableView)
+            addSubview(reusableView)
         }
+        
+        reusbaleViews = views
     }
 }

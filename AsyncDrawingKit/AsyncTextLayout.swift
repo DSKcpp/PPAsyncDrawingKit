@@ -35,7 +35,11 @@ public class AsyncTextLayout {
     
     private var layoutFrame: AsyncTextFrame?
     
-    public var attributedString: NSAttributedString?
+    public var attributedString: NSAttributedString? {
+        didSet {
+            setNeedsLayout()
+        }
+    }
     
     public init(attributedString: NSAttributedString? = nil) {
         self.attributedString = attributedString
