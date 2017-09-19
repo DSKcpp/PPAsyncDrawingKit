@@ -13,7 +13,7 @@ open class AsyncMultiplexTextView: AsyncDrawingView {
     fileprivate lazy var internalTextLayouts: [AsyncTextLayout] = []
     var respondTextRenderer: AsyncTextRenderer?
     
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         
         drawingFinish = { [weak self] async, success in
@@ -27,9 +27,9 @@ open class AsyncMultiplexTextView: AsyncDrawingView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func draw(_ rect: CGRect, in ctx: CGContext, async: Bool) -> Bool {
+    open override func draw(_ rect: CGRect, in ctx: CGContext, async: Bool) -> Bool {
         internalTextLayouts.forEach { textLayout in
-            textLayout.textRenderer.drawInContext(ctx)
+            textLayout.textRenderer.draw(ctx)
         }
         return true
     }
@@ -38,14 +38,14 @@ open class AsyncMultiplexTextView: AsyncDrawingView {
 
 extension AsyncMultiplexTextView {
     
-    func append(_ textLayout: AsyncTextLayout) {
+    public func append(_ textLayout: AsyncTextLayout) {
         internalTextLayouts.append(textLayout)
     }
 }
 
 extension AsyncMultiplexTextView {
     
-    func renderer(at point: CGPoint) -> AsyncTextRenderer? {
+    public func renderer(at point: CGPoint) -> AsyncTextRenderer? {
         return internalTextLayouts.first { $0.frame.contains(point) }?.textRenderer
     }
     

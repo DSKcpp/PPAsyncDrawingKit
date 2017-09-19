@@ -25,6 +25,7 @@
 		8664DD9F1EE951A40005973D /* AsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8664DD9E1EE951A40005973D /* AsyncImageView.swift */; };
 		8664DDA11EE951EF0005973D /* AsyncUIControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8664DDA01EE951EF0005973D /* AsyncUIControl.swift */; };
 		8664DDA31EE952DD0005973D /* UIImage+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8664DDA21EE952DD0005973D /* UIImage+Async.swift */; };
+		866B114C1F6E9582007446A4 /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B114B1F6E9582007446A4 /* AsyncButton.swift */; };
 		86AA7A451EF2AE8A0016E49D /* Lock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AA7A441EF2AE8A0016E49D /* Lock.swift */; };
 		86E9E9A41EDB3D3800BF802B /* AsyncMultiplexTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E9E9A31EDB3D3800BF802B /* AsyncMultiplexTextView.swift */; };
 /* End PBXBuildFile section */
@@ -50,6 +51,7 @@
 		8664DD9E1EE951A40005973D /* AsyncImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncImageView.swift; sourceTree = "<group>"; };
 		8664DDA01EE951EF0005973D /* AsyncUIControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncUIControl.swift; sourceTree = "<group>"; };
 		8664DDA21EE952DD0005973D /* UIImage+Async.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Async.swift"; sourceTree = "<group>"; };
+		866B114B1F6E9582007446A4 /* AsyncButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncButton.swift; sourceTree = "<group>"; };
 		86AA7A441EF2AE8A0016E49D /* Lock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lock.swift; sourceTree = "<group>"; };
 		86E9E9A31EDB3D3800BF802B /* AsyncMultiplexTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncMultiplexTextView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -95,6 +97,7 @@
 				864781831ED1813D003990E3 /* Info.plist */,
 				86484A7E1EF0F7CC00D30DC4 /* AsyncQueuePoolView.swift */,
 				8658C4441EF36CA7008C1EDE /* AsyncTableView.swift */,
+				866B114B1F6E9582007446A4 /* AsyncButton.swift */,
 			);
 			path = AsyncDrawingKit;
 			sourceTree = "<group>";
@@ -221,6 +224,7 @@
 				8647819C1ED18161003990E3 /* AsyncTextFontMetrics.swift in Sources */,
 				86AA7A451EF2AE8A0016E49D /* Lock.swift in Sources */,
 				864781A81ED18161003990E3 /* NSRange+Extension.swift in Sources */,
+				866B114C1F6E9582007446A4 /* AsyncButton.swift in Sources */,
 				8647819F1ED18161003990E3 /* AsyncTextLine.swift in Sources */,
 				8647819D1ED18161003990E3 /* AsyncTextFrame.swift in Sources */,
 				86E9E9A41EDB3D3800BF802B /* AsyncMultiplexTextView.swift in Sources */,

@@ -61,7 +61,7 @@ open class AsyncTextView: AsyncDrawingView {
     
     override func draw(_ rect: CGRect, in ctx: CGContext, async: Bool) -> Bool {
         guard let _ = attributedString else { return false }
-        textLayout.textRenderer.drawInContext(ctx, visibleRect: rect, placeAttachments: true)
+        textLayout.textRenderer.draw(ctx, visibleRect: rect, placeAttachments: true)
         return true
     }
     

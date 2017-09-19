@@ -191,7 +191,7 @@ extension AsyncTextRenderer {
 
 extension AsyncTextRenderer {
     
-    func drawInContext(_ ctx: CGContext, visibleRect: CGRect = .null, placeAttachments: Bool = true) {
+    public func draw(_ ctx: CGContext, visibleRect: CGRect = .null, placeAttachments: Bool = true) {
         guard let attributedString = textLayout.attributedString, attributedString.length > 1 else { return }
         if !visibleRect.isNull {
             textLayout.maxSize = visibleRect.size
