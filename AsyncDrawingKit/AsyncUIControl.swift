@@ -10,7 +10,7 @@ import UIKit
 
 open class AsyncUIControl: AsyncDrawingView {
     
-    var isEnabled = true {
+    public var isEnabled = true {
         willSet {
             if isEnabled != newValue {
                 stateWillChange()
@@ -20,11 +20,13 @@ open class AsyncUIControl: AsyncDrawingView {
         }
     }
     
-    lazy var isSelected = false
-    lazy var isHighlighted = false
+    public lazy var isSelected = false
+    public lazy var isHighlighted = false
     
-    lazy var redrawsAutomaticallyWhenStateChange = false
+    public lazy var redrawsAutomaticallyWhenStateChange = false
     
+    public lazy var isTouchInside = false
+    public lazy var isTracking = false
     
     fileprivate lazy var targetActions: [TargetAction] = []
     
@@ -38,7 +40,6 @@ open class AsyncUIControl: AsyncDrawingView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    
     public var state: UIControlState {
         var state = UIControlState.normal
         if isHighlighted {
@@ -53,21 +54,27 @@ open class AsyncUIControl: AsyncDrawingView {
         return state
     }
     
-    //public var isTracking: Bool { get }
+    
     
     //public var isTouchInside: Bool { get }
     
     
-    open func addTarget(_ target: Any?, action: Selector, for controlEvents: UIControlEvents) {
-        
+    open func addTarget(_ target: NSObjectProtocol, action: Selector, for controlEvents: UIControlEvents) {
+        let targetAction = TargetAction(action: action, target: target)
+        targetAction.target = target
+        targetAction.controlEvents = controlEvents
+        targetActions.append(targetAction)
+    }
+
+    open func removeTarget(_ target: NSObjectProtocol, action: Selector, for controlEvents: UIControlEvents) {
+        for (i, targetAction) in targetActions.enumerated() {
+            if targetAction.target === target && targetAction.action == action && controlEvents == targetAction.controlEvents {
+                targetActions.remove(at: i)
+            }
+        }
     }
     
-    open func removeTarget(_ target: Any?, action: Selector?, for controlEvents: UIControlEvents) {
-        
-    }
     
-    
-    // get info about target & actions. this makes it possible to enumerate all target/actions by checking for each event kind
     
     //open var allTargets: Set<An> {
 
@@ -79,11 +86,12 @@ open class AsyncUIControl: AsyncDrawingView {
         
     // }
     
-    //open func actions(forTarget target: Any?, forControlEvent controlEvent: UIControlEvents) -> [String]? {
-    //    targetActions.filter { e in
-    //        return target == e.target && controlEvent == e.controlEvents
-   //     }
-   // }
+    open func actions(forTarget target: NSObjectProtocol, forControlEvent controlEvent: UIControlEvents) -> [String]? {
+        let results = targetActions.filter { e in
+            return target === e.target && controlEvent == e.controlEvents
+        }
+        return results.map { String(describing: $0.action) }
+    }
     
     open func sendAction(_ action: Selector, to target: Any?, for event: UIEvent?) {
         UIApplication.shared.sendAction(action, to: target, from: self, for: event)
@@ -95,8 +103,10 @@ open class AsyncUIControl: AsyncDrawingView {
     
     fileprivate func sendActions(for controlEvents: UIControlEvents, with event: UIEvent?) {
         targetActions.forEach { [unowned self] targetAction in
-            if let target = targetAction.target, let action = targetAction.action {
-                self.sendAction(action, to: target, for: event)
+            if let target = targetAction.target {
+                if targetAction.controlEvents == controlEvents {
+                    self.sendAction(targetAction.action, to: target, for: event)
+                }
             }
         }
     }
@@ -110,13 +120,13 @@ open class AsyncUIControl: AsyncDrawingView {
         }
     }
     
-    //open func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
-        
-    //}
+    open func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+        return true
+    }
     
-    //open func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
-        
-    //}
+    open func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+        return true
+    }
     
     open func endTracking(_ touch: UITouch?, with event: UIEvent?) {
         
@@ -124,6 +134,62 @@ open class AsyncUIControl: AsyncDrawingView {
     
     open func cancelTracking(with event: UIEvent?) {
         
+    }
+    
+    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        isTouchInside = true
+        guard let touch = touches.first else { return }
+        isTracking = beginTracking(touch, with: event)
+        isHighlighted = true
+        
+        if isTracking {
+            var controlEvents: UIControlEvents = .touchDown
+            if touch.tapCount > 1 {
+                controlEvents = controlEvents.union(.touchDownRepeat)
+            }
+            
+            sendActions(for: controlEvents, with: event)
+        }
+    }
+    
+    open override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+    }
+    
+    open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touchLocation: CGPoint
+        let touch = touches.first
+        if touch != nil {
+            touchLocation = touch!.location(in: self)
+        } else {
+            touchLocation = .zero
+        }
+        isTouchInside = point(inside: touchLocation, with: event)
+        isHighlighted = false
+        if isTracking {
+            endTracking(touch, with: event)
+            let controlEvents: UIControlEvents
+            if isTouchInside {
+                controlEvents = .touchUpInside
+            } else {
+                controlEvents = .touchUpOutside
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: { [unowned self] in
+                self.sendActions(for: controlEvents, with: event)
+            })
+        }
+        isTouchInside = false
+        isTracking = false
+    }
+    
+    open override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        isHighlighted = false
+        if isTracking {
+            cancelTracking(with: event)
+            sendActions(for: .touchCancel, with: event)
+        }
+        isTouchInside = false
+        isTracking = false
     }
 }
 
@@ -140,9 +206,14 @@ fileprivate extension AsyncUIControl {
     }
 }
 
-fileprivate class TargetAction: NSObject {
+fileprivate class TargetAction {
     
-    var action: Selector?
-    weak var target: AnyObject?
+    let action: Selector!
+    weak var target: NSObjectProtocol!
     var controlEvents: UIControlEvents = []
+    
+    init(action: Selector, target: NSObjectProtocol) {
+        self.action = action
+        self.target = target
+    }
 }

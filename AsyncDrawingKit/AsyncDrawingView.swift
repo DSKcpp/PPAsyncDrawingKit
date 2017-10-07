@@ -208,8 +208,8 @@ fileprivate final class AsyncDrawingViewLayer: CALayer {
         super.setNeedsDisplay()
     }
     
-    override func setNeedsDisplayIn(_ r: CGRect) {
+    override func setNeedsDisplay(_ r: CGRect) {
         increaseDrawingCount()
-        super.setNeedsDisplayIn(r)
+        super.setNeedsDisplay(r)
     }
 }

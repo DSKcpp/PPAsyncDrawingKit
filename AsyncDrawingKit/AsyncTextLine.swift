@@ -14,14 +14,18 @@ class AsyncTextLine {
     let line: CTLine
     let stringRange: NSRange
     let width: CGFloat
-    private(set) var fontMetrics = AsyncTextFontMetrics()
+    private(set) var fontMetrics: AsyncTextFontMetrics!
 
     init(CTLine: CTLine, origin: CGPoint) {
         baselineOrigin = origin
         line = CTLine
         let range = CTLineGetStringRange(line)
         stringRange = range.nsRange()
-        width = CGFloat(CTLineGetTypographicBounds(line, &fontMetrics.ascent, &fontMetrics.descent, &fontMetrics.leading))
+        var ascent: CGFloat = 0
+        var descent: CGFloat = 0
+        var leading: CGFloat = 0
+        width = CGFloat(CTLineGetTypographicBounds(line, &ascent, &descent, &leading))
+        fontMetrics = AsyncTextFontMetrics(ascent: ascent, descent: descent, leading: leading)
     }
 
     func fragmentRect() -> CGRect {

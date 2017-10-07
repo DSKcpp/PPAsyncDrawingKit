@@ -36,12 +36,17 @@ public class AsyncTextFrame {
                 lines.append(aLine)
             } else {
                 let stringRange = CTLineGetStringRange(line)
+                var aLine: AsyncTextLine?
                 if stringRange.end() >= textLayout.attributedString?.length ?? 0 {
-                    let aLine = AsyncTextLine(CTLine: line, origin: position)
-                    lines.append(aLine)
+                    aLine = AsyncTextLine(CTLine: line, origin: position)
+                    
                 } else if let truncatedLine = createTruncatedLine(textLayout: textLayout, lastLineStringRange: stringRange) {
-                    let aLine = AsyncTextLine(CTLine: truncatedLine, origin: position)
+                    aLine = AsyncTextLine(CTLine: truncatedLine, origin: position)
+                }
+                
+                if let aLine = aLine {
                     lines.append(aLine)
+                    break
                 }
             }
         }
@@ -57,12 +62,14 @@ public class AsyncTextFrame {
             truncateToken = tt
         } else {
             let truncateTokenAttributes = attributedString.attributes(at: lastLineStringRange.location, effectiveRange: nil)
-            let keys = [NSForegroundColorAttributeName, NSFontAttributeName, NSParagraphStyleAttributeName]
-            var notNilTruncateTokenAttributes: [String:Any] = [:]
-            truncateTokenAttributes.filter { keys.contains($0.key) }.forEach { key, value in
+            let keys = [NSAttributedStringKey.foregroundColor, NSAttributedStringKey.font, NSAttributedStringKey.paragraphStyle]
+            var notNilTruncateTokenAttributes: [NSAttributedStringKey:Any] = [:]
+            truncateTokenAttributes.filter { keys.contains($0.key) }.forEach { (arg) in
+                
+                let (key, value) = arg
                 notNilTruncateTokenAttributes[key] = value
             }
-            truncateToken = NSAttributedString(string: "\\u2026", attributes: notNilTruncateTokenAttributes)
+            truncateToken = NSAttributedString(string: "\u{2026}", attributes: notNilTruncateTokenAttributes)
         }
         let truncateTokenLine = CTLineCreateWithAttributedString(truncateToken)
         let lastLineAttrStr = attributedString.attributedSubstring(from: lastLineStringRange.nsRange()).mutableCopy() as! NSMutableAttributedString

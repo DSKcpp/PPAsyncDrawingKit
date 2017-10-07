@@ -533,7 +533,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "AsyncDrawingKit-Demo/AsyncDrawingKit-Demo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -549,7 +549,7 @@
 				SWIFT_INCLUDE_PATHS = zlib;
 				SWIFT_OBJC_BRIDGING_HEADER = "AsyncDrawingKit-Demo/AsyncDrawingKit-Demo-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

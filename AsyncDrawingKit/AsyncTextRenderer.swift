@@ -277,7 +277,7 @@ extension AsyncTextRenderer {
     func highlightRangeForLayoutLocation(_ location: CGPoint) -> AsyncTextHighlight? {
         guard let attributedString = textLayout.attributedString else { return nil }
         var result: AsyncTextHighlight? = nil
-        attributedString.enumerateAttribute(AsyncTextHighlightAttributeName, in: attributedString.range, options: [], using: { [weak self] value, range, stop in
+        attributedString.enumerateAttribute(NSAttributedStringKey(rawValue: AsyncTextHighlightAttributeName), in: attributedString.range, options: [], using: { [weak self] value, range, stop in
             guard let `self` = self else { return }
             if var high = value as? AsyncTextHighlight {
                 self.textLayout.enumerateEnclosingRectsForCharacterRange(range, usingBlock: { rect, sstop in

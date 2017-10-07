@@ -10,7 +10,7 @@ import UIKit
 
 open class AsyncTableView: UITableView {
     
-    public var afterAsyncTime: TimeInterval = 1
+    public var afterAsyncTime: TimeInterval = 1.0
 
     override open func reloadData() {
         AsyncDrawingView.globallyAsyncDrawingEnabled = false
