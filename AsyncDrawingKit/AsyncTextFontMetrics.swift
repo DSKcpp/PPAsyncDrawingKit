@@ -10,7 +10,11 @@ import UIKit
 
 struct AsyncTextFontMetrics {
     
-    var ascent: CGFloat = 0
-    var descent: CGFloat = 0
-    var leading: CGFloat = 0
+    var ascent: CGFloat
+    var descent: CGFloat
+    var leading: CGFloat
+    
+    static var zero: AsyncTextFontMetrics {
+        return AsyncTextFontMetrics(ascent: 0, descent: 0, leading: 0)
+    }
 }

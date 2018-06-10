@@ -33,13 +33,13 @@ class AsyncTextLine {
         return CGRect(x: baselineOrigin.x, y: baselineOrigin.y - fontMetrics.ascent, width: width, height: height)
     }
     
-    func forEach(_ body: ([String : Any], NSRange) throws -> Void) rethrows {
+    func forEach(_ body: ([NSAttributedStringKey : Any], NSRange) throws -> Void) rethrows {
         let runs = CTLineGetGlyphRuns(line)
         let count = CFArrayGetCount(runs)
         if count > 0 {
             let runs = runs as! [CTRun]
             runs.forEach { run in
-                let attrs = CTRunGetAttributes(run) as! [String : Any]
+                let attrs = CTRunGetAttributes(run) as! [NSAttributedStringKey : Any]
                 let range = CTRunGetStringRange(run).nsRange()
                 do {
                     try body(attrs, range)

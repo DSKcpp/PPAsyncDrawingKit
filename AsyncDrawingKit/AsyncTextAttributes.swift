@@ -8,22 +8,48 @@
 
 import UIKit
 
-public let AsyncTextHighlightAttributeName: String = "AsyncTextHighlightAttribute"
+public typealias UserInfo = [String: Any]
 
-public struct AsyncTextHighlight {
-    var range: NSRange
-    var userInfo: [String : Any] = [:]
-    var textColor: UIColor
-    var font: UIFont
-    var border: AsyncTextBorder
+public struct AsyncTextSelected {
+    
+    public var rect: CGRect = .zero
+    public var range: NSRange = NSRange(location: 0, length: 0)
+    public var userInfo: UserInfo?
+    public var selected: ((UserInfo?) -> Void)?
+    public var border: AsyncTextBorder?
+    
+    public init() {
+        
+    }
+    
+    public init(rect: CGRect, range: NSRange, userInfo: [String: Any]?, selected: (([String: Any]?) -> Void)?, border: AsyncTextBorder?) {
+        self.rect = rect
+        self.range = range
+        self.userInfo = userInfo
+        self.selected = selected
+        self.border = border
+    }
 }
 
 public struct AsyncTextBorder {
-    var fillColor: UIColor?
-    var cornerRadius: CGFloat = 4
+    
+    public var fillColor: UIColor?
+    public var cornerRadius: CGFloat = 4
+    public var rect: CGRect = .zero
+    
+    public init(fillColor: UIColor?, cornerRadius: CGFloat = 4) {
+        self.fillColor = fillColor
+        self.cornerRadius = cornerRadius
+    }
 }
 
 public struct AsyncTextBackground {
     var userInfo: [String : Any] = [:]
     var backgroundColor: UIColor
+}
+
+extension NSAttributedStringKey {
+    
+    public static let border = NSAttributedStringKey("NSAttributedStringKeyAsyncBorder")
+    public static let selected = NSAttributedStringKey("NSAttributedStringKeyAsyncSelected")
 }

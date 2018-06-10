@@ -11,16 +11,14 @@ import UIKit
 protocol AsyncTextRendererEventDelegate: NSObjectProtocol {
     
     func contextViewForTextRenderer(_ textRenderer: AsyncTextRenderer) -> AsyncDrawingView?
-    
-//    func textRenderer(_ textRenderer: AsyncTextRenderer, didPressTextHighlightRange:)
-//    pressedTextBackground
 }
 
 public final class AsyncTextRenderer: UIResponder {
     
     var textLayout: AsyncTextLayout!
     weak var delegate: AsyncTextRendererEventDelegate?
-    var pressingHighlight: AsyncTextHighlight?
+    var pressingSelected: AsyncTextSelected?
+    private lazy var touchesBeginPoint: CGPoint = .zero
     
     public static var debugModeEnabled = false
     
@@ -45,116 +43,66 @@ extension AsyncTextRenderer {
         var point = CGPoint.zero
         if let touch = touches?.first {
             point = touch.location(in: touchView)
+            point = convertPointToLayout(point)
         }
-        point = convertPointToLayout(point)
-        if let high = highlightRangeForLayoutLocation(point) {
-            pressingHighlight = high
+        
+        if let selected = selectedRangeForLayoutLocation(point) {
+            pressingSelected = selected
             touchView.setNeedsDisplayMainThread()
         }
+        touchesBeginPoint = point
     }
     
     override open func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+        //        if let touchView = delegate?.contextViewForTextRenderer(self) {
+        //            let touches = event?.touches(for: touchView)
+        //            var point = CGPoint.zero
+        //            if let touch = touches?.first {
+        //                point = touch.location(in: touchView)
+        //                point = convertPointToLayout(point)
+        //            }
+        //            var touchInside = false
+        //            if let pressingBorder = pressingBorder {
+        //                touchInside = pressingBorder.rect.contains(point)
+        //            }
+        //
+        //            print(touchInside)
+        //        }
     }
     
     override open func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+        if let touchView = delegate?.contextViewForTextRenderer(self) {
+            let touches = event?.touches(for: touchView)
+            var point = CGPoint.zero
+            if let touch = touches?.first {
+                point = touch.location(in: touchView)
+                point = convertPointToLayout(point)
+            }
+            
+            var touchInside = false
+            if let pressingSelected = pressingSelected {
+                touchInside = pressingSelected.rect.contains(point)
+                if touchInside {
+                    pressingSelected.selected?(pressingSelected.userInfo)
+                }
+                touchView.setNeedsDisplayMainThread()
+            }
+        }
+        pressingSelected = nil
+        touchesBeginPoint = .zero
     }
     
     override open func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touchView = delegate?.contextViewForTextRenderer(self) {
+            if let _ = pressingSelected {
+                touchView.setNeedsDisplayMainThread()
+            }
+        }
         
+        pressingSelected = nil
+        touchesBeginPoint = .zero
     }
 }
-
-
-//#pragma mark - Event
-//- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-//{
-//    PPAsyncDrawingView *touchView = self.eventDelegateContextView;
-//    if (!touchView) {
-//        return;
-//    }
-//    
-//    NSSet<UITouch *> * _touches = [event touchesForView:touchView];
-//    UITouch *touch = _touches.anyObject;
-//    CGPoint point = CGPointZero;
-//    if (touch) {
-//        point = [touch locationInView:touchView];
-//    }
-//    point = [self convertPointToLayout:point];
-//    PPTextHighlightRange *range = [self highlightRangeForLayoutLocation:point];
-//    if (range) {
-//        self.pressingHighlightRange = range;
-//        [touchView setNeedsDisplayMainThread];
-//    } else if (self.textLayout.highlighttextBackground) {
-//        self.highlight = YES;
-//        [touchView setNeedsDisplayMainThread];
-//    }
-//    _touchesBeginPoint = point;
-//    }
-//    
-//    - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-//{
-//    PPAsyncDrawingView *touchView = self.eventDelegateContextView;
-//    UITouch *touch = touches.anyObject;
-//    CGPoint point = CGPointZero;
-//    if (touch) {
-//        point = [touch locationInView:touchView];
-//    }
-//    //    CGPoint touchesBeginPoint = _touchesBeginPoint;
-//    
-//    BOOL touchInside = YES;
-//    //    CGFloat left = touchView.bounds.size.width - touchesBeginPoint.x;
-//    //    if (point.x > touchesBeginPoint.x) {
-//    //        touchInside = NO;
-//    //    }
-//    if (!touchInside) {
-//        PPTextHighlightRange *r = _pressingHighlightRange;
-//        if (r) {
-//            _pressingHighlightRange = nil;
-//            _savedPressingHighlightRange = r;
-//            [touchView setNeedsDisplayMainThread];
-//        }
-//    } else {
-//        if (_savedPressingHighlightRange) {
-//            _pressingHighlightRange = _savedPressingHighlightRange;
-//            [touchView setNeedsDisplayMainThread];
-//        }
-//    }
-//    }
-//    
-//    - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-//{
-//    _savedPressingHighlightRange = nil;
-//    PPTextHighlightRange *high = self.pressingHighlightRange;
-//    if (high) {
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//            [self eventDelegateDidPressHighlightRange:high];
-//            });
-//        self.pressingHighlightRange = nil;
-//        PPAsyncDrawingView *touchView = self.eventDelegateContextView;
-//        [touchView setNeedsDisplayMainThread];
-//    } else if (self.textLayout.highlighttextBackground) {
-//        PPAsyncDrawingView *touchView = self.eventDelegateContextView;
-//        self.highlight = NO;
-//        [touchView setNeedsDisplayMainThread];
-//        
-//    }
-//    }
-//    
-//    - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-//{
-//    _savedPressingHighlightRange = nil;
-//    if (_pressingHighlightRange) {
-//        _pressingHighlightRange = nil;
-//        PPAsyncDrawingView *touchView = self.eventDelegateContextView;
-//        [touchView setNeedsDisplayMainThread];
-//    } else if (self.textLayout.highlighttextBackground) {
-//        PPAsyncDrawingView *touchView = self.eventDelegateContextView;
-//        self.highlight = NO;
-//        [touchView setNeedsDisplayMainThread];
-//    }
-//}
 
 extension AsyncTextRenderer {
     
@@ -192,24 +140,22 @@ extension AsyncTextRenderer {
 extension AsyncTextRenderer {
     
     public func draw(_ ctx: CGContext, visibleRect: CGRect = .null, placeAttachments: Bool = true) {
-        guard let attributedString = textLayout.attributedString, attributedString.length > 1 else { return }
+        guard let attributedString = textLayout.attributedString, attributedString.length > 0 else { return }
         if !visibleRect.isNull {
             textLayout.maxSize = visibleRect.size
         }
-        
         guard let layoutFrame = textLayout.nowLayoutFrame() else { return }
-        
-        
         if AsyncTextRenderer.debugModeEnabled {
             drawdebugMode(layoutFrame, ctx: ctx)
         }
         
-        if let highlight = pressingHighlight {
-            textLayout.enumerateEnclosingRectsForCharacterRange(highlight.range, usingBlock: { [weak self] rect, stop in
-                guard let `self` = self else { return }
-                let drawRect = self.convertRectFromLayout(rect)
-                self.drawBorder(highlight.border, rect: drawRect, ctx: ctx)
-            })
+        if let pressingSelected = pressingSelected {
+            if let border = pressingSelected.border {
+                textLayout.enumerateEnclosingRectsForCharacterRange(pressingSelected.range, usingBlock: { (rect, stop) in
+                    let drawRect = convertRectFromLayout(rect)
+                    drawBorder(border, rect: drawRect, ctx: ctx)
+                })
+            }
         }
         
         if let highlightTextBackground = textLayout.highlightTextBackground {
@@ -218,36 +164,42 @@ extension AsyncTextRenderer {
         drawText(layoutFrame, ctx: ctx)
     }
     
-    func drawBorder(_ border: AsyncTextBorder?, rect: CGRect, ctx: CGContext) {
-        guard let border = border else { return }
+    func drawBorder(_ border: AsyncTextBorder, rect: CGRect, ctx: CGContext) {
         let color: CGColor
         if let fillColor = border.fillColor {
             color = fillColor.cgColor
         } else {
             color = UIColor(white: 0.5, alpha: 1.0).cgColor
         }
+        ctx.saveGState()
         ctx.setFillColor(color)
-        ctx.beginPath()
-        var x = rect.minX
-        var y = rect.minY
-        let w = rect.width
-        let h = rect.height
         let radius = border.cornerRadius
-        ctx.move(to: CGPoint(x: x + radius, y: y))
-        x += w
-        ctx.addLine(to: CGPoint(x: x + w - radius, y: y))
-        ctx.addArc(center: CGPoint(x: x - radius, y: y + radius), radius: radius, startAngle: -0.5 * .pi, endAngle: 0, clockwise: false)
-        y += h
-        ctx.addLine(to: CGPoint(x: x, y: y))
-        ctx.addArc(center: CGPoint(x: x - radius, y: y - radius), radius: radius, startAngle: 0, endAngle: 0.5 * .pi, clockwise: false)
-        x -= w
-        ctx.addLine(to: CGPoint(x: x + radius, y: y))
-        ctx.addArc(center: CGPoint(x: x + radius, y: y - radius), radius: radius, startAngle: 0.5 * .pi, endAngle: .pi, clockwise: false)
-        y -= h
-        ctx.addLine(to: CGPoint(x: x, y: y))
-        ctx.addArc(center: CGPoint(x: x + radius, y: y + radius), radius: radius, startAngle: .pi, endAngle: 1.5 * .pi, clockwise: false)
-        ctx.closePath()
-        ctx.fillPath()
+        if radius <= 0 {
+            ctx.fill(rect)
+        } else {
+            ctx.beginPath()
+            var x = rect.minX
+            var y = rect.minY
+            let w = rect.width
+            let h = rect.height
+            
+            ctx.move(to: CGPoint(x: x + radius, y: y))
+            x += w
+            ctx.addLine(to: CGPoint(x: x + w - radius, y: y))
+            ctx.addArc(center: CGPoint(x: x - radius, y: y + radius), radius: radius, startAngle: -0.5 * .pi, endAngle: 0, clockwise: false)
+            y += h
+            ctx.addLine(to: CGPoint(x: x, y: y))
+            ctx.addArc(center: CGPoint(x: x - radius, y: y - radius), radius: radius, startAngle: 0, endAngle: 0.5 * .pi, clockwise: false)
+            x -= w
+            ctx.addLine(to: CGPoint(x: x + radius, y: y))
+            ctx.addArc(center: CGPoint(x: x + radius, y: y - radius), radius: radius, startAngle: 0.5 * .pi, endAngle: .pi, clockwise: false)
+            y -= h
+            ctx.addLine(to: CGPoint(x: x, y: y))
+            ctx.addArc(center: CGPoint(x: x + radius, y: y + radius), radius: radius, startAngle: .pi, endAngle: 1.5 * .pi, clockwise: false)
+            ctx.closePath()
+            ctx.fillPath()
+        }
+        ctx.restoreGState()
     }
     
     func drawTextBackground(_ textBackground: AsyncTextBackground, ctx: CGContext) {
@@ -274,16 +226,16 @@ extension AsyncTextRenderer {
 
 extension AsyncTextRenderer {
     
-    func highlightRangeForLayoutLocation(_ location: CGPoint) -> AsyncTextHighlight? {
+    func selectedRangeForLayoutLocation(_ location: CGPoint) -> AsyncTextSelected? {
         guard let attributedString = textLayout.attributedString else { return nil }
-        var result: AsyncTextHighlight? = nil
-        attributedString.enumerateAttribute(NSAttributedStringKey(rawValue: AsyncTextHighlightAttributeName), in: attributedString.range, options: [], using: { [weak self] value, range, stop in
+        var result: AsyncTextSelected? = nil
+        attributedString.enumerateAttribute(.selected, in: attributedString.range, options: [], using: { [weak self] value, range, stop in
             guard let `self` = self else { return }
-            if var high = value as? AsyncTextHighlight {
+            if var sel = value as? AsyncTextSelected {
                 self.textLayout.enumerateEnclosingRectsForCharacterRange(range, usingBlock: { rect, sstop in
                     if rect.contains(location) {
-                        high.range = range
-                        result = high
+                        sel.rect = rect
+                        result = sel
                         sstop.pointee = true
                         stop.pointee = true
                         return
@@ -293,6 +245,27 @@ extension AsyncTextRenderer {
         })
         return result
     }
+    
+    func borderForLayoutLocation(_ location: CGPoint) -> AsyncTextBorder? {
+        guard let attributedString = textLayout.attributedString else { return nil }
+        var result: AsyncTextBorder? = nil
+        attributedString.enumerateAttribute(.border, in: attributedString.range, options: []) { [weak self] value, range, stop in
+            guard let `self` = self else { return }
+            if var border = value as? AsyncTextBorder {
+                self.textLayout.enumerateEnclosingRectsForCharacterRange(range, usingBlock: { rect, sstop in
+                    if rect.contains(location) {
+                        border.rect = rect
+                        result = border
+                        sstop.pointee = true
+                        stop.pointee = true
+                        return
+                    }
+                })
+            }
+        }
+        return result
+    }
+    
 }
 
 extension AsyncTextRenderer {

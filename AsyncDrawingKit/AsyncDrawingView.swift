@@ -20,7 +20,7 @@ open class AsyncDrawingView: UIView {
     public var drawingStart: AsyncBoolBlock?
     public var drawingFinish: AsyncCompletionBlock?
     
-    func setNeedsDisplayMainThread() {
+    open func setNeedsDisplayMainThread() {
         viewStatus = .touch
         setNeedsDisplay()
     }
@@ -35,19 +35,23 @@ open class AsyncDrawingView: UIView {
         case touch
     }
     
-    fileprivate(set) var viewStatus = ViewStatus.normal
+    private(set) var viewStatus = ViewStatus.normal
     
     var drawingCount: Int32 {
         return asynclayer.drawingCount
     }
     
-    fileprivate let drawQueue = DispatchQueue(label: "io.github.dskcpp.drawQueue", attributes: .concurrent)
+    private static let concurrentQueue = ConcurrentQueue(name: "io.67373.drawQueue", qos: .userInteractive)
     
-    fileprivate var asynclayer: AsyncDrawingViewLayer {
+    private var drawQueue: DispatchQueue {
+        return AsyncDrawingView.concurrentQueue.idle()
+    }
+
+    private var asynclayer: AsyncDrawingViewLayer {
         return layer as! AsyncDrawingViewLayer
     }
     
-    fileprivate var drawCurrentContentAsync: Bool {
+    private var drawCurrentContentAsync: Bool {
         if viewStatus == .touch {
             return false
         } else {
@@ -65,7 +69,7 @@ open class AsyncDrawingView: UIView {
         initial()
     }
     
-    fileprivate func initial() {
+    private func initial() {
         isOpaque = false
         layer.contentsScale = Configs.Screen.scale
     }
@@ -78,14 +82,11 @@ extension AsyncDrawingView {
     }
 }
 
-fileprivate extension AsyncDrawingView {
+private extension AsyncDrawingView {
     
     func display(_ layer: AsyncDrawingViewLayer, rect: CGRect, started: @escaping AsyncBoolBlock, finished: @escaping AsyncBoolBlock, interruped: @escaping AsyncBoolBlock) {
         
-        var async = false
-        if drawCurrentContentAsync && AsyncDrawingView.globallyAsyncDrawingEnabled {
-            async = true
-        }
+        let isAsync = drawCurrentContentAsync && AsyncDrawingView.globallyAsyncDrawingEnabled
         
         layer.increaseDrawingCount()
         let drawCount = layer.drawingCount
@@ -95,20 +96,29 @@ fileprivate extension AsyncDrawingView {
         }
         
         let drawingContents: () -> Void = {
-            guard !needCancel() else { interruped(async); return }
+            guard !needCancel() else {
+                interruped(isAsync)
+                return
+            }
             
             let size = layer.bounds.size
-            guard size != .zero else { interruped(async); return }
+            guard size != .zero else {
+                interruped(isAsync)
+                return
+            }
             
             let scale = layer.contentsScale
             UIGraphicsBeginImageContextWithOptions(size, layer.isOpaque, scale)
-            guard let ctx = UIGraphicsGetCurrentContext() else { interruped(async); return }
+            guard let ctx = UIGraphicsGetCurrentContext() else {
+                interruped(isAsync)
+                return
+            }
             ctx.saveGState()
             
             if needCancel() {
                 ctx.restoreGState()
                 UIGraphicsEndImageContext()
-                interruped(async)
+                interruped(isAsync)
                 return
             }
             
@@ -117,12 +127,12 @@ fileprivate extension AsyncDrawingView {
                 ctx.fill(CGRect(origin: .zero, size: CGSize(width: size.width * scale, height: size.height * scale)))
             }
             
-            let drawingSuccess = self.draw(CGRect(origin: .zero, size: size), in: ctx, async: async)
+            let drawingSuccess = self.draw(CGRect(origin: .zero, size: size), in: ctx, async: isAsync)
             ctx.restoreGState()
             
             if !drawingSuccess || needCancel() {
                 UIGraphicsEndImageContext()
-                interruped(async)
+                interruped(isAsync)
                 return
             }
             
@@ -134,7 +144,7 @@ fileprivate extension AsyncDrawingView {
             
             DispatchQueue.main.async {
                 if needCancel() {
-                    interruped(async)
+                    interruped(isAsync)
                     return
                 }
                 
@@ -142,13 +152,13 @@ fileprivate extension AsyncDrawingView {
                 
                 self.clearsContextBeforeDrawing = true
                 self.viewStatus = .normal
-                finished(async)
+                finished(isAsync)
             }
         }
         
-        started(async)
+        started(isAsync)
         
-        if async {
+        if isAsync {
             if clearsContextBeforeDrawing {
                 layer.contents = nil
             }
@@ -178,7 +188,7 @@ extension AsyncDrawingView {
     }
 }
 
-fileprivate extension AsyncDrawingView {
+private extension AsyncDrawingView {
     
     func drawingWillStartAsync(_ async: Bool) {
         guard let drawingStart = drawingStart else { return }
@@ -195,7 +205,7 @@ fileprivate extension AsyncDrawingView {
     }
 }
 
-fileprivate final class AsyncDrawingViewLayer: CALayer {
+private final class AsyncDrawingViewLayer: CALayer {
     
     public private(set) var drawingCount: Int32 = 0
     

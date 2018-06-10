@@ -10,18 +10,47 @@ import UIKit
 
 open class AsyncUIControl: AsyncDrawingView {
     
-    public var isEnabled = true {
-        willSet {
-            if isEnabled != newValue {
+    private lazy var _isEnabled = true
+    
+    public var isEnabled: Bool {
+        get {
+            return _isEnabled
+        } set {
+            if newValue != _isEnabled {
                 stateWillChange()
+                _isEnabled = newValue
+                stateDidChange()
             }
-        } didSet {
-            stateDidChange()
         }
     }
     
-    public lazy var isSelected = false
-    public lazy var isHighlighted = false
+    private lazy var _isSelected = false
+    
+    public var isSelected: Bool {
+        get {
+            return _isSelected
+        } set {
+            if newValue != _isSelected {
+                stateWillChange()
+                _isSelected = newValue
+                stateDidChange()
+            }
+        }
+    }
+    
+    private lazy var _isHighlighted = false
+    
+    public var isHighlighted: Bool {
+        get {
+            return _isHighlighted
+        } set {
+            if newValue != _isHighlighted {
+                stateWillChange()
+                _isHighlighted = newValue
+                stateDidChange()
+            }
+        }
+    }
     
     public lazy var redrawsAutomaticallyWhenStateChange = false
     
@@ -111,9 +140,8 @@ open class AsyncUIControl: AsyncDrawingView {
         }
     }
     
-    
     func stateToString(_ state: UIControlState) -> String {
-        if (state.contains(.normal)) {
+        if state.contains(.normal) {
             return "normal"
         } else {
             return ""
@@ -153,7 +181,18 @@ open class AsyncUIControl: AsyncDrawingView {
     }
     
     open override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+        let touchLocation: CGPoint
+        let touch = touches.first
+        if touch != nil {
+            touchLocation = touch!.location(in: self)
+        } else {
+            touchLocation = .zero
+        }
+        isTouchInside = point(inside: touchLocation, with: event)
+        isHighlighted = isTouchInside
+        if isTracking {
+//            let continueTracking = self.continueTracking(touch, with: event)
+        }
     }
     
     open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {

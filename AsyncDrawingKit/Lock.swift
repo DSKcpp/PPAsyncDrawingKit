@@ -8,7 +8,13 @@
 
 import UIKit
 
-final class Lock: NSLocking {
+protocol Lockable {
+    func lock()
+    func unlock()
+    func sync<R>(execute work: () throws -> R) rethrows -> R
+}
+
+final class Lock: Lockable {
     
     private var mutex = pthread_mutex_t()
     

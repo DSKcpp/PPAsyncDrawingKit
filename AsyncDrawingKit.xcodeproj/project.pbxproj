@@ -26,6 +26,7 @@
 		8664DDA11EE951EF0005973D /* AsyncUIControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8664DDA01EE951EF0005973D /* AsyncUIControl.swift */; };
 		8664DDA31EE952DD0005973D /* UIImage+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8664DDA21EE952DD0005973D /* UIImage+Async.swift */; };
 		866B114C1F6E9582007446A4 /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B114B1F6E9582007446A4 /* AsyncButton.swift */; };
+		868B068220C7BB59001EEDB5 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B068120C7BB59001EEDB5 /* Queue.swift */; };
 		86AA7A451EF2AE8A0016E49D /* Lock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AA7A441EF2AE8A0016E49D /* Lock.swift */; };
 		86E9E9A41EDB3D3800BF802B /* AsyncMultiplexTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E9E9A31EDB3D3800BF802B /* AsyncMultiplexTextView.swift */; };
 /* End PBXBuildFile section */
@@ -52,6 +53,7 @@
 		8664DDA01EE951EF0005973D /* AsyncUIControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncUIControl.swift; sourceTree = "<group>"; };
 		8664DDA21EE952DD0005973D /* UIImage+Async.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Async.swift"; sourceTree = "<group>"; };
 		866B114B1F6E9582007446A4 /* AsyncButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncButton.swift; sourceTree = "<group>"; };
+		868B068120C7BB59001EEDB5 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		86AA7A441EF2AE8A0016E49D /* Lock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lock.swift; sourceTree = "<group>"; };
 		86E9E9A31EDB3D3800BF802B /* AsyncMultiplexTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncMultiplexTextView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -86,18 +88,15 @@
 		864781811ED1813D003990E3 /* AsyncDrawingKit */ = {
 			isa = PBXGroup;
 			children = (
-				86E41A0C1EF8C6CE00513964 /* Text */,
-				86E41A0B1EF8C6C500513964 /* Image */,
 				864781821ED1813D003990E3 /* AsyncDrawingKit.h */,
 				8647818A1ED18161003990E3 /* AsyncDrawingView.swift */,
-				8664DDA01EE951EF0005973D /* AsyncUIControl.swift */,
-				86AA7A441EF2AE8A0016E49D /* Lock.swift */,
-				864781921ED18161003990E3 /* Configs.swift */,
-				8664DDA21EE952DD0005973D /* UIImage+Async.swift */,
+				8697D7AB1F8C93A800606366 /* UIControl */,
+				86E41A0B1EF8C6C500513964 /* Image */,
+				8697D7AC1F8C93B800606366 /* Button */,
+				86E41A0C1EF8C6CE00513964 /* Text */,
+				8697D7AE1F8C93E800606366 /* Other View */,
+				8697D7AD1F8C93D300606366 /* Base */,
 				864781831ED1813D003990E3 /* Info.plist */,
-				86484A7E1EF0F7CC00D30DC4 /* AsyncQueuePoolView.swift */,
-				8658C4441EF36CA7008C1EDE /* AsyncTableView.swift */,
-				866B114B1F6E9582007446A4 /* AsyncButton.swift */,
 			);
 			path = AsyncDrawingKit;
 			sourceTree = "<group>";
@@ -113,10 +112,46 @@
 			name = CoreText;
 			sourceTree = "<group>";
 		};
+		8697D7AB1F8C93A800606366 /* UIControl */ = {
+			isa = PBXGroup;
+			children = (
+				8664DDA01EE951EF0005973D /* AsyncUIControl.swift */,
+			);
+			name = UIControl;
+			sourceTree = "<group>";
+		};
+		8697D7AC1F8C93B800606366 /* Button */ = {
+			isa = PBXGroup;
+			children = (
+				866B114B1F6E9582007446A4 /* AsyncButton.swift */,
+			);
+			name = Button;
+			sourceTree = "<group>";
+		};
+		8697D7AD1F8C93D300606366 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				86AA7A441EF2AE8A0016E49D /* Lock.swift */,
+				864781921ED18161003990E3 /* Configs.swift */,
+				868B068120C7BB59001EEDB5 /* Queue.swift */,
+			);
+			name = Base;
+			sourceTree = "<group>";
+		};
+		8697D7AE1F8C93E800606366 /* Other View */ = {
+			isa = PBXGroup;
+			children = (
+				86484A7E1EF0F7CC00D30DC4 /* AsyncQueuePoolView.swift */,
+				8658C4441EF36CA7008C1EDE /* AsyncTableView.swift */,
+			);
+			name = "Other View";
+			sourceTree = "<group>";
+		};
 		86E41A0B1EF8C6C500513964 /* Image */ = {
 			isa = PBXGroup;
 			children = (
 				8664DD9E1EE951A40005973D /* AsyncImageView.swift */,
+				8664DDA21EE952DD0005973D /* UIImage+Async.swift */,
 			);
 			name = Image;
 			sourceTree = "<group>";
@@ -175,7 +210,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = DSKcpp;
 				TargetAttributes = {
 					8647817E1ED1813D003990E3 = {
@@ -219,6 +254,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				86484A7F1EF0F7CC00D30DC4 /* AsyncQueuePoolView.swift in Sources */,
+				868B068220C7BB59001EEDB5 /* Queue.swift in Sources */,
 				8664DD9F1EE951A40005973D /* AsyncImageView.swift in Sources */,
 				864781A91ED18161003990E3 /* String+Extension.swift in Sources */,
 				8647819C1ED18161003990E3 /* AsyncTextFontMetrics.swift in Sources */,
@@ -258,6 +294,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -265,6 +302,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -319,6 +357,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -326,6 +365,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

@@ -39,6 +39,7 @@ open class AsyncMultiplexTextView: AsyncDrawingView {
 extension AsyncMultiplexTextView {
     
     public func append(_ textLayout: AsyncTextLayout) {
+        textLayout.textRenderer.delegate = self
         internalTextLayouts.append(textLayout)
     }
 }
@@ -57,9 +58,10 @@ extension AsyncMultiplexTextView {
         
         var pressingRange = false
         respondTextRenderer = renderer(at: point)
+        
         if let respondTextRenderer = respondTextRenderer {
             respondTextRenderer.touchesBegan(touches, with: event)
-            if respondTextRenderer.pressingHighlight != nil {
+            if respondTextRenderer.pressingSelected != nil {
                 pressingRange = true
             }
         }
@@ -73,7 +75,7 @@ extension AsyncMultiplexTextView {
         var pressingRange = false
         if let respondTextRenderer = respondTextRenderer {
             respondTextRenderer.touchesMoved(touches, with: event)
-            if respondTextRenderer.pressingHighlight != nil {
+            if respondTextRenderer.pressingSelected != nil {
                 pressingRange = true
             }
         }
@@ -97,4 +99,12 @@ extension AsyncMultiplexTextView {
         }
         super.touchesCancelled(touches, with: event)
     }
+}
+
+extension AsyncMultiplexTextView: AsyncTextRendererEventDelegate {
+    
+    func contextViewForTextRenderer(_ textRenderer: AsyncTextRenderer) -> AsyncDrawingView? {
+        return self
+    }
+    
 }

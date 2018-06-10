@@ -10,6 +10,8 @@ import UIKit
 
 open class AsyncTextView: AsyncDrawingView {
     
+    private let lock = Lock()
+    
     public var attributedString: NSAttributedString? {
         get {
             return textLayout.attributedString
@@ -19,10 +21,35 @@ open class AsyncTextView: AsyncDrawingView {
         }
     }
     
-    public lazy var textLayout: AsyncTextLayout = {
-        let textLayout = AsyncTextLayout()
-        return textLayout
-    }()
+    private var _textLayout: AsyncTextLayout?
+    
+    var numberOfLines: Int {
+        get {
+            return textLayout.numberOfLines
+        } set {
+            textLayout.numberOfLines = newValue
+        }
+    }
+    
+    open var textLayout: AsyncTextLayout {
+        get {
+            return lock.sync {
+                if let result = _textLayout {
+                    return result
+                } else {
+                    let textLayout = AsyncTextLayout()
+                    _textLayout = textLayout
+                    return textLayout
+                }
+            }
+        } set {
+            lock.sync {
+                _textLayout = newValue
+                setNeedsDisplay()
+                invalidateIntrinsicContentSize()
+            }
+        }
+    }
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,16 +62,20 @@ open class AsyncTextView: AsyncDrawingView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    open override var intrinsicContentSize: CGSize {
+        return textLayout.layoutSize
+    }
+    
     override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         textLayout.textRenderer.touchesBegan(touches, with: event)
-        if textLayout.textRenderer.pressingHighlight == nil {
+        if textLayout.textRenderer.pressingSelected == nil {
             super.touchesBegan(touches, with: event)
         }
     }
     
     override open func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         textLayout.textRenderer.touchesMoved(touches, with: event)
-        if textLayout.textRenderer.pressingHighlight == nil {
+        if textLayout.textRenderer.pressingSelected == nil {
             super.touchesMoved(touches, with: event)
         }
     }

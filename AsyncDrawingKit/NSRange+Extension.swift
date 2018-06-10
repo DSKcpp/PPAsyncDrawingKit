@@ -14,6 +14,10 @@ extension NSRange {
         return CFRange(location: location, length: length)
     }
     
+    func start() -> Int {
+        return location
+    }
+    
     func end() -> Int {
         return location + length
     }
@@ -23,6 +27,10 @@ extension CFRange {
     
     func nsRange() -> NSRange {
         return NSRange(location: location, length: length)
+    }
+    
+    func start() -> CFIndex {
+        return location
     }
     
     func end() -> CFIndex {
