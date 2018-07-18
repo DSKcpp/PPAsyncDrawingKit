@@ -8,7 +8,12 @@
 
 import UIKit
 
-final public class ConcurrentQueue {
+class Queue {
+    
+    static let concurrentQueueGroup = ConcurrentQueueGroup(name: "io.67373.drawQueue", qos: .userInteractive)
+}
+
+final public class ConcurrentQueueGroup {
     
     private var queues: [DispatchQueue] = []
     

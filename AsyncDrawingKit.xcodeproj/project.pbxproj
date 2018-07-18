@@ -16,7 +16,7 @@
 		8647819F1ED18161003990E3 /* AsyncTextLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8647818F1ED18161003990E3 /* AsyncTextLine.swift */; };
 		864781A01ED18161003990E3 /* AsyncTextRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864781901ED18161003990E3 /* AsyncTextRenderer.swift */; };
 		864781A11ED18161003990E3 /* AsyncTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864781911ED18161003990E3 /* AsyncTextView.swift */; };
-		864781A21ED18161003990E3 /* Configs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864781921ED18161003990E3 /* Configs.swift */; };
+		864781A21ED18161003990E3 /* Define.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864781921ED18161003990E3 /* Define.swift */; };
 		864781A71ED18161003990E3 /* NSAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864781971ED18161003990E3 /* NSAttributedString+Extension.swift */; };
 		864781A81ED18161003990E3 /* NSRange+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864781981ED18161003990E3 /* NSRange+Extension.swift */; };
 		864781A91ED18161003990E3 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864781991ED18161003990E3 /* String+Extension.swift */; };
@@ -43,7 +43,7 @@
 		8647818F1ED18161003990E3 /* AsyncTextLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncTextLine.swift; sourceTree = "<group>"; };
 		864781901ED18161003990E3 /* AsyncTextRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncTextRenderer.swift; sourceTree = "<group>"; };
 		864781911ED18161003990E3 /* AsyncTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncTextView.swift; sourceTree = "<group>"; };
-		864781921ED18161003990E3 /* Configs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configs.swift; sourceTree = "<group>"; };
+		864781921ED18161003990E3 /* Define.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Define.swift; sourceTree = "<group>"; };
 		864781971ED18161003990E3 /* NSAttributedString+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		864781981ED18161003990E3 /* NSRange+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSRange+Extension.swift"; sourceTree = "<group>"; };
 		864781991ED18161003990E3 /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
@@ -132,7 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				86AA7A441EF2AE8A0016E49D /* Lock.swift */,
-				864781921ED18161003990E3 /* Configs.swift */,
+				864781921ED18161003990E3 /* Define.swift */,
 				868B068120C7BB59001EEDB5 /* Queue.swift */,
 			);
 			name = Base;
@@ -215,7 +215,7 @@
 				TargetAttributes = {
 					8647817E1ED1813D003990E3 = {
 						CreatedOnToolsVersion = 8.3.2;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -271,7 +271,7 @@
 				8664DDA11EE951EF0005973D /* AsyncUIControl.swift in Sources */,
 				8664DDA31EE952DD0005973D /* UIImage+Async.swift in Sources */,
 				8647819A1ED18161003990E3 /* AsyncDrawingView.swift in Sources */,
-				864781A21ED18161003990E3 /* Configs.swift in Sources */,
+				864781A21ED18161003990E3 /* Define.swift in Sources */,
 				8658C4451EF36CA7008C1EDE /* AsyncTableView.swift in Sources */,
 				864781A71ED18161003990E3 /* NSAttributedString+Extension.swift in Sources */,
 			);
@@ -416,8 +416,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -437,8 +436,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.dskcpp.AsyncDrawingKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};

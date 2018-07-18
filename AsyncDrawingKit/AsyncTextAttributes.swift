@@ -48,8 +48,8 @@ public struct AsyncTextBackground {
     var backgroundColor: UIColor
 }
 
-extension NSAttributedStringKey {
+extension NSAttributedString.Key {
     
-    public static let border = NSAttributedStringKey("NSAttributedStringKeyAsyncBorder")
-    public static let selected = NSAttributedStringKey("NSAttributedStringKeyAsyncSelected")
+    public static let border = NSAttributedString.Key("NSAttributedStringKeyAsyncBorder")
+    public static let selected = NSAttributedString.Key("NSAttributedStringKeyAsyncSelected")
 }

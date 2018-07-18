@@ -15,7 +15,7 @@ public class AsyncTextLayout {
     var text = ""
     var truncationString: NSAttributedString?
     
-    fileprivate var _needsLayout = true
+    private var _needsLayout = true
     var needsLayout: Bool {
         get {
             return Lock().sync { _needsLayout }
@@ -25,7 +25,7 @@ public class AsyncTextLayout {
         }
     }
     
-    fileprivate var _frame: CGRect = .zero
+    private var _frame: CGRect = .zero
     
     public lazy var textRenderer: AsyncTextRenderer = {
         return AsyncTextRenderer(textLayout: self)
@@ -53,7 +53,7 @@ public class AsyncTextLayout {
         return layoutFrame
     }
     
-    fileprivate func createLayoutFrame() -> AsyncTextFrame? {
+    private func createLayoutFrame() -> AsyncTextFrame? {
         guard let attributedString = attributedString, attributedString.length > 0 else { return nil }
         let framesetter = CTFramesetterCreateWithAttributedString(attributedString)
         let rect = CGRect(x: 0, y: 0, width: maxSize.width, height: 20000)

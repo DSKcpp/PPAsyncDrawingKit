@@ -12,25 +12,25 @@ open class AsyncButton: AsyncUIControl {
 
     lazy var titleFont = UIFont.systemFont(ofSize: 15.0)
     
-    fileprivate lazy var titles: [String: String] = [:]
-    fileprivate lazy var titleColors: [String: UIColor] = [:]
-    fileprivate lazy var images: [String: UIImage] = [:]
-    fileprivate lazy var backgroundImages: [String: UIImage] = [:]
+    private lazy var titles: [UIControl.State: String] = [:]
+    private lazy var titleColors: [UIControl.State: UIColor] = [:]
+    private lazy var images: [UIControl.State: UIImage] = [:]
+    private lazy var backgroundImages: [UIControl.State: UIImage] = [:]
     
-    fileprivate let lock = Lock()
+    private let lock = Lock()
     
-    fileprivate lazy var buttonInfo = AsyncButtonInfo()
+    private lazy var buttonInfo = AsyncButtonInfo()
     
-    fileprivate var renderedTitle: String?
-    fileprivate var renderedTitleColor: UIColor?
-    fileprivate var renderedImage: UIImage?
-    fileprivate var renderedBackgroundImage: UIImage?
+    private var renderedTitle: String?
+    private var renderedTitleColor: UIColor?
+    private var renderedImage: UIImage?
+    private var renderedBackgroundImage: UIImage?
     
-    fileprivate var backgroundFrame = CGRect.zero
-    fileprivate var imageFrame = CGRect.zero
-    fileprivate var titleFrame = CGRect.zero
+    private var backgroundFrame = CGRect.zero
+    private var imageFrame = CGRect.zero
+    private var titleFrame = CGRect.zero
     
-    fileprivate var needsUpdateFrame = false
+    private var needsUpdateFrame = false
     
     open override var canBecomeFocused: Bool {
         return true
@@ -83,37 +83,32 @@ open class AsyncButton: AsyncUIControl {
 
 public extension AsyncButton {
     
-    func title(for state: UIControlState) -> String? {
-        let key = stateToString(state)
-        return titles[key]
+    func title(for state: UIControl.State) -> String? {
+        return titles[state]
     }
     
-    func titleColor(for state: UIControlState) -> UIColor? {
-        let key = stateToString(state)
-        return titleColors[key]
+    func titleColor(for state: UIControl.State) -> UIColor? {
+        return titleColors[state]
     }
     
-    func image(for state: UIControlState) -> UIImage? {
-        let key = stateToString(state)
-        return images[key]
+    func image(for state: UIControl.State) -> UIImage? {
+        return images[state]
     }
     
-    func backgroundImage(for state: UIControlState) -> UIImage? {
-        let key = stateToString(state)
-        return backgroundImages[key]
+    func backgroundImage(for state: UIControl.State) -> UIImage? {
+        return backgroundImages[state]
     }
 }
 
 public extension AsyncButton {
     
-    func setTitle(_ title: String?, for state: UIControlState) {
-        let key = stateToString(state)
-        let beforeTitle = titles[key]
+    func setTitle(_ title: String?, for state: UIControl.State) {
+        let beforeTitle = titles[state]
         if (title != nil || beforeTitle != nil) && title != beforeTitle {
             if let title = title {
-                titles[key] = title
+                titles[state] = title
             } else {
-                titles.removeValue(forKey: key)
+                titles.removeValue(forKey: state)
             }
             if self.state == state {
                 renderTitle(title)
@@ -122,18 +117,17 @@ public extension AsyncButton {
         
     }
     
-    func setTitleColor(_ titleColor: UIColor, for state: UIControlState) {
+    func setTitleColor(_ titleColor: UIColor, for state: UIControl.State) {
         
     }
     
-    func setImage(_ image: UIImage?, for state: UIControlState) {
-        let key = stateToString(state)
-        let beforeImage = images[key]
+    func setImage(_ image: UIImage?, for state: UIControl.State) {
+        let beforeImage = images[state]
         if (image != nil || beforeImage != nil) && image != beforeImage {
             if let image = image {
-                images[key] = image
+                images[state] = image
             } else {
-                images.removeValue(forKey: key)
+                images.removeValue(forKey: state)
             }
             if self.state == state {
                 renderImage(image)
@@ -141,15 +135,15 @@ public extension AsyncButton {
         }
     }
     
-    func setBackgroundImage(_ backgroundImage: UIImage, for state: UIControlState) {
+    func setBackgroundImage(_ backgroundImage: UIImage, for state: UIControl.State) {
         
     }
 }
 
-fileprivate extension AsyncButton {
+private extension AsyncButton {
     
     func updateContentsAndRelayout(_ relayout: Bool) {
-        setNeedsDisplayMainThread()
+        setNeedsDisplayInMainThread()
     }
     
     func setNeedsUpdateFrame() {
@@ -195,7 +189,7 @@ fileprivate extension AsyncButton {
     }
 }
 
-fileprivate struct AsyncButtonInfo {
+private struct AsyncButtonInfo {
     
     var title: String?
     var titleColor: UIColor?

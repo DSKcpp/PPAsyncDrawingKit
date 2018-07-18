@@ -10,13 +10,13 @@ import UIKit
 
 open class AsyncMultiplexTextView: AsyncDrawingView {
 
-    fileprivate lazy var internalTextLayouts: [AsyncTextLayout] = []
+    private lazy var internalTextLayouts: [AsyncTextLayout] = []
     var respondTextRenderer: AsyncTextRenderer?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
         
-        drawingFinish = { [weak self] async, success in
+        drawingDidFinish = { [weak self] async, success in
             if success {
                 self?.isHidden = false
             }

@@ -25,7 +25,7 @@ extension String {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineBreakMode = lineBreakMode
         
-        let attr = [NSAttributedStringKey.font : font, NSAttributedStringKey.paragraphStyle : paragraphStyle]
+        let attr = [NSAttributedString.Key.font : font, NSAttributedString.Key.paragraphStyle : paragraphStyle]
         
         let text = self as NSString
         return text.boundingRect(with: size,

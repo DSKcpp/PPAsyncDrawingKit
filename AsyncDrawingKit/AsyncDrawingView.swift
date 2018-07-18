@@ -14,45 +14,39 @@ open class AsyncDrawingView: UIView {
     
     public var asyncDrawing = true
     
+    public typealias AsyncEmptyBlock = () -> Void
     public typealias AsyncBoolBlock = (Bool) -> Void
     public typealias AsyncCompletionBlock = (Bool, Bool) -> Void
     
-    public var drawingStart: AsyncBoolBlock?
-    public var drawingFinish: AsyncCompletionBlock?
+    public var drawingWillStart: AsyncBoolBlock?
+    public var drawingDidFinish: AsyncCompletionBlock?
     
-    open func setNeedsDisplayMainThread() {
-        viewStatus = .touch
+    open func setNeedsDisplayInMainThread() {
+        isTouched = true
         setNeedsDisplay()
     }
     
-    // don't override this property
+    // don't override
     override open class var layerClass: AnyClass {
         return AsyncDrawingViewLayer.self
     }
 
-    enum ViewStatus {
-        case normal
-        case touch
+    private(set) var isTouched = false
+    
+    private var drawingCount: Int32 {
+        return asyncLayer.drawingCount
     }
-    
-    private(set) var viewStatus = ViewStatus.normal
-    
-    var drawingCount: Int32 {
-        return asynclayer.drawingCount
-    }
-    
-    private static let concurrentQueue = ConcurrentQueue(name: "io.67373.drawQueue", qos: .userInteractive)
     
     private var drawQueue: DispatchQueue {
-        return AsyncDrawingView.concurrentQueue.idle()
+        return Queue.concurrentQueueGroup.idle()
     }
 
-    private var asynclayer: AsyncDrawingViewLayer {
+    private var asyncLayer: AsyncDrawingViewLayer {
         return layer as! AsyncDrawingViewLayer
     }
     
     private var drawCurrentContentAsync: Bool {
-        if viewStatus == .touch {
+        if isTouched {
             return false
         } else {
             return asyncDrawing
@@ -71,7 +65,7 @@ open class AsyncDrawingView: UIView {
     
     private func initial() {
         isOpaque = false
-        layer.contentsScale = Configs.Screen.scale
+        layer.contentsScale = Define.Screen.scale
     }
 }
 
@@ -107,40 +101,14 @@ private extension AsyncDrawingView {
                 return
             }
             
-            let scale = layer.contentsScale
-            UIGraphicsBeginImageContextWithOptions(size, layer.isOpaque, scale)
-            guard let ctx = UIGraphicsGetCurrentContext() else {
+            let image = self.getContextImage(isAsync: isAsync, size: size, needCancel: needCancel, interruped: {
+                interruped(isAsync)
+            })
+            
+            if image == nil {
                 interruped(isAsync)
                 return
             }
-            ctx.saveGState()
-            
-            if needCancel() {
-                ctx.restoreGState()
-                UIGraphicsEndImageContext()
-                interruped(isAsync)
-                return
-            }
-            
-            if let backgroundColor = self.backgroundColor, backgroundColor != .clear {
-                ctx.setFillColor(backgroundColor.cgColor)
-                ctx.fill(CGRect(origin: .zero, size: CGSize(width: size.width * scale, height: size.height * scale)))
-            }
-            
-            let drawingSuccess = self.draw(CGRect(origin: .zero, size: size), in: ctx, async: isAsync)
-            ctx.restoreGState()
-            
-            if !drawingSuccess || needCancel() {
-                UIGraphicsEndImageContext()
-                interruped(isAsync)
-                return
-            }
-            
-            var image: UIImage?
-            if let imageRef = ctx.makeImage() {
-                image = UIImage(cgImage: imageRef)
-            }
-            UIGraphicsEndImageContext()
             
             DispatchQueue.main.async {
                 if needCancel() {
@@ -148,10 +116,10 @@ private extension AsyncDrawingView {
                     return
                 }
                 
-                layer.contents = image?.cgImage
+                layer.contents = image!.cgImage
                 
                 self.clearsContextBeforeDrawing = true
-                self.viewStatus = .normal
+                self.isExclusiveTouch = false
                 finished(isAsync)
             }
         }
@@ -169,6 +137,76 @@ private extension AsyncDrawingView {
             DispatchQueue.main.async(execute: drawingContents)
         }
     }
+    
+    func getContextImage(isAsync: Bool, size: CGSize, needCancel: @escaping (() -> Bool), interruped: @escaping AsyncEmptyBlock) -> UIImage? {
+        var image: UIImage?
+        
+        if #available(iOS 10.0, *) {
+            let renderer = UIGraphicsImageRenderer(size: size)
+            var success = false
+            image = renderer.image(actions: { ctx in
+                ctx.cgContext.saveGState()
+                
+                if needCancel() {
+                    ctx.cgContext.restoreGState()
+                    interruped()
+                    return
+                }
+                
+                if let backgroundColor = self.backgroundColor, backgroundColor != .clear {
+                    ctx.cgContext.setFillColor(backgroundColor.cgColor)
+                    ctx.fill(CGRect(origin: .zero, size: size))
+                }
+                
+                let drawingSuccess = self.draw(CGRect(origin: .zero, size: size), in: ctx.cgContext, async: isAsync)
+                ctx.cgContext.restoreGState()
+                
+                if !drawingSuccess || needCancel() {
+                    interruped()
+                    return
+                }
+                success = true
+            })
+            if !success {
+                return nil
+            }
+        } else {
+            let scale = layer.contentsScale
+            UIGraphicsBeginImageContextWithOptions(size, layer.isOpaque, scale)
+            guard let ctx = UIGraphicsGetCurrentContext() else {
+                interruped()
+                return nil
+            }
+            ctx.saveGState()
+            
+            if needCancel() {
+                ctx.restoreGState()
+                UIGraphicsEndImageContext()
+                interruped()
+                return nil
+            }
+            
+            if let backgroundColor = self.backgroundColor, backgroundColor != .clear {
+                ctx.setFillColor(backgroundColor.cgColor)
+                ctx.fill(CGRect(origin: .zero, size: CGSize(width: size.width * scale, height: size.height * scale)))
+            }
+            
+            let drawingSuccess = self.draw(CGRect(origin: .zero, size: size), in: ctx, async: isAsync)
+            ctx.restoreGState()
+            
+            if !drawingSuccess || needCancel() {
+                UIGraphicsEndImageContext()
+                interruped()
+                return nil
+            }
+            
+            if let imageRef = ctx.makeImage() {
+                image = UIImage(cgImage: imageRef)
+            }
+            UIGraphicsEndImageContext()
+        }
+        return image
+    }
 }
 
 extension AsyncDrawingView {
@@ -178,29 +216,29 @@ extension AsyncDrawingView {
     }
     
     override open func display(_ layer: CALayer) {
-        display(asynclayer, rect: asynclayer.bounds, started: { [weak self] async in
-            self?.drawingWillStartAsync(async)
-            }, finished: { [weak self] async in
-                self?.drawingDidFinishAsync(async, success: true)
-            }, interruped: { [weak self] async in
-                self?.drawingDidFinishAsync(async, success: false)
+        display(asyncLayer, rect: asyncLayer.bounds, started: { [weak self] async in
+            self?._drawingWillStart(async)
+        }, finished: { [weak self] async in
+            self?._drawingDidFinish(async, success: true)
+        }, interruped: { [weak self] async in
+            self?._drawingDidFinish(async, success: false)
         })
     }
 }
 
 private extension AsyncDrawingView {
     
-    func drawingWillStartAsync(_ async: Bool) {
-        guard let drawingStart = drawingStart else { return }
+    func _drawingWillStart(_ async: Bool) {
+        guard let drawingWillStart = drawingWillStart else { return }
         DispatchQueue.main.async {
-            drawingStart(async)
+            drawingWillStart(async)
         }
     }
     
-    func drawingDidFinishAsync(_ async: Bool, success: Bool) {
-        guard let drawingFinish = drawingFinish else { return }
+    func _drawingDidFinish(_ async: Bool, success: Bool) {
+        guard let drawingDidFinish = drawingDidFinish else { return }
         DispatchQueue.main.async {
-            drawingFinish(async, success)
+            drawingDidFinish(async, success)
         }
     }
 }

@@ -28,7 +28,7 @@ open class AsyncTableView: UITableView {
         setGloballyAsyncDrawingEnabledToEnable()
     }
     
-    override open func reloadRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
+    override open func reloadRows(at indexPaths: [IndexPath], with animation: UITableView.RowAnimation) {
         guard AsyncDrawingView.globallyAsyncDrawingEnabled else {
             super.reloadRows(at: indexPaths, with: animation)
             return
@@ -38,7 +38,7 @@ open class AsyncTableView: UITableView {
         setGloballyAsyncDrawingEnabledToEnable()
     }
     
-    override open func insertRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
+    override open func insertRows(at indexPaths: [IndexPath], with animation: UITableView.RowAnimation) {
         guard AsyncDrawingView.globallyAsyncDrawingEnabled else {
             super.insertRows(at: indexPaths, with: animation)
             return
@@ -48,7 +48,7 @@ open class AsyncTableView: UITableView {
         setGloballyAsyncDrawingEnabledToEnable()
     }
     
-    override open func deleteRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
+    override open func deleteRows(at indexPaths: [IndexPath], with animation: UITableView.RowAnimation) {
         guard AsyncDrawingView.globallyAsyncDrawingEnabled else {
             super.insertRows(at: indexPaths, with: animation)
             return
@@ -68,7 +68,7 @@ open class AsyncTableView: UITableView {
         setGloballyAsyncDrawingEnabledToEnable()
     }
     
-    open override func reloadSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
+    open override func reloadSections(_ sections: IndexSet, with animation: UITableView.RowAnimation) {
         guard AsyncDrawingView.globallyAsyncDrawingEnabled else {
             super.reloadSections(sections, with: animation)
             return
@@ -78,7 +78,7 @@ open class AsyncTableView: UITableView {
         setGloballyAsyncDrawingEnabledToEnable()
     }
     
-    open override func insertSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
+    open override func insertSections(_ sections: IndexSet, with animation: UITableView.RowAnimation) {
         guard AsyncDrawingView.globallyAsyncDrawingEnabled else {
             super.insertSections(sections, with: animation)
             return
@@ -88,7 +88,7 @@ open class AsyncTableView: UITableView {
         setGloballyAsyncDrawingEnabledToEnable()
     }
     
-    open override func deleteSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
+    open override func deleteSections(_ sections: IndexSet, with animation: UITableView.RowAnimation) {
         guard AsyncDrawingView.globallyAsyncDrawingEnabled else {
             super.deleteSections(sections, with: animation)
             return

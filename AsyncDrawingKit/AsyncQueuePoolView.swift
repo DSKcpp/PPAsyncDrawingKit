@@ -24,9 +24,10 @@ open class AsyncQueuePoolView: UIView {
     public typealias ReusableView = UIView
     
     public weak var dataSource: AsyncQueuePoolViewDataSource?
+    public weak var delegate: AsyncQueuePoolViewDelegate?
     
-    fileprivate lazy var idleReusbaleViews: [ReusableView] = []
-    fileprivate lazy var reusbaleViews: [ReusableView] = []
+    private lazy var idleReusbaleViews: [ReusableView] = []
+    private lazy var reusbaleViews: [ReusableView] = []
     
     open func dequeueReusableView() -> ReusableView? {
         if let first = idleReusbaleViews.first {
@@ -37,7 +38,7 @@ open class AsyncQueuePoolView: UIView {
         }
     }
     
-    fileprivate func append(toIdle reusableView: ReusableView) {
+    private func append(toIdle reusableView: ReusableView) {
         idleReusbaleViews.append(reusableView)
     }
     
@@ -53,6 +54,25 @@ open class AsyncQueuePoolView: UIView {
     open func reusableViewForRow(at index: Int) -> ReusableView? {
         guard reusbaleViews.count > index else { return nil }
         return reusbaleViews[index]
+    }
+    
+    open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else {
+            super.touchesEnded(touches, with: event)
+            return
+        }
+        let location = touch.location(in: self)
+        var contains = false
+        for (i, v) in reusbaleViews.enumerated() {
+            if v.frame.contains(location) {
+                contains = true
+                delegate?.queuePoolView(self, didSelectRowAt: i)
+            }
+        }
+        
+        if !contains {
+            super.touchesEnded(touches, with: event)
+        }
     }
 }
 

@@ -1,5 +1,5 @@
 //
-//  Configs.swift
+//  Define.swift
 //  AsyncDrawingKit
 //
 //  Created by DSKcpp on 2017/5/11.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct Configs {
+struct Define {
     
     struct Screen {
         static let scale = UIScreen.main.scale

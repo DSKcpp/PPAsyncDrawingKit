@@ -62,8 +62,8 @@ public class AsyncTextFrame {
             truncateToken = tt
         } else {
             let truncateTokenAttributes = attributedString.attributes(at: lastLineStringRange.location, effectiveRange: nil)
-            let keys = [NSAttributedStringKey.foregroundColor, NSAttributedStringKey.font, NSAttributedStringKey.paragraphStyle]
-            var notNilTruncateTokenAttributes: [NSAttributedStringKey:Any] = [:]
+            let keys = [NSAttributedString.Key.foregroundColor, NSAttributedString.Key.font, NSAttributedString.Key.paragraphStyle]
+            var notNilTruncateTokenAttributes: [NSAttributedString.Key:Any] = [:]
             truncateTokenAttributes.filter { keys.contains($0.key) }.forEach { (arg) in
                 
                 let (key, value) = arg

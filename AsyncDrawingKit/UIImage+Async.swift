@@ -11,7 +11,7 @@ import UIKit
 
 extension UIImage {
     
-    func convertRect(_ rect: CGRect, with contentModel: UIViewContentMode) -> CGRect {
+    func convertRect(_ rect: CGRect, with contentModel: UIView.ContentMode) -> CGRect {
         var rect = rect.standardized
         var size = self.size
         size.width = size.width < 0 ? -size.width : size.width
@@ -79,7 +79,7 @@ extension UIImage {
         return rect
     }
     
-    func draw(in rect: CGRect, contentMode: UIViewContentMode, with ctx: CGContext) {
+    func draw(in rect: CGRect, contentMode: UIView.ContentMode, with ctx: CGContext) {
         var clip = false
         var rect = rect
         let originalRect = rect
@@ -94,10 +94,12 @@ extension UIImage {
             ctx.clip()
         }
         
-        draw(in: rect)
-        
-        if clip {
-            ctx.restoreGState()
+        defer {
+            if clip {
+                ctx.restoreGState()
+            }
         }
+        
+        draw(in: rect)
     }
 }

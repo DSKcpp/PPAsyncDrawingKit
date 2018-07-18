@@ -37,7 +37,7 @@ public final class AsyncTextRenderer: UIResponder {
 
 extension AsyncTextRenderer {
     
-    override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touchView = delegate?.contextViewForTextRenderer(self) else { return }
         let touches = event?.touches(for: touchView)
         var point = CGPoint.zero
@@ -48,12 +48,12 @@ extension AsyncTextRenderer {
         
         if let selected = selectedRangeForLayoutLocation(point) {
             pressingSelected = selected
-            touchView.setNeedsDisplayMainThread()
+            touchView.setNeedsDisplayInMainThread()
         }
         touchesBeginPoint = point
     }
     
-    override open func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override public func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         //        if let touchView = delegate?.contextViewForTextRenderer(self) {
         //            let touches = event?.touches(for: touchView)
         //            var point = CGPoint.zero
@@ -70,7 +70,7 @@ extension AsyncTextRenderer {
         //        }
     }
     
-    override open func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override public func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touchView = delegate?.contextViewForTextRenderer(self) {
             let touches = event?.touches(for: touchView)
             var point = CGPoint.zero
@@ -85,17 +85,17 @@ extension AsyncTextRenderer {
                 if touchInside {
                     pressingSelected.selected?(pressingSelected.userInfo)
                 }
-                touchView.setNeedsDisplayMainThread()
+                touchView.setNeedsDisplayInMainThread()
             }
         }
         pressingSelected = nil
         touchesBeginPoint = .zero
     }
     
-    override open func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override public func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touchView = delegate?.contextViewForTextRenderer(self) {
             if let _ = pressingSelected {
-                touchView.setNeedsDisplayMainThread()
+                touchView.setNeedsDisplayInMainThread()
             }
         }
         
