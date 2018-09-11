@@ -166,7 +166,7 @@ typedef struct PPTextRendererEventDelegateFlags PPTextRendererEventDelegateFlags
 - (void)drawInContext:(CGContextRef)context visibleRect:(CGRect)visibleRect placeAttachments:(BOOL)placeAttachments
 {   
     NSAttributedString *attributedString = self.textLayout.attributedString;
-    if (!(attributedString.length > 1)) {
+    if (!(attributedString.length > 0)) {
         return;
     }
     
