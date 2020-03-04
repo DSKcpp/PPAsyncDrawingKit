@@ -28,7 +28,7 @@ final public class ConcurrentQueueGroup {
                 qos: DispatchQoS = .default) {
         
         self.name = name
-        self.maxConcurrentCount = Int32(min(12, maxConcurrentCount))
+        self.maxConcurrentCount = Int32(min(6, maxConcurrentCount))
         self.qos = qos
         
         for _ in 0..<maxConcurrentCount {
@@ -37,7 +37,7 @@ final public class ConcurrentQueueGroup {
         }
     }
     
-    public func idle() -> DispatchQueue {
+    public func idleQueue() -> DispatchQueue {
         OSAtomicIncrement32(&counter)
         let i = Int(counter % maxConcurrentCount)
         return queues[i]

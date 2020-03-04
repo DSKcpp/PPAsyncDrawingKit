@@ -5,6 +5,9 @@
       location = "group:AsyncDrawingKit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:AsyncDrawingKit-Example/AsyncDrawingKit-Example.xcodeproj">
+      location = "group:AsyncDrawingKit-Example.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>

@@ -90,7 +90,7 @@ open class AsyncUIControl: AsyncDrawingView {
     
     open func addTarget(_ target: NSObjectProtocol, action: Selector, for controlEvents: UIControl.Event) {
         let targetAction = TargetAction(action: action, target: target, controlEvents: controlEvents)
-        if let index = targetActions.index(of: targetAction) {
+        if let index = targetActions.firstIndex(of: targetAction) {
             targetActions.remove(at: index)
         }
         targetActions.append(targetAction)
@@ -98,7 +98,7 @@ open class AsyncUIControl: AsyncDrawingView {
 
     open func removeTarget(_ target: NSObjectProtocol, action: Selector, for controlEvents: UIControl.Event) {
         let targetAction = TargetAction(action: action, target: target, controlEvents: controlEvents)
-        if let index = targetActions.index(of: targetAction) {
+        if let index = targetActions.firstIndex(of: targetAction) {
             targetActions.remove(at: index)
         }
     }

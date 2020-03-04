@@ -38,7 +38,7 @@ open class AsyncDrawingView: UIView {
     }
     
     private var drawQueue: DispatchQueue {
-        return Queue.concurrentQueueGroup.idle()
+        return Queue.concurrentQueueGroup.idleQueue()
     }
 
     private var asyncLayer: AsyncDrawingViewLayer {
