@@ -2,9 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:How to use.playground">
+      location = "group:AsyncDrawingKit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:AsyncDrawingKit.xcodeproj">
+      location = "group:AsyncDrawingKit-Example/AsyncDrawingKit-Example.xcodeproj">
    </FileRef>
 </Workspace>
