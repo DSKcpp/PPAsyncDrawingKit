@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8684E3642414D29900BA7350 /* String+Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8684E3632414D29900BA7350 /* String+Regex.swift */; };
 		86FFC140240F904F007FAA06 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FFC13F240F904F007FAA06 /* AppDelegate.swift */; };
 		86FFC142240F904F007FAA06 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FFC141240F904F007FAA06 /* SceneDelegate.swift */; };
 		86FFC144240F904F007FAA06 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FFC143240F904F007FAA06 /* ViewController.swift */; };
@@ -29,6 +30,7 @@
 
 /* Begin PBXFileReference section */
 		4642AE1CE4E637E223CE80CD /* Pods_AsyncDrawingKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AsyncDrawingKit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8684E3632414D29900BA7350 /* String+Regex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Regex.swift"; sourceTree = "<group>"; };
 		86FFC13C240F904F007FAA06 /* AsyncDrawingKit-Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AsyncDrawingKit-Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		86FFC13F240F904F007FAA06 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		86FFC141240F904F007FAA06 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				86FFC155240F908C007FAA06 /* Preset.swift */,
 				86FFC165240F90CE007FAA06 /* NSData+Gzip.h */,
 				86FFC166240F90CE007FAA06 /* NSData+Gzip.m */,
+				8684E3632414D29900BA7350 /* String+Regex.swift */,
 				86FFC13F240F904F007FAA06 /* AppDelegate.swift */,
 				86FFC141240F904F007FAA06 /* SceneDelegate.swift */,
 				86FFC143240F904F007FAA06 /* ViewController.swift */,
@@ -279,6 +282,7 @@
 				86FFC15D240F908C007FAA06 /* WBTimelineContentView.swift in Sources */,
 				86FFC140240F904F007FAA06 /* AppDelegate.swift in Sources */,
 				86FFC142240F904F007FAA06 /* SceneDelegate.swift in Sources */,
+				8684E3642414D29900BA7350 /* String+Regex.swift in Sources */,
 				86FFC15E240F908C007FAA06 /* WBTimelineTextContentView.swift in Sources */,
 				86FFC15C240F908C007FAA06 /* Preset.swift in Sources */,
 				86FFC15B240F908C007FAA06 /* WBTImelineTableViewCell.swift in Sources */,

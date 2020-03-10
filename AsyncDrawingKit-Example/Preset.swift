@@ -66,10 +66,12 @@ struct Preset {
     }
     
     struct Color {
-        
+        static let text = "333333"
+        static let subText = "636363"
     }
     
     struct Font {
-        
+        static let text: T = 16.0
+        static let subText: T = 15.0
     }
 }

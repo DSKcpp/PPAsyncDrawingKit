@@ -26,17 +26,18 @@ final class WBTimelineViewController: UIViewController {
         view.addSubview(tableView)
         
         DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+            guard let self = self else { return }
             
             let path = Bundle.main.path(forResource: "wb", ofType: "gz")
             let data = try! Data(contentsOf: URL(fileURLWithPath: path!))
             let unzipData = (data as NSData).uncompressZipped() as Data
             let json = String(data: unzipData, encoding: .utf8)!
-            let cards = WBCardsModel.deserialize(from: json)
+            let model = WBCardsModel.deserialize(from: json)!
             
             let semaphore = DispatchSemaphore(value: 1)
             let width = UIScreen.main.bounds.width
             
-            cards?.cards.forEach { card in
+            model.cards.forEach { card in
                 var item: WBTimelineItem?
                 if let timelineItem = card.mblog {
                     item = timelineItem
@@ -48,10 +49,12 @@ final class WBTimelineViewController: UIViewController {
                 if let item = item {
                     _ = WBTimelineContentView.height(of: item, contentWidth: width)
                     _ = semaphore.wait(timeout: .distantFuture)
-                    self?.timelineItems.append(item)
+                    self.timelineItems.append(item)
                     semaphore.signal()
                 }
             }
+            
+            self.timelineItems += self.timelineItems
 
             DispatchQueue.main.async { [weak self] in
                 self?.tableView.reloadData()

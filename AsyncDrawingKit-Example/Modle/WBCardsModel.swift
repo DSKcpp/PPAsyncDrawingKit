@@ -34,7 +34,7 @@ class WBTimelineItem: HandyJSON {
     var created_at: Date?
     var mid: String?
     var idstr: String?
-    var text: String?
+    var text: String = ""
     var textLength: UInt?
     var source_allowclick: UInt?
     var source_type: UInt?
@@ -65,7 +65,27 @@ class WBTimelineItem: HandyJSON {
 }
 
 struct WBUser: HandyJSON {
-    
+    var idstr = ""
+    var screen_name = ""
+    var name = ""
+    var profile_image_url = ""
+    var profile_url = ""
+    var domain = ""
+    var avatar_large = ""
+    var avatar_hd = ""
+    var bi_followers_count = 0
+    var lang = ""
+    var star = 0
+    var mbtype = 0
+    var mbrank = 0
+    var block_word = 0
+    var block_app = 0
+    var level = 0
+    var type = 0
+    var ulevel = 0
+    var badge_top = ""
+    var has_ability_tag = 0
+    var nameAttributedString: NSAttributedString?
 }
 
 struct WBTimelinePicture: HandyJSON {
@@ -73,11 +93,27 @@ struct WBTimelinePicture: HandyJSON {
 }
 
 struct WBTimelineTitle: HandyJSON {
-    
+    var text = ""
+    var base_color = 0
+    var icon_url = ""
+    var structs: [WBTImelineTitleStruct]?
+}
+
+struct WBTImelineTitleStruct: HandyJSON {
+    var name = ""
+    var scheme = ""
 }
 
 struct WBURLStruct: HandyJSON {
-    
+    var url_title = ""
+    var url_type_pic = ""
+    var ori_url = ""
+    var page_id = ""
+    var short_url = ""
+    var log = ""
+    var url_type = 0
+    var position = 0
+    var result = false
 }
 
 struct WBTimelinePageInfo: HandyJSON {

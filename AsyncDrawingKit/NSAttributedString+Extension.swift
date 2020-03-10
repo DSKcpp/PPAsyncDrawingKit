@@ -31,7 +31,7 @@ public extension NSAttributedString {
     }
 }
 
-extension NSMutableAttributedString {
+public extension NSMutableAttributedString {
     
     func effectiveRange(with range: NSRange) -> NSRange {
         let max = range.location + range.length
@@ -93,53 +93,23 @@ extension NSMutableAttributedString {
     }
     
     func setAlignment(_ aligment: NSTextAlignment, lineBreakMode: NSLineBreakMode = .byWordWrapping, lineHeight: CGFloat = 0, range: NSRange) {
-        setAttribute(.paragraphStyle, value: <#T##Any?#>, range: <#T##NSRange#>)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = aligment
+        paragraphStyle.lineBreakMode = lineBreakMode
+        paragraphStyle.minimumLineHeight = lineHeight
         
+        setTextParagraphStyle(paragraphStyle, range: range)
+    }
+    
+    func setLineHeight(_ height: CGFloat) {
+        setLineHeight(height, range: range)
+    }
+    
+    func setLineHeight(_ height: CGFloat, range: NSRange) {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.minimumLineHeight = height
         
-        CTParagraphStyleSetting aligmentStyle;
-        CTTextAlignment aligment = NSTextAlignmentToCTTextAlignment(alignment);
-        aligmentStyle.value = &aligment;
-        aligmentStyle.valueSize = sizeof(CTTextAlignment);
-        aligmentStyle.spec = kCTParagraphStyleSpecifierAlignment;
-        
-        CTParagraphStyleSetting lineBreakModelStyle;
-        CTLineBreakMode lineBreak = NSLineBreakModeToCTLineBreakMode(lineBreakMode);
-        lineBreakModelStyle.value = &lineBreak;
-        lineBreakModelStyle.valueSize = sizeof(CTLineBreakMode);
-        lineBreakModelStyle.spec = kCTParagraphStyleSpecifierLineBreakMode;
-        
-        CTParagraphStyleSetting settings[2] = {aligmentStyle, lineBreakModelStyle};
-        CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, 2);
-        [self pp_setAttribute:(id)kCTParagraphStyleAttributeName value:(id)paragraphStyle range:self.pp_stringRange];
-        CFRelease(paragraphStyle);
+        setTextParagraphStyle(paragraphStyle, range: range)
     }
 
-
-    - (void)pp_setLineHeight:(CGFloat)lineHeight
-    {
-        [self pp_setLineHeight:lineHeight inRange:self.pp_stringRange];
-    }
-
-    - (void)pp_setLineHeight:(CGFloat)lineHeight inRange:(NSRange)range
-    {
-        CTParagraphStyleSetting minimumLineHeight;
-        minimumLineHeight.value = &lineHeight;
-        minimumLineHeight.valueSize = sizeof(CGFloat);
-        minimumLineHeight.spec = kCTParagraphStyleSpecifierMinimumLineHeight;
-        
-        CTParagraphStyleSetting settings[1] = {minimumLineHeight};
-        CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, 1);
-        [self pp_setAttribute:(id)kCTParagraphStyleAttributeName value:(id)paragraphStyle range:range];
-        CFRelease(paragraphStyle);
-    }
-
-    - (void)pp_setCTRunDelegate:(CTRunDelegateRef)ctRunDelegate
-    {
-        [self pp_setCTRunDelegate:ctRunDelegate inRange:self.pp_stringRange];
-    }
-
-    - (void)pp_setCTRunDelegate:(CTRunDelegateRef)ctRunDelegate inRange:(NSRange)range
-    {
-        [self pp_setAttribute:(id)kCTRunDelegateAttributeName value:(__bridge id _Nullable)(ctRunDelegate) range:range];
-    }
 }

@@ -52,40 +52,35 @@ class WBTimelineTableViewCellDrawingContext {
     
     init(timelineItem: WBTimelineItem) {
         self.timelineItem = timelineItem
+        let parser = WBTimelineAttributedTextParser(timelineItem: timelineItem)
+       
+        textAttaibutedText = NSMutableAttributedString(string: timelineItem.text)
+        let font = UIFont.systemFont(ofSize: Preset.Font.text)
+        let color = UIColor.red
+        parser.parse(with: textAttaibutedText!, font: font, textColor: color)
         
-        let content = timelineItem.text
-        
-        NSString *itemText = timelineItem.text;
-        WBTimelineAttributedTextParser *parser = [WBTimelineAttributedTextParser textParserWithTimelineItem:timelineItem];
-        WBTimelinePreset *preset = [WBTimelinePreset sharedInstance];
-        if (itemText) {
-            _textAttributedText = [[NSMutableAttributedString alloc] initWithString:itemText];
-            [parser parserWithAttributedString:_textAttributedText
-                                      fontSize:preset.textFont
-                                     textColor:[UIColor colorWithHexString:preset.textColor]];
-        }
-        if (timelineItem.retweeted_status) {
-            NSString *quotedItemText;
-            if (timelineItem.retweeted_status.user.screen_name) {
-                quotedItemText = [NSString stringWithFormat:@"@%@:%@", timelineItem.retweeted_status.user.screen_name, timelineItem.retweeted_status.text];
+
+        if let retweeted = timelineItem.retweeted_status {
+            var qoutedItemText: String
+            if let nickname = retweeted.user?.name {
+                qoutedItemText = "@\(nickname):\(retweeted.text)"
             } else {
-                quotedItemText = timelineItem.retweeted_status.text;
+                qoutedItemText = retweeted.text
             }
-            if (quotedItemText.length > 0) {
-                _quotedAttributedText = [[NSMutableAttributedString alloc] initWithString:quotedItemText];
-                [parser parserWithAttributedString:_quotedAttributedText
-                                          fontSize:preset.subtextFont
-                                         textColor:[UIColor colorWithHexString:preset.subtextColor]];
+            if !qoutedItemText.isEmpty {
+                qoutedAttributedText = NSMutableAttributedString(string: qoutedItemText)
+                parser.parse(with: qoutedAttributedText!, font: UIFont.systemFont(ofSize: Preset.Font.subText), textColor: UIColor.red)
             }
         }
-        if (timelineItem.title) {
-            NSString *title = timelineItem.title.text;
-            _titleAttributedText = [[NSMutableAttributedString alloc] initWithString:title];
-            [_titleAttributedText pp_setFont:[UIFont systemFontOfSize:preset.subtextFont]];
-            [_titleAttributedText pp_setColor:[UIColor colorWithHexString:preset.textColor]];
+
+        if let title = timelineItem.title {
+            titleAttributedText = NSMutableAttributedString(string: title.text)
+            titleAttributedText?.setFont(UIFont.systemFont(ofSize: Preset.Font.subText))
+            titleAttributedText?.setColor(UIColor.red)
         }
-        _metaInfoAttributedText = [self source];
-        timelineItem.user.nameAttributedString = [self name];
+        
+//        _metaInfoAttributedText = [self source];
+//        timelineItem.user.nameAttributedString = [self name];
     }
     
     func height(_ width: CGFloat) -> CGFloat {

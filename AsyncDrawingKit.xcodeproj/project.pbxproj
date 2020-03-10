@@ -222,10 +222,9 @@
 			};
 			buildConfigurationList = 864781791ED1813D003990E3 /* Build configuration list for PBXProject "AsyncDrawingKit" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
