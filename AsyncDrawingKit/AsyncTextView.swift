@@ -23,7 +23,7 @@ open class AsyncTextView: AsyncDrawingView {
     
     private var _textLayout: AsyncTextLayout?
     
-    var numberOfLines: Int {
+    public var numberOfLines: Int {
         get {
             return textLayout.numberOfLines
         } set {

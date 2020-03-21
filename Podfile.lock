@@ -1,16 +1,22 @@
 PODS:
   - HandyJSON (5.0.1)
+  - SDWebImage (5.6.0):
+    - SDWebImage/Core (= 5.6.0)
+  - SDWebImage/Core (5.6.0)
 
 DEPENDENCIES:
   - HandyJSON (~> 5.0.1)
+  - SDWebImage
 
 SPEC REPOS:
   trunk:
     - HandyJSON
+    - SDWebImage
 
 SPEC CHECKSUMS:
   HandyJSON: d45b8415c501e3affc59ca9762c1197ff0feb646
+  SDWebImage: 21b19f56b4226cdfe3aefe4e6848dc43ed129a86
 
-PODFILE CHECKSUM: 92f4ee2a9d277eecbf496ed310a695cd517c687a
+PODFILE CHECKSUM: cd6fa239ad4c38ec978e36f47d13501ffa3c5b5c
 
 COCOAPODS: 1.9.0
